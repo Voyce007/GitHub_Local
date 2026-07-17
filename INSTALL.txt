@@ -1,0 +1,266 @@
+AI-NATIVE SDLC ARCHITECTURE - REPEATABLE INSTALL GUIDE
+MacBook Pro, macOS Ventura
+Plain text, no markdown. Follow top to bottom. Each step lists the exact
+command to run and what a successful result looks like.
+
+
+PART 1. PREREQUISITES
+
+
+STEP 1. Confirm Homebrew is installed.
+
+Run:
+which brew
+
+If it prints a path such as /usr/local/bin/brew, Homebrew is installed,
+skip to step 2.
+
+If nothing prints, install Homebrew:
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+Close and reopen Terminal afterward, then re-run "which brew" to confirm.
+
+
+STEP 2. Install a container runtime (Colima) and Docker CLI.
+
+Run:
+brew install colima docker docker-compose
+
+If this fails partway through with an error mentioning a missing .diff
+file or "Errno::ENOENT" during a "Patching" step, Homebrew's local cache is
+stale. Fix it with:
+brew update
+rm -rf "$(brew --cache)"
+brew cleanup
+brew install colima docker docker-compose
+
+If it still fails the same way, skip Homebrew for this step and install
+Docker Desktop directly from https://www.docker.com/products/docker-desktop
+instead. Everything after this step works the same either way.
+
+
+STEP 3. Start the container runtime.
+
+If using Colima, run:
+colima start --cpu 4 --memory 8 --disk 60
+
+Wait for it to finish. This can take a minute or two on first run.
+
+If using Docker Desktop instead, open the Docker Desktop application from
+Applications or Spotlight and wait until it reports "Docker Desktop is
+running."
+
+Confirm it worked:
+docker compose ps
+
+A successful result is an empty table with column headers (NAME, IMAGE,
+COMMAND, and so on) and no error. If you instead see "Cannot connect to
+the Docker daemon," the runtime is not started yet - repeat this step.
+
+
+STEP 4. Install Node.js and npm.
+
+Do not rely on Homebrew for this if step 2 gave you cache trouble. Instead:
+
+Go to https://nodejs.org in a browser.
+Download the LTS version (a .pkg file).
+Open the downloaded file and click through the installer, entering your
+Mac password when prompted.
+Open a brand new Terminal window afterward - this matters, an already-open
+window will not see the change.
+
+Confirm:
+node --version
+npm --version
+
+Both should print version numbers.
+
+
+STEP 5. Fix npm permissions before installing anything globally.
+
+This avoids an EACCES permission error on the next step. Run:
+mkdir -p ~/.npm-global
+npm config set prefix ~/.npm-global
+
+Then add this folder to your shell's PATH. Check which shell you use:
+echo $SHELL
+
+If it says something ending in "bash", run:
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bash_profile
+source ~/.bash_profile
+
+If it says something ending in "zsh", run:
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
+source ~/.zshrc
+
+Confirm:
+npm config get prefix
+
+This should print a path ending in .npm-global, for example
+/Users/yourname/.npm-global
+
+
+STEP 6. Install Claude Code.
+
+Run:
+npm install -g @anthropic-ai/claude-code
+
+If you see a warning about "allow-scripts" or "install scripts not yet
+covered," run:
+npm approve-scripts --allow-scripts-pending
+
+then re-run the install command above.
+
+Confirm, in a brand new Terminal window:
+which claude
+claude --version
+
+If "which claude" prints nothing even though the install succeeded, the
+PATH change from step 5 has not loaded in this window. Open a new Terminal
+window (not tab) and try again, or run the "source" command from step 5
+again in the current window.
+
+
+PART 2. THE ARCHITECTURE STACK
+
+
+STEP 7. Unzip the project.
+
+Unzip ai-native-sdlc-architecture.zip to a folder of your choice, for
+example your Downloads or Desktop folder.
+
+Open Terminal and move into that folder:
+cd ~/Downloads/ai-native-sdlc-architecture
+
+(Adjust the path if you unzipped it somewhere else.)
+
+
+STEP 8. Make the helper scripts runnable.
+
+Run:
+chmod +x scripts/*.sh
+
+
+STEP 9. Bring up the core stack.
+
+Run:
+docker compose --profile core --profile orchestration --profile apps up -d
+
+The first run will download several GB of container images and build two
+custom images from source (agent-service and mcp-server). This can take
+several minutes. Let it run to completion.
+
+If it fails during "pip install" inside the agent-service build with a
+message about conflicting dependencies, do not re-pin the named package to
+an old exact version - that is what caused this originally. Instead open
+the file:
+layers/3-ai-agent-backbone/agent-service/requirements.txt
+and compare it against the known-good version documented in:
+.claude/skills/full-stack-build/SKILL.md
+That skill file explains why exact pins on packages inside CrewAI's
+dependency tree break, and lists the corrected file contents to copy in
+directly.
+
+Confirm everything started:
+docker compose ps
+
+Every one of these should show a status of Up:
+traefik, qdrant, ollama-svc, postgres, mcp-server, open-webui, agent-service,
+mock-crm-service
+
+
+STEP 10. Pull a local language model.
+
+Run:
+docker exec -it ollama-svc ollama pull llama3.1:8b
+
+This downloads about 4.5 GB. Wait for it to finish.
+
+If your Mac has 8 GB of RAM or less, use a smaller model instead:
+docker exec -it ollama-svc ollama pull qwen2.5:3b
+and use that model name in place of llama3.1:8b anywhere else in this
+guide or in the project's .env file.
+
+
+STEP 11. Verify the stack is actually healthy, not just running.
+
+Run:
+./scripts/health-check.sh
+
+Every line should say OK. Any line saying DOWN points at a specific
+service to investigate - the URL printed next to it is the health check
+that failed.
+
+
+PART 3. CONNECTING CLAUDE CODE TO THE STACK
+
+
+STEP 12. Register the MCP server with Claude Code.
+
+Run:
+claude mcp add sdlc-stack --transport http http://localhost:8003/mcp
+
+This registration is saved to your account configuration and is picked up
+by both the Claude Code command line tool and the Claude Code Desktop
+application automatically. You do not need to repeat this step for each
+one.
+
+
+STEP 13. Confirm the connection.
+
+Command line method:
+Run "claude" to start an interactive session, then type:
+/mcp
+and confirm sdlc-stack shows as connected.
+
+Desktop app method:
+Open the Claude Code Desktop application, open this project folder
+(File, Open, then select the ai-native-sdlc-architecture folder), start a
+new chat, and check the connectors indicator for sdlc-stack showing as
+connected.
+
+If it shows as failed instead, run:
+curl http://localhost:8003/mcp
+A response containing the text "text/event-stream" is actually a sign the
+server is working correctly - curl is not a real MCP client and this
+response is expected, not an error. If curl instead says "Couldn't connect
+to server," the mcp-server container itself is not running or crashed -
+check with:
+docker compose logs mcp-server
+
+
+PART 4. EVERYDAY USE, AFTER THE FIRST INSTALL
+
+
+Every time you restart your Mac or want to resume work, only these steps
+are needed, not the entire guide above:
+
+1. Start the container runtime:
+colima start
+(or open Docker Desktop and wait for it to report running)
+
+2. Bring the stack back up:
+docker compose --profile core --profile orchestration --profile apps up -d
+
+3. Optional health check:
+./scripts/health-check.sh
+
+Everything else - Node, npm, Claude Code, the pulled model, the MCP
+registration - persists across restarts and does not need to be redone.
+
+
+PART 5. WHERE TO LOOK WHEN SOMETHING BREAKS
+
+
+CLAUDE.md at the project root - architecture map and conventions, read
+automatically by Claude Code.
+
+.claude/skills/full-stack-build/SKILL.md - the corrected build order and
+the specific dependency and transport fixes already discovered, so you do
+not repeat the same debugging.
+
+.claude/skills/<layer-name>/SKILL.md - one file per architecture layer,
+with implementation patterns specific to that layer.
+
+scripts/health-check.sh - run any time to see which services are actually
+reachable, not just running.

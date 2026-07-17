@@ -1,0 +1,7 @@
+name: ci
+on: [pull_request, push]
+jobs:
+  cicd:
+    uses: acme-corp/cicd-tooling-architecture/.github/workflows/ci.yml@v1
+    with:
+      services_config: ci-cd/services.yaml

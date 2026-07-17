@@ -1,0 +1,43 @@
+# Adapter config: platforms this generic CI/CD tooling onto
+# ai-native-sdlc-architecture's 3 custom-built services. Everything else
+# in that repo (Ollama, Qdrant, Postgres, Open WebUI, Prometheus,
+# Grafana, Traefik, LocalStack, Keycloak) is a pulled image pinned in its
+# docker-compose.yml — not a build target, so it's not listed here.
+#
+# To use: copy this file into the ai-sdlc repo (see INTEGRATION.md) —
+# it needs to live in that repo's checkout since compose_file and each
+# service's path are relative to it.
+
+registry: ghcr.io
+compose_file: docker-compose.yml
+smoke_profiles: [core, apps, orchestration]
+# ^ minimum profile combination that boots all 3 services together;
+#   'infrastructure' (LocalStack/Keycloak) and 'full' (32GB+) aren't
+#   needed to smoke-test these 3 and don't fit a standard GH runner.
+
+services:
+  - name: agent-service
+    path: layers/3-ai-agent-backbone/agent-service
+    port: 8001
+    health_path: /health
+    language: python
+    # Note: this endpoint always returns 200, even when Ollama/Qdrant are
+    # degraded (see main.py) — it's a liveness check, not a readiness
+    # check for a pulled model. That's exactly the right bar for CI.
+
+  - name: mock-crm-service
+    path: layers/4-integrated-app-stack/mock-crm-service
+    port: 8002
+    health_path: /health
+    language: python
+
+  - name: mcp-server
+    path: layers/5-orchestration/mcp-server
+    port: 8003
+    health_path: /mcp
+    health_expect_non_200: true
+    language: python
+    # A curl to a streamable-http MCP endpoint correctly returns a 4xx
+    # ("Client must accept text/event-stream") — that's success, per the
+    # ai-sdlc repo's own full-stack-build skill. Any response (not a
+    # connection failure) counts as "up" here.
