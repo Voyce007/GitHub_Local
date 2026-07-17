@@ -98,14 +98,16 @@ ci-cd/services.yaml         config telling the external cicd-tooling-architectur
 ## CI/CD
 
 The pipeline itself lives in a separate, standalone repo —
-[`cicd-tooling-architecture`](https://github.com/acme-corp/cicd-tooling-architecture)
+[`cicd-tooling-architecture`](https://github.com/Voyce007/cicd-tooling-architecture)
 — so it isn't specific to this stack and can be reused elsewhere. This
 repo only carries two things: `ci-cd/services.yaml` (which of *this*
 repo's services get built/scanned/released, and how) and a pair of
 6-line wrapper workflows in `.github/workflows/` that call the tooling
-repo's reusable workflows. `acme-corp` above is a placeholder for
-whichever org actually hosts your copy — see the tooling repo's README,
-"Before you use this for real", for the full swap-and-tag instructions.
+repo's reusable workflows. The workflows currently point at
+`Voyce007/cicd-tooling-architecture@v1` — that repo doesn't exist yet, so
+CI will fail until it's created and tagged `v1`; see the tooling repo's
+README, "Before you use this for real", for the full swap-and-tag
+instructions.
 See `ci-cd/services.yaml` for the current config and the tooling repo's
 `adapters/ai-sdlc/INTEGRATION.md` for how the two are wired together.
 
