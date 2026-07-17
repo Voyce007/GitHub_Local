@@ -79,3 +79,15 @@ the project root.
 | Add/remove a service from CI/CD (build, scan, smoke-test, release) | `ci-cd/services.yaml`, skill: `ci-cd` — the pipeline logic itself lives in the separate `cicd-tooling-architecture` repo, not here |
 
 See `README.md` for first-time Mac setup.
+
+## Source control / CI status
+
+This repo is pushed to `github.com/Voyce007/GitHub_Local` (public, `main`
+branch). `.github/workflows/ci.yml` and `release.yml` call reusable
+workflows from `Voyce007/cicd-tooling-architecture@v1` — **that tooling
+repo doesn't exist yet**, so CI runs on this repo will fail until it's
+created (with `ci.yml`/`release.yml` reusable workflows) and tagged `v1`.
+Don't "fix" this by editing `ci-cd/services.yaml` or the wrapper
+workflows further — the fix is standing up the tooling repo itself, per
+the `ci-cd` skill and the tooling repo's own "Before you use this for
+real" instructions.
