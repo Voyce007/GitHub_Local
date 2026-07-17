@@ -83,6 +83,11 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks: [sdlc-net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sdlc -d sdlc"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
 
   minio:
     image: minio/minio:latest
@@ -121,7 +126,9 @@ services:
     ports: ["8002:8002"]
     environment:
       - DATABASE_URL=postgresql://sdlc:sdlc_local_dev@postgres:5432/sdlc
-    depends_on: [postgres]
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks: [sdlc-net]
 
   # ── LAYER 5: ORCHESTRATION ─────────────────────────────────────────────
