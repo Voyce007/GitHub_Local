@@ -1,0 +1,16 @@
+# Trivy CVE/GHSA allowlist for this repo. Every entry must have a comment
+# explaining why it can't be fixed via requirements.txt/Dockerfile, so this
+# file stays an audit trail, not a place vulnerabilities go to be forgotten.
+
+# json_repair 0.25.3 (HIGH, unbounded-CPU DoS via circular JSON Schema $ref)
+# in agent-service. crewai's entire 1.x line (no 2.0.0 release exists yet)
+# exactly-pins json-repair~=0.25.2, and no patched release exists inside
+# that range (json-repair jumped straight from 0.25.3 to 0.60.0 with no
+# 0.25.x backport). Forcing a newer json-repair makes pip's resolver fail
+# outright (ResolutionImpossible) rather than install anything at all, so
+# this is a real upstream constraint, not a pin we chose. Re-check this
+# entry whenever crewai's requirements.txt line is bumped — if a future
+# crewai release loosens the json-repair constraint, remove this line and
+# let Trivy's gate re-block until requirements.txt actually points at a
+# patched version.
+GHSA-xf7x-x43h-rpqh
