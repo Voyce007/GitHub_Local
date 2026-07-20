@@ -142,6 +142,16 @@ services:
         condition: service_healthy
     networks: [sdlc-net]
 
+  erp-ui:
+    build: ./layers/4-integrated-app-stack/erp-ui
+    profiles: ["apps", "full"]
+    ports: ["8005:8005"]
+    environment:
+      - ERP_SERVICE_URL=http://mock-erp-service:8004
+    depends_on:
+      - mock-erp-service
+    networks: [sdlc-net]
+
   # ── LAYER 5: ORCHESTRATION ─────────────────────────────────────────────
   mcp-server:
     build: ./layers/5-orchestration/mcp-server

@@ -11,6 +11,9 @@ scrape_configs:
   - job_name: "mock-erp-service"
     static_configs:
       - targets: ["mock-erp-service:8004"]
+  - job_name: "erp-ui"
+    static_configs:
+      - targets: ["erp-ui:8005"]
   - job_name: "mcp-server"
     static_configs:
       - targets: ["mcp-server:8003"]

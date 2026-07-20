@@ -22,9 +22,24 @@ stub: extend it directly, or replace it with a real system (ERPNext).
 | `GET /orders` | List orders |
 | `POST /orders` | Place an order (decrements stock; 409 if insufficient) |
 
+`erp-ui/` — a browser UI for mock-erp-service (product/stock table,
+order table, forms to add a product and place an order). A FastAPI app
+that serves the page and proxies `/api/*` to `ERP_SERVICE_URL`
+server-side, so the browser never talks to mock-erp-service directly
+(no CORS, works the same via `localhost` or behind Traefik).
+
+| Route | Purpose |
+|---|---|
+| `GET /` | The UI |
+| `GET /health` | Liveness |
+| `GET/POST /api/products` | Proxies to mock-erp-service `/products` |
+| `GET/POST /api/orders` | Proxies to mock-erp-service `/orders` |
+
+Open http://localhost:8005 once running.
+
 Start: `docker compose --profile apps up -d`
 
-Both services are built, scanned, and smoke-tested by the pipeline —
+All three services are built, scanned, and smoke-tested by the pipeline —
 see `ci-cd/services.yaml` at the repo root.
 
 See `.claude/skills/integrated-app-stack/SKILL.md` for implementation patterns.
