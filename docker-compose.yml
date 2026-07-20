@@ -131,6 +131,17 @@ services:
         condition: service_healthy
     networks: [sdlc-net]
 
+  mock-erp-service:
+    build: ./layers/4-integrated-app-stack/mock-erp-service
+    profiles: ["apps", "full"]
+    ports: ["8004:8004"]
+    environment:
+      - DATABASE_URL=postgresql://sdlc:sdlc_local_dev@postgres:5432/sdlc
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [sdlc-net]
+
   # ── LAYER 5: ORCHESTRATION ─────────────────────────────────────────────
   mcp-server:
     build: ./layers/5-orchestration/mcp-server

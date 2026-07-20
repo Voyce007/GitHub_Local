@@ -1,5 +1,5 @@
 # Adapter config: platforms this generic CI/CD tooling onto
-# ai-native-sdlc-architecture's 3 custom-built services. Everything else
+# ai-native-sdlc-architecture's 4 custom-built services. Everything else
 # in that repo (Ollama, Qdrant, Postgres, Open WebUI, Prometheus,
 # Grafana, Traefik, LocalStack, Keycloak) is a pulled image pinned in its
 # docker-compose.yml — not a build target, so it's not listed here.
@@ -11,9 +11,9 @@
 registry: ghcr.io
 compose_file: docker-compose.yml
 smoke_profiles: [core, apps, orchestration]
-# ^ minimum profile combination that boots all 3 services together;
+# ^ minimum profile combination that boots all 4 services together;
 #   'infrastructure' (LocalStack/Keycloak) and 'full' (32GB+) aren't
-#   needed to smoke-test these 3 and don't fit a standard GH runner.
+#   needed to smoke-test these 4 and don't fit a standard GH runner.
 
 services:
   - name: agent-service
@@ -28,6 +28,12 @@ services:
   - name: mock-crm-service
     path: layers/4-integrated-app-stack/mock-crm-service
     port: 8002
+    health_path: /health
+    language: python
+
+  - name: mock-erp-service
+    path: layers/4-integrated-app-stack/mock-erp-service
+    port: 8004
     health_path: /health
     language: python
 
