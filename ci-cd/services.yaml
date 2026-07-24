@@ -1,8 +1,8 @@
-# Adapter config: platforms this generic CI/CD tooling onto
-# ai-native-sdlc-architecture's 6 custom-built services. Everything else
-# in that repo (Ollama, Qdrant, Postgres, Open WebUI, Prometheus,
-# Grafana, Traefik, LocalStack, Keycloak) is a pulled image pinned in its
-# docker-compose.yml — not a build target, so it's not listed here.
+# Adapter config: platforms this generic CI/CD tooling onto this repo's
+# 6 custom-built services. Everything else in this repo (Ollama, Qdrant,
+# Postgres, Open WebUI, Prometheus, Grafana, Traefik, LocalStack,
+# Keycloak) is a pulled image pinned in its docker-compose.yml — not a
+# build target, so it's not listed here.
 #
 # To use: copy this file into the ai-sdlc repo (see INTEGRATION.md) —
 # it needs to live in that repo's checkout since compose_file and each

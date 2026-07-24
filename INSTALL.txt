@@ -126,13 +126,13 @@ PART 2. THE ARCHITECTURE STACK
 
 STEP 7. Unzip the project.
 
-Unzip ai-native-sdlc-architecture.zip to a folder of your choice, for
-example your Downloads or Desktop folder.
+Unzip the project archive to a folder of your choice, for example your
+Downloads or Desktop folder.
 
 Open Terminal and move into that folder:
-cd ~/Downloads/ai-native-sdlc-architecture
+cd ~/Downloads/<the folder you unzipped>
 
-(Adjust the path if you unzipped it somewhere else.)
+(Adjust the path to wherever you unzipped it.)
 
 
 STEP 8. Make the helper scripts runnable.
@@ -215,7 +215,7 @@ and confirm sdlc-stack shows as connected.
 
 Desktop app method:
 Open the Claude Code Desktop application, open this project folder
-(File, Open, then select the ai-native-sdlc-architecture folder), start a
+(File, Open, then select the folder you unzipped in Step 7), start a
 new chat, and check the connectors indicator for sdlc-stack showing as
 connected.
 
