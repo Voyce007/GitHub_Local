@@ -1,5 +1,5 @@
 # Adapter config: platforms this generic CI/CD tooling onto
-# ai-native-sdlc-architecture's 5 custom-built services. Everything else
+# ai-native-sdlc-architecture's 6 custom-built services. Everything else
 # in that repo (Ollama, Qdrant, Postgres, Open WebUI, Prometheus,
 # Grafana, Traefik, LocalStack, Keycloak) is a pulled image pinned in its
 # docker-compose.yml — not a build target, so it's not listed here.
@@ -11,9 +11,9 @@
 registry: ghcr.io
 compose_file: docker-compose.yml
 smoke_profiles: [core, apps, orchestration]
-# ^ minimum profile combination that boots all 5 services together;
+# ^ minimum profile combination that boots all 6 services together;
 #   'infrastructure' (LocalStack/Keycloak) and 'full' (32GB+) aren't
-#   needed to smoke-test these 5 and don't fit a standard GH runner.
+#   needed to smoke-test these 6 and don't fit a standard GH runner.
 
 services:
   - name: agent-service
@@ -42,6 +42,17 @@ services:
     port: 8005
     health_path: /health
     language: python
+
+  - name: jira-service
+    path: layers/4-integrated-app-stack/jira-service
+    port: 8006
+    health_path: /health
+    language: python
+    # /health always returns 200 (service: ok) even with no Jira credentials
+    # configured — it reports jira: unconfigured/ok/degraded/unreachable as
+    # a secondary field, but never hard-fails CI just because this repo's
+    # CI run has no real Jira account wired up. Same liveness-not-readiness
+    # bar as agent-service.
 
   - name: mcp-server
     path: layers/5-orchestration/mcp-server

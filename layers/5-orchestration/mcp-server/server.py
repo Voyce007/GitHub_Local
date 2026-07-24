@@ -21,6 +21,7 @@ from starlette.responses import PlainTextResponse, Response
 
 AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL", "http://agent-service:8001")
 CRM_SERVICE_URL = os.getenv("CRM_SERVICE_URL", "http://mock-crm-service:8002")
+JIRA_SERVICE_URL = os.getenv("JIRA_SERVICE_URL", "http://jira-service:8006")
 
 mcp = FastMCP("sdlc-stack", stateless_http=True, host="0.0.0.0", port=8003)
 
@@ -76,6 +77,47 @@ async def create_customer(name: str, email: str) -> dict:
     TOOL_CALLS.labels(tool="create_customer").inc()
     async with httpx.AsyncClient(timeout=30) as client:
         r = await client.post(f"{CRM_SERVICE_URL}/customers", json={"name": name, "email": email})
+        r.raise_for_status()
+        return r.json()
+
+
+@mcp.tool()
+async def list_jira_issues(project_key: str = "", max_results: int = 25) -> list:
+    """List Jira issues for a project (defaults to JIRA_PROJECT_KEY if project_key is omitted)."""
+    TOOL_CALLS.labels(tool="list_jira_issues").inc()
+    async with httpx.AsyncClient(timeout=30) as client:
+        r = await client.get(
+            f"{JIRA_SERVICE_URL}/issues",
+            params={"project_key": project_key, "max_results": max_results},
+        )
+        r.raise_for_status()
+        return r.json()
+
+
+@mcp.tool()
+async def get_jira_issue(issue_key: str) -> dict:
+    """Get one Jira issue's summary, status, and description by its key (e.g. "PROJ-123")."""
+    TOOL_CALLS.labels(tool="get_jira_issue").inc()
+    async with httpx.AsyncClient(timeout=30) as client:
+        r = await client.get(f"{JIRA_SERVICE_URL}/issues/{issue_key}")
+        r.raise_for_status()
+        return r.json()
+
+
+@mcp.tool()
+async def create_jira_issue(summary: str, description: str = "", issue_type: str = "Task", project_key: str = "") -> dict:
+    """Create a Jira issue (defaults to JIRA_PROJECT_KEY if project_key is omitted)."""
+    TOOL_CALLS.labels(tool="create_jira_issue").inc()
+    async with httpx.AsyncClient(timeout=30) as client:
+        r = await client.post(
+            f"{JIRA_SERVICE_URL}/issues",
+            json={
+                "summary": summary,
+                "description": description,
+                "issue_type": issue_type,
+                "project_key": project_key,
+            },
+        )
         r.raise_for_status()
         return r.json()
 

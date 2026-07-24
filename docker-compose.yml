@@ -152,6 +152,20 @@ services:
       - mock-erp-service
     networks: [sdlc-net]
 
+  # Real Jira Cloud REST API adapter (not a mock/stub) — needs JIRA_BASE_URL,
+  # JIRA_EMAIL, JIRA_API_TOKEN, JIRA_PROJECT_KEY set in .env. See
+  # layers/4-integrated-app-stack/README.md before using.
+  jira-service:
+    build: ./layers/4-integrated-app-stack/jira-service
+    profiles: ["apps", "full"]
+    ports: ["8006:8006"]
+    environment:
+      - JIRA_BASE_URL=${JIRA_BASE_URL:-}
+      - JIRA_EMAIL=${JIRA_EMAIL:-}
+      - JIRA_API_TOKEN=${JIRA_API_TOKEN:-}
+      - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
+    networks: [sdlc-net]
+
   # ── LAYER 5: ORCHESTRATION ─────────────────────────────────────────────
   mcp-server:
     build: ./layers/5-orchestration/mcp-server
@@ -160,6 +174,7 @@ services:
     environment:
       - AGENT_SERVICE_URL=http://agent-service:8001
       - CRM_SERVICE_URL=http://mock-crm-service:8002
+      - JIRA_SERVICE_URL=http://jira-service:8006
     networks: [sdlc-net]
 
   traefik:

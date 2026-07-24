@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]==0.30.6
+httpx
+pydantic==2.9.2
+prometheus-client==0.20.0
