@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sdlc-stack": {
+      "type": "http",
+      "url": "http://localhost:8003/mcp"
+    }
+  }
+}

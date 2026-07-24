@@ -43,10 +43,11 @@ the project root.
   `orchestration`, `comms`, `observability`, `infrastructure`, `full`) so you
   only run what a given task needs — check laptop RAM before adding `full`.
 - The MCP server in `layers/5-orchestration/mcp-server` is what connects this
-  whole stack back into Claude Code as tools. Once it's running, register it
-  with `claude mcp add sdlc-stack --transport http http://localhost:8003/mcp`
-  and you can drive the local LLM, vector search, and the CRM stub directly
-  from a Claude Code conversation.
+  whole stack back into Claude Code as tools. It's registered via the
+  project-level `.mcp.json` (`http://localhost:8003/mcp`), so once it's
+  running, Claude Code picks it up automatically (approve the one-time trust
+  prompt) and you can drive the local LLM, vector search, and the CRM/ERP/
+  Jira stubs directly from a Claude Code conversation.
 
 ## Implementation conventions
 
@@ -84,10 +85,8 @@ See `README.md` for first-time Mac setup.
 
 This repo is pushed to `github.com/Voyce007/GitHub_Local` (public, `main`
 branch). `.github/workflows/ci.yml` and `release.yml` call reusable
-workflows from `Voyce007/cicd-tooling-architecture@v1` — **that tooling
-repo doesn't exist yet**, so CI runs on this repo will fail until it's
-created (with `ci.yml`/`release.yml` reusable workflows) and tagged `v1`.
-Don't "fix" this by editing `ci-cd/services.yaml` or the wrapper
-workflows further — the fix is standing up the tooling repo itself, per
-the `ci-cd` skill and the tooling repo's own "Before you use this for
-real" instructions.
+workflows from `Voyce007/cicd-tooling-architecture@v1`. That tooling repo
+now exists (created 2026-07-17, `ci.yml`/`release.yml` present, tagged
+`v1`) and CI has been passing on `main` since 2026-07-20 — if a run fails,
+treat it as a real failure in this repo's code or `ci-cd/services.yaml`,
+not a missing-tooling-repo problem.
