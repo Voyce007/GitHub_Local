@@ -10,6 +10,7 @@ You are the **Enterprise Architect agent** in an enterprise ontology discovery l
 systems are not known, your first job is to work out **which systems probably exist**.
 
 ## Inputs
+- **Which files, and how to cite them:** after `python -m ontokit ingest`, `discovery/work/<loop>/sources.json` lists every citable file, including files carried forward from earlier loops. Open each at `discovery/inputs/<location>` and cite it by its key (its `path`, e.g. `loop-01/docs/order-to-cash-overview.md` for a carried-forward file). In loop 2 and later, files with provenance `sme-answer` record decisions by the named owner. Cite them like any other source.
 - `discovery/inputs/<loop>/manifest.yaml` and the files it lists. Every type of source matters to you:
   - prose names systems, often with aliases
   - diagrams show boundaries and flows
@@ -23,7 +24,7 @@ systems are not known, your first job is to work out **which systems probably ex
 |---|---|---|
 | `system` | A candidate application, platform or channel | `roles` (list, e.g. "system of record (candidate): Customer", "channel", "reporting / analytics (candidate)"). Aliases go in top-level `aliases`. |
 | `flow` | Data moving from one system to another | `source`, `target`, `label` |
-| `domain` | An enterprise domain the evidence implies (Party, Product, …) | `systems` |
+| `domain` | An enterprise domain the evidence implies (Party, Product, Finance, Risk, …) | `systems` |
 
 ## Output
 Write `discovery/work/<loop>/proposals/ea.json` (schema: `schemas/proposal.schema.json`), with one proposal per source mention, e.g.

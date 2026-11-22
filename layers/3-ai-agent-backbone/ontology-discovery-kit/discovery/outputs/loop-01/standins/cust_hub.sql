@@ -9,7 +9,7 @@ CREATE TABLE customer (
     full_name              VARCHAR(200) NOT NULL,  -- grade B
     date_of_birth          DATE,  -- grade B
     email_address          VARCHAR(254),  -- grade B
-    kyc_status             VARCHAR(20) NOT NULL CHECK (kyc_status IN ('PENDING', 'PASSED', 'FAILED', 'REFERRED')),  -- grade B; KycStatus grade B
+    credit_status          VARCHAR(20) NOT NULL CHECK (credit_status IN ('PENDING', 'APPROVED', 'DECLINED', 'REFERRED')),  -- grade B; CreditStatus grade B
     created_timestamp      TIMESTAMP NOT NULL,  -- grade C
     PRIMARY KEY (customer_number)
 );
@@ -17,9 +17,9 @@ CREATE TABLE customer (
 -- ENT-02 CustomerAddress · grade C · approved (provisional) — simulated
 CREATE TABLE customer_address (
     customer_number        CHAR(10) NOT NULL,  -- grade C
-    address_type           VARCHAR(20) NOT NULL CHECK (address_type IN ('HOME', 'CORRESPONDENCE')),  -- grade C; AddressType grade C
+    address_type           VARCHAR(20) NOT NULL CHECK (address_type IN ('BILLING', 'DELIVERY')),  -- grade C; AddressType grade C
     line1                  VARCHAR(100) NOT NULL,  -- grade C
     postcode               VARCHAR(10) NOT NULL   -- grade C
 );
 
--- Address: no attributes in evidence yet (grade C); see U-08
+-- Address: no attributes in evidence yet (grade C); see U-09

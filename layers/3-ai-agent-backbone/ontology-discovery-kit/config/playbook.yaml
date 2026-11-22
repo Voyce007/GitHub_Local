@@ -32,7 +32,7 @@ phases:
       - {id: P2.1, check: concepts_defined, text: Every concept has a definition}
       - {id: P2.2, check: synonyms_registered, text: A synonym register exists}
       - {id: P2.3, check: conflicts_have_unknowns, text: Every contradiction has an open unknown}
-      - {id: P2.4, check: key_concepts_present, text: "Key concepts present: Customer, Account, Payment"}
+      - {id: P2.4, check: key_concepts_present, text: "Key concepts present: Customer, Product, Order"}
 
   - id: 3
     name: Entity and relationship modelling
@@ -42,7 +42,7 @@ phases:
     discovery_mode: run
     loop1_criteria:
       - {id: P3.1, check: entities_have_attributes, text: Every candidate entity has at least one attribute}
-      - {id: P3.2, check: entities_traced_to_concepts, text: "Entities are traced to a concept or flagged for review"}
+      - {id: P3.2, check: entities_traced_to_concepts, text: "Entities are traced to a concept, are link tables, or are flagged for review"}
 
   - id: 4
     name: Logical data modelling
@@ -92,7 +92,7 @@ phases:
     exit_gate: Ongoing ownership, maintenance and change control are established.
     discovery_mode: run           # every loop's diff goes through change control
 
-# Loop 1 runs these phases' automated gates. Later loops add phases as evidence arrives.
+# Every loop runs these phases' automated gates. Add phases here as evidence matures.
 loop1_gated_phases: [1, 2, 3]
 
-key_concepts: [Customer, Account, Payment]
+key_concepts: [Customer, Product, Order]

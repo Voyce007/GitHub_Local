@@ -13,26 +13,27 @@
   {
     "id": "E-002",
     "file": "diagrams/context-diagram.mmd",
-    "locator": "line 4",
-    "quote": "ONB -->|new application| CH[\"CustHub (Customer Hub)\"]",
+    "locator": "line 3",
+    "quote": "PP[\"Partner Portal\"] -->|registration| CH[\"CustHub (Customer Hub)\"]",
     "provenance": "diagram",
     "stale": false,
     "supports": [
       "SYS-01",
-      "FLW-03"
+      "SYS-05",
+      "FLW-02"
     ]
   },
   {
     "id": "E-003",
     "file": "spreadsheets/interface-catalogue.csv",
     "locator": "line 2",
-    "quote": "CUST-ACC-01,New customer to ledger,Customer Hub,CoreLedger,MQ message,Real time,Customer Number; customer type; name,Integration team",
+    "quote": "CUST-FIN-01,New customer to finance,Customer Hub,LedgerOne,MQ message,Real time,Customer Number; customer type; name,Integration team",
     "provenance": "spreadsheet",
     "stale": false,
     "supports": [
       "SYS-01",
       "SYS-02",
-      "FLW-04",
+      "FLW-03",
       "INT-01"
     ]
   },
@@ -46,7 +47,7 @@
     "supports": [
       "SYS-01",
       "SYS-07",
-      "FLW-07",
+      "FLW-06",
       "INT-05"
     ]
   },
@@ -88,7 +89,7 @@
     "id": "E-008",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 12",
-    "quote": "CoreLedger (also called the Account Platform) opens and maintains accounts.",
+    "quote": "LedgerOne (also called the ERP or \"the GL\") raises invoices and maintains the general ledger.",
     "provenance": "document",
     "stale": false,
     "supports": [
@@ -97,9 +98,9 @@
   },
   {
     "id": "E-009",
-    "file": "docs/payments-overview.md",
+    "file": "docs/order-to-cash-overview.md",
     "locator": "line 9",
-    "quote": "PayRail debits the account in CoreLedger (CL) and publishes a PaymentCompleted event.",
+    "quote": "OrderFlow sends fulfilled orders to LedgerOne (GL) and publishes an OrderFulfilled event.",
     "provenance": "document",
     "stale": true,
     "supports": [
@@ -110,13 +111,13 @@
   {
     "id": "E-010",
     "file": "diagrams/context-diagram.mmd",
-    "locator": "line 5",
-    "quote": "CH -->|CUST-ACC-01| CL[\"CoreLedger (Account Platform)\"]",
+    "locator": "line 4",
+    "quote": "CH -->|CUST-FIN-01| LO[\"LedgerOne (ERP)\"]",
     "provenance": "diagram",
     "stale": false,
     "supports": [
       "SYS-02",
-      "FLW-04",
+      "FLW-03",
       "INT-01"
     ]
   },
@@ -124,13 +125,13 @@
     "id": "E-011",
     "file": "spreadsheets/interface-catalogue.csv",
     "locator": "line 4",
-    "quote": "PAY-EVT-02,Payment completed,PayRail,CoreLedger,Event,Real time,PaymentCompleted,Payments team",
+    "quote": "ORD-EVT-02,Order fulfilled,OrderFlow,LedgerOne,Event,Real time,OrderFulfilled,Commerce team",
     "provenance": "spreadsheet",
     "stale": false,
     "supports": [
       "SYS-02",
-      "SYS-06",
-      "FLW-05",
+      "SYS-03",
+      "FLW-04",
       "INT-03",
       "EVT-01"
     ]
@@ -139,13 +140,13 @@
     "id": "E-012",
     "file": "spreadsheets/interface-catalogue.csv",
     "locator": "line 5",
-    "quote": "MI-01,Nightly MI extract,CoreLedger,DataMart,File (CSV),Daily 02:00,Accounts; balances,Data team",
+    "quote": "MI-01,Nightly finance extract,LedgerOne,DataMart,File (CSV),Daily 02:00,Invoices; GL balances,Data team",
     "provenance": "spreadsheet",
     "stale": false,
     "supports": [
       "SYS-02",
       "SYS-07",
-      "FLW-06",
+      "FLW-05",
       "INT-04"
     ]
   },
@@ -153,7 +154,7 @@
     "id": "E-013",
     "file": "code-examples/application.properties",
     "locator": "line 4",
-    "quote": "coreledger.jdbc.url=jdbc:db2://ledger-db.internal.example:50000/LEDGER",
+    "quote": "ledgerone.jdbc.url=jdbc:postgresql://ledger-db.internal.example:5432/ledger",
     "provenance": "example-code",
     "stale": false,
     "supports": [
@@ -163,9 +164,9 @@
   },
   {
     "id": "E-014",
-    "file": "code-examples/ledger_accounts.sql",
+    "file": "code-examples/ledger_finance.sql",
     "locator": "line 1",
-    "quote": "-- Example DDL extract shared by the CoreLedger team (2023). Partial.",
+    "quote": "-- Example DDL extract shared by the LedgerOne (Finance systems) team (2023). Partial.",
     "provenance": "example-code",
     "stale": false,
     "supports": [
@@ -175,20 +176,21 @@
   {
     "id": "E-015",
     "file": "wiki/glossary-export.md",
-    "locator": "line 8",
-    "quote": "- **Account**: A record of balances and transactions held for one or more customers in CoreLedger.",
+    "locator": "line 7",
+    "quote": "- **Customer Number**: The unique identifier for a customer, issued by LedgerOne when the first invoice is raised. Synonyms: Customer ID, Debtor Number.",
     "provenance": "wiki",
     "stale": false,
     "supports": [
       "SYS-02",
-      "CON-04"
+      "CON-03",
+      "IDN-01"
     ]
   },
   {
     "id": "E-016",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 13",
-    "quote": "The onboarding front end is referred to as ONB.",
+    "quote": "OrderFlow (also called OMS) captures and fulfils customer orders.",
     "provenance": "document",
     "stale": false,
     "supports": [
@@ -197,35 +199,71 @@
   },
   {
     "id": "E-017",
-    "file": "diagrams/context-diagram.mmd",
-    "locator": "line 3",
-    "quote": "WB[\"Web Banking\"] -->|application| ONB[\"ONB\"]",
-    "provenance": "diagram",
-    "stale": false,
+    "file": "docs/order-to-cash-overview.md",
+    "locator": "line 7",
+    "quote": "OrderFlow (the Order Management System) processes all customer orders.",
+    "provenance": "document",
+    "stale": true,
     "supports": [
-      "SYS-03",
-      "SYS-05",
-      "FLW-02"
+      "SYS-03"
     ]
   },
   {
     "id": "E-018",
-    "file": "wiki/glossary-export.md",
-    "locator": "line 7",
-    "quote": "- **Customer Number**: The unique identifier for a customer, issued by ONB at application time. Synonyms: Customer ID, CIF.",
-    "provenance": "wiki",
+    "file": "diagrams/context-diagram.mmd",
+    "locator": "line 2",
+    "quote": "WS[\"Web Shop\"] -->|ORD-01 order request| OF[\"OrderFlow (OMS)\"]",
+    "provenance": "diagram",
     "stale": false,
     "supports": [
       "SYS-03",
-      "CON-03",
-      "IDN-01"
+      "SYS-04",
+      "FLW-01",
+      "INT-02"
     ]
   },
   {
     "id": "E-019",
+    "file": "spreadsheets/interface-catalogue.csv",
+    "locator": "line 3",
+    "quote": "ORD-01,Submit order,Web Shop,OrderFlow,REST API,Real time,Order request,Commerce team",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "SYS-03",
+      "SYS-04",
+      "FLW-01",
+      "INT-02"
+    ]
+  },
+  {
+    "id": "E-020",
+    "file": "code-examples/application.properties",
+    "locator": "line 3",
+    "quote": "orderflow.api.base-url=https://orderflow.internal.example/api",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "SYS-03",
+      "FLW-01"
+    ]
+  },
+  {
+    "id": "E-021",
+    "file": "code-examples/OrderStatus.java",
+    "locator": "line 1",
+    "quote": "// Example extract from the OrderFlow team (2024). Illustrative only.",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "SYS-03"
+    ]
+  },
+  {
+    "id": "E-022",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 17",
-    "quote": "1. The applicant completes the application in a Channel (Mobile Banking or Web Banking).",
+    "quote": "1. The customer registers through a Channel (Web Shop or Partner Portal).",
     "provenance": "document",
     "stale": false,
     "supports": [
@@ -234,95 +272,82 @@
     ]
   },
   {
-    "id": "E-020",
-    "file": "diagrams/context-diagram.mmd",
-    "locator": "line 2",
-    "quote": "MB[\"Mobile Banking\"] -->|PAY-01 payment instruction| PR[\"PayRail (Payments Platform)\"]",
-    "provenance": "diagram",
-    "stale": false,
-    "supports": [
-      "SYS-04",
-      "SYS-06",
-      "FLW-01",
-      "INT-02"
-    ]
-  },
-  {
-    "id": "E-021",
-    "file": "spreadsheets/interface-catalogue.csv",
-    "locator": "line 3",
-    "quote": "PAY-01,Submit payment,Mobile Banking,PayRail,REST API,Real time,Payment instruction,Payments team",
-    "provenance": "spreadsheet",
-    "stale": false,
-    "supports": [
-      "SYS-04",
-      "SYS-06",
-      "FLW-01",
-      "INT-02"
-    ]
-  },
-  {
-    "id": "E-022",
-    "file": "docs/payments-overview.md",
-    "locator": "line 8",
-    "quote": "Mobile Banking submits a payment instruction to PayRail over the PAY-01 API.",
-    "provenance": "document",
-    "stale": true,
-    "supports": [
-      "SYS-04",
-      "INT-02"
-    ]
-  },
-  {
     "id": "E-023",
-    "file": "docs/payments-overview.md",
-    "locator": "line 7",
-    "quote": "PayRail (the Payments Platform) processes all outbound customer payments.",
+    "file": "docs/order-to-cash-overview.md",
+    "locator": "line 8",
+    "quote": "Web Shop submits each order to OrderFlow over the ORD-01 API.",
     "provenance": "document",
     "stale": true,
     "supports": [
-      "SYS-06"
+      "SYS-04",
+      "INT-02"
     ]
   },
   {
     "id": "E-024",
-    "file": "code-examples/application.properties",
-    "locator": "line 3",
-    "quote": "payrail.api.base-url=https://payrail.internal.example/api",
-    "provenance": "example-code",
-    "stale": false,
-    "supports": [
-      "SYS-06",
-      "FLW-01"
-    ]
-  },
-  {
-    "id": "E-025",
-    "file": "code-examples/PaymentStatus.java",
-    "locator": "line 1",
-    "quote": "// Example extract from the PayRail team (2024). Illustrative only.",
-    "provenance": "example-code",
+    "file": "docs/risk-management-policy.md",
+    "locator": "line 8",
+    "quote": "RiskReg (also called the GRC platform) holds the risk register.",
+    "provenance": "document",
     "stale": false,
     "supports": [
       "SYS-06"
     ]
   },
   {
-    "id": "E-026",
+    "id": "E-025",
     "file": "diagrams/context-diagram.mmd",
-    "locator": "line 7",
-    "quote": "CL -->|MI-01 nightly| DM[\"DataMart (MI warehouse)\"]",
+    "locator": "line 8",
+    "quote": "RR[\"RiskReg (GRC platform)\"] -->|RISK-01 weekly| DM",
     "provenance": "diagram",
     "stale": false,
     "supports": [
+      "SYS-06",
+      "FLW-07",
+      "INT-06"
+    ]
+  },
+  {
+    "id": "E-026",
+    "file": "spreadsheets/interface-catalogue.csv",
+    "locator": "line 7",
+    "quote": "RISK-01,Risk register extract,RiskReg,DataMart,File (CSV),Weekly,Risks; controls,Group Risk",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "SYS-06",
       "SYS-07",
-      "FLW-06",
-      "INT-04"
+      "FLW-07",
+      "INT-06"
     ]
   },
   {
     "id": "E-027",
-    "file": "docs/payments-overview.md",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
+    "locator": "line 1",
+    "quote": "table,column,data_type,nullable,key,description,codes",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "SYS-06"
+    ]
+  },
+  {
+    "id": "E-028",
+    "file": "diagrams/context-diagram.mmd",
+    "locator": "line 6",
+    "quote": "LO -->|MI-01 nightly| DM[\"DataMart (MI warehouse)\"]",
+    "provenance": "diagram",
+    "stale": false,
+    "supports": [
+      "SYS-07",
+      "FLW-05",
+      "INT-04"
+    ]
+  },
+  {
+    "id": "E-029",
+    "file": "docs/order-to-cash-overview.md",
     "locator": "line 10",
     "quote": "Reporting extracts are sent nightly to the MI warehouse.",
     "provenance": "document",
@@ -332,34 +357,34 @@
     ]
   },
   {
-    "id": "E-028",
+    "id": "E-030",
     "file": "diagrams/context-diagram.mmd",
-    "locator": "line 6",
-    "quote": "PR -->|PaymentCompleted| CL",
+    "locator": "line 5",
+    "quote": "OF -->|OrderFulfilled| LO",
     "provenance": "diagram",
     "stale": false,
     "supports": [
-      "FLW-05",
+      "FLW-04",
       "EVT-01"
     ]
   },
   {
-    "id": "E-029",
+    "id": "E-031",
     "file": "diagrams/context-diagram.mmd",
-    "locator": "line 8",
+    "locator": "line 7",
     "quote": "CH -->|MI-02 nightly| DM",
     "provenance": "diagram",
     "stale": false,
     "supports": [
-      "FLW-07",
+      "FLW-06",
       "INT-05"
     ]
   },
   {
-    "id": "E-030",
+    "id": "E-032",
     "file": "code-examples/application.properties",
     "locator": "line 5",
-    "quote": "mandate-svc.api.base-url=https://mandates.internal.example/api",
+    "quote": "tax-engine.api.base-url=https://tax.internal.example/api",
     "provenance": "example-code",
     "stale": false,
     "supports": [
@@ -368,10 +393,10 @@
     ]
   },
   {
-    "id": "E-031",
+    "id": "E-033",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 25",
-    "quote": "- A customer must pass KYC checks before an account can be opened.",
+    "quote": "- A customer must pass a credit check before their first order is accepted.",
     "provenance": "document",
     "stale": false,
     "supports": [
@@ -379,10 +404,10 @@
     ]
   },
   {
-    "id": "E-032",
+    "id": "E-034",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 26",
-    "quote": "- Every account must have at least one account holder.",
+    "quote": "- Every invoice must be raised by exactly one legal entity.",
     "provenance": "document",
     "stale": false,
     "supports": [
@@ -390,10 +415,10 @@
     ]
   },
   {
-    "id": "E-033",
+    "id": "E-035",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 27",
-    "quote": "- A customer cannot hold more than one Current Account of the same product variant.",
+    "quote": "- A customer cannot be deleted while they have unpaid invoices.",
     "provenance": "document",
     "stale": false,
     "supports": [
@@ -401,7 +426,7 @@
     ]
   },
   {
-    "id": "E-034",
+    "id": "E-036",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 31",
     "quote": "Customer type values: Individual, Business.",
@@ -412,7 +437,7 @@
     ]
   },
   {
-    "id": "E-035",
+    "id": "E-037",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 3",
     "quote": "CUSTOMER,CUST_TYPE,CHAR(3),N,,Customer type,IND=Individual|BUS=Business",
@@ -424,7 +449,7 @@
     ]
   },
   {
-    "id": "E-036",
+    "id": "E-038",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 23",
     "quote": "enum CustomerType { INDIVIDUAL, SOLE_TRADER, COMPANY }",
@@ -435,10 +460,10 @@
     ]
   },
   {
-    "id": "E-037",
+    "id": "E-039",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 33",
-    "quote": "KYC status values: Pending, Passed, Failed, Referred.",
+    "quote": "Credit status values: Pending, Approved, Declined, Referred.",
     "provenance": "document",
     "stale": false,
     "supports": [
@@ -446,10 +471,10 @@
     ]
   },
   {
-    "id": "E-038",
+    "id": "E-040",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 7",
-    "quote": "CUSTOMER,KYC_STATUS,CHAR(3),N,,KYC status,PEN=Pending|PAS=Passed|FAI=Failed|REF=Referred",
+    "quote": "CUSTOMER,CREDIT_STATUS,CHAR(3),N,,Credit status,PEN=Pending|APP=Approved|DEC=Declined|REF=Referred",
     "provenance": "spreadsheet",
     "stale": false,
     "supports": [
@@ -458,10 +483,10 @@
     ]
   },
   {
-    "id": "E-039",
+    "id": "E-041",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 25",
-    "quote": "enum KycStatus { PENDING, PASSED, FAILED, REFERRED }",
+    "quote": "enum CreditStatus { PENDING, APPROVED, DECLINED, REFERRED }",
     "provenance": "example-code",
     "stale": false,
     "supports": [
@@ -469,22 +494,21 @@
     ]
   },
   {
-    "id": "E-040",
-    "file": "docs/payments-overview.md",
+    "id": "E-042",
+    "file": "docs/order-to-cash-overview.md",
     "locator": "line 14",
-    "quote": "Payment status values: Pending, Completed, Failed, Cancelled.",
+    "quote": "Order status values: Open, Fulfilled, Cancelled.",
     "provenance": "document",
     "stale": true,
     "supports": [
-      "TAX-03",
-      "CON-06"
+      "TAX-03"
     ]
   },
   {
-    "id": "E-041",
-    "file": "code-examples/PaymentStatus.java",
+    "id": "E-043",
+    "file": "code-examples/OrderStatus.java",
     "locator": "line 4",
-    "quote": "public enum PaymentStatus { RECEIVED, VALIDATED, PENDING, COMPLETED, FAILED, CANCELLED }",
+    "quote": "public enum OrderStatus { DRAFT, SUBMITTED, CONFIRMED, FULFILLED, CANCELLED }",
     "provenance": "example-code",
     "stale": false,
     "supports": [
@@ -492,10 +516,10 @@
     ]
   },
   {
-    "id": "E-042",
-    "file": "docs/payments-overview.md",
+    "id": "E-044",
+    "file": "docs/order-to-cash-overview.md",
     "locator": "line 18",
-    "quote": "- A payment must not exceed the available balance of the debit account.",
+    "quote": "- An order must reference exactly one customer.",
     "provenance": "document",
     "stale": true,
     "supports": [
@@ -503,10 +527,10 @@
     ]
   },
   {
-    "id": "E-043",
-    "file": "docs/payments-overview.md",
+    "id": "E-045",
+    "file": "docs/order-to-cash-overview.md",
     "locator": "line 19",
-    "quote": "- A payment must reference exactly one debit account.",
+    "quote": "- An order must not exceed the customer's credit limit.",
     "provenance": "document",
     "stale": true,
     "supports": [
@@ -514,10 +538,90 @@
     ]
   },
   {
-    "id": "E-044",
+    "id": "E-046",
+    "file": "docs/risk-management-policy.md",
+    "locator": "line 13",
+    "quote": "- Every risk must have an owning cost centre.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-06"
+    ]
+  },
+  {
+    "id": "E-047",
+    "file": "docs/risk-management-policy.md",
+    "locator": "line 14",
+    "quote": "- Every risk rated High must have at least one preventive control.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-07"
+    ]
+  },
+  {
+    "id": "E-048",
+    "file": "docs/risk-management-policy.md",
+    "locator": "line 15",
+    "quote": "- Every control must be tested at least once a year.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-08"
+    ]
+  },
+  {
+    "id": "E-049",
+    "file": "docs/risk-management-policy.md",
+    "locator": "line 19",
+    "quote": "Risk rating values: Low, Medium, High.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "TAX-04"
+    ]
+  },
+  {
+    "id": "E-050",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
+    "locator": "line 4",
+    "quote": "RISK,RATING,CHAR(1),N,,Risk rating,L=Low|M=Medium|H=High",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "TAX-04",
+      "ATT-14"
+    ]
+  },
+  {
+    "id": "E-051",
+    "file": "docs/risk-management-policy.md",
+    "locator": "line 21",
+    "quote": "Control type values: Preventive, Detective.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "TAX-05",
+      "CON-10"
+    ]
+  },
+  {
+    "id": "E-052",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
+    "locator": "line 10",
+    "quote": "CONTROL,CONTROL_TYPE,CHAR(3),N,,Control type,PRE=Preventive|DET=Detective",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "TAX-05",
+      "ATT-20"
+    ]
+  },
+  {
+    "id": "E-053",
     "file": "wiki/glossary-export.md",
     "locator": "line 5",
-    "quote": "- **Customer**: A party that holds or has applied for a product with the bank. Synonyms: Client, Account Holder.",
+    "quote": "- **Customer**: A party that buys, or has applied to buy, products or services from a group company. Synonyms: Client, Account.",
     "provenance": "wiki",
     "stale": false,
     "supports": [
@@ -525,7 +629,7 @@
     ]
   },
   {
-    "id": "E-045",
+    "id": "E-054",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 1",
     "quote": "# Customer Onboarding — Process Description",
@@ -536,10 +640,10 @@
     ]
   },
   {
-    "id": "E-046",
+    "id": "E-055",
     "file": "wiki/glossary-export.md",
     "locator": "line 6",
-    "quote": "- **Party**: A person or organisation the bank has a relationship with.",
+    "quote": "- **Party**: A person or organisation the group has a relationship with.",
     "provenance": "wiki",
     "stale": false,
     "supports": [
@@ -547,7 +651,7 @@
     ]
   },
   {
-    "id": "E-047",
+    "id": "E-056",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 19",
     "quote": "3. The Customer Number is issued by CustHub when the record is created.",
@@ -559,22 +663,21 @@
     ]
   },
   {
-    "id": "E-048",
-    "file": "docs/customer-onboarding-process.md",
-    "locator": "line 7",
-    "quote": "Describes how a new customer is onboarded for a Current Account.",
-    "provenance": "document",
+    "id": "E-057",
+    "file": "wiki/glossary-export.md",
+    "locator": "line 8",
+    "quote": "- **Product**: Something the group offers for sale, whether goods or services.",
+    "provenance": "wiki",
     "stale": false,
     "supports": [
-      "CON-04",
-      "CON-05"
+      "CON-04"
     ]
   },
   {
-    "id": "E-049",
+    "id": "E-058",
     "file": "wiki/glossary-export.md",
     "locator": "line 9",
-    "quote": "- **Current Account**: A product that provides day-to-day banking with a debit card and an overdraft option.",
+    "quote": "- **Order**: A customer's request to buy one or more products.",
     "provenance": "wiki",
     "stale": false,
     "supports": [
@@ -582,10 +685,21 @@
     ]
   },
   {
-    "id": "E-050",
+    "id": "E-059",
+    "file": "docs/order-to-cash-overview.md",
+    "locator": "line 1",
+    "quote": "# Order-to-Cash Overview",
+    "provenance": "document",
+    "stale": true,
+    "supports": [
+      "CON-05"
+    ]
+  },
+  {
+    "id": "E-060",
     "file": "wiki/glossary-export.md",
     "locator": "line 10",
-    "quote": "- **Payment**: An instruction to move money from a debit account to a beneficiary.",
+    "quote": "- **Invoice**: A request for payment issued by a legal entity to a customer.",
     "provenance": "wiki",
     "stale": false,
     "supports": [
@@ -593,10 +707,10 @@
     ]
   },
   {
-    "id": "E-051",
+    "id": "E-061",
     "file": "wiki/glossary-export.md",
     "locator": "line 11",
-    "quote": "- **Mandate**: A standing authority for a third party to collect payments from an account.",
+    "quote": "- **Legal Entity**: A registered company within the group that can trade and raise invoices.",
     "provenance": "wiki",
     "stale": false,
     "supports": [
@@ -604,10 +718,10 @@
     ]
   },
   {
-    "id": "E-052",
+    "id": "E-062",
     "file": "wiki/glossary-export.md",
     "locator": "line 12",
-    "quote": "- **Product Variant**: A particular configuration of a product, such as a Current Account with a premium fee tier.",
+    "quote": "- **Cost Centre**: A unit of the organisation to which costs are assigned for management reporting.",
     "provenance": "wiki",
     "stale": false,
     "supports": [
@@ -615,7 +729,51 @@
     ]
   },
   {
-    "id": "E-053",
+    "id": "E-063",
+    "file": "wiki/glossary-export.md",
+    "locator": "line 13",
+    "quote": "- **Risk**: An uncertain event that could affect the group's objectives.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-09"
+    ]
+  },
+  {
+    "id": "E-064",
+    "file": "docs/risk-management-policy.md",
+    "locator": "line 1",
+    "quote": "# Group Risk Management Policy (extract)",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CON-09"
+    ]
+  },
+  {
+    "id": "E-065",
+    "file": "wiki/glossary-export.md",
+    "locator": "line 14",
+    "quote": "- **Control**: An activity that reduces the likelihood or impact of a risk.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-10"
+    ]
+  },
+  {
+    "id": "E-066",
+    "file": "wiki/glossary-export.md",
+    "locator": "line 15",
+    "quote": "- **Tax Code**: A code that determines how sales tax is applied to an invoice line.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-11"
+    ]
+  },
+  {
+    "id": "E-067",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 2",
     "quote": "CUSTOMER,CUSTOMER_NO,CHAR(10),N,PK,Customer Number,",
@@ -628,7 +786,7 @@
     ]
   },
   {
-    "id": "E-054",
+    "id": "E-068",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 4",
     "quote": "public class CustomerRecord {",
@@ -639,7 +797,7 @@
     ]
   },
   {
-    "id": "E-055",
+    "id": "E-069",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 5",
     "quote": "private String customerNumber;      // 10 chars, issued on creation",
@@ -651,35 +809,61 @@
     ]
   },
   {
-    "id": "E-056",
-    "file": "code-examples/ledger_accounts.sql",
-    "locator": "line 13",
-    "quote": "customer_no      CHAR(10)     NOT NULL,",
+    "id": "E-070",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 23",
+    "quote": "customer_no         CHAR(10)       NOT NULL,",
     "provenance": "example-code",
     "stale": false,
     "supports": [
       "IDN-01",
-      "ATT-19",
-      "REL-04"
+      "ATT-33",
+      "REL-10"
     ]
   },
   {
-    "id": "E-057",
-    "file": "code-examples/ledger_accounts.sql",
-    "locator": "line 15",
-    "quote": "PRIMARY KEY (account_number, customer_no)",
+    "id": "E-071",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 31",
+    "quote": "customer_no         CHAR(10)       NOT NULL,",
     "provenance": "example-code",
     "stale": false,
     "supports": [
       "IDN-01",
-      "IDN-02",
-      "REL-02",
-      "REL-04",
-      "REL-06"
+      "ATT-38",
+      "REL-11"
     ]
   },
   {
-    "id": "E-058",
+    "id": "E-072",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 33",
+    "quote": "PRIMARY KEY (customer_no, legal_entity_code)",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "IDN-01",
+      "IDN-04",
+      "REL-05",
+      "REL-11",
+      "REL-13"
+    ]
+  },
+  {
+    "id": "E-073",
+    "file": "code-examples/OrderStatus.java",
+    "locator": "line 8",
+    "quote": "private String customerNumber;",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "IDN-01",
+      "ATT-41",
+      "REL-12"
+    ]
+  },
+  {
+    "id": "E-074",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 6",
     "quote": "private CustomerType customerType;",
@@ -690,7 +874,7 @@
     ]
   },
   {
-    "id": "E-059",
+    "id": "E-075",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 4",
     "quote": "CUSTOMER,FULL_NAME,VARCHAR(200),N,,Customer full name,",
@@ -701,7 +885,7 @@
     ]
   },
   {
-    "id": "E-060",
+    "id": "E-076",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 7",
     "quote": "private String fullName;",
@@ -712,7 +896,7 @@
     ]
   },
   {
-    "id": "E-061",
+    "id": "E-077",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 5",
     "quote": "CUSTOMER,DATE_OF_BIRTH,DATE,Y,,Date of birth (individuals only),",
@@ -723,7 +907,7 @@
     ]
   },
   {
-    "id": "E-062",
+    "id": "E-078",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 8",
     "quote": "private LocalDate dateOfBirth;",
@@ -734,7 +918,7 @@
     ]
   },
   {
-    "id": "E-063",
+    "id": "E-079",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 6",
     "quote": "CUSTOMER,EMAIL_ADDR,VARCHAR(254),Y,,Primary email address,",
@@ -745,7 +929,7 @@
     ]
   },
   {
-    "id": "E-064",
+    "id": "E-080",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 9",
     "quote": "private String emailAddress;",
@@ -756,10 +940,10 @@
     ]
   },
   {
-    "id": "E-065",
+    "id": "E-081",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 10",
-    "quote": "private KycStatus kycStatus;",
+    "quote": "private CreditStatus creditStatus;",
     "provenance": "example-code",
     "stale": false,
     "supports": [
@@ -767,7 +951,7 @@
     ]
   },
   {
-    "id": "E-066",
+    "id": "E-082",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 8",
     "quote": "CUSTOMER,CREATED_TS,TIMESTAMP,N,,Record created,",
@@ -778,7 +962,7 @@
     ]
   },
   {
-    "id": "E-067",
+    "id": "E-083",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 9",
     "quote": "CUSTOMER_ADDRESS,CUSTOMER_NO,CHAR(10),N,FK:CUSTOMER.CUSTOMER_NO,Customer Number,",
@@ -791,19 +975,19 @@
     ]
   },
   {
-    "id": "E-068",
+    "id": "E-084",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 10",
-    "quote": "CUSTOMER_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,HOM=Home|COR=Correspondence",
+    "quote": "CUSTOMER_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,BIL=Billing|DEL=Delivery",
     "provenance": "spreadsheet",
     "stale": false,
     "supports": [
       "ATT-09",
-      "TAX-04"
+      "TAX-06"
     ]
   },
   {
-    "id": "E-069",
+    "id": "E-085",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 11",
     "quote": "CUSTOMER_ADDRESS,LINE_1,VARCHAR(100),N,,Address line 1,",
@@ -814,7 +998,7 @@
     ]
   },
   {
-    "id": "E-070",
+    "id": "E-086",
     "file": "spreadsheets/custhub-data-dictionary.csv",
     "locator": "line 12",
     "quote": "CUSTOMER_ADDRESS,POSTCODE,VARCHAR(10),N,,Postcode,",
@@ -825,170 +1009,130 @@
     ]
   },
   {
-    "id": "E-071",
-    "file": "code-examples/ledger_accounts.sql",
+    "id": "E-087",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
     "locator": "line 2",
-    "quote": "CREATE TABLE account (",
-    "provenance": "example-code",
+    "quote": "RISK,RISK_ID,VARCHAR(12),N,PK,Risk Id,",
+    "provenance": "spreadsheet",
     "stale": false,
     "supports": [
-      "ENT-03"
-    ]
-  },
-  {
-    "id": "E-072",
-    "file": "code-examples/ledger_accounts.sql",
-    "locator": "line 3",
-    "quote": "account_number   CHAR(8)      PRIMARY KEY,",
-    "provenance": "example-code",
-    "stale": false,
-    "supports": [
+      "ENT-03",
       "ATT-12",
       "IDN-02"
     ]
   },
   {
-    "id": "E-073",
-    "file": "code-examples/PaymentStatus.java",
-    "locator": "line 8",
-    "quote": "private String debitAccountNumber;",
-    "provenance": "example-code",
-    "stale": false,
-    "supports": [
-      "IDN-02",
-      "ATT-22",
-      "REL-05"
-    ]
-  },
-  {
-    "id": "E-074",
-    "file": "code-examples/ledger_accounts.sql",
-    "locator": "line 4",
-    "quote": "sort_code        CHAR(6)      NOT NULL,",
-    "provenance": "example-code",
+    "id": "E-088",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
+    "locator": "line 3",
+    "quote": "RISK,TITLE,VARCHAR(200),N,,Risk title,",
+    "provenance": "spreadsheet",
     "stale": false,
     "supports": [
       "ATT-13"
     ]
   },
   {
-    "id": "E-075",
-    "file": "code-examples/ledger_accounts.sql",
+    "id": "E-089",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
     "locator": "line 5",
-    "quote": "product_code     VARCHAR(10)  NOT NULL,",
-    "provenance": "example-code",
+    "quote": "RISK,COST_CENTRE_CODE,VARCHAR(10),N,,Owning cost centre,",
+    "provenance": "spreadsheet",
     "stale": false,
     "supports": [
-      "ATT-14"
+      "ATT-15",
+      "IDN-05",
+      "REL-08"
     ]
   },
   {
-    "id": "E-076",
-    "file": "code-examples/ledger_accounts.sql",
+    "id": "E-090",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
     "locator": "line 6",
-    "quote": "currency         CHAR(3)      NOT NULL DEFAULT 'GBP',",
-    "provenance": "example-code",
+    "quote": "RISK,LEGAL_ENTITY_CODE,CHAR(6),Y,,Legal entity affected,",
+    "provenance": "spreadsheet",
     "stale": false,
     "supports": [
-      "ATT-15"
+      "ATT-16",
+      "IDN-04",
+      "REL-09"
     ]
   },
   {
-    "id": "E-077",
-    "file": "code-examples/ledger_accounts.sql",
+    "id": "E-091",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
     "locator": "line 7",
-    "quote": "status           VARCHAR(10)  NOT NULL,",
-    "provenance": "example-code",
-    "stale": false,
-    "supports": [
-      "ATT-16"
-    ]
-  },
-  {
-    "id": "E-078",
-    "file": "code-examples/ledger_accounts.sql",
-    "locator": "line 8",
-    "quote": "opened_date      DATE         NOT NULL",
-    "provenance": "example-code",
+    "quote": "RISK,REVIEW_DATE,DATE,Y,,Next review date,",
+    "provenance": "spreadsheet",
     "stale": false,
     "supports": [
       "ATT-17"
     ]
   },
   {
-    "id": "E-079",
-    "file": "code-examples/ledger_accounts.sql",
-    "locator": "line 11",
-    "quote": "CREATE TABLE account_holder (",
-    "provenance": "example-code",
+    "id": "E-092",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
+    "locator": "line 8",
+    "quote": "CONTROL,CONTROL_ID,VARCHAR(12),N,PK,Control Id,",
+    "provenance": "spreadsheet",
     "stale": false,
     "supports": [
-      "ENT-04"
-    ]
-  },
-  {
-    "id": "E-080",
-    "file": "code-examples/ledger_accounts.sql",
-    "locator": "line 12",
-    "quote": "account_number   CHAR(8)      NOT NULL REFERENCES account(account_number),",
-    "provenance": "example-code",
-    "stale": false,
-    "supports": [
+      "ENT-04",
       "ATT-18",
-      "REL-02"
-    ]
-  },
-  {
-    "id": "E-081",
-    "file": "code-examples/ledger_accounts.sql",
-    "locator": "line 14",
-    "quote": "holder_role      VARCHAR(10)  NOT NULL,",
-    "provenance": "example-code",
-    "stale": false,
-    "supports": [
-      "ATT-20"
-    ]
-  },
-  {
-    "id": "E-082",
-    "file": "code-examples/CustomerRecord.java",
-    "locator": "line 11",
-    "quote": "private List<Address> addresses;",
-    "provenance": "example-code",
-    "stale": false,
-    "supports": [
-      "ENT-05",
-      "REL-03"
-    ]
-  },
-  {
-    "id": "E-083",
-    "file": "code-examples/PaymentStatus.java",
-    "locator": "line 6",
-    "quote": "public class PaymentInstruction {",
-    "provenance": "example-code",
-    "stale": false,
-    "supports": [
-      "ENT-06"
-    ]
-  },
-  {
-    "id": "E-084",
-    "file": "code-examples/PaymentStatus.java",
-    "locator": "line 7",
-    "quote": "private String paymentId;",
-    "provenance": "example-code",
-    "stale": false,
-    "supports": [
-      "ATT-21",
       "IDN-03"
     ]
   },
   {
-    "id": "E-085",
-    "file": "code-examples/PaymentStatus.java",
+    "id": "E-093",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
     "locator": "line 9",
-    "quote": "private BigDecimal amount;",
+    "quote": "CONTROL,RISK_ID,VARCHAR(12),N,FK:RISK.RISK_ID,Risk Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-19",
+      "REL-02"
+    ]
+  },
+  {
+    "id": "E-094",
+    "file": "spreadsheets/riskreg-data-dictionary.csv",
+    "locator": "line 11",
+    "quote": "CONTROL,LAST_TESTED,DATE,Y,,Date control last tested,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-21"
+    ]
+  },
+  {
+    "id": "E-095",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 2",
+    "quote": "CREATE TABLE legal_entity (",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ENT-05"
+    ]
+  },
+  {
+    "id": "E-096",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 3",
+    "quote": "legal_entity_code   CHAR(6)        PRIMARY KEY,",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-22",
+      "IDN-04"
+    ]
+  },
+  {
+    "id": "E-097",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 4",
+    "quote": "registered_name     VARCHAR(200)   NOT NULL,",
     "provenance": "example-code",
     "stale": false,
     "supports": [
@@ -996,10 +1140,10 @@
     ]
   },
   {
-    "id": "E-086",
-    "file": "code-examples/PaymentStatus.java",
-    "locator": "line 10",
-    "quote": "private String currency;",
+    "id": "E-098",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 5",
+    "quote": "country_code        CHAR(2)        NOT NULL,",
     "provenance": "example-code",
     "stale": false,
     "supports": [
@@ -1007,10 +1151,10 @@
     ]
   },
   {
-    "id": "E-087",
-    "file": "code-examples/PaymentStatus.java",
-    "locator": "line 11",
-    "quote": "private PaymentStatus status;",
+    "id": "E-099",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 6",
+    "quote": "functional_currency CHAR(3)        NOT NULL",
     "provenance": "example-code",
     "stale": false,
     "supports": [
@@ -1018,10 +1162,272 @@
     ]
   },
   {
-    "id": "E-088",
+    "id": "E-100",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 9",
+    "quote": "CREATE TABLE cost_centre (",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ENT-06"
+    ]
+  },
+  {
+    "id": "E-101",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 10",
+    "quote": "cost_centre_code    VARCHAR(10)    PRIMARY KEY,",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-26",
+      "IDN-05"
+    ]
+  },
+  {
+    "id": "E-102",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 11",
+    "quote": "name                VARCHAR(100)   NOT NULL,",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-27"
+    ]
+  },
+  {
+    "id": "E-103",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 12",
+    "quote": "legal_entity_code   CHAR(6)        NOT NULL REFERENCES legal_entity(legal_entity_code)",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-28",
+      "REL-03"
+    ]
+  },
+  {
+    "id": "E-104",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 15",
+    "quote": "CREATE TABLE account (",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ENT-07"
+    ]
+  },
+  {
+    "id": "E-105",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 16",
+    "quote": "account_code        VARCHAR(10)    PRIMARY KEY,",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-29",
+      "IDN-06"
+    ]
+  },
+  {
+    "id": "E-106",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 17",
+    "quote": "account_name        VARCHAR(100)   NOT NULL,",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-30"
+    ]
+  },
+  {
+    "id": "E-107",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 18",
+    "quote": "account_type        VARCHAR(10)    NOT NULL",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-31"
+    ]
+  },
+  {
+    "id": "E-108",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 21",
+    "quote": "CREATE TABLE invoice (",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ENT-08"
+    ]
+  },
+  {
+    "id": "E-109",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 22",
+    "quote": "invoice_number      VARCHAR(12)    PRIMARY KEY,",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-32",
+      "IDN-07"
+    ]
+  },
+  {
+    "id": "E-110",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 24",
+    "quote": "legal_entity_code   CHAR(6)        NOT NULL REFERENCES legal_entity(legal_entity_code),",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-34",
+      "REL-04"
+    ]
+  },
+  {
+    "id": "E-111",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 25",
+    "quote": "invoice_date        DATE           NOT NULL,",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-35"
+    ]
+  },
+  {
+    "id": "E-112",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 26",
+    "quote": "total_amount        NUMERIC(18,2)  NOT NULL,",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-36"
+    ]
+  },
+  {
+    "id": "E-113",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 27",
+    "quote": "currency            CHAR(3)        NOT NULL",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-37"
+    ]
+  },
+  {
+    "id": "E-114",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 30",
+    "quote": "CREATE TABLE customer_entity (",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ENT-09"
+    ]
+  },
+  {
+    "id": "E-115",
+    "file": "code-examples/ledger_finance.sql",
+    "locator": "line 32",
+    "quote": "legal_entity_code   CHAR(6)        NOT NULL REFERENCES legal_entity(legal_entity_code),",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-39",
+      "REL-05"
+    ]
+  },
+  {
+    "id": "E-116",
+    "file": "code-examples/CustomerRecord.java",
+    "locator": "line 11",
+    "quote": "private List<Address> addresses;",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ENT-10",
+      "REL-06"
+    ]
+  },
+  {
+    "id": "E-117",
+    "file": "code-examples/OrderStatus.java",
+    "locator": "line 6",
+    "quote": "public class OrderRequest {",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ENT-11"
+    ]
+  },
+  {
+    "id": "E-118",
+    "file": "code-examples/OrderStatus.java",
+    "locator": "line 7",
+    "quote": "private String orderId;",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-40",
+      "IDN-08"
+    ]
+  },
+  {
+    "id": "E-119",
+    "file": "code-examples/OrderStatus.java",
+    "locator": "line 9",
+    "quote": "private String currency;",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-42"
+    ]
+  },
+  {
+    "id": "E-120",
+    "file": "code-examples/OrderStatus.java",
+    "locator": "line 10",
+    "quote": "private BigDecimal totalAmount;",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-43"
+    ]
+  },
+  {
+    "id": "E-121",
+    "file": "code-examples/OrderStatus.java",
+    "locator": "line 11",
+    "quote": "private OrderStatus status;",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ATT-44"
+    ]
+  },
+  {
+    "id": "E-122",
+    "file": "code-examples/OrderStatus.java",
+    "locator": "line 12",
+    "quote": "private List<OrderLine> lines;",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "ENT-12",
+      "REL-07"
+    ]
+  },
+  {
+    "id": "E-123",
     "file": "docs/customer-onboarding-process.md",
     "locator": "line 20",
-    "quote": "4. CustHub sends the new customer to CoreLedger through the CUST-ACC-01 interface.",
+    "quote": "4. CustHub sends the new customer to LedgerOne through the CUST-FIN-01 interface.",
     "provenance": "document",
     "stale": false,
     "supports": [
@@ -1029,25 +1435,36 @@
     ]
   },
   {
-    "id": "E-089",
+    "id": "E-124",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 15",
     "quote": "throw new ValidationException(\"customerNumber must be 10 characters\");",
     "provenance": "example-code",
     "stale": false,
     "supports": [
-      "RUL-06"
+      "RUL-09"
     ]
   },
   {
-    "id": "E-090",
+    "id": "E-125",
     "file": "code-examples/CustomerRecord.java",
     "locator": "line 18",
     "quote": "throw new ValidationException(\"dateOfBirth is required for individuals\");",
     "provenance": "example-code",
     "stale": false,
     "supports": [
-      "RUL-07"
+      "RUL-10"
+    ]
+  },
+  {
+    "id": "E-126",
+    "file": "code-examples/OrderStatus.java",
+    "locator": "line 16",
+    "quote": "throw new ValidationException(\"an order must have at least one line\");",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "RUL-11"
     ]
   }
 ]

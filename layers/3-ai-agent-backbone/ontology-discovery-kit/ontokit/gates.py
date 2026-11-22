@@ -33,7 +33,8 @@ def _checks(model, unknowns, index, cfg):
         "key_concepts_present": lambda: [k for k in cfg["key_concepts"]
                                          if norm(k) not in {norm(c["name"]) for c in by("concept")}],
         "entities_have_attributes": lambda: [e["id"] for e in real("entity") if not e["properties"].get("attribute_ids")],
-        "entities_traced_to_concepts": lambda: [e["id"] for e in real("entity") if "realises" not in e["properties"]],
+        "entities_traced_to_concepts": lambda: [e["id"] for e in real("entity") if "realises" not in e["properties"]
+                                                and not e["properties"].get("link_entity")],
     }
 
 

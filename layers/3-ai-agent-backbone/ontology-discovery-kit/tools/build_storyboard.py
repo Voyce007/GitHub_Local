@@ -1,7 +1,8 @@
-"""Build docs/storyboard.html (storyboard + explainer + simulation playback) from a loop's real outputs.
+"""Build docs/storyboard.html (storyboard + explainer + simulation playback) from real loop outputs.
 
-    python -m ontokit simulate            # or a live run
-    python tools/build_storyboard.py --loop loop-01
+    python -m ontokit simulate --loop loop-01
+    python -m ontokit simulate --loop loop-02      # iterates on loop-01
+    python tools/build_storyboard.py --loops loop-01 loop-02
 """
 from __future__ import annotations
 
@@ -18,7 +19,7 @@ from ontokit.common import load_config, read_json  # noqa: E402
 from ontokit.validate import validate_file  # noqa: E402
 
 
-def build(loop: str, root: Path) -> dict:
+def build_loop(loop: str, root: Path) -> dict:
     work, out = root / "work" / loop, root / "outputs" / loop
     index = read_json(work / "sources.json")
     els = read_json(out / "elements.json")
@@ -26,8 +27,6 @@ def build(loop: str, root: Path) -> dict:
     unknowns = read_json(work / "unknowns.json")
     gates = read_json(work / "gates.json")
     rights = load_config("decision_rights.yaml")
-    grades = load_config("evidence_grades.yaml")
-    playbook = load_config("playbook.yaml")
 
     # Real validator messages for three bad proposals (what live agents get back)
     sample_file = next(iter(index["sources"]))
@@ -43,7 +42,8 @@ def build(loop: str, root: Path) -> dict:
     _, rejected = validate_file("ba", bad, index, rights["agents"])
 
     first_table = ""
-    sql = out / "standins" / "cust_hub.sql"
+    sql = next((out / "standins" / n for n in ("risk_reg.sql", "ledger_one.sql", "cust_hub.sql")
+                if (out / "standins" / n).exists()), out / "standins" / "none.sql")
     if sql.exists():
         txt = sql.read_text().split("\n\n")
         first_table = "\n\n".join(txt[:2])
@@ -54,7 +54,9 @@ def build(loop: str, root: Path) -> dict:
         "organisation": index.get("organisation"),
         "files": [{"path": p, "provenance": s["provenance"], "doc_type": s.get("doc_type"), "date": s.get("date"),
                    "stale": s["stale"], "age": s.get("age_years"), "lines": len(s["lines"]),
-                   "hint": s.get("system_hint"), "notes": s.get("notes")} for p, s in index["sources"].items()],
+                   "hint": s.get("system_hint"), "notes": s.get("notes"), "carried": bool(s.get("carried_from"))}
+                  for p, s in index["sources"].items()],
+        "changes": read_json(out / "changes.json") if (out / "changes.json").exists() else None,
         "trace": trace,
         "grades": {g: sum(1 for e in els if e["grade"] == g) for g in "ABCDX"},
         "kinds": dict(by_kind),
@@ -74,6 +76,16 @@ def build(loop: str, root: Path) -> dict:
         "rejections": [{"name": r["name"], "problem": r["problems"][0]} for r in rejected],
         "standin": first_table,
         "outputs": sorted(str(p.relative_to(out)) for p in out.rglob("*") if p.is_file()),
+    }
+
+
+def build(loops: list[str], root: Path) -> dict:
+    rights = load_config("decision_rights.yaml")
+    grades = load_config("evidence_grades.yaml")
+    playbook = load_config("playbook.yaml")
+    return {
+        "order": loops,
+        "loops": {l: build_loop(l, root) for l in loops},
         "agents": rights["agents"],
         "approvals": rights["approvals"],
         "grade_text": grades["grades"],
@@ -83,11 +95,13 @@ def build(loop: str, root: Path) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--loop", default="loop-01")
+    ap.add_argument("--loops", nargs="+", default=None, help="loops to include (default: every loop with outputs)")
     ap.add_argument("--root", default=str(KIT / "discovery"))
     ap.add_argument("--out", default=str(KIT / "docs" / "storyboard.html"))
     a = ap.parse_args()
-    data = build(a.loop, Path(a.root))
+    root = Path(a.root)
+    loops = a.loops or sorted(p.name for p in (root / "outputs").iterdir() if (p / "elements.json").exists())
+    data = build(loops, root)
     tpl = (KIT / "docs" / "storyboard.template.html").read_text(encoding="utf-8")
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     Path(a.out).write_text(tpl.replace("__DATA__", payload), encoding="utf-8")

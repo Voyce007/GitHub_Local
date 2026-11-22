@@ -4,9 +4,9 @@ CUSTOMER,CUST_TYPE,CHAR(3),N,,Customer type,IND=Individual|BUS=Business
 CUSTOMER,FULL_NAME,VARCHAR(200),N,,Customer full name,
 CUSTOMER,DATE_OF_BIRTH,DATE,Y,,Date of birth (individuals only),
 CUSTOMER,EMAIL_ADDR,VARCHAR(254),Y,,Primary email address,
-CUSTOMER,KYC_STATUS,CHAR(3),N,,KYC status,PEN=Pending|PAS=Passed|FAI=Failed|REF=Referred
+CUSTOMER,CREDIT_STATUS,CHAR(3),N,,Credit status,PEN=Pending|APP=Approved|DEC=Declined|REF=Referred
 CUSTOMER,CREATED_TS,TIMESTAMP,N,,Record created,
 CUSTOMER_ADDRESS,CUSTOMER_NO,CHAR(10),N,FK:CUSTOMER.CUSTOMER_NO,Customer Number,
-CUSTOMER_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,HOM=Home|COR=Correspondence
+CUSTOMER_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,BIL=Billing|DEL=Delivery
 CUSTOMER_ADDRESS,LINE_1,VARCHAR(100),N,,Address line 1,
 CUSTOMER_ADDRESS,POSTCODE,VARCHAR(10),N,,Postcode,

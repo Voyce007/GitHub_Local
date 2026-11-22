@@ -1,8 +1,8 @@
 flowchart LR
-  MB["Mobile Banking"] -->|PAY-01 payment instruction| PR["PayRail (Payments Platform)"]
-  WB["Web Banking"] -->|application| ONB["ONB"]
-  ONB -->|new application| CH["CustHub (Customer Hub)"]
-  CH -->|CUST-ACC-01| CL["CoreLedger (Account Platform)"]
-  PR -->|PaymentCompleted| CL
-  CL -->|MI-01 nightly| DM["DataMart (MI warehouse)"]
+  WS["Web Shop"] -->|ORD-01 order request| OF["OrderFlow (OMS)"]
+  PP["Partner Portal"] -->|registration| CH["CustHub (Customer Hub)"]
+  CH -->|CUST-FIN-01| LO["LedgerOne (ERP)"]
+  OF -->|OrderFulfilled| LO
+  LO -->|MI-01 nightly| DM["DataMart (MI warehouse)"]
   CH -->|MI-02 nightly| DM
+  RR["RiskReg (GRC platform)"] -->|RISK-01 weekly| DM

@@ -13,12 +13,24 @@ provenance_ceiling:
   spreadsheet: B
   diagram: B
   example-code: B
+  sme-answer: B          # a recorded answer from the named decider; resolves contradictions, cannot reach A
   real-code: A
   schema: A
   data-sample: A
 
 # Independence: sources are counted per distinct file. Stale files (older than the
 # manifest's staleness_years) do not count towards grade B.
+
+# Resolving contradictions in later loops. When sources disagree, the variant backed by
+# the highest-authority source wins, but only at authority 2 or above and only if exactly
+# one variant has that authority. The losing variants are kept as "superseded" for audit,
+# and files that only supported a superseded variant stop counting towards the grade.
+authority:
+  sme-answer: 3          # the person the decision-rights table names
+  schema: 2
+  real-code: 2
+  data-sample: 2
+  # everything else: 1 (cannot resolve a contradiction on its own)
 
 # Gate rules
 gates:

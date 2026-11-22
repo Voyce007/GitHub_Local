@@ -5,7 +5,9 @@ This folder is a self-contained kit. Copy it to the root of any repository
 `.claude/agents/` and the `ontology-discovery-loop` skill.
 
 It implements **document-led reverse engineering** for the *Enterprise
-Ontology Design & Delivery Playbook*. The source systems are not known
+Ontology Design & Delivery Playbook*. It is industry-agnostic: the reference
+core is Party, Customer, Product, Order and Invoice, plus the group functions
+Finance (Legal Entity, Cost Centre) and Risk (Risk, Control). The source systems are not known
 up front; the evidence is documentation extracts and example code. Each loop
 turns one evidence batch into:
 - an evidence-graded as-is ontology
@@ -13,9 +15,13 @@ turns one evidence batch into:
 - an unknowns register
 - stand-in schemas for a proof of concept.
 
+Loops iterate. Loop n+1 carries loop n's evidence forward, adds the answers and
+new code context, resolves contradictions by authority, and publishes a change
+register against loop n.
+
 ## Start here
 - To run a loop, follow `.claude/skills/ontology-discovery-loop/SKILL.md`.
-- For a demo with no LLM, run `python -m ontokit simulate`.
+- For a demo with no LLM, run `python -m ontokit simulate --loop loop-01`, then `--loop loop-02`.
 - Tests: `python -m unittest discover -s tests`. Requires Python 3.10+ and PyYAML (`pip install -r requirements.txt`).
 
 ## Non-negotiable rules
@@ -33,9 +39,9 @@ turns one evidence batch into:
 | `.claude/agents/` | BA, EA, DA, Engineering, Ontology Steward and Conformance subagents |
 | `.claude/skills/ontology-discovery-loop/` | The orchestration procedure |
 | `ontokit/` | Deterministic pipeline: ingest, validate, reconcile, grade, reference check, unknowns, gates, approvals, publish (plus rule-based stand-in agents for simulation) |
-| `discovery/inputs/<loop>/` | Evidence batches (sample `loop-01` is fictional) |
+| `discovery/inputs/<loop>/` | Evidence batches. The fictional samples are `loop-01` (documents and example code) and `loop-02` (SME answers and a schema export, carrying loop-01 forward). |
 | `discovery/work/<loop>/` | Intermediate state (proposals, model, approvals) |
-| `discovery/outputs/<loop>/` | Deliverables |
+| `discovery/outputs/<loop>/` | Deliverables, plus `change-register.md` from loop 2 onwards |
 
 ## Changing the playbook
 Edit `config/*.yaml`, not the code. New gate criteria need a check function

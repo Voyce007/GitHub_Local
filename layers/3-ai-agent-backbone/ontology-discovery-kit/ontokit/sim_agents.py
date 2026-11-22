@@ -52,7 +52,7 @@ def _csv_rows(src: dict):
         yield i, lines[i - 1], row
 
 
-PROSE = ("document", "wiki")
+PROSE = ("document", "wiki", "sme-answer")
 
 # ---------------------------------------------------------------- EA agent
 
@@ -60,9 +60,12 @@ SYS_PAREN = re.compile(r"\b([A-Z][a-z]+(?:[A-Z][a-z]+)+|[A-Z]{2,})\s*\(([^)]*)\)
 CHANNELS = re.compile(r"\bChannel \(([^)]+)\)")
 REFERRED = re.compile(r"[Tt]he ([\w ]+?) is referred to as ([A-Z]{2,})")
 ROLE_PATTERNS = [
-    (re.compile(r"holds the (\w+) record"), lambda m: f"system of record (candidate): {m.group(1).capitalize()}"),
-    (re.compile(r"opens and maintains (\w+?)s?\b[.]"), lambda m: f"system of record (candidate): {m.group(1).capitalize()}"),
+    (re.compile(r"holds the (\w+) (?:record|register)"), lambda m: f"system of record (candidate): {m.group(1).capitalize()}"),
+    (re.compile(r"raises (\w+?)s?\b"), lambda m: f"system of record (candidate): {m.group(1).capitalize()}"),
+    (re.compile(r"maintains the ([\w ]+?)[.]"), lambda m: f"system of record (candidate): {m.group(1)}"),
     (re.compile(r"processes all ([\w ]+?)[.]"), lambda m: f"processing: {m.group(1)}"),
+    (re.compile(r"captures and fulfils ([\w ]+?)[.]"), lambda m: f"processing: {m.group(1)}"),
+    (re.compile(r"calculates ([\w ]+?)[.]"), lambda m: f"calculation: {m.group(1)}"),
 ]
 MERMAID_NODE = re.compile(r'(\w+)\["([^"]+)"\]')
 MERMAID_EDGE = re.compile(r'^\s*(\w+)(?:\["[^"]*"\])?\s*-->\|([^|]+)\|\s*(\w+)')
@@ -136,7 +139,7 @@ def ea_agent(index: dict) -> list[dict]:
         caller = src.get("system_hint")
         for n, line in enumerate(src["lines"], 1):
             if m := CONFIG_SYS.match(line):
-                roles = ["database: DB2"] if "db2" in line.lower() else []
+                roles = [f"database: {db.group(1)}"] if (db := re.search(r"jdbc:(\w+)", line)) else []
                 add_system(m.group(1), rel, n, line, "reference", roles=roles)
                 if caller:
                     props.append(_prop("flow", f"{caller} → {m.group(1)}", rel, n, line, "reference",
@@ -205,7 +208,7 @@ def ba_agent(index: dict) -> list[dict]:
 ISSUED_PROSE = re.compile(r"(?:The )?([A-Z][A-Za-z]+(?: [A-Z][A-Za-z]+)*) is issued by ([A-Z][A-Za-z]+)")
 ISSUED_GLOSS = re.compile(r"^- \*\*(.+?)\*\*:.*?\bissued by ([A-Z][A-Za-z]+)")
 SQL_TABLE = re.compile(r"CREATE TABLE (\w+)", re.I)
-SQL_COL = re.compile(r"^\s+(\w+)\s+([A-Z]+(?:\(\d+\))?)(.*?),?\s*$")
+SQL_COL = re.compile(r"^\s+(\w+)\s+([A-Z]+(?:\(\d+(?:,\s*\d+)?\))?)(.*?),?\s*$")
 SQL_PK = re.compile(r"^\s*PRIMARY KEY \(([^)]+)\)", re.I)
 SQL_REF = re.compile(r"REFERENCES (\w+)\((\w+)\)", re.I)
 JAVA_CLASS = re.compile(r"public class (\w+)")
@@ -244,6 +247,8 @@ def da_agent(index: dict) -> list[dict]:
                 tgt = pascal(fk.group(1))
                 props.append(_prop("relationship", f"{ent} → {tgt}", rel, n, raw, "structure",
                                    **{"from": ent, "to": tgt, "via": attr, "cardinality": "many-to-one"}))
+            elif not row["key"]:
+                pending_refs.append(("column", ent, attr, rel, n, raw))
             if row.get("codes"):
                 codes = dict(c.split("=", 1) for c in row["codes"].split("|"))
                 props.append(_prop("taxonomy", tax, rel, n, raw, "value-list",

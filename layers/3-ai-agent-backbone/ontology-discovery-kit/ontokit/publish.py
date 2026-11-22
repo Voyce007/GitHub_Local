@@ -1,4 +1,4 @@
-"""Stage J — Publish the loop's deliverables to discovery/outputs/<loop>/.
+"""Stage K — Publish the loop's deliverables to discovery/outputs/<loop>/.
 
 as-is-ontology.yaml   LinkML-flavoured model (classes, attributes, enums) with grade/evidence annotations
 elements.json         every element with grade, status, evidence ids
@@ -50,6 +50,33 @@ def publish(paths: LoopPaths, trace: Trace) -> None:
         by_kind[e["kind"]].append(e)
 
     write_json(out / "elements.json", els)
+    write_json(out / "unknowns.json", unknowns)
+    changes = read_json(paths.work / "changes.json") if (paths.work / "changes.json").exists() else None
+    (out / "change-register.md").unlink(missing_ok=True)
+    if changes:
+        write_json(out / "changes.json", changes)
+        s_ = changes["summary"]
+        cr = [f"# Change register — {changes['from_loop']} → {changes['to_loop']}", "",
+              "Playbook phase 10: every change since the previous baseline, for the approvers to review.", "",
+              f"- Graded up: {s_['graded_up']} · graded down: {s_['graded_down']} · added: {s_['added']} · removed: {s_['removed']}",
+              f"- Contradictions resolved: {s_['contradictions_resolved']}",
+              f"- Unknowns closed: {s_['unknowns_closed']} · new: {s_['unknowns_opened']} · still open: {s_['unknowns_still_open']}", "",
+              "## Contradictions resolved", "", "| ID | Element | Property | Now | Decided by | Superseded |", "|---|---|---|---|---|---|"]
+        for r in changes["resolved"]:
+            for x in r["resolutions"]:
+                fmt = lambda v: ", ".join(v) if isinstance(v, list) else str(v)
+                cr.append(f"| {r['id']} | {r['kind']} {r['name']} | {x['property']} | {fmt(x['value'])} | "
+                          f"{', '.join(x['resolved_by'])} | {' / '.join(fmt(v) for v in x['superseded'])} |")
+        cr += ["", "## Grade changes", "", "| ID | Element | From | To | Why |", "|---|---|---|---|---|"]
+        for r in changes["regraded"]:
+            cr.append(f"| {r['id']} | {r['kind']} {r['name']} | {r['from']} | {r['to']} | {r['reason']} |")
+        cr += ["", "## Added", ""] + [f"- {e['id']} {e['kind']} {e['name']} ({e['grade']})" for e in changes["added"]] or ["- none"]
+        cr += ["", "## Removed", ""] + ([f"- {e['id']} {e['kind']} {e['name']}" for e in changes["removed"]] or ["- none"])
+        cr += ["", "## Unknowns closed", ""] + ([f"- {u['id']} ({changes['from_loop']}): {u['question']}" for u in changes["unknowns_closed"]] or ["- none"])
+        cr += ["", "## Unknowns opened", ""] + ([f"- {u['id']}: {u['question']}" for u in changes["unknowns_opened"]] or ["- none"])
+        (out / "change-register.md").write_text("\n".join(cr) + "\n", encoding="utf-8")
+    else:
+        (out / "changes.json").unlink(missing_ok=True)
 
     # Evidence register
     reg = {}
@@ -234,9 +261,13 @@ def publish(paths: LoopPaths, trace: Trace) -> None:
           f"- Grades: " + " · ".join(f"{g} {dist.get(g, 0)}" for g in "ABCDX"),
           f"- Contradictions: {sum(1 for e in els if e['conflicts'])}",
           f"- Unknowns: {len(unknowns)} ({sum(1 for u in unknowns if u['priority'] == 'high')} high priority)",
-          "- Gates: " + ", ".join(f"phase {g['phase']} {g['status']}" for g in gates), "",
+          "- Gates: " + ", ".join(f"phase {g['phase']} {g['status']}" for g in gates),
+          *([f"- Since {changes['from_loop']}: {changes['summary']['graded_up']} graded up, "
+             f"{changes['summary']['contradictions_resolved']} contradictions resolved, "
+             f"{changes['summary']['unknowns_closed']} unknowns closed (see change-register.md)"] if changes else []), "",
           "Outputs: as-is-ontology.yaml, system-inventory.md, glossary.md, unknowns-register.md, jira-issues.json, "
-          "gate-report.md, evidence-register.json, elements.json, standins/*.sql, trace.json"]
+          "gate-report.md, evidence-register.json, elements.json, unknowns.json, standins/*.sql, trace.json"
+          + (", change-register.md, changes.json" if changes else "")]
     (out / "summary.md").write_text("\n".join(sm) + "\n", encoding="utf-8")
-    trace.emit("J. Publish", "Publisher", "deliverables written", f"{len(list(out.rglob('*')))} files in outputs/{paths.loop}/",
+    trace.emit("K. Publish", "Publisher", "deliverables written", f"{len(list(out.rglob('*')))} files in outputs/{paths.loop}/",
                grades={g: dist.get(g, 0) for g in "ABCDX"})

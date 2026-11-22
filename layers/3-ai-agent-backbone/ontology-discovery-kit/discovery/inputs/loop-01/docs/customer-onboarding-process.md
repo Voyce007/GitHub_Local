@@ -1,33 +1,33 @@
 # Customer Onboarding — Process Description
 
-Version 3.1 · March 2022 · Operations Design
+Version 3.1 · March 2022 · Sales Operations
 
 ## Purpose
 
-Describes how a new customer is onboarded for a Current Account.
+Describes how a new customer is set up so that they can order products and be invoiced.
 
 ## Systems involved
 
 CustHub (also called Customer Hub or "the CRM") holds the customer record.
-CoreLedger (also called the Account Platform) opens and maintains accounts.
-The onboarding front end is referred to as ONB.
+LedgerOne (also called the ERP or "the GL") raises invoices and maintains the general ledger.
+OrderFlow (also called OMS) captures and fulfils customer orders.
 
 ## Process
 
-1. The applicant completes the application in a Channel (Mobile Banking or Web Banking).
-2. ONB passes the application to CustHub, which creates the customer record.
+1. The customer registers through a Channel (Web Shop or Partner Portal).
+2. CustHub creates the customer record and runs a credit check.
 3. The Customer Number is issued by CustHub when the record is created.
-4. CustHub sends the new customer to CoreLedger through the CUST-ACC-01 interface.
-5. CoreLedger opens the Current Account and links it to the customer.
+4. CustHub sends the new customer to LedgerOne through the CUST-FIN-01 interface.
+5. LedgerOne links the customer to the legal entity that will invoice them.
 
 ## Rules
 
-- A customer must pass KYC checks before an account can be opened.
-- Every account must have at least one account holder.
-- A customer cannot hold more than one Current Account of the same product variant.
+- A customer must pass a credit check before their first order is accepted.
+- Every invoice must be raised by exactly one legal entity.
+- A customer cannot be deleted while they have unpaid invoices.
 
 ## Classifications
 
 Customer type values: Individual, Business.
 
-KYC status values: Pending, Passed, Failed, Referred.
+Credit status values: Pending, Approved, Declined, Referred.

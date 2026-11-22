@@ -1,4 +1,4 @@
-"""End-to-end checks on the sample loop-01 batch. Run: python -m unittest discover -s tests"""
+"""End-to-end checks on the sample batches. Run: python -m unittest discover -s tests"""
 import json
 import shutil
 import tempfile
@@ -19,36 +19,60 @@ class LoopTests(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.tmp)
 
-    def _model(self):
-        return json.loads((self.tmp / "work/loop-01/model.json").read_text())
+    def _j(self, rel):
+        return json.loads((self.tmp / rel).read_text())
 
-    def test_simulation_finds_planted_issues(self):
+    def _els(self, loop):
+        return {(e["kind"], e["name"]): e for e in self._j(f"outputs/{loop}/elements.json")}
+
+    def test_loop1_finds_planted_issues(self):
         self.assertEqual(main(["simulate", "--root", self.root]), 0)
-        els = {(e["kind"], e["name"]): e for e in self._model()["elements"]}
-        # alias resolution
-        custhub = els[("system", "CustHub")]
-        self.assertTrue({"Customer Hub", "CRM", "CH"} <= set(custhub["aliases"]))
-        # the three planted contradictions
-        for key in [("taxonomy", "CustomerType"), ("taxonomy", "PaymentStatus"), ("identifier", "Customer Number")]:
+        els = self._els("loop-01")
+        self.assertTrue({"Customer Hub", "CRM", "CH"} <= set(els[("system", "CustHub")]["aliases"]))
+        self.assertTrue({"ERP", "GL"} <= set(els[("system", "LedgerOne")]["aliases"]))
+        for key in [("taxonomy", "CustomerType"), ("taxonomy", "OrderStatus"), ("identifier", "Customer Number")]:
             self.assertEqual(els[key]["grade"], "X", key)
-        # agreement across three sources
-        self.assertEqual(els[("taxonomy", "KycStatus")]["grade"], "B")
-        # unknown system found only in config
-        self.assertEqual(els[("system", "mandate-svc")]["grade"], "C")
-        # reference gaps are assumptions, never as-is
+        for key in [("taxonomy", "CreditStatus"), ("taxonomy", "RiskRating"), ("taxonomy", "ControlType")]:
+            self.assertEqual(els[key]["grade"], "B", key)
+        self.assertEqual(els[("system", "tax-engine")]["grade"], "C")
+        self.assertTrue(els[("entity", "CustomerEntity")]["properties"].get("link_entity"))
         self.assertEqual(els[("entity", "Person")]["origin"], "assumed")
-        self.assertEqual(els[("entity", "Person")]["grade"], "D")
-        # no grade A without real artefacts
         self.assertFalse(any(e["grade"] == "A" for e in els.values()))
-        unknowns = json.loads((self.tmp / "work/loop-01/unknowns.json").read_text())
-        qs = " ".join(u["question"] for u in unknowns)
-        self.assertIn("Account Holder", qs)
-        self.assertIn("mandate-svc", qs)
-        gates = json.loads((self.tmp / "work/loop-01/gates.json").read_text())
-        self.assertTrue(all(g["status"] == "provisional" for g in gates))
+        qs = " ".join(u["question"] for u in self._j("outputs/loop-01/unknowns.json"))
+        self.assertIn("'Account' a synonym of Customer", qs)
+        self.assertIn("tax-engine", qs)
+        self.assertNotIn("bank", qs.lower())
+        self.assertTrue(all(g["status"] == "provisional" for g in self._j("work/loop-01/gates.json")))
         for f in ["as-is-ontology.yaml", "system-inventory.md", "glossary.md", "unknowns-register.md",
                   "jira-issues.json", "gate-report.md", "standins/cust_hub.sql", "trace.json"]:
             self.assertTrue((self.tmp / "outputs/loop-01" / f).exists(), f)
+        self.assertFalse((self.tmp / "outputs/loop-01/change-register.md").exists())
+
+    def test_loop2_iterates_on_loop1(self):
+        main(["simulate", "--root", self.root, "--loop", "loop-01"])
+        before = self._els("loop-01")
+        self.assertEqual(main(["simulate", "--root", self.root, "--loop", "loop-02"]), 0)
+        after = self._els("loop-02")
+        # ids are stable across loops
+        for key in [("system", "CustHub"), ("taxonomy", "CustomerType"), ("entity", "Customer"), ("entity", "Person")]:
+            self.assertEqual(before[key]["id"], after[key]["id"], key)
+        # SME answers resolve contradictions; superseded variants are kept for audit
+        ct = after[("taxonomy", "CustomerType")]
+        self.assertEqual(ct["grade"], "B")
+        self.assertEqual(ct["properties"]["values"], ["INDIVIDUAL", "SOLE_TRADER", "COMPANY"])
+        self.assertEqual(ct["resolutions"][0]["superseded"][0]["value"], ["INDIVIDUAL", "BUSINESS"])
+        self.assertEqual(after[("identifier", "Customer Number")]["properties"]["issued_by"], "CustHub")
+        # the real schema export reaches grade A; documents alone still cannot
+        self.assertEqual(after[("entity", "Customer")]["grade"], "A")
+        self.assertNotEqual(after[("entity", "Invoice")]["grade"], "A")
+        # carried-forward files stay citable under their loop prefix
+        self.assertIn("loop-01/docs/order-to-cash-overview.md", self._j("work/loop-02/sources.json")["sources"])
+        ch = self._j("outputs/loop-02/changes.json")
+        self.assertEqual(ch["summary"]["contradictions_resolved"], 3)
+        self.assertGreater(ch["summary"]["graded_up"], 10)
+        self.assertEqual(ch["summary"]["graded_down"], 0)
+        self.assertGreaterEqual(ch["summary"]["unknowns_closed"], 3)
+        self.assertTrue((self.tmp / "outputs/loop-02/change-register.md").exists())
 
     def test_validator_rejects_bad_live_agent_output(self):
         main(["ingest", "--root", self.root])
@@ -65,7 +89,7 @@ class LoopTests(unittest.TestCase):
         ]
         ba.write_text(json.dumps(data))
         main(["validate", "--root", self.root])
-        rejected = json.loads((self.tmp / "work/loop-01/validated.json").read_text())["rejected"]
+        rejected = self._j("work/loop-01/validated.json")["rejected"]
         names = {r["name"]: r["problems"][0] for r in rejected}
         self.assertIn("quote not found", names["Invented"])
         self.assertIn("RACI write scope", names["OutOfScope"])
@@ -75,7 +99,6 @@ class LoopTests(unittest.TestCase):
         main(["ingest", "--root", self.root])
         main(["sim-agents", "--root", self.root])
         self.assertEqual(main(["run", "--root", self.root]), 0)
-        # `run` must not invent human decisions
         text = (self.tmp / "work/loop-01/approvals.yaml").read_text()
         self.assertIn("decision: pending", text)
         self.assertNotIn("simulated reviewer", text)

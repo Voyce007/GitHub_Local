@@ -1,0 +1,30 @@
+# Loop 2: answers to loop-1 questions plus the first real system artefact.
+# Earlier batches are carried forward by reference rather than copied. Their files are
+# cited as "<loop>/<path>" (for example "loop-01/docs/order-to-cash-overview.md").
+
+batch: loop-02
+received: 2026-12-15
+organisation: Example Group (fictional sample)
+description: >
+  SME answers to the high-priority loop-01 unknowns, and a structure-only
+  schema export from the CustHub production database.
+staleness_years: 5
+carry_forward: [loop-01]
+
+files:
+  - path: answers/sme-answers-2026-12-10.md
+    provenance: sme-answer
+    doc_type: sme-answers
+    date: 2026-12-10
+    author: Sales Operations lead; Group Financial Controller; Head of Enterprise Architecture
+    sensitivity: internal
+    notes: Notes from a working session, agreed by the attendees.
+
+  - path: schemas/custhub-schema-export.sql
+    provenance: schema
+    doc_type: ddl
+    date: 2026-12-01
+    author: CustHub DBA team
+    system_hint: CustHub
+    sensitivity: confidential
+    notes: Structure only. No data.

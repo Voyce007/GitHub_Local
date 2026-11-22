@@ -4,36 +4,37 @@ Hypothesis built from documents and example code. Every row needs confirmation.
 
 | ID | System | Aliases | Roles | Grade | Sources | Entities | Open unknowns |
 |---|---|---|---|---|---|---|---|
-| SYS-02 | **CoreLedger** | Account Platform, CL | system of record (candidate): Account; database: DB2; data-holding application (candidate) | B | 7 | Account, AccountHolder | U-02 |
-| SYS-01 | **CustHub** | Customer Hub, CRM, CH | system of record (candidate): Customer; data-holding application (candidate) | B | 6 | Customer, CustomerAddress, Address | U-03 |
+| SYS-01 | **CustHub** | Customer Hub, CRM, CH | system of record (candidate): Customer; data-holding application (candidate) | B | 6 | Customer, CustomerAddress, Address | U-02 |
 | SYS-07 | **DataMart** | MI warehouse, DM | reporting / analytics (candidate) | B | 3 | — | — |
-| SYS-08 | **mandate-svc** | — | — | C | 1 | — | U-10 |
-| SYS-04 | **Mobile Banking** | MB | channel | B | 4 | — | — |
-| SYS-03 | **ONB** | — | onboarding front end | B | 3 | — | — |
-| SYS-06 | **PayRail** | Payments Platform, PR | processing: outbound customer payments; data-holding application (candidate) | B | 5 | PaymentInstruction | U-04 |
-| SYS-05 | **Web Banking** | WB | channel | B | 2 | — | — |
+| SYS-02 | **LedgerOne** | ERP, GL, LO | system of record (candidate): Invoice; system of record (candidate): general ledger; database: postgresql; data-holding application (candidate) | B | 7 | LegalEntity, CostCentre, Account, Invoice, CustomerEntity | U-03 |
+| SYS-03 | **OrderFlow** | OMS, Order Management System, OF | processing: customer orders; data-holding application (candidate) | B | 6 | OrderRequest, OrderLine | U-04 |
+| SYS-05 | **Partner Portal** | PP | channel | B | 2 | — | — |
+| SYS-06 | **RiskReg** | GRC platform, RR | system of record (candidate): Risk; data-holding application (candidate) | B | 4 | Risk, Control | U-05 |
+| SYS-08 | **tax-engine** | — | — | C | 1 | — | U-12 |
+| SYS-04 | **Web Shop** | WS | channel | B | 4 | — | — |
 
 ## Data flows
 
 | From | To | Labels | Grade |
 |---|---|---|---|
-| Mobile Banking | PayRail | PAY-01 payment instruction | B |
-| Web Banking | ONB | application | C |
-| ONB | CustHub | new application | C |
-| CustHub | CoreLedger | CUST-ACC-01 | B |
-| PayRail | CoreLedger | PaymentCompleted | B |
-| CoreLedger | DataMart | MI-01 nightly | B |
+| Web Shop | OrderFlow | ORD-01 order request | B |
+| Partner Portal | CustHub | registration | C |
+| CustHub | LedgerOne | CUST-FIN-01 | B |
+| OrderFlow | LedgerOne | OrderFulfilled | B |
+| LedgerOne | DataMart | MI-01 nightly | B |
 | CustHub | DataMart | MI-02 nightly | B |
-| Mobile Banking | CustHub | runtime dependency (config) | C |
-| Mobile Banking | CoreLedger | runtime dependency (config) | C |
-| Mobile Banking | mandate-svc | runtime dependency (config) | C |
+| RiskReg | DataMart | RISK-01 weekly | B |
+| Web Shop | CustHub | runtime dependency (config) | C |
+| Web Shop | LedgerOne | runtime dependency (config) | C |
+| Web Shop | tax-engine | runtime dependency (config) | C |
 
 ## Interfaces
 
 | ID | Mechanism | Source → Target | Payload | Grade |
 |---|---|---|---|---|
-| CUST-ACC-01 | MQ message | CustHub → CoreLedger | Customer Number; customer type; name | B |
-| PAY-01 | REST API | Mobile Banking → PayRail | Payment instruction | B |
-| PAY-EVT-02 | Event | PayRail → CoreLedger | PaymentCompleted | C |
-| MI-01 | File (CSV) | CoreLedger → DataMart | Accounts; balances | B |
+| CUST-FIN-01 | MQ message | CustHub → LedgerOne | Customer Number; customer type; name | B |
+| ORD-01 | REST API | Web Shop → OrderFlow | Order request | B |
+| ORD-EVT-02 | Event | OrderFlow → LedgerOne | OrderFulfilled | C |
+| MI-01 | File (CSV) | LedgerOne → DataMart | Invoices; GL balances | B |
 | MI-02 | File (CSV) | CustHub → DataMart | Customers | B |
+| RISK-01 | File (CSV) | RiskReg → DataMart | Risks; controls | B |

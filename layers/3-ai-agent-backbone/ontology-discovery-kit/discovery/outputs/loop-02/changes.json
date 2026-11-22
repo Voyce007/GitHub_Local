@@ -1,0 +1,320 @@
+{
+  "from_loop": "loop-01",
+  "to_loop": "loop-02",
+  "added": [
+    {
+      "id": "ATT-45",
+      "kind": "attribute",
+      "name": "Customer.updatedTimestamp",
+      "grade": "A"
+    },
+    {
+      "id": "ATT-46",
+      "kind": "attribute",
+      "name": "CustomerAddress.line2",
+      "grade": "A"
+    },
+    {
+      "id": "ATT-47",
+      "kind": "attribute",
+      "name": "CustomerAddress.countryCode",
+      "grade": "A"
+    }
+  ],
+  "removed": [],
+  "regraded": [
+    {
+      "id": "ATT-07",
+      "kind": "attribute",
+      "name": "Customer.createdTimestamp",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-06",
+      "kind": "attribute",
+      "name": "Customer.creditStatus",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-01",
+      "kind": "attribute",
+      "name": "Customer.customerNumber",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-02",
+      "kind": "attribute",
+      "name": "Customer.customerType",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-04",
+      "kind": "attribute",
+      "name": "Customer.dateOfBirth",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-05",
+      "kind": "attribute",
+      "name": "Customer.emailAddress",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-03",
+      "kind": "attribute",
+      "name": "Customer.fullName",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-09",
+      "kind": "attribute",
+      "name": "CustomerAddress.addressType",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-08",
+      "kind": "attribute",
+      "name": "CustomerAddress.customerNumber",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-10",
+      "kind": "attribute",
+      "name": "CustomerAddress.line1",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-11",
+      "kind": "attribute",
+      "name": "CustomerAddress.postcode",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ENT-01",
+      "kind": "entity",
+      "name": "Customer",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ENT-02",
+      "kind": "entity",
+      "name": "CustomerAddress",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "IDN-01",
+      "kind": "identifier",
+      "name": "Customer Number",
+      "grade": "A",
+      "from": "X",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "REL-01",
+      "kind": "relationship",
+      "name": "CustomerAddress → Customer",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "SYS-01",
+      "kind": "system",
+      "name": "CustHub",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "SYS-08",
+      "kind": "system",
+      "name": "TaxEngine",
+      "grade": "B",
+      "from": "C",
+      "to": "B",
+      "direction": "up",
+      "reason": "2 independent current sources"
+    },
+    {
+      "id": "TAX-01",
+      "kind": "taxonomy",
+      "name": "CustomerType",
+      "grade": "B",
+      "from": "X",
+      "to": "B",
+      "direction": "up",
+      "reason": "2 independent current sources (contradiction resolved by answers/sme-answers-2026-12-10.md)"
+    },
+    {
+      "id": "TAX-03",
+      "kind": "taxonomy",
+      "name": "OrderStatus",
+      "grade": "B",
+      "from": "X",
+      "to": "B",
+      "direction": "up",
+      "reason": "2 independent current sources (contradiction resolved by answers/sme-answers-2026-12-10.md)"
+    }
+  ],
+  "resolved": [
+    {
+      "id": "TAX-01",
+      "kind": "taxonomy",
+      "name": "CustomerType",
+      "grade": "B",
+      "resolutions": [
+        {
+          "property": "values",
+          "value": [
+            "INDIVIDUAL",
+            "SOLE_TRADER",
+            "COMPANY"
+          ],
+          "resolved_by": [
+            "answers/sme-answers-2026-12-10.md"
+          ],
+          "superseded": [
+            [
+              "INDIVIDUAL",
+              "BUSINESS"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TAX-03",
+      "kind": "taxonomy",
+      "name": "OrderStatus",
+      "grade": "B",
+      "resolutions": [
+        {
+          "property": "values",
+          "value": [
+            "DRAFT",
+            "SUBMITTED",
+            "CONFIRMED",
+            "FULFILLED",
+            "CANCELLED"
+          ],
+          "resolved_by": [
+            "answers/sme-answers-2026-12-10.md"
+          ],
+          "superseded": [
+            [
+              "OPEN",
+              "FULFILLED",
+              "CANCELLED"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "IDN-01",
+      "kind": "identifier",
+      "name": "Customer Number",
+      "grade": "A",
+      "resolutions": [
+        {
+          "property": "issued_by",
+          "value": "CustHub",
+          "resolved_by": [
+            "answers/sme-answers-2026-12-10.md"
+          ],
+          "superseded": [
+            "LedgerOne"
+          ]
+        }
+      ]
+    }
+  ],
+  "unknowns_closed": [
+    {
+      "id": "U-06",
+      "question": "Sources disagree on the issued by of identifier 'Customer Number'. Which is correct today?"
+    },
+    {
+      "id": "U-07",
+      "question": "Sources disagree on the values of taxonomy 'CustomerType'. Which is correct today?"
+    },
+    {
+      "id": "U-08",
+      "question": "Sources disagree on the values of taxonomy 'OrderStatus'. Which is correct today?"
+    },
+    {
+      "id": "U-12",
+      "question": "What is 'tax-engine', who owns it, and does it master any data?"
+    }
+  ],
+  "unknowns_opened": [],
+  "unknowns_still_open": 16,
+  "summary": {
+    "added": 3,
+    "removed": 0,
+    "graded_up": 19,
+    "graded_down": 0,
+    "contradictions_resolved": 3,
+    "unknowns_closed": 4,
+    "unknowns_opened": 0,
+    "unknowns_still_open": 16
+  }
+}

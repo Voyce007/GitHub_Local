@@ -1,22 +1,28 @@
-# Subset of the playbook's product & platform reference ontology (section 6).
+# Industry-agnostic subset of the playbook's reference ontology (section 6),
+# covering what almost every company has: parties and customers, products and
+# orders, and the group functions Finance and Risk.
 # Used only as a PRIOR: anything taken from here and not found in the evidence
 # is added at grade D with origin "assumed", and raises an unknown.
 
 entities:
-  - {name: Party,          domain: Party}
-  - {name: Person,         domain: Party}
-  - {name: Organisation,   domain: Party}
-  - {name: Customer,       domain: Party}
-  - {name: Product,        domain: Product}
-  - {name: Product Variant, domain: Product}
-  - {name: Account,        domain: Commercial}
-  - {name: Subscription,   domain: Commercial}
-  - {name: Payment,        domain: Transaction}
-  - {name: Channel,        domain: Channel}
+  - {name: Party,        domain: Party}
+  - {name: Person,       domain: Party}
+  - {name: Organisation, domain: Party}
+  - {name: Customer,     domain: Party}
+  - {name: Product,      domain: Product}
+  - {name: Order,        domain: Commercial}
+  - {name: Invoice,      domain: Commercial}
+  - {name: Channel,      domain: Channel}
+  - {name: Legal Entity, domain: Finance}
+  - {name: Cost Centre,  domain: Finance}
+  - {name: Risk,         domain: Risk}
+  - {name: Control,      domain: Risk}
 
 relationships:
-  - {from: Customer, verb: holds,           to: Account}
-  - {from: Customer, verb: subscribes to,   to: Product}
-  - {from: Payment,  verb: debits,          to: Account}
-  - {from: Product Variant, verb: is a variant of, to: Product}
-  - {from: Product,  verb: is accessed through, to: Channel}
+  - {from: Customer, verb: places,            to: Order}
+  - {from: Order,    verb: contains,          to: Product}
+  - {from: Invoice,  verb: is issued to,      to: Customer}
+  - {from: Invoice,  verb: is issued by,      to: Legal Entity}
+  - {from: Customer, verb: trades with,       to: Legal Entity}
+  - {from: Risk,     verb: is owned by,       to: Cost Centre}
+  - {from: Control,  verb: mitigates,         to: Risk}

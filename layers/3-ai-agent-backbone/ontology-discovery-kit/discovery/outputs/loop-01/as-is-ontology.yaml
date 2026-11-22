@@ -14,16 +14,16 @@ classes:
       grade: B
       status: approved (provisional) — simulated
       origin: inferred
-      evidence: E-053,E-054
+      evidence: E-067,E-068
       system: CustHub
-    description: A party that holds or has applied for a product with the bank.
+    description: A party that buys, or has applied to buy, products or services from a group company.
     attributes:
       customerNumber:
         annotations:
           grade: B
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-053,E-055
+          evidence: E-067,E-069
         description: Customer Number
         identifier: true
       customerType:
@@ -31,7 +31,7 @@ classes:
           grade: B
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-035,E-058
+          evidence: E-037,E-074
         description: Customer type
         range: CustomerType
       fullName:
@@ -39,36 +39,36 @@ classes:
           grade: B
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-059,E-060
+          evidence: E-075,E-076
         description: Customer full name
       dateOfBirth:
         annotations:
           grade: B
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-061,E-062
+          evidence: E-077,E-078
         description: Date of birth (individuals only)
       emailAddress:
         annotations:
           grade: B
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-063,E-064
+          evidence: E-079,E-080
         description: Primary email address
-      kycStatus:
+      creditStatus:
         annotations:
           grade: B
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-038,E-065
-        description: KYC status
-        range: KycStatus
+          evidence: E-040,E-081
+        description: Credit status
+        range: CreditStatus
       createdTimestamp:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-066
+          evidence: E-082
         description: Record created
       addresss:
         range: Address
@@ -76,23 +76,23 @@ classes:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-082
+          evidence: E-116
           cardinality: one-to-many
-      accounts:
-        range: Account
+      legalEntitys:
+        range: LegalEntity
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-057
+          evidence: E-072
           cardinality: many-to-many
   CustomerAddress:
     annotations:
       grade: C
       status: approved (provisional) — simulated
       origin: inferred
-      evidence: E-067
-      open_unknowns: U-08
+      evidence: E-083
+      open_unknowns: U-09
       system: CustHub
     attributes:
       customerNumber:
@@ -100,14 +100,14 @@ classes:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-067
+          evidence: E-083
         description: Customer Number
       addressType:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-068
+          evidence: E-084
         description: Address type
         range: AddressType
       line1:
@@ -115,14 +115,14 @@ classes:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-069
+          evidence: E-085
         description: Address line 1
       postcode:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-070
+          evidence: E-086
         description: Postcode
       customer:
         range: Customer
@@ -130,88 +130,275 @@ classes:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-067
+          evidence: E-083
+          cardinality: many-to-one
+  Risk:
+    annotations:
+      grade: C
+      status: approved (provisional) — simulated
+      origin: inferred
+      evidence: E-087
+      system: RiskReg
+    description: An uncertain event that could affect the group's objectives.
+    attributes:
+      riskId:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-087
+        description: Risk Id
+        identifier: true
+      title:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-088
+        description: Risk title
+      rating:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-050
+        description: Risk rating
+        range: RiskRating
+      costCentreCode:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-089
+        description: Owning cost centre
+      legalEntityCode:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-090
+        description: Legal entity affected
+      reviewDate:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-091
+        description: Next review date
+      costCentre:
+        range: CostCentre
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-089
+          cardinality: many-to-one
+      legalEntity:
+        range: LegalEntity
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-090
+          cardinality: many-to-one
+  Control:
+    annotations:
+      grade: C
+      status: approved (provisional) — simulated
+      origin: inferred
+      evidence: E-092
+      system: RiskReg
+    description: An activity that reduces the likelihood or impact of a risk.
+    attributes:
+      controlId:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-092
+        description: Control Id
+        identifier: true
+      riskId:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-093
+        description: Risk Id
+      controlType:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-052
+        description: Control type
+        range: ControlType
+      lastTested:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-094
+        description: Date control last tested
+      risk:
+        range: Risk
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-093
+          cardinality: many-to-one
+  LegalEntity:
+    annotations:
+      grade: C
+      status: approved (provisional) — simulated
+      origin: inferred
+      evidence: E-095
+      system: LedgerOne
+    description: A registered company within the group that can trade and raise invoices.
+    attributes:
+      legalEntityCode:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-096
+        identifier: true
+      registeredName:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-097
+      countryCode:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-098
+      functionalCurrency:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-099
+  CostCentre:
+    annotations:
+      grade: C
+      status: approved (provisional) — simulated
+      origin: inferred
+      evidence: E-100
+      system: LedgerOne
+    description: A unit of the organisation to which costs are assigned for management reporting.
+    attributes:
+      costCentreCode:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-101
+        identifier: true
+      name:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-102
+      legalEntityCode:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-103
+      legalEntity:
+        range: LegalEntity
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-103
           cardinality: many-to-one
   Account:
     annotations:
       grade: C
       status: approved (provisional) — simulated
       origin: inferred
-      evidence: E-071
-      system: CoreLedger
-    description: A record of balances and transactions held for one or more customers in CoreLedger.
+      evidence: E-104
+      open_unknowns: U-01
+      system: LedgerOne
     attributes:
-      accountNumber:
+      accountCode:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-072
+          evidence: E-105
         identifier: true
-      sortCode:
+      accountName:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-074
-      productCode:
+          evidence: E-106
+      accountType:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-075
-      currency:
-        annotations:
-          grade: C
-          status: approved (provisional) — simulated
-          origin: inferred
-          evidence: E-076
-      status:
-        annotations:
-          grade: C
-          status: approved (provisional) — simulated
-          origin: inferred
-          evidence: E-077
-      openedDate:
-        annotations:
-          grade: C
-          status: approved (provisional) — simulated
-          origin: inferred
-          evidence: E-078
-  AccountHolder:
+          evidence: E-107
+  Invoice:
     annotations:
       grade: C
       status: approved (provisional) — simulated
       origin: inferred
-      evidence: E-079
-      open_unknowns: U-01
-      system: CoreLedger
+      evidence: E-108
+      system: LedgerOne
+    description: A request for payment issued by a legal entity to a customer.
     attributes:
-      accountNumber:
+      invoiceNumber:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-080
+          evidence: E-109
+        identifier: true
       customerNumber:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-056
-      holderRole:
+          evidence: E-070
+      legalEntityCode:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-081
-      account:
-        range: Account
+          evidence: E-110
+      invoiceDate:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-080,E-057
+          evidence: E-111
+      totalAmount:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-112
+      currency:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-113
+      legalEntity:
+        range: LegalEntity
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-110
           cardinality: many-to-one
       customer:
         range: Customer
@@ -219,72 +406,124 @@ classes:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-056,E-057
+          evidence: E-070
+          cardinality: many-to-one
+  CustomerEntity:
+    annotations:
+      grade: C
+      status: approved (provisional) — simulated
+      origin: inferred
+      evidence: E-114
+      system: LedgerOne
+    attributes:
+      customerNumber:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-071
+      legalEntityCode:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-115
+      legalEntity:
+        range: LegalEntity
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-115,E-072
+          cardinality: many-to-one
+      customer:
+        range: Customer
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-071,E-072
           cardinality: many-to-one
   Address:
     annotations:
       grade: C
       status: approved (provisional) — simulated
       origin: inferred
-      evidence: E-082
-      open_unknowns: U-08
+      evidence: E-116
+      open_unknowns: U-09
       system: CustHub
-  PaymentInstruction:
+  OrderRequest:
     annotations:
       grade: C
       status: approved (provisional) — simulated
       origin: inferred
-      evidence: E-083
-      open_unknowns: U-09
-      system: PayRail
+      evidence: E-117
+      open_unknowns: U-10
+      system: OrderFlow
     attributes:
-      paymentId:
+      orderId:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-084
+          evidence: E-118
         identifier: true
-      debitAccountNumber:
+      customerNumber:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
           evidence: E-073
-      amount:
-        annotations:
-          grade: C
-          status: approved (provisional) — simulated
-          origin: inferred
-          evidence: E-085
       currency:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-086
+          evidence: E-119
+      totalAmount:
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-120
       status:
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
-          evidence: E-087
-        range: PaymentStatus
-      account:
-        range: Account
+          evidence: E-121
+        range: OrderStatus
+      orderLines:
+        range: OrderLine
+        annotations:
+          grade: C
+          status: approved (provisional) — simulated
+          origin: inferred
+          evidence: E-122
+          cardinality: one-to-many
+      customer:
+        range: Customer
         annotations:
           grade: C
           status: approved (provisional) — simulated
           origin: inferred
           evidence: E-073
           cardinality: many-to-one
+  OrderLine:
+    annotations:
+      grade: C
+      status: approved (provisional) — simulated
+      origin: inferred
+      evidence: E-122
+      open_unknowns: U-11
+      system: OrderFlow
   Person:
     annotations:
       grade: D
       status: assumption (noted) — simulated
       origin: assumed
       evidence: none
-      open_unknowns: U-19
+      open_unknowns: U-20
       reference_domain: Party
   Organisation:
     annotations:
@@ -292,31 +531,15 @@ classes:
       status: assumption (noted) — simulated
       origin: assumed
       evidence: none
-      open_unknowns: U-17
+      open_unknowns: U-19
       reference_domain: Party
-  Product:
-    annotations:
-      grade: D
-      status: assumption (noted) — simulated
-      origin: assumed
-      evidence: none
-      open_unknowns: U-22
-      reference_domain: Product
-  Subscription:
-    annotations:
-      grade: D
-      status: assumption (noted) — simulated
-      origin: assumed
-      evidence: none
-      open_unknowns: U-23
-      reference_domain: Commercial
   Channel:
     annotations:
       grade: D
       status: assumption (noted) — simulated
       origin: assumed
       evidence: none
-      open_unknowns: U-15
+      open_unknowns: U-16
       reference_domain: Channel
 enums:
   CustomerType:
@@ -338,54 +561,75 @@ enums:
       grade: X
       status: deferred — simulated
       origin: inferred
-      evidence: E-034,E-035,E-036
-      open_unknowns: U-06
-  KycStatus:
+      evidence: E-036,E-037,E-038
+      open_unknowns: U-07
+  CreditStatus:
     description: 'Grade B: 3 independent current sources'
     permissible_values:
       PENDING: {}
-      PASSED: {}
-      FAILED: {}
+      APPROVED: {}
+      DECLINED: {}
       REFERRED: {}
     annotations:
       grade: B
       status: approved (provisional) — simulated
       origin: inferred
-      evidence: E-037,E-038,E-039
-  PaymentStatus:
+      evidence: E-039,E-040,E-041
+  OrderStatus:
     description: 'Grade X: sources contradict on values'
     permissible_values:
-      PENDING:
+      OPEN:
         annotations:
-          seen_in: code-examples/PaymentStatus.java,docs/payments-overview.md
-      COMPLETED:
+          seen_in: docs/order-to-cash-overview.md
+      FULFILLED:
         annotations:
-          seen_in: code-examples/PaymentStatus.java,docs/payments-overview.md
-      FAILED:
-        annotations:
-          seen_in: code-examples/PaymentStatus.java,docs/payments-overview.md
+          seen_in: code-examples/OrderStatus.java,docs/order-to-cash-overview.md
       CANCELLED:
         annotations:
-          seen_in: code-examples/PaymentStatus.java,docs/payments-overview.md
-      RECEIVED:
+          seen_in: code-examples/OrderStatus.java,docs/order-to-cash-overview.md
+      DRAFT:
         annotations:
-          seen_in: code-examples/PaymentStatus.java
-      VALIDATED:
+          seen_in: code-examples/OrderStatus.java
+      SUBMITTED:
         annotations:
-          seen_in: code-examples/PaymentStatus.java
+          seen_in: code-examples/OrderStatus.java
+      CONFIRMED:
+        annotations:
+          seen_in: code-examples/OrderStatus.java
     annotations:
       grade: X
       status: deferred — simulated
       origin: inferred
-      evidence: E-040,E-041
-      open_unknowns: U-07
+      evidence: E-042,E-043
+      open_unknowns: U-08
+  RiskRating:
+    description: 'Grade B: 2 independent current sources'
+    permissible_values:
+      LOW: {}
+      MEDIUM: {}
+      HIGH: {}
+    annotations:
+      grade: B
+      status: approved (provisional) — simulated
+      origin: inferred
+      evidence: E-049,E-050
+  ControlType:
+    description: 'Grade B: 2 independent current sources'
+    permissible_values:
+      PREVENTIVE: {}
+      DETECTIVE: {}
+    annotations:
+      grade: B
+      status: approved (provisional) — simulated
+      origin: inferred
+      evidence: E-051,E-052
   AddressType:
     description: 'Grade C: single source'
     permissible_values:
-      HOME: {}
-      CORRESPONDENCE: {}
+      BILLING: {}
+      DELIVERY: {}
     annotations:
       grade: C
       status: approved (provisional) — simulated
       origin: inferred
-      evidence: E-068
+      evidence: E-084

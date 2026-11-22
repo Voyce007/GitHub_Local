@@ -34,7 +34,7 @@ Run `python -m ontokit validate --loop <loop>`.
 - Never edit an agent's quotes yourself to make them pass.
 
 ## 4. Reconcile, grade, check gates
-Run `python -m ontokit run --loop <loop>`. It runs:
+Run `python -m ontokit run --loop <loop>`. From loop-02 on it also compares against the previous loop. It runs:
 - ingest
 - validate
 - Steward merge
@@ -42,6 +42,7 @@ Run `python -m ontokit run --loop <loop>`. It runs:
 - reference check
 - unknowns
 - gates
+- change register (loop 2 onwards)
 - a pending approvals file
 - publish.
 
@@ -64,13 +65,25 @@ Run `python -m ontokit publish --loop <loop>`. Show the user `discovery/outputs/
 
 Optional, and only with the user's explicit go-ahead: create Jira issues from `discovery/outputs/<loop>/jira-issues.json` using the `create_jira_issue` MCP tool.
 
-## 8. Next loop
-When answers or new evidence arrive, create `discovery/inputs/loop-<n+1>/`:
-- Copy forward every file from earlier loops (keep their manifest entries).
-- Add the new files.
-- Record SME answers as a `document` file (e.g. `docs/sme-answers-<date>.md`) quoting who said what.
+## 8. Next loop (the graph iterates)
+The loop repeats until each domain meets the exit checklist below. Every run has the same steps 1–7. To start loop n+1:
+1. Create `discovery/inputs/loop-<n+1>/manifest.yaml` with `carry_forward: [loop-<n>]`. Earlier files stay citable as `loop-<n>/<path>`; don't copy them.
+2. Record answers as files with `provenance: sme-answer`, one per working session or reply. Write each answer in plain sentences, saying who answered. Example: "Customer type values: Individual, Sole Trader, Company."
+3. Add new code context with its real provenance: `schema`, `real-code` or `data-sample`. These are the only sources that can reach grade A.
+4. Run steps 1–7 with `--loop loop-<n+1>`. The previous loop's published outputs are picked up automatically, which gives you:
+   - **stable element ids**
+   - **contradictions resolved by authority**: an SME answer beats a real artefact, which beats a document
+   - **human decisions carried forward** for elements whose grade has not changed
+   - **a change register** (`change-register.md`) for the approvers to review before the new baseline is accepted.
 
-Run the loop again, then compare `elements.json` between loops. Grade changes and new or removed elements go through the playbook's change process (phase 10) before the new baseline is approved.
+### Exit checklist for a domain baseline
+- Every in-scope element is grade A or B, and no X is left.
+- High-priority unknowns are closed, or accepted as known gaps by their owner.
+- The phase 1–3 gates pass rather than being provisional.
+- Each production mapping (phase 9) traces to grade A or B evidence.
+- Approvers sign the change register for the baseline version.
+
+After the baseline, keep running the same loop under phase 10 change control. It is then triggered by change requests and new systems instead of discovery batches.
 
 ## Rules
 - Production mappings (phase 9) need every mapped attribute at grade A or B (`config/evidence_grades.yaml`).

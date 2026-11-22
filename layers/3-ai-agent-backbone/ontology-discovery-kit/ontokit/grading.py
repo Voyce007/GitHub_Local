@@ -20,6 +20,10 @@ def grade_element(el: dict, index: dict, ceiling: dict) -> tuple[str, str]:
     if el["conflicts"]:
         return "X", "sources contradict on " + ", ".join(c["property"] for c in el["conflicts"])
     ev = el["evidence"]
+    # files that only backed a superseded variant no longer count
+    superseded = {f for r in el.get("resolutions", []) for v in r["superseded"] for f in v["files"]}
+    supporting = {f for r in el.get("resolutions", []) for f in r["supported_by"]}
+    ev = [e for e in ev if e["file"] not in superseded - supporting]
     if el["kind"] == "concept":
         ev = [e for e in ev if e.get("support") != "mention"]
     if el["origin"] == "assumed" or not ev:
@@ -29,8 +33,10 @@ def grade_element(el: dict, index: dict, ceiling: dict) -> tuple[str, str]:
     if any(ceiling.get(p) == "A" for p in provs):
         return "A", "confirmed by a real system artefact"
     current = sorted(f for f in files if not index["sources"][f]["stale"])
+    note = " (contradiction resolved by " + ", ".join(sorted({f for r in el.get("resolutions", []) for f in r["resolved_by"]})) + ")" \
+        if el.get("resolutions") else ""
     if len(current) >= 2:
-        return "B", f"{len(current)} independent current sources"
+        return "B", f"{len(current)} independent current sources{note}"
     if len(files) == 1:
         return "C", "single source"
     return "C", "only one current source (others stale)"

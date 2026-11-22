@@ -1,5 +1,5 @@
 // Example extract supplied by CustHub support (2025). Simplified; not production source.
-package com.northbridge.custhub.model;
+package com.example.custhub.model;
 
 public class CustomerRecord {
     private String customerNumber;      // 10 chars, issued on creation
@@ -7,7 +7,7 @@ public class CustomerRecord {
     private String fullName;
     private LocalDate dateOfBirth;
     private String emailAddress;
-    private KycStatus kycStatus;
+    private CreditStatus creditStatus;
     private List<Address> addresses;
 
     public void validate() {
@@ -22,4 +22,4 @@ public class CustomerRecord {
 
 enum CustomerType { INDIVIDUAL, SOLE_TRADER, COMPANY }
 
-enum KycStatus { PENDING, PASSED, FAILED, REFERRED }
+enum CreditStatus { PENDING, APPROVED, DECLINED, REFERRED }

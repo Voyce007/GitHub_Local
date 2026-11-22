@@ -1,14 +1,16 @@
 # Evidence batch manifest — one per loop.
-# Every file the agents may cite must be listed here. Provenance drives the
-# evidence grade ceiling: only real-code / schema / data-sample can reach A.
+# Every file the agents may cite must be listed here. Provenance sets the
+# highest grade a file can support: only real-code / schema / data-sample reach A.
 #
-# SAMPLE DATA: "Northbridge Bank" and all system names below are fictional,
-# written to exercise the workflow (aliases, contradictions, stale docs,
-# unknown systems). Replace this whole folder with your own extracts.
+# SAMPLE DATA: "Example Group" and every system name below are fictional and
+# industry-agnostic. The sample covers what most companies have: customers,
+# products and orders, plus the group functions Finance and Risk. It is written
+# to exercise the workflow: aliases, contradictions, a stale document, an
+# undocumented system and a homonym. Replace this folder with your own extracts.
 
 batch: loop-01
 received: 2026-11-22
-organisation: Northbridge Bank (fictional sample)
+organisation: Example Group (fictional sample)
 description: >
   First evidence batch. As-is documentation extracts plus illustrative code
   examples supplied by support teams. No real source code, schemas or data
@@ -20,16 +22,23 @@ files:
     provenance: document
     doc_type: process
     date: 2022-03-14
-    author: Operations Design
+    author: Sales Operations
     sensitivity: internal
 
-  - path: docs/payments-overview.md
+  - path: docs/order-to-cash-overview.md
     provenance: document
     doc_type: architecture-overview
     date: 2019-06-03
-    author: Payments Architecture
+    author: Finance Systems
     sensitivity: internal
-    notes: Known to pre-date the 2023 payments re-platforming.
+    notes: Written before the 2023 order management upgrade.
+
+  - path: docs/risk-management-policy.md
+    provenance: document
+    doc_type: policy
+    date: 2024-04-18
+    author: Group Risk
+    sensitivity: internal
 
   - path: wiki/glossary-export.md
     provenance: wiki
@@ -44,6 +53,14 @@ files:
     date: 2023-01-20
     author: CustHub support
     system_hint: CustHub
+    sensitivity: confidential
+
+  - path: spreadsheets/riskreg-data-dictionary.csv
+    provenance: spreadsheet
+    doc_type: data-dictionary
+    date: 2024-06-01
+    author: Group Risk systems
+    system_hint: RiskReg
     sensitivity: confidential
 
   - path: spreadsheets/interface-catalogue.csv
@@ -70,20 +87,20 @@ files:
     sensitivity: internal
     notes: Simplified extract, not production source.
 
-  - path: code-examples/PaymentStatus.java
+  - path: code-examples/OrderStatus.java
     provenance: example-code
     doc_type: code
     date: 2024-10-15
-    author: PayRail team
-    system_hint: PayRail
+    author: OrderFlow team
+    system_hint: OrderFlow
     sensitivity: internal
 
-  - path: code-examples/ledger_accounts.sql
+  - path: code-examples/ledger_finance.sql
     provenance: example-code
     doc_type: ddl
     date: 2023-08-09
-    author: CoreLedger team
-    system_hint: CoreLedger
+    author: LedgerOne (Finance systems) team
+    system_hint: LedgerOne
     sensitivity: internal
     notes: Partial DDL extract.
 
@@ -91,7 +108,7 @@ files:
     provenance: example-code
     doc_type: config
     date: 2025-01-30
-    author: Mobile Banking backend team
-    system_hint: Mobile Banking
+    author: Web Shop backend team
+    system_hint: Web Shop
     sensitivity: internal
     notes: Sanitised; hostnames replaced.

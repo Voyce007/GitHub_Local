@@ -7,20 +7,15 @@ presented as as-is fact.
 """
 from __future__ import annotations
 
-from collections import Counter
-
 from .common import LoopPaths, Trace, load_config, norm, read_json, write_json
+from .steward import IdAllocator, _key
 
 
 def apply_prior(paths: LoopPaths, trace: Trace) -> dict:
     model = read_json(paths.work / "model.json")
     ref = load_config("reference_ontology.yaml")
     els = model["elements"]
-    counters = Counter(e["id"].split("-")[0] for e in els)
-
-    def new_id(prefix):
-        counters[prefix] += 1
-        return f"{prefix}-{counters[prefix]:02d}"
+    ids = IdAllocator(state=model["id_state"])
 
     names = {}
     for e in els:
@@ -36,7 +31,8 @@ def apply_prior(paths: LoopPaths, trace: Trace) -> dict:
             hit["properties"]["domain"] = r["domain"]
             matched.append(r["name"])
         else:
-            el = {"id": new_id("ENT"), "kind": "entity", "name": r["name"], "aliases": [], "definition": "",
+            el = {"id": ids.get(_key({"kind": "entity", "name": r["name"]}), "entity"), "kind": "entity",
+                  "name": r["name"], "aliases": [], "definition": "", "resolutions": [],
                   "properties": {"domain": r["domain"], "reference": True}, "evidence": [], "proposed_by": ["reference"],
                   "conflicts": [], "origin": "assumed", "grade": "D", "grade_reason": "assumed from reference ontology",
                   "status": "proposed"}
@@ -52,13 +48,16 @@ def apply_prior(paths: LoopPaths, trace: Trace) -> dict:
             hit["properties"]["reference_match"] = label
             matched.append(label)
         else:
-            el = {"id": new_id("REL"), "kind": "relationship", "name": label, "aliases": [], "definition": "",
+            el = {"id": ids.get(_key({"kind": "relationship", "name": label, "properties": {"from": r["from"], "to": r["to"]}}),
+                                "relationship"),
+                  "kind": "relationship", "name": label, "aliases": [], "definition": "", "resolutions": [],
                   "properties": {"from": r["from"], "to": r["to"], "verb": r["verb"], "reference": True},
                   "evidence": [], "proposed_by": ["reference"], "conflicts": [], "origin": "assumed",
                   "grade": "D", "grade_reason": "assumed from reference ontology", "status": "proposed"}
             els.append(el)
             assumed.append(el)
 
+    model["id_state"] = ids.state()
     write_json(paths.work / "model.json", model)
     trace.emit("F. Reference check", "Ontology Steward", "compared with reference ontology",
                f"{len(matched)} reference items found in evidence; {len(assumed)} added as assumptions (grade D)",

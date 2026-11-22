@@ -14,7 +14,7 @@ from __future__ import annotations
 import re
 from collections import Counter, defaultdict
 
-from .common import LoopPaths, Trace, norm, read_json, write_json
+from .common import LoopPaths, Trace, load_config, norm, read_json, tokens, write_json
 
 COMPARABLE = {"values", "issued_by"}            # disagreement here = contradiction
 LIST_PROPS = {"roles"}                           # unioned
@@ -22,7 +22,7 @@ SYSTEM_REFS = ("source", "target", "producer", "consumer", "issued_by", "system"
 PREFIX = {"system": "SYS", "flow": "FLW", "concept": "CON", "rule": "RUL", "taxonomy": "TAX",
           "entity": "ENT", "attribute": "ATT", "relationship": "REL", "identifier": "IDN",
           "interface": "INT", "event": "EVT", "domain": "DOM"}
-ROLE_SUFFIXES = {"instruction", "record", "detail", "details", "info", "master", "data"}
+ROLE_SUFFIXES = {"instruction", "request", "record", "detail", "details", "info", "master", "data"}
 
 
 def sysnorm(name: str) -> str:
@@ -99,9 +99,43 @@ def _key(p: dict) -> str:
     return f"{k}:{norm(p['name'])}"
 
 
-def reconcile(paths: LoopPaths, trace: Trace) -> dict:
+class IdAllocator:
+    """Keeps element ids stable across loops: same key in a later loop -> same id."""
+
+    def __init__(self, prev_elements=None, state=None):
+        if state:
+            self.prev, self.counters, self.used = state["prev"], Counter(state["counters"]), set(state["used"])
+            return
+        self.prev, self.counters, self.used = {}, Counter(), set()
+        for e in prev_elements or []:
+            self.prev[_key(e)] = e["id"]
+            pre, num = e["id"].rsplit("-", 1)
+            self.counters[pre] = max(self.counters[pre], int(num))
+
+    def get(self, key: str, kind: str) -> str:
+        pid = self.prev.get(key)
+        if pid and pid not in self.used:
+            self.used.add(pid)
+            return pid
+        pre = PREFIX[kind]
+        self.counters[pre] += 1
+        nid = f"{pre}-{self.counters[pre]:02d}"
+        self.used.add(nid)
+        return nid
+
+    def state(self) -> dict:
+        return {"prev": self.prev, "counters": dict(self.counters), "used": sorted(self.used)}
+
+
+def reconcile(paths: LoopPaths, trace: Trace, prev_elements: list | None = None) -> dict:
     accepted = read_json(paths.work / "validated.json")["accepted"]
     index = read_json(paths.work / "sources.json")
+    authority = load_config("evidence_grades.yaml").get("authority", {})
+    auth = lambda f: authority.get(index["sources"][f]["provenance"], 1)
+    ids = IdAllocator(prev_elements)
+    if prev_elements:
+        trace.emit("D. Steward reconciles", "Ontology Steward", "loaded previous baseline",
+                   f"{len(prev_elements)} elements from the previous loop; matching elements keep their ids")
     lookup = _resolve_systems(accepted, trace)
     canon = lambda v: lookup.get(sysnorm(v), v) if isinstance(v, str) else v
 
@@ -123,18 +157,16 @@ def reconcile(paths: LoopPaths, trace: Trace) -> dict:
         buckets[_key(p)].append(p)
 
     elements: list[dict] = []
-    counters: Counter = Counter()
     for key, group in buckets.items():
         kind = group[0]["kind"]
-        counters[kind] += 1
         names = Counter(p["name"] for p in group)
         if kind == "concept":
             name = next((p["name"] for p in group if p.get("definition")), names.most_common(1)[0][0])
         else:
             name = names.most_common(1)[0][0]
-        el = {"id": f"{PREFIX[kind]}-{counters[kind]:02d}", "kind": kind, "name": name, "aliases": [],
+        el = {"id": ids.get(key, kind), "kind": kind, "name": name, "aliases": [],
               "definition": "", "properties": {}, "evidence": [], "proposed_by": [], "conflicts": [],
-              "origin": "inferred", "grade": None, "status": "proposed"}
+              "resolutions": [], "origin": "inferred", "grade": None, "status": "proposed"}
         variants: dict[str, dict] = defaultdict(dict)
         for p in group:
             for a in p.get("aliases", []):
@@ -166,13 +198,20 @@ def reconcile(paths: LoopPaths, trace: Trace) -> dict:
         for prop, vs in variants.items():
             if len(vs) == 1:
                 el["properties"][prop] = next(iter(vs.values()))["value"]
+                continue
+            vlist = [{"value": v["value"], "files": v["files"],
+                      "stale": [f for f in v["files"] if index["sources"][f]["stale"]],
+                      "authority": max(auth(f) for f in v["files"])} for v in vs.values()]
+            top = max(v["authority"] for v in vlist)
+            winners = [v for v in vlist if v["authority"] == top]
+            if top >= 2 and len(winners) == 1:
+                w = winners[0]
+                el["properties"][prop] = w["value"]
+                el["resolutions"].append({"property": prop, "value": w["value"], "supported_by": w["files"],
+                                          "resolved_by": [f for f in w["files"] if auth(f) == top],
+                                          "superseded": [v for v in vlist if v is not w]})
             else:
-                el["conflicts"].append({
-                    "property": prop,
-                    "variants": [{"value": v["value"], "files": v["files"],
-                                  "stale": [f for f in v["files"] if index["sources"][f]["stale"]]}
-                                 for v in vs.values()],
-                })
+                el["conflicts"].append({"property": prop, "variants": vlist})
         elements.append(el)
         if len(group) > 1:
             trace.emit("D. Steward reconciles", "Ontology Steward", "merged",
@@ -182,6 +221,11 @@ def reconcile(paths: LoopPaths, trace: Trace) -> dict:
             desc = " vs ".join(f"{v['value']} ({', '.join(v['files'])})" for v in c["variants"])
             trace.emit("D. Steward reconciles", "Ontology Steward", "contradiction",
                        f"{kind} '{name}' · {c['property']}: {desc}", element=el["id"])
+        for r in el["resolutions"]:
+            val = ", ".join(r["value"]) if isinstance(r["value"], list) else r["value"]
+            trace.emit("D. Steward reconciles", "Ontology Steward", "contradiction resolved",
+                       f"{kind} '{name}' · {r['property']} = {val} (decided by {', '.join(r['resolved_by'])}; "
+                       f"{len(r['superseded'])} superseded variant(s) kept for audit)", element=el["id"])
 
     flags = _link_and_flag(elements, trace)
 
@@ -194,7 +238,8 @@ def reconcile(paths: LoopPaths, trace: Trace) -> dict:
                 reg[k] = f"E-{len(reg) + 1:03d}"
             e["id"] = reg[k]
 
-    model = {"loop": paths.loop, "system_lookup": lookup, "elements": elements, "flags": flags}
+    model = {"loop": paths.loop, "system_lookup": lookup, "elements": elements, "flags": flags,
+             "id_state": ids.state()}
     write_json(paths.work / "model.json", model)
     counts = Counter(e["kind"] for e in elements)
     trace.emit("D. Steward reconciles", "Ontology Steward", "model assembled",
@@ -233,6 +278,12 @@ def _link_and_flag(elements: list[dict], trace: Trace) -> list[dict]:
             trace.emit("D. Steward reconciles", "Ontology Steward", "linked",
                        f"concept '{c['name']}' is realised by entity '{ent['name']}' ({ent['properties'].get('system')})")
 
+    # link tables: an entity that only joins two others (many-to-many)
+    for r in by_kind["relationship"]:
+        if r["properties"].get("cardinality") == "many-to-many" and (ent := ents.get(norm(r["properties"].get("via", "")))):
+            ent["properties"]["link_entity"] = True
+            ent["properties"]["links"] = [r["properties"]["from"], r["properties"]["to"]]
+
     # homonym risk: a concept synonym that names a different entity
     for c in by_kind["concept"]:
         for alias in c["aliases"]:
@@ -262,10 +313,18 @@ def _link_and_flag(elements: list[dict], trace: Trace) -> list[dict]:
             continue
         if any(c["id"] in f["affects"] for f in flags):
             continue
-        hint = next((s["name"] for s in by_kind["system"] if norm(c["name"])[:6] in norm(s["name"])), None)
+        hint = next((s["name"] for s in by_kind["system"]
+                     if any(len(t) >= 3 and t in sysnorm(s["name"]) for t in tokens(c["name"]))), None)
         flags.append({"type": "unrealised_concept", "affects": [c["id"]],
                       "detail": f"No entity found for '{c['name']}'." + (f" Possible home: {hint}." if hint else ""),
                       **({"hint_system": hint} if hint else {})})
+    # entities referenced in code but with no structure in the evidence
+    for e in by_kind["entity"]:
+        if e["properties"].get("implied_by") and not e["properties"].get("attribute_ids") \
+                and not any(e["id"] in f["affects"] for f in flags):
+            flags.append({"type": "implied_entity", "affects": [e["id"]],
+                          "detail": f"'{e['name']}' is referenced by {e['properties']['implied_by']}, "
+                                    f"but its structure is not in the evidence."})
     # systems with no role
     for s in by_kind["system"]:
         if not s["properties"].get("roles"):

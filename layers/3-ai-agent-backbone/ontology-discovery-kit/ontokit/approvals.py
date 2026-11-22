@@ -1,4 +1,4 @@
-"""Stage I — Human gate: route every element to its approver (decision rights).
+"""Stage J — Human gate: route every element to its approver (decision rights).
 
 `prepare` writes work/<loop>/approvals.yaml with one pending decision per
 element, grouped by approver role. A human edits it (or the live Claude Code
@@ -26,11 +26,18 @@ from .common import LoopPaths, Trace, load_config, read_json
 DECISIONS = {"approve", "approve-provisional", "reject", "defer", "note-assumption", "pending"}
 
 
-def prepare(paths: LoopPaths, trace: Trace, simulate: bool) -> dict:
+def prepare(paths: LoopPaths, trace: Trace, simulate: bool, prev_paths: LoopPaths | None = None) -> dict:
     model = read_json(paths.work / "model.json")
     rights = load_config("decision_rights.yaml")["approvals"]
-    # Keep decisions a human already recorded (matched on id + name), unless simulating.
-    previous = {} if simulate else {k: v for k, v in load(paths).items() if v.get("mode") != "simulated"}
+    # Keep decisions a human already recorded (matched on id + name), unless simulating:
+    # first from the previous loop where the element's grade has not changed, then from this loop.
+    previous = {}
+    if not simulate:
+        if prev_paths:
+            grades = {e["id"]: e["grade"] for e in model["elements"]}
+            previous.update({k: v for k, v in load(prev_paths).items()
+                             if v.get("mode") != "simulated" and grades.get(k) == v.get("grade")})
+        previous.update({k: v for k, v in load(paths).items() if v.get("mode") != "simulated"})
     groups: dict[str, list] = defaultdict(list)
     kept = 0
     for e in model["elements"]:
@@ -51,10 +58,10 @@ def prepare(paths: LoopPaths, trace: Trace, simulate: bool) -> dict:
     out = paths.work / "approvals.yaml"
     out.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True, width=120), encoding="utf-8")
     if kept:
-        trace.emit("I. Human gate", "Human gate", "kept earlier decisions", f"{kept} human decisions carried over")
+        trace.emit("J. Human gate", "Human gate", "kept earlier decisions", f"{kept} human decisions carried over")
     for approver, items in groups.items():
         c = Counter(i["decision"] for i in items)
-        trace.emit("I. Human gate", "Human gate", f"routed to {approver}",
+        trace.emit("J. Human gate", "Human gate", f"routed to {approver}",
                    f"{len(items)} items — " + ", ".join(f"{k} {v}" for k, v in sorted(c.items())),
                    approver=approver, decisions=dict(c), simulated=simulate)
     return doc

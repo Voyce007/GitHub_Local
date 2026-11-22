@@ -53,6 +53,9 @@ def build_unknowns(paths: LoopPaths, trace: Trace) -> list[dict]:
         elif f["type"] == "unrealised_concept":
             add("sme_question", "medium", f"Where is '{first['name']}' held, and which system is the source of truth?",
                 f["detail"], f["affects"], "Data Architecture Authority")
+        elif f["type"] == "implied_entity":
+            add("evidence_request", "medium", f"What does '{first['name']}' contain, and which system holds it?",
+                f["detail"], f["affects"], "Data Architecture Authority")
         elif f["type"] == "system_without_role":
             add("sme_question", "medium", f"What is '{first['name']}', who owns it, and does it master any data?",
                 f["detail"], f["affects"], "Enterprise Architecture Authority")
@@ -60,7 +63,7 @@ def build_unknowns(paths: LoopPaths, trace: Trace) -> list[dict]:
     # 3. Reference assumptions
     for e in model["elements"]:
         if e["origin"] == "assumed":
-            q = (f"The reference model expects '{e['name']}'. Does the bank have it, and where is it recorded?"
+            q = (f"The reference model expects '{e['name']}'. Does the organisation have it, and where is it recorded?"
                  if e["kind"] == "entity" else
                  f"The reference model expects '{e['name']}'. Is this relationship real here, and which system records it?")
             add("sme_question", "low", q, "Added at grade D from the playbook's reference ontology; no evidence yet.",
@@ -69,7 +72,7 @@ def build_unknowns(paths: LoopPaths, trace: Trace) -> list[dict]:
     # 4. Evidence requests: the path to grade A
     by_system = Counter()
     for e in model["elements"]:
-        if e["kind"] in ("entity", "attribute", "identifier") and e["origin"] != "assumed":
+        if e["kind"] in ("entity", "attribute", "identifier") and e["origin"] != "assumed" and e["grade"] != "A":
             sysname = e["properties"].get("system") or els.get(e["properties"].get("entity_id", ""), {}).get("properties", {}).get("system")
             if sysname:
                 by_system[sysname] += 1

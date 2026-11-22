@@ -1,6 +1,7 @@
 interface_id,name,source,target,mechanism,frequency,payload,owner
-CUST-ACC-01,New customer to ledger,Customer Hub,CoreLedger,MQ message,Real time,Customer Number; customer type; name,Integration team
-PAY-01,Submit payment,Mobile Banking,PayRail,REST API,Real time,Payment instruction,Payments team
-PAY-EVT-02,Payment completed,PayRail,CoreLedger,Event,Real time,PaymentCompleted,Payments team
-MI-01,Nightly MI extract,CoreLedger,DataMart,File (CSV),Daily 02:00,Accounts; balances,Data team
+CUST-FIN-01,New customer to finance,Customer Hub,LedgerOne,MQ message,Real time,Customer Number; customer type; name,Integration team
+ORD-01,Submit order,Web Shop,OrderFlow,REST API,Real time,Order request,Commerce team
+ORD-EVT-02,Order fulfilled,OrderFlow,LedgerOne,Event,Real time,OrderFulfilled,Commerce team
+MI-01,Nightly finance extract,LedgerOne,DataMart,File (CSV),Daily 02:00,Invoices; GL balances,Data team
 MI-02,Customer extract,CH,DataMart,File (CSV),Daily 02:30,Customers,Data team
+RISK-01,Risk register extract,RiskReg,DataMart,File (CSV),Weekly,Risks; controls,Group Risk
