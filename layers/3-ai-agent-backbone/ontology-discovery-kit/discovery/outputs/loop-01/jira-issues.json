@@ -1,0 +1,232 @@
+[
+  {
+    "summary": "[U-01] Is 'Account Holder' a synonym of Customer, or a different concept (a role) that shares the name?",
+    "description": "Glossary lists 'Account Holder' as a synonym of Customer, but CoreLedger has an entity 'AccountHolder' with its own structure.\n\nOwner: Business Domain Owner\nAffects: CON-01, ENT-04\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-02] Request a schema export and a masked data sample from CoreLedger.",
+    "description": "Would let 12 entity/attribute/identifier elements move to grade A.\n\nOwner: Engineering Lead (with the system owner)\nAffects: SYS-02\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "evidence_request"
+    ]
+  },
+  {
+    "summary": "[U-03] Request a schema export and a masked data sample from CustHub.",
+    "description": "Would let 15 entity/attribute/identifier elements move to grade A.\n\nOwner: Engineering Lead (with the system owner)\nAffects: SYS-01\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "evidence_request"
+    ]
+  },
+  {
+    "summary": "[U-04] Request a schema export and a masked data sample from PayRail.",
+    "description": "Would let 7 entity/attribute/identifier elements move to grade A.\n\nOwner: Engineering Lead (with the system owner)\nAffects: SYS-06\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "evidence_request"
+    ]
+  },
+  {
+    "summary": "[U-05] Sources disagree on the issued by of identifier 'Customer Number'. Which is correct today?",
+    "description": "CustHub ← docs/customer-onboarding-process.md | ONB ← wiki/glossary-export.md\n\nOwner: Data Architecture Authority\nAffects: IDN-01\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-06] Sources disagree on the values of taxonomy 'CustomerType'. Which is correct today?",
+    "description": "INDIVIDUAL, BUSINESS ← docs/customer-onboarding-process.md; spreadsheets/custhub-data-dictionary.csv | INDIVIDUAL, SOLE_TRADER, COMPANY ← code-examples/CustomerRecord.java\n\nOwner: Business Domain Owner\nAffects: TAX-01\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-07] Sources disagree on the values of taxonomy 'PaymentStatus'. Which is correct today?",
+    "description": "PENDING, COMPLETED, FAILED, CANCELLED ← docs/payments-overview.md (stale, 7.5 yrs) | RECEIVED, VALIDATED, PENDING, COMPLETED, FAILED, CANCELLED ← code-examples/PaymentStatus.java\n\nOwner: Business Domain Owner\nAffects: TAX-03\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-08] Are these the same thing? 'Address' may be the unqualified form of 'CustomerAddress'.",
+    "description": "Merging them changes the entity catalogue and the stand-in schema.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: ENT-02, ENT-05\nPriority: medium\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-09] Are these the same thing? 'PaymentInstruction' looks like 'Payment' with a role suffix.",
+    "description": "Merging them changes the entity catalogue and the stand-in schema.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: ENT-06, CON-06\nPriority: medium\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-10] What is 'mandate-svc', who owns it, and does it master any data?",
+    "description": "'mandate-svc' appears in 1 source(s) but nothing says what it does.\n\nOwner: Enterprise Architecture Authority\nAffects: SYS-08\nPriority: medium\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-11] Where is 'Current Account' held, and which system is the source of truth?",
+    "description": "No entity found for 'Current Account'.\n\nOwner: Data Architecture Authority\nAffects: CON-05\nPriority: medium\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-12] Where is 'Mandate' held, and which system is the source of truth?",
+    "description": "No entity found for 'Mandate'. Possible home: mandate-svc.\n\nOwner: Data Architecture Authority\nAffects: CON-07\nPriority: medium\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-13] Where is 'Party' held, and which system is the source of truth?",
+    "description": "No entity found for 'Party'.\n\nOwner: Data Architecture Authority\nAffects: CON-02\nPriority: medium\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-14] Where is 'Product Variant' held, and which system is the source of truth?",
+    "description": "No entity found for 'Product Variant'.\n\nOwner: Data Architecture Authority\nAffects: CON-08\nPriority: medium\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-15] The reference model expects 'Channel'. Does the bank have it, and where is it recorded?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: ENT-11\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-16] The reference model expects 'Customer subscribes to Product'. Is this relationship real here, and which system records it?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: REL-07\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-17] The reference model expects 'Organisation'. Does the bank have it, and where is it recorded?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: ENT-08\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-18] The reference model expects 'Payment debits Account'. Is this relationship real here, and which system records it?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: REL-08\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-19] The reference model expects 'Person'. Does the bank have it, and where is it recorded?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: ENT-07\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-20] The reference model expects 'Product Variant is a variant of Product'. Is this relationship real here, and which system records it?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: REL-09\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-21] The reference model expects 'Product is accessed through Channel'. Is this relationship real here, and which system records it?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: REL-10\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-22] The reference model expects 'Product'. Does the bank have it, and where is it recorded?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: ENT-09\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-23] The reference model expects 'Subscription'. Does the bank have it, and where is it recorded?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: ENT-10\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  }
+]

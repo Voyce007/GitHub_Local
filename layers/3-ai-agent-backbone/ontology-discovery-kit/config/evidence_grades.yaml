@@ -1,0 +1,29 @@
+# Evidence grading. Every ontology element carries exactly one grade.
+grades:
+  A: Confirmed by a real system artefact (real source code, schema export, data sample)
+  B: Two or more independent, current sources agree
+  C: Supported by a single source (or only by stale sources)
+  D: Assumed from the reference ontology, or inferred without direct evidence
+  X: Sources contradict each other
+
+# Provenance values a manifest may use, and the highest grade each can support.
+provenance_ceiling:
+  document: B
+  wiki: B
+  spreadsheet: B
+  diagram: B
+  example-code: B
+  real-code: A
+  schema: A
+  data-sample: A
+
+# Independence: sources are counted per distinct file. Stale files (older than the
+# manifest's staleness_years) do not count towards grade B.
+
+# Gate rules
+gates:
+  # A gate can only fully pass if every element it covers is A or B.
+  # With any C/D/X element in scope, the best result is "provisional".
+  full_pass_requires: [A, B]
+  # Phase 9 (production implementation) needs grade A or B for every mapped attribute.
+  production_mapping_requires: [A, B]

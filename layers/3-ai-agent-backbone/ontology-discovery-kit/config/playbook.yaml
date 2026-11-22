@@ -1,0 +1,98 @@
+# Enterprise Ontology Design & Delivery Playbook, encoded as config.
+# Source: "Enterprise Ontology Design and Delivery Playbook" (sections 4, 9, 10).
+#
+# `discovery_mode` records how each phase behaves in a document-led
+# (brownfield, no source access) loop:
+#   run          - run fully; can be approved on documentary evidence
+#   provisional  - run, but the gate can only pass "provisional" until grade-A evidence exists
+#   deferred     - not run until real system evidence arrives
+# `loop1_criteria` are the automated gate checks implemented in ontokit/gates.py.
+
+phases:
+  - id: 1
+    name: Enterprise scope and architecture discovery
+    objective: Establish the business, product, platform and architectural context.
+    deliverables: [Ontology scope and context, Enterprise domain map, Product/platform inventory,
+                   Application and data landscape, Stakeholder and responsibility map, Existing architecture assessment]
+    exit_gate: Enterprise scope and architectural context are agreed.
+    discovery_mode: provisional
+    loop1_criteria:
+      - {id: P1.1, check: all_inputs_ingested, text: Every manifest file is ingested and citable}
+      - {id: P1.2, check: systems_have_role_or_unknown, text: Every candidate system has a role or an open unknown}
+      - {id: P1.3, check: systems_have_evidence, text: Every candidate system cites at least one source}
+      - {id: P1.4, check: unknowns_published, text: An unknowns register has been produced}
+
+  - id: 2
+    name: Business concepts and domain modelling
+    objective: Identify business concepts and establish agreed definitions.
+    deliverables: [Business glossary, Concept inventory, Domain model, Capability-to-concept mapping, Terminology and synonym register]
+    exit_gate: Shared business concepts and definitions are approved.
+    discovery_mode: run
+    loop1_criteria:
+      - {id: P2.1, check: concepts_defined, text: Every concept has a definition}
+      - {id: P2.2, check: synonyms_registered, text: A synonym register exists}
+      - {id: P2.3, check: conflicts_have_unknowns, text: Every contradiction has an open unknown}
+      - {id: P2.4, check: key_concepts_present, text: "Key concepts present: Customer, Account, Payment"}
+
+  - id: 3
+    name: Entity and relationship modelling
+    objective: Create a validated conceptual ontology.
+    deliverables: [Conceptual ontology, Entity catalogue, Relationship catalogue, Entity lifecycle definitions, Initial canonical entity model]
+    exit_gate: Conceptual model is validated by business and architecture stakeholders.
+    discovery_mode: run
+    loop1_criteria:
+      - {id: P3.1, check: entities_have_attributes, text: Every candidate entity has at least one attribute}
+      - {id: P3.2, check: entities_traced_to_concepts, text: "Entities are traced to a concept or flagged for review"}
+
+  - id: 4
+    name: Logical data modelling
+    objective: Translate business concepts into consistent logical information structures.
+    deliverables: [Logical data model, Data dictionary, Identifier and key register, Reference data definitions, Data constraints and validation rules]
+    exit_gate: Logical data model is reviewed and agreed.
+    discovery_mode: provisional
+  - id: 5
+    name: Taxonomy, semantics and rules
+    objective: Standardise meaning, classification and behaviour.
+    deliverables: [Taxonomy model, Semantic definitions, Business rules catalogue, Reference data standards, Lifecycle and state transition model]
+    exit_gate: Business meaning and classification standards are agreed.
+    discovery_mode: run
+  - id: 6
+    name: Enterprise architecture and system mapping
+    objective: Understand where ontology concepts exist and how they are represented across the estate.
+    deliverables: [Enterprise ontology architecture view, Application-to-domain mapping, System-to-entity mapping,
+                   Source-of-truth register, Data flow and lineage overview, Architecture gap assessment]
+    exit_gate: Enterprise architecture and system mapping are approved.
+    discovery_mode: provisional
+  - id: 7
+    name: Integration, API and event design
+    objective: Define how ontology concepts are exchanged consistently.
+    deliverables: [API data requirements, Event catalogue, Interface specifications, Data contracts and schema definitions,
+                   Source-to-target mapping, Integration architecture]
+    exit_gate: Interface and integration designs are approved.
+    discovery_mode: provisional   # contract-first: canonical contracts now, source adapters later
+  - id: 8
+    name: Governance, quality and security
+    objective: Make the ontology trusted, controlled and appropriately protected.
+    deliverables: [Data governance framework, RACI and ownership matrix, Data quality framework, Data classification model,
+                   Security and access requirements, Metadata and lineage standards]
+    exit_gate: Governance and operational controls are approved.
+    discovery_mode: run
+  - id: 9
+    name: Implementation and engineering delivery
+    objective: Implement ontology-aligned data and platform capabilities.
+    deliverables: [Physical data models, API and event implementations, Database and schema changes, Data pipelines and transformations,
+                   Integration components, Automated tests, Deployment documentation]
+    exit_gate: Technical implementation passes agreed acceptance criteria.
+    discovery_mode: deferred      # production mappings need grade A/B sources (see evidence_grades.yaml)
+  - id: 10
+    name: Validation, adoption and continuous evolution
+    objective: Maintain conformance and evolve the ontology as products and platforms change.
+    deliverables: [Approved ontology baseline, Conformance assessment, Operational monitoring, Change and version register,
+                   Ontology maintenance backlog, Adoption and quality measures]
+    exit_gate: Ongoing ownership, maintenance and change control are established.
+    discovery_mode: run           # every loop's diff goes through change control
+
+# Loop 1 runs these phases' automated gates. Later loops add phases as evidence arrives.
+loop1_gated_phases: [1, 2, 3]
+
+key_concepts: [Customer, Account, Payment]

@@ -1,0 +1,569 @@
+<title>Ontology Discovery Loop</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column (max 1180px) with a sticky tab bar; storyboard frames in a two-up grid that stacks on phones. */
+:root {
+  --bg: #F4F5F8; --surface: #FFFFFF; --sunk: #EBEDF2; --ink: #17202B; --muted: #596273; --line: #D8DCE4;
+  --accent: #3A4AA8; --accent-soft: #E5E8F6; --accent-ink: #FFFFFF;
+  --gA: #1D7A44; --gB: #2867A0; --gC: #9A6210; --gD: #6B7483; --gX: #B23824;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10141A; --surface: #171C24; --sunk: #0C0F14; --ink: #E5E8EE; --muted: #98A1AF; --line: #29303B;
+  --accent: #929FF2; --accent-soft: #222A4C; --accent-ink: #0F1320;
+  --gA: #52C283; --gB: #66A9E2; --gC: #E2A64B; --gD: #9AA3B1; --gX: #F27D64; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #10141A; --surface: #171C24; --sunk: #0C0F14; --ink: #E5E8EE; --muted: #98A1AF; --line: #29303B;
+  --accent: #929FF2; --accent-soft: #222A4C; --accent-ink: #0F1320;
+  --gA: #52C283; --gB: #66A9E2; --gC: #E2A64B; --gD: #9AA3B1; --gX: #F27D64; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { background: var(--bg); color: var(--ink); }
+body { font: 15px/1.55 var(--body); margin: 0; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3, h4 { font-family: var(--display); line-height: 1.2; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 700; }
+h2 { font-size: 1.45rem; font-weight: 600; }
+h3 { font-size: 1.12rem; font-weight: 600; }
+h4 { font-size: .95rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+code, .mono { font-family: var(--mono); font-size: .86em; }
+.eyebrow { font: 500 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* Header + tabs */
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+header.top .wrap { display: flex; align-items: center; gap: 16px; padding-block: 10px; flex-wrap: wrap; }
+.brand { display: flex; flex-direction: column; gap: 2px; margin-right: auto; min-width: 0; }
+.brand b { font: 600 1rem/1.1 var(--display); }
+.brand span { font-size: .78rem; color: var(--muted); }
+nav.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+nav.tabs a { text-decoration: none; color: var(--muted); font-weight: 500; font-size: .9rem; padding: 7px 12px; border-radius: 8px; }
+nav.tabs a[aria-current="page"] { background: var(--accent-soft); color: var(--accent); }
+nav.tabs a:hover { color: var(--ink); }
+
+main { padding-block: 28px 64px; }
+section.view { display: grid; gap: 28px; }
+.intro { display: grid; gap: 12px; }
+.intro p { color: var(--muted); font-size: 1.02rem; }
+
+/* Grade chips */
+.g { display: inline-flex; align-items: center; justify-content: center; min-width: 1.7em; height: 1.55em; padding: 0 .45em; border-radius: 6px; font: 600 .78rem/1 var(--mono);
+     color: var(--gc); background: color-mix(in srgb, var(--gc) 14%, transparent); border: 1px solid color-mix(in srgb, var(--gc) 35%, transparent); }
+.g-A { --gc: var(--gA); } .g-B { --gc: var(--gB); } .g-C { --gc: var(--gC); } .g-D { --gc: var(--gD); } .g-X { --gc: var(--gX); }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 500; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); white-space: nowrap; }
+.pill.pass { color: var(--gA); border-color: color-mix(in srgb, var(--gA) 40%, transparent); }
+.pill.provisional { color: var(--gC); border-color: color-mix(in srgb, var(--gC) 40%, transparent); }
+.pill.fail { color: var(--gX); border-color: color-mix(in srgb, var(--gX) 40%, transparent); }
+.pill.high { color: var(--gX); } .pill.medium { color: var(--gC); } .pill.low { color: var(--gD); }
+
+/* Review bar */
+.reviewbar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+.reviewbar .count { font: 600 .95rem var(--display); }
+.btn { font: 500 .88rem var(--body); padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+/* Frames */
+.frames { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 18px; }
+.frame { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); display: grid; grid-template-rows: auto auto 1fr auto; overflow: hidden; min-width: 0; }
+.frame-head { display: flex; gap: 12px; align-items: baseline; padding: 14px 16px 10px; }
+.fno { font: 700 1.5rem/1 var(--display); color: var(--accent); min-width: 2.2ch; font-variant-numeric: tabular-nums; }
+.frame-head div { display: grid; gap: 4px; min-width: 0; }
+.scene { margin: 0 16px; background: var(--sunk); border-radius: 8px; padding: 12px; min-height: 120px; overflow-x: auto; font-size: .84rem; }
+.frame-body { padding: 12px 16px 14px; display: grid; gap: 10px; align-content: start; }
+.frame-body .what { color: var(--ink); }
+.io { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: .84rem; }
+.io dt { color: var(--muted); font-weight: 500; }
+.io dd { margin: 0; min-width: 0; }
+.review { border-top: 1px dashed var(--line); padding: 12px 16px 14px; display: grid; gap: 8px; background: color-mix(in srgb, var(--accent-soft) 35%, var(--surface)); }
+.review ul { margin: 0; padding-left: 18px; font-size: .86rem; display: grid; gap: 3px; }
+.review-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.review textarea { width: 100%; min-height: 54px; resize: vertical; font: .86rem var(--body); padding: 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.frame[data-verdict="ok"] { border-color: color-mix(in srgb, var(--gA) 55%, var(--line)); }
+.frame[data-verdict="change"] { border-color: color-mix(in srgb, var(--gC) 70%, var(--line)); }
+
+/* Scene parts */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.fchip { display: grid; gap: 1px; padding: 6px 8px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); min-width: 0; }
+.fchip b { font: 500 .76rem var(--mono); overflow-wrap: anywhere; }
+.fchip span { font-size: .7rem; color: var(--muted); }
+.fchip.stale { border-style: dashed; border-color: var(--gC); }
+.lanes { display: grid; grid-template-columns: repeat(4, minmax(110px, 1fr)); gap: 8px; }
+.lane { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px; display: grid; gap: 4px; align-content: start; }
+.lane b { font: 600 .82rem var(--display); }
+.lane .n { font: 700 1.3rem var(--display); color: var(--accent); }
+.kv { font: .75rem var(--mono); color: var(--muted); }
+.rows { display: grid; gap: 6px; }
+.row { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--line); border-radius: 7px; padding: 6px 8px; }
+.row .mono { font-size: .78rem; }
+.bar { display: flex; height: 22px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+.bar i { display: block; height: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .8rem; margin-top: 8px; }
+pre.code { margin: 0; font: .74rem/1.5 var(--mono); white-space: pre; overflow-x: auto; color: var(--ink); }
+.arrow { color: var(--muted); font-family: var(--mono); }
+
+/* Agents view */
+.grid3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.card .q { font-style: italic; color: var(--muted); font-size: .9rem; }
+.card dl { margin: 0; display: grid; gap: 6px; font-size: .86rem; }
+.card dt { font: 500 .7rem var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.card dd { margin: 0; }
+.tag { display: inline-block; font: 500 .74rem var(--mono); padding: 1px 7px; border-radius: 5px; background: var(--sunk); margin: 0 4px 4px 0; }
+.card.human { border-style: dashed; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .86rem; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 500 .72rem var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--sunk); }
+tr:last-child td { border-bottom: 0; }
+.ladder { display: grid; gap: 8px; }
+.ladder .step { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.ladder .g { font-size: .95rem; min-width: 2.1em; height: 2em; }
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; overflow-x: auto; }
+
+/* Simulation */
+.sim { display: grid; grid-template-columns: 320px 1fr; gap: 18px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 12px; min-width: 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.controls select { font: .86rem var(--body); padding: 7px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.progress { height: 6px; background: var(--sunk); border-radius: 3px; overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+.stages { display: grid; gap: 4px; }
+.stage { display: flex; gap: 8px; align-items: center; font-size: .84rem; color: var(--muted); padding: 3px 6px; border-radius: 6px; }
+.stage .dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--line); flex: none; }
+.stage.done { color: var(--ink); } .stage.done .dot { background: var(--accent); border-color: var(--accent); }
+.stage.now { background: var(--accent-soft); color: var(--accent); font-weight: 600; } .stage.now .dot { border-color: var(--accent); background: var(--surface); }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.stat { background: var(--sunk); border-radius: 8px; padding: 8px 10px; display: grid; gap: 2px; }
+.stat b { font: 700 1.25rem var(--display); font-variant-numeric: tabular-nums; }
+.stat span { font-size: .74rem; color: var(--muted); }
+.log { max-height: 640px; overflow-y: auto; display: grid; align-content: start; }
+.ev { display: grid; grid-template-columns: 3.2ch 9.5rem 1fr; gap: 10px; padding: 7px 10px; border-bottom: 1px solid var(--line); font-size: .84rem; }
+.ev .seq { font: .74rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 2px; }
+.ev .who { font: 500 .78rem var(--mono); color: var(--accent); overflow-wrap: anywhere; }
+.ev .txt { min-width: 0; overflow-wrap: anywhere; }
+.ev .txt b { font-weight: 600; }
+.ev.cur { background: var(--accent-soft); }
+.ev.hl .txt b { color: var(--gX); }
+.check { display: flex; gap: 6px; align-items: center; font-size: .84rem; color: var(--muted); }
+
+/* Export */
+.steps { display: grid; gap: 12px; counter-reset: s; }
+.stepcard { display: grid; grid-template-columns: auto 1fr; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; }
+.stepcard::before { counter-increment: s; content: counter(s); font: 700 1.3rem/1 var(--display); color: var(--accent); }
+.stepcard > div { display: grid; gap: 6px; min-width: 0; }
+.cmd { background: var(--sunk); border-radius: 8px; padding: 10px 12px; font: .8rem/1.55 var(--mono); overflow-x: auto; white-space: pre; }
+.copyrow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.note { border-left: 3px solid var(--gC); padding: 8px 12px; background: var(--surface); border-radius: 0 8px 8px 0; font-size: .9rem; }
+
+@media (max-width: 860px) {
+  .sim { grid-template-columns: 1fr; }
+  .lanes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ev { grid-template-columns: 3ch 1fr; }
+  .ev .who { grid-column: 2; }
+  .ev .txt { grid-column: 2; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><b>Ontology Discovery Loop</b><span id="brandsub">Loop 1 · documents + example code · storyboard for review</span></div>
+    <nav class="tabs" aria-label="Views">
+      <a href="#storyboard" data-view="storyboard">Storyboard</a>
+      <a href="#agents" data-view="agents">Agents &amp; rules</a>
+      <a href="#simulation" data-view="simulation">Simulation</a>
+      <a href="#export" data-view="export">Export</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- STORYBOARD -->
+<section class="view" id="v-storyboard">
+  <div class="intro">
+    <span class="eyebrow">Storyboard · 13 frames</span>
+    <h1>From document extracts to an evidence-graded ontology</h1>
+    <p>Each frame is one step of the first discovery loop, shown with real output from a simulated run over the sample evidence batch (a fictional bank). Every frame ends with review questions. Mark each frame <em>Looks right</em> or <em>Needs change</em>, add notes, then copy your review and paste it back into the conversation.</p>
+  </div>
+  <div class="reviewbar">
+    <span class="count" id="revcount">0 of 13 reviewed</span>
+    <span class="muted" style="font-size:.86rem">Notes stay in this browser until you copy them.</span>
+    <span style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap">
+      <button class="btn" id="revclear" type="button">Clear review</button>
+      <button class="btn primary" id="revcopy" type="button">Copy review notes</button>
+    </span>
+  </div>
+  <div class="frames" id="frames"></div>
+</section>
+
+<!-- AGENTS -->
+<section class="view" id="v-agents" hidden>
+  <div class="intro">
+    <span class="eyebrow">Explainer</span>
+    <h1>Six agents, one deterministic pipeline, named human approvers</h1>
+    <p>The four persona agents come from the playbook's BA, EA, DA and Engineering roles. Two more do the working-group jobs: the Ontology Steward and the Conformance agent. Agents only ever <strong>recommend</strong>. Merging, grading and gate checks are deterministic code, so results can be repeated and audited. Approval stays with the people named in the playbook's decision-rights table.</p>
+  </div>
+  <div class="diagram"><pre class="mermaid">
+flowchart LR
+  M[Evidence batch<br/>manifest.yaml] --> I[Intake<br/>source index]
+  I --> BA[BA agent]
+  I --> EA[EA agent]
+  I --> DA[DA agent]
+  I --> EN[Engineering agent]
+  BA --> V{Validator<br/>quotes · scope}
+  EA --> V
+  DA --> V
+  EN --> V
+  V -- rejected --> BA
+  V --> S[Steward<br/>merge · aliases · conflicts]
+  S --> G[Conformance<br/>grade A–X]
+  G --> R[Reference check<br/>assumptions = D]
+  R --> U[Unknowns register]
+  U --> GT[Gate checks]
+  GT --> H[[Human gate<br/>decision rights]]
+  H --> P[Publish<br/>ontology · inventory · stand-ins]
+  P -. answers + new evidence .-> M
+</pre></div>
+  <h2>The agents</h2>
+  <div class="grid3" id="agentcards"></div>
+  <h2>Evidence grades</h2>
+  <div class="ladder" id="ladder"></div>
+  <h2>Who approves what</h2>
+  <div class="tablewrap"><table id="rights"><thead><tr><th>Element</th><th>Recommends</th><th>Approves</th></tr></thead><tbody></tbody></table></div>
+  <h2>How each playbook phase behaves in a documents-only loop</h2>
+  <div class="tablewrap"><table id="phases"><thead><tr><th>Phase</th><th>Mode</th><th>Exit gate</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<!-- SIMULATION -->
+<section class="view" id="v-simulation" hidden>
+  <div class="intro">
+    <span class="eyebrow">Simulation · replay of a real run</span>
+    <h1>Watch loop 1 run</h1>
+    <p>This replays the event trace that <code>python -m ontokit simulate</code> wrote. The persona agents in the simulation are rule-based stand-ins. In a live run, Claude Code subagents write the same proposal files, and every later step is identical.</p>
+  </div>
+  <div class="sim">
+    <div class="panel">
+      <div class="controls">
+        <button class="btn primary" id="play" type="button">Replay from start</button>
+        <button class="btn" id="step" type="button">Step</button>
+        <select id="speed" aria-label="Playback speed"><option value="700">Slow</option><option value="300" selected>Normal</option><option value="90">Fast</option></select>
+      </div>
+      <label class="check"><input type="checkbox" id="keyonly" checked> Key events only</label>
+      <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+      <div class="stages" id="stages"></div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="panel" style="padding:0">
+      <div class="log" id="log" aria-live="polite"></div>
+    </div>
+  </div>
+  <h2>What the run produced</h2>
+  <div class="grid3" id="results"></div>
+</section>
+
+<!-- EXPORT -->
+<section class="view" id="v-export" hidden>
+  <div class="intro">
+    <span class="eyebrow">Export</span>
+    <h1>Run it for real in another Claude Code</h1>
+    <p>The kit is self-contained. It is a folder with the playbook as config, six subagent definitions, an orchestration skill, the deterministic pipeline and tests. It needs Python 3.10+ and PyYAML. It doesn't need Docker or an API key, because Claude Code is the LLM for the live agents.</p>
+  </div>
+  <div class="steps">
+    <div class="stepcard"><div><h3>Copy the kit</h3><p>Copy <code>layers/3-ai-agent-backbone/ontology-discovery-kit/</code> to the root of a new or existing repository, or open the folder itself as the project. Its <code>.claude/</code> folder must be at the project root so the agents and skill load.</p></div></div>
+    <div class="stepcard"><div><h3>Check it works</h3><div class="cmd">pip install -r requirements.txt
+python -m unittest discover -s tests
+python -m ontokit simulate</div></div></div>
+    <div class="stepcard"><div><h3>Add your evidence</h3><p>Create <code>discovery/inputs/loop-01/</code> (or replace the sample) with your document extracts and example code. List every file in <code>manifest.yaml</code> with its provenance, date and, where known, the system it came from. Images of diagrams are fine: the orchestrator transcribes them to Mermaid first.</p></div></div>
+    <div class="stepcard"><div><h3>Start the live loop</h3><p>Paste this into Claude Code in that project:</p>
+      <div class="cmd" id="handoff">Run the ontology discovery loop for loop-01 following .claude/skills/ontology-discovery-loop/SKILL.md.
+Use the ea-agent, ba-agent, da-agent and eng-agent subagents in parallel, validate
+their proposals, run the pipeline, then the ontology-steward and conformance-agent
+reviews. Stop at the human gate and ask me for decisions one approver role at a
+time. Do not fill in any decision I have not given.</div>
+      <div class="copyrow"><button class="btn" id="copyhandoff" type="button">Copy prompt</button><span class="muted" id="copymsg" style="font-size:.85rem"></span></div></div></div>
+    <div class="stepcard"><div><h3>Answer, add evidence, repeat</h3><p>Send the unknowns register to the named owners. Put their answers and any new code context (schemas, data samples, real source) into <code>loop-02</code> and run again. Grades move up, contradictions get resolved, and stand-ins get replaced with real adapters. Rebuild this page from any run with <code>python tools/build_storyboard.py --loop loop-02</code>.</p></div></div>
+  </div>
+  <div class="note"><strong>What the simulation does not show:</strong> how well the live agents read messy real documents. The rule-based stand-in agents only find what is written in recognisable patterns. Expect the live agents to find more, and the validator to reject some of their proposals on the first pass. That rejection loop is intentional.</div>
+  <h2>Kit contents</h2>
+  <div class="cmd" id="tree">ontology-discovery-kit/
+├── CLAUDE.md                     instructions the receiving Claude Code reads first
+├── README.md · STORYBOARD.md
+├── config/                       the playbook as data
+│   ├── playbook.yaml             10 phases, deliverables, exit gates, loop-1 criteria
+│   ├── decision_rights.yaml      agent write scopes (RACI) and approvers
+│   ├── evidence_grades.yaml      A/B/C/D/X rules and provenance ceilings
+│   └── reference_ontology.yaml   playbook §6 subset, used only as a prior
+├── schemas/proposal.schema.json  the contract every persona agent writes
+├── .claude/agents/               ba · ea · da · eng · ontology-steward · conformance
+├── .claude/skills/ontology-discovery-loop/SKILL.md
+├── ontokit/                      ingest · validate · steward · grading · prior · unknowns · gates · approvals · publish · sim_agents
+├── tests/test_loop.py            planted-issue checks + guardrail checks
+├── tools/build_storyboard.py     rebuilds this page from any run
+└── discovery/
+    ├── inputs/loop-01/           sample evidence batch (fictional)
+    └── outputs/loop-01/          deliverables from the simulated run</div>
+</section>
+</main>
+
+<script id="data" type="application/json">{"loop": "loop-01", "organisation": "Northbridge Bank (fictional sample)", "files": [{"path": "docs/customer-onboarding-process.md", "provenance": "document", "doc_type": "process", "date": "2022-03-14", "stale": false, "age": 4.7, "lines": 33, "hint": null, "notes": null}, {"path": "docs/payments-overview.md", "provenance": "document", "doc_type": "architecture-overview", "date": "2019-06-03", "stale": true, "age": 7.5, "lines": 19, "hint": null, "notes": "Known to pre-date the 2023 payments re-platforming."}, {"path": "wiki/glossary-export.md", "provenance": "wiki", "doc_type": "glossary", "date": "2024-09-02", "stale": false, "age": 2.2, "lines": 12, "hint": null, "notes": null}, {"path": "spreadsheets/custhub-data-dictionary.csv", "provenance": "spreadsheet", "doc_type": "data-dictionary", "date": "2023-01-20", "stale": false, "age": 3.8, "lines": 12, "hint": "CustHub", "notes": null}, {"path": "spreadsheets/interface-catalogue.csv", "provenance": "spreadsheet", "doc_type": "interface-catalogue", "date": "2024-05-11", "stale": false, "age": 2.5, "lines": 6, "hint": null, "notes": null}, {"path": "diagrams/context-diagram.mmd", "provenance": "diagram", "doc_type": "context-diagram", "date": "2024-02-28", "stale": false, "age": 2.7, "lines": 8, "hint": null, "notes": "Transcribed from a PNG in the architecture repository."}, {"path": "code-examples/CustomerRecord.java", "provenance": "example-code", "doc_type": "code", "date": "2025-04-02", "stale": false, "age": 1.6, "lines": 25, "hint": "CustHub", "notes": "Simplified extract, not production source."}, {"path": "code-examples/PaymentStatus.java", "provenance": "example-code", "doc_type": "code", "date": "2024-10-15", "stale": false, "age": 2.1, "lines": 12, "hint": "PayRail", "notes": null}, {"path": "code-examples/ledger_accounts.sql", "provenance": "example-code", "doc_type": "ddl", "date": "2023-08-09", "stale": false, "age": 3.3, "lines": 16, "hint": "CoreLedger", "notes": "Partial DDL extract."}, {"path": "code-examples/application.properties", "provenance": "example-code", "doc_type": "config", "date": "2025-01-30", "stale": false, "age": 1.8, "lines": 6, "hint": "Mobile Banking", "notes": "Sanitised; hostnames replaced."}], "trace": [{"seq": 1, "stage": "A. Intake", "actor": "Intake", "action": "ingested", "detail": "docs/customer-onboarding-process.md", "data": {"provenance": "document", "doc_type": "process", "stale": false, "lines": 33}}, {"seq": 2, "stage": "A. Intake", "actor": "Intake", "action": "ingested", "detail": "docs/payments-overview.md", "data": {"provenance": "document", "doc_type": "architecture-overview", "stale": true, "lines": 19}}, {"seq": 3, "stage": "A. Intake", "actor": "Intake", "action": "flagged stale", "detail": "docs/payments-overview.md is 7.5 years old (threshold 5); it will not count towards grade B"}, {"seq": 4, "stage": "A. Intake", "actor": "Intake", "action": "ingested", "detail": "wiki/glossary-export.md", "data": {"provenance": "wiki", "doc_type": "glossary", "stale": false, "lines": 12}}, {"seq": 5, "stage": "A. Intake", "actor": "Intake", "action": "ingested", "detail": "spreadsheets/custhub-data-dictionary.csv", "data": {"provenance": "spreadsheet", "doc_type": "data-dictionary", "stale": false, "lines": 12}}, {"seq": 6, "stage": "A. Intake", "actor": "Intake", "action": "ingested", "detail": "spreadsheets/interface-catalogue.csv", "data": {"provenance": "spreadsheet", "doc_type": "interface-catalogue", "stale": false, "lines": 6}}, {"seq": 7, "stage": "A. Intake", "actor": "Intake", "action": "ingested", "detail": "diagrams/context-diagram.mmd", "data": {"provenance": "diagram", "doc_type": "context-diagram", "stale": false, "lines": 8}}, {"seq": 8, "stage": "A. Intake", "actor": "Intake", "action": "ingested", "detail": "code-examples/CustomerRecord.java", "data": {"provenance": "example-code", "doc_type": "code", "stale": false, "lines": 25}}, {"seq": 9, "stage": "A. Intake", "actor": "Intake", "action": "ingested", "detail": "code-examples/PaymentStatus.java", "data": {"provenance": "example-code", "doc_type": "code", "stale": false, "lines": 12}}, {"seq": 10, "stage": "A. Intake", "actor": "Intake", "action": "ingested", "detail": "code-examples/ledger_accounts.sql", "data": {"provenance": "example-code", "doc_type": "ddl", "stale": false, "lines": 16}}, {"seq": 11, "stage": "A. Intake", "actor": "Intake", "action": "ingested", "detail": "code-examples/application.properties", "data": {"provenance": "example-code", "doc_type": "config", "stale": false, "lines": 6}}, {"seq": 12, "stage": "A. Intake", "actor": "Intake", "action": "source index written", "detail": "10 files citable, 0 missing", "data": {"files": 10, "missing": []}}, {"seq": 13, "stage": "B. Agents propose", "actor": "EA agent", "action": "proposed", "detail": "60 proposals (16 flow, 44 system)", "data": {"agent": "ea", "counts": {"system": 44, "flow": 16}}}, {"seq": 14, "stage": "B. Agents propose", "actor": "BA agent", "action": "proposed", "detail": "21 proposals (13 concept, 5 rule, 3 taxonomy)", "data": {"agent": "ba", "counts": {"rule": 5, "taxonomy": 3, "concept": 13}}}, {"seq": 15, "stage": "B. Agents propose", "actor": "DA agent", "action": "proposed", "detail": "59 proposals (31 attribute, 7 entity, 10 identifier, 8 relationship, 3 taxonomy)", "data": {"agent": "da", "counts": {"entity": 7, "attribute": 31, "identifier": 10, "taxonomy": 3, "relationship": 8}}}, {"seq": 16, "stage": "B. Agents propose", "actor": "Engineering agent", "action": "proposed", "detail": "19 proposals (3 event, 11 interface, 2 rule, 3 taxonomy)", "data": {"agent": "eng", "counts": {"interface": 11, "event": 3, "rule": 2, "taxonomy": 3}}}, {"seq": 17, "stage": "C. Validate", "actor": "Validator", "action": "checked", "detail": "EA: 60 accepted, 0 rejected", "data": {"agent": "ea", "accepted": 60, "rejected": 0}}, {"seq": 18, "stage": "C. Validate", "actor": "Validator", "action": "checked", "detail": "BA: 21 accepted, 0 rejected", "data": {"agent": "ba", "accepted": 21, "rejected": 0}}, {"seq": 19, "stage": "C. Validate", "actor": "Validator", "action": "checked", "detail": "DA: 59 accepted, 0 rejected", "data": {"agent": "da", "accepted": 59, "rejected": 0}}, {"seq": 20, "stage": "C. Validate", "actor": "Validator", "action": "checked", "detail": "ENG: 19 accepted, 0 rejected", "data": {"agent": "eng", "accepted": 19, "rejected": 0}}, {"seq": 21, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "resolved aliases", "detail": "CustHub = CH, CRM, Customer Hub", "data": {"system": "CustHub", "aliases": ["CH", "CRM", "Customer Hub"]}}, {"seq": 22, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "resolved aliases", "detail": "CoreLedger = Account Platform, CL", "data": {"system": "CoreLedger", "aliases": ["Account Platform", "CL"]}}, {"seq": 23, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "resolved aliases", "detail": "Mobile Banking = MB", "data": {"system": "Mobile Banking", "aliases": ["MB"]}}, {"seq": 24, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "resolved aliases", "detail": "Web Banking = WB", "data": {"system": "Web Banking", "aliases": ["WB"]}}, {"seq": 25, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "resolved aliases", "detail": "PayRail = Payments Platform, PR", "data": {"system": "PayRail", "aliases": ["Payments Platform", "PR"]}}, {"seq": 26, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "resolved aliases", "detail": "DataMart = DM, MI warehouse", "data": {"system": "DataMart", "aliases": ["DM", "MI warehouse"]}}, {"seq": 27, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "system 'CustHub': 9 proposals from ea across 6 files", "data": {"element": "SYS-01"}}, {"seq": 28, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "system 'CoreLedger': 11 proposals from ea across 7 files", "data": {"element": "SYS-02"}}, {"seq": 29, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "system 'ONB': 4 proposals from ea across 3 files", "data": {"element": "SYS-03"}}, {"seq": 30, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "system 'Mobile Banking': 5 proposals from ea across 4 files", "data": {"element": "SYS-04"}}, {"seq": 31, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "system 'Web Banking': 3 proposals from ea across 2 files", "data": {"element": "SYS-05"}}, {"seq": 32, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "system 'PayRail': 7 proposals from ea across 5 files", "data": {"element": "SYS-06"}}, {"seq": 33, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "system 'DataMart': 4 proposals from ea across 3 files", "data": {"element": "SYS-07"}}, {"seq": 34, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "flow 'Mobile Banking → PayRail': 3 proposals from ea across 3 files", "data": {"element": "FLW-01"}}, {"seq": 35, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "flow 'CustHub → CoreLedger': 2 proposals from ea across 2 files", "data": {"element": "FLW-04"}}, {"seq": 36, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "flow 'PayRail → CoreLedger': 2 proposals from ea across 2 files", "data": {"element": "FLW-05"}}, {"seq": 37, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "flow 'CoreLedger → DataMart': 2 proposals from ea across 2 files", "data": {"element": "FLW-06"}}, {"seq": 38, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "flow 'CustHub → DataMart': 2 proposals from ea across 2 files", "data": {"element": "FLW-07"}}, {"seq": 39, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "taxonomy 'CustomerType': 3 proposals from ba, da, eng across 3 files", "data": {"element": "TAX-01"}}, {"seq": 40, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "contradiction", "detail": "taxonomy 'CustomerType' · values: ['INDIVIDUAL', 'BUSINESS'] (docs/customer-onboarding-process.md, spreadsheets/custhub-data-dictionary.csv) vs ['INDIVIDUAL', 'SOLE_TRADER', 'COMPANY'] (code-examples/CustomerRecord.java)", "data": {"element": "TAX-01"}}, {"seq": 41, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "taxonomy 'KycStatus': 3 proposals from ba, da, eng across 3 files", "data": {"element": "TAX-02"}}, {"seq": 42, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "taxonomy 'PaymentStatus': 2 proposals from ba, eng across 2 files", "data": {"element": "TAX-03"}}, {"seq": 43, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "contradiction", "detail": "taxonomy 'PaymentStatus' · values: ['PENDING', 'COMPLETED', 'FAILED', 'CANCELLED'] (docs/payments-overview.md) vs ['RECEIVED', 'VALIDATED', 'PENDING', 'COMPLETED', 'FAILED', 'CANCELLED'] (code-examples/PaymentStatus.java)", "data": {"element": "TAX-03"}}, {"seq": 44, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "concept 'Customer': 2 proposals from ba across 2 files", "data": {"element": "CON-01"}}, {"seq": 45, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "concept 'Customer Number': 2 proposals from ba across 2 files", "data": {"element": "CON-03"}}, {"seq": 46, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "concept 'Account': 2 proposals from ba across 2 files", "data": {"element": "CON-04"}}, {"seq": 47, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "concept 'Current Account': 2 proposals from ba across 2 files", "data": {"element": "CON-05"}}, {"seq": 48, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "concept 'Payment': 2 proposals from ba across 2 files", "data": {"element": "CON-06"}}, {"seq": 49, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "entity 'Customer': 2 proposals from da across 2 files", "data": {"element": "ENT-01"}}, {"seq": 50, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "attribute 'Customer.customerNumber': 2 proposals from da across 2 files", "data": {"element": "ATT-01"}}, {"seq": 51, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "identifier 'Customer Number': 6 proposals from da across 5 files", "data": {"element": "IDN-01"}}, {"seq": 52, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "contradiction", "detail": "identifier 'Customer Number' · issued_by: CustHub (docs/customer-onboarding-process.md) vs ONB (wiki/glossary-export.md)", "data": {"element": "IDN-01"}}, {"seq": 53, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "attribute 'Customer.customerType': 2 proposals from da across 2 files", "data": {"element": "ATT-02"}}, {"seq": 54, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "attribute 'Customer.fullName': 2 proposals from da across 2 files", "data": {"element": "ATT-03"}}, {"seq": 55, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "attribute 'Customer.dateOfBirth': 2 proposals from da across 2 files", "data": {"element": "ATT-04"}}, {"seq": 56, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "attribute 'Customer.emailAddress': 2 proposals from da across 2 files", "data": {"element": "ATT-05"}}, {"seq": 57, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "attribute 'Customer.kycStatus': 2 proposals from da across 2 files", "data": {"element": "ATT-06"}}, {"seq": 58, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "identifier 'Account Number': 3 proposals from da across 2 files", "data": {"element": "IDN-02"}}, {"seq": 59, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "relationship 'AccountHolder → Account': 2 proposals from da across 1 files", "data": {"element": "REL-02"}}, {"seq": 60, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "relationship 'AccountHolder → Customer': 2 proposals from da across 1 files", "data": {"element": "REL-04"}}, {"seq": 61, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "interface 'CUST-ACC-01': 3 proposals from eng across 3 files", "data": {"element": "INT-01"}}, {"seq": 62, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "interface 'PAY-01': 3 proposals from eng across 3 files", "data": {"element": "INT-02"}}, {"seq": 63, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "event 'PaymentCompleted': 3 proposals from eng across 3 files", "data": {"element": "EVT-01"}}, {"seq": 64, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "interface 'MI-01': 2 proposals from eng across 2 files", "data": {"element": "INT-04"}}, {"seq": 65, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "merged", "detail": "interface 'MI-02': 2 proposals from eng across 2 files", "data": {"element": "INT-05"}}, {"seq": 66, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "linked", "detail": "concept 'Customer' is realised by entity 'Customer' (CustHub)"}, {"seq": 67, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "linked", "detail": "concept 'Account' is realised by entity 'Account' (CoreLedger)"}, {"seq": 68, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "flagged", "detail": "homonym_risk: Glossary lists 'Account Holder' as a synonym of Customer, but CoreLedger has an entity 'AccountHolder' with its own structure."}, {"seq": 69, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "flagged", "detail": "candidate_synonym: 'Address' may be the unqualified form of 'CustomerAddress'"}, {"seq": 70, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "flagged", "detail": "candidate_synonym: 'PaymentInstruction' looks like 'Payment' with a role suffix"}, {"seq": 71, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "flagged", "detail": "unrealised_concept: No entity found for 'Party'."}, {"seq": 72, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "flagged", "detail": "unrealised_concept: No entity found for 'Current Account'."}, {"seq": 73, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "flagged", "detail": "unrealised_concept: No entity found for 'Mandate'. Possible home: mandate-svc."}, {"seq": 74, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "flagged", "detail": "unrealised_concept: No entity found for 'Product Variant'."}, {"seq": 75, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "flagged", "detail": "system_without_role: 'mandate-svc' appears in 1 source(s) but nothing says what it does."}, {"seq": 76, "stage": "D. Steward reconciles", "actor": "Ontology Steward", "action": "model assembled", "detail": "159 proposals → 83 elements; 3 contradictions; 8 review flags", "data": {"counts": {"system": 8, "flow": 10, "rule": 7, "taxonomy": 4, "concept": 8, "entity": 6, "attribute": 25, "identifier": 3, "relationship": 6, "interface": 5, "event": 1}}}, {"seq": 77, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "graded", "detail": "A: 0 · B: 26 · C: 54 · D: 0 · X: 3", "data": {"distribution": {"A": 0, "B": 26, "C": 54, "D": 0, "X": 3}}}, {"seq": 78, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade B", "detail": "system 'CustHub': 6 independent current sources", "data": {"element": "SYS-01", "grade": "B"}}, {"seq": 79, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade B", "detail": "system 'CoreLedger': 6 independent current sources", "data": {"element": "SYS-02", "grade": "B"}}, {"seq": 80, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade B", "detail": "system 'ONB': 3 independent current sources", "data": {"element": "SYS-03", "grade": "B"}}, {"seq": 81, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade B", "detail": "system 'Mobile Banking': 3 independent current sources", "data": {"element": "SYS-04", "grade": "B"}}, {"seq": 82, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade B", "detail": "system 'Web Banking': 2 independent current sources", "data": {"element": "SYS-05", "grade": "B"}}, {"seq": 83, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade B", "detail": "system 'PayRail': 4 independent current sources", "data": {"element": "SYS-06", "grade": "B"}}, {"seq": 84, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade B", "detail": "system 'DataMart': 2 independent current sources", "data": {"element": "SYS-07", "grade": "B"}}, {"seq": 85, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade C", "detail": "system 'mandate-svc': single source", "data": {"element": "SYS-08", "grade": "C"}}, {"seq": 86, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade X", "detail": "taxonomy 'CustomerType': sources contradict on values", "data": {"element": "TAX-01", "grade": "X"}}, {"seq": 87, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade X", "detail": "taxonomy 'PaymentStatus': sources contradict on values", "data": {"element": "TAX-03", "grade": "X"}}, {"seq": 88, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade C", "detail": "concept 'Customer': single source", "data": {"element": "CON-01", "grade": "C"}}, {"seq": 89, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade C", "detail": "concept 'Party': single source", "data": {"element": "CON-02", "grade": "C"}}, {"seq": 90, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade C", "detail": "concept 'Customer Number': single source", "data": {"element": "CON-03", "grade": "C"}}, {"seq": 91, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade C", "detail": "concept 'Account': single source", "data": {"element": "CON-04", "grade": "C"}}, {"seq": 92, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade C", "detail": "concept 'Current Account': single source", "data": {"element": "CON-05", "grade": "C"}}, {"seq": 93, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade C", "detail": "concept 'Payment': single source", "data": {"element": "CON-06", "grade": "C"}}, {"seq": 94, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade C", "detail": "concept 'Mandate': single source", "data": {"element": "CON-07", "grade": "C"}}, {"seq": 95, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade C", "detail": "concept 'Product Variant': single source", "data": {"element": "CON-08", "grade": "C"}}, {"seq": 96, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade X", "detail": "identifier 'Customer Number': sources contradict on issued_by", "data": {"element": "IDN-01", "grade": "X"}}, {"seq": 97, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade B", "detail": "identifier 'Account Number': 2 independent current sources", "data": {"element": "IDN-02", "grade": "B"}}, {"seq": 98, "stage": "E. Grade evidence", "actor": "Conformance agent", "action": "grade C", "detail": "identifier 'Payment Id': single source", "data": {"element": "IDN-03", "grade": "C"}}, {"seq": 99, "stage": "F. Reference check", "actor": "Ontology Steward", "action": "compared with reference ontology", "detail": "6 reference items found in evidence; 9 added as assumptions (grade D)", "data": {"matched": ["Party", "Customer", "Product Variant", "Account", "Payment", "Customer holds Account"], "assumed": ["Person", "Organisation", "Product", "Subscription", "Channel", "Customer subscribes to Product", "Payment debits Account", "Product Variant is a variant of Product", "Product is accessed through Channel"]}}, {"seq": 100, "stage": "F. Reference check", "actor": "Ontology Steward", "action": "assumed (D)", "detail": "entity 'Person' — expected by reference, not seen in evidence", "data": {"element": "ENT-07"}}, {"seq": 101, "stage": "F. Reference check", "actor": "Ontology Steward", "action": "assumed (D)", "detail": "entity 'Organisation' — expected by reference, not seen in evidence", "data": {"element": "ENT-08"}}, {"seq": 102, "stage": "F. Reference check", "actor": "Ontology Steward", "action": "assumed (D)", "detail": "entity 'Product' — expected by reference, not seen in evidence", "data": {"element": "ENT-09"}}, {"seq": 103, "stage": "F. Reference check", "actor": "Ontology Steward", "action": "assumed (D)", "detail": "entity 'Subscription' — expected by reference, not seen in evidence", "data": {"element": "ENT-10"}}, {"seq": 104, "stage": "F. Reference check", "actor": "Ontology Steward", "action": "assumed (D)", "detail": "entity 'Channel' — expected by reference, not seen in evidence", "data": {"element": "ENT-11"}}, {"seq": 105, "stage": "F. Reference check", "actor": "Ontology Steward", "action": "assumed (D)", "detail": "relationship 'Customer subscribes to Product' — expected by reference, not seen in evidence", "data": {"element": "REL-07"}}, {"seq": 106, "stage": "F. Reference check", "actor": "Ontology Steward", "action": "assumed (D)", "detail": "relationship 'Payment debits Account' — expected by reference, not seen in evidence", "data": {"element": "REL-08"}}, {"seq": 107, "stage": "F. Reference check", "actor": "Ontology Steward", "action": "assumed (D)", "detail": "relationship 'Product Variant is a variant of Product' — expected by reference, not seen in evidence", "data": {"element": "REL-09"}}, {"seq": 108, "stage": "F. Reference check", "actor": "Ontology Steward", "action": "assumed (D)", "detail": "relationship 'Product is accessed through Channel' — expected by reference, not seen in evidence", "data": {"element": "REL-10"}}, {"seq": 109, "stage": "G. Unknowns", "actor": "Ontology Steward", "action": "unknowns register built", "detail": "23 items — high 7, medium 7, low 9", "data": {"priorities": {"high": 7, "medium": 7, "low": 9}}}, {"seq": 110, "stage": "G. Unknowns", "actor": "Ontology Steward", "action": "U-01", "detail": "Is 'Account Holder' a synonym of Customer, or a different concept (a role) that shares the name?", "data": {"owner": "Business Domain Owner"}}, {"seq": 111, "stage": "G. Unknowns", "actor": "Ontology Steward", "action": "U-02", "detail": "Request a schema export and a masked data sample from CoreLedger.", "data": {"owner": "Engineering Lead (with the system owner)"}}, {"seq": 112, "stage": "G. Unknowns", "actor": "Ontology Steward", "action": "U-03", "detail": "Request a schema export and a masked data sample from CustHub.", "data": {"owner": "Engineering Lead (with the system owner)"}}, {"seq": 113, "stage": "G. Unknowns", "actor": "Ontology Steward", "action": "U-04", "detail": "Request a schema export and a masked data sample from PayRail.", "data": {"owner": "Engineering Lead (with the system owner)"}}, {"seq": 114, "stage": "G. Unknowns", "actor": "Ontology Steward", "action": "U-05", "detail": "Sources disagree on the issued by of identifier 'Customer Number'. Which is correct today?", "data": {"owner": "Data Architecture Authority"}}, {"seq": 115, "stage": "G. Unknowns", "actor": "Ontology Steward", "action": "U-06", "detail": "Sources disagree on the values of taxonomy 'CustomerType'. Which is correct today?", "data": {"owner": "Business Domain Owner"}}, {"seq": 116, "stage": "G. Unknowns", "actor": "Ontology Steward", "action": "U-07", "detail": "Sources disagree on the values of taxonomy 'PaymentStatus'. Which is correct today?", "data": {"owner": "Business Domain Owner"}}, {"seq": 117, "stage": "H. Gate checks", "actor": "Conformance agent", "action": "phase 1 gate: provisional", "detail": "Enterprise scope and architecture discovery — P1.1 pass; P1.2 provisional; P1.3 pass; P1.4 pass; 6/18 in-scope elements below grade B", "data": {"phase": 1, "status": "provisional"}}, {"seq": 118, "stage": "H. Gate checks", "actor": "Conformance agent", "action": "phase 2 gate: provisional", "detail": "Business concepts and domain modelling — P2.1 pass; P2.2 pass; P2.3 pass; P2.4 pass; 18/19 in-scope elements below grade B", "data": {"phase": 2, "status": "provisional"}}, {"seq": 119, "stage": "H. Gate checks", "actor": "Conformance agent", "action": "phase 3 gate: provisional", "detail": "Entity and relationship modelling — P3.1 provisional; P3.2 provisional; 41/49 in-scope elements below grade B", "data": {"phase": 3, "status": "provisional"}}, {"seq": 120, "stage": "I. Human gate", "actor": "Human gate", "action": "routed to Enterprise Architecture Authority", "detail": "18 items — approve-provisional 18", "data": {"approver": "Enterprise Architecture Authority", "decisions": {"approve-provisional": 18}, "simulated": true}}, {"seq": 121, "stage": "I. Human gate", "actor": "Human gate", "action": "routed to Business Domain Owner", "detail": "19 items — approve-provisional 17, defer 2", "data": {"approver": "Business Domain Owner", "decisions": {"approve-provisional": 17, "defer": 2}, "simulated": true}}, {"seq": 122, "stage": "I. Human gate", "actor": "Human gate", "action": "routed to Domain Owner and Data Architecture Authority", "detail": "21 items — approve-provisional 12, note-assumption 9", "data": {"approver": "Domain Owner and Data Architecture Authority", "decisions": {"approve-provisional": 12, "note-assumption": 9}, "simulated": true}}, {"seq": 123, "stage": "I. Human gate", "actor": "Human gate", "action": "routed to Data Architecture Authority", "detail": "28 items — approve-provisional 27, defer 1", "data": {"approver": "Data Architecture Authority", "decisions": {"approve-provisional": 27, "defer": 1}, "simulated": true}}, {"seq": 124, "stage": "I. Human gate", "actor": "Human gate", "action": "routed to Design Authority", "detail": "6 items — approve-provisional 6", "data": {"approver": "Design Authority", "decisions": {"approve-provisional": 6}, "simulated": true}}, {"seq": 125, "stage": "J. Publish", "actor": "Publisher", "action": "deliverables written", "detail": "14 files in outputs/loop-01/", "data": {"grades": {"A": 0, "B": 26, "C": 54, "D": 9, "X": 3}}}], "grades": {"A": 0, "B": 26, "C": 54, "D": 9, "X": 3}, "kinds": {"system": 8, "flow": 10, "rule": 7, "taxonomy": 4, "concept": 8, "entity": 11, "attribute": 25, "identifier": 3, "relationship": 10, "interface": 5, "event": 1}, "elements_total": 92, "systems": [{"id": "SYS-01", "name": "CustHub", "aliases": ["Customer Hub", "CRM", "CH"], "roles": ["system of record (candidate): Customer", "data-holding application (candidate)"], "grade": "B", "sources": 6}, {"id": "SYS-02", "name": "CoreLedger", "aliases": ["Account Platform", "CL"], "roles": ["system of record (candidate): Account", "database: DB2", "data-holding application (candidate)"], "grade": "B", "sources": 7}, {"id": "SYS-03", "name": "ONB", "aliases": [], "roles": ["onboarding front end"], "grade": "B", "sources": 3}, {"id": "SYS-04", "name": "Mobile Banking", "aliases": ["MB"], "roles": ["channel"], "grade": "B", "sources": 4}, {"id": "SYS-05", "name": "Web Banking", "aliases": ["WB"], "roles": ["channel"], "grade": "B", "sources": 2}, {"id": "SYS-06", "name": "PayRail", "aliases": ["Payments Platform", "PR"], "roles": ["processing: outbound customer payments", "data-holding application (candidate)"], "grade": "B", "sources": 5}, {"id": "SYS-07", "name": "DataMart", "aliases": ["MI warehouse", "DM"], "roles": ["reporting / analytics (candidate)"], "grade": "B", "sources": 3}, {"id": "SYS-08", "name": "mandate-svc", "aliases": [], "roles": [], "grade": "C", "sources": 1}], "contradictions": [{"id": "TAX-01", "kind": "taxonomy", "name": "CustomerType", "variants": [{"property": "values", "value": ["INDIVIDUAL", "BUSINESS"], "files": ["docs/customer-onboarding-process.md", "spreadsheets/custhub-data-dictionary.csv"], "stale": []}, {"property": "values", "value": ["INDIVIDUAL", "SOLE_TRADER", "COMPANY"], "files": ["code-examples/CustomerRecord.java"], "stale": []}]}, {"id": "TAX-03", "kind": "taxonomy", "name": "PaymentStatus", "variants": [{"property": "values", "value": ["PENDING", "COMPLETED", "FAILED", "CANCELLED"], "files": ["docs/payments-overview.md"], "stale": ["docs/payments-overview.md"]}, {"property": "values", "value": ["RECEIVED", "VALIDATED", "PENDING", "COMPLETED", "FAILED", "CANCELLED"], "files": ["code-examples/PaymentStatus.java"], "stale": []}]}, {"id": "IDN-01", "kind": "identifier", "name": "Customer Number", "variants": [{"property": "issued_by", "value": "CustHub", "files": ["docs/customer-onboarding-process.md"], "stale": []}, {"property": "issued_by", "value": "ONB", "files": ["wiki/glossary-export.md"], "stale": []}]}], "assumed": [{"id": "ENT-07", "kind": "entity", "name": "Person"}, {"id": "ENT-08", "kind": "entity", "name": "Organisation"}, {"id": "ENT-09", "kind": "entity", "name": "Product"}, {"id": "ENT-10", "kind": "entity", "name": "Subscription"}, {"id": "ENT-11", "kind": "entity", "name": "Channel"}, {"id": "REL-07", "kind": "relationship", "name": "Customer subscribes to Product"}, {"id": "REL-08", "kind": "relationship", "name": "Payment debits Account"}, {"id": "REL-09", "kind": "relationship", "name": "Product Variant is a variant of Product"}, {"id": "REL-10", "kind": "relationship", "name": "Product is accessed through Channel"}], "unknowns": [{"type": "sme_question", "priority": "high", "question": "Is 'Account Holder' a synonym of Customer, or a different concept (a role) that shares the name?", "why": "Glossary lists 'Account Holder' as a synonym of Customer, but CoreLedger has an entity 'AccountHolder' with its own structure.", "affects": ["CON-01", "ENT-04"], "owner": "Business Domain Owner", "status": "open", "id": "U-01"}, {"type": "evidence_request", "priority": "high", "question": "Request a schema export and a masked data sample from CoreLedger.", "why": "Would let 12 entity/attribute/identifier elements move to grade A.", "affects": ["SYS-02"], "owner": "Engineering Lead (with the system owner)", "status": "open", "id": "U-02"}, {"type": "evidence_request", "priority": "high", "question": "Request a schema export and a masked data sample from CustHub.", "why": "Would let 15 entity/attribute/identifier elements move to grade A.", "affects": ["SYS-01"], "owner": "Engineering Lead (with the system owner)", "status": "open", "id": "U-03"}, {"type": "evidence_request", "priority": "high", "question": "Request a schema export and a masked data sample from PayRail.", "why": "Would let 7 entity/attribute/identifier elements move to grade A.", "affects": ["SYS-06"], "owner": "Engineering Lead (with the system owner)", "status": "open", "id": "U-04"}, {"type": "sme_question", "priority": "high", "question": "Sources disagree on the issued by of identifier 'Customer Number'. Which is correct today?", "why": "CustHub ← docs/customer-onboarding-process.md | ONB ← wiki/glossary-export.md", "affects": ["IDN-01"], "owner": "Data Architecture Authority", "status": "open", "id": "U-05"}, {"type": "sme_question", "priority": "high", "question": "Sources disagree on the values of taxonomy 'CustomerType'. Which is correct today?", "why": "INDIVIDUAL, BUSINESS ← docs/customer-onboarding-process.md; spreadsheets/custhub-data-dictionary.csv | INDIVIDUAL, SOLE_TRADER, COMPANY ← code-examples/CustomerRecord.java", "affects": ["TAX-01"], "owner": "Business Domain Owner", "status": "open", "id": "U-06"}, {"type": "sme_question", "priority": "high", "question": "Sources disagree on the values of taxonomy 'PaymentStatus'. Which is correct today?", "why": "PENDING, COMPLETED, FAILED, CANCELLED ← docs/payments-overview.md (stale, 7.5 yrs) | RECEIVED, VALIDATED, PENDING, COMPLETED, FAILED, CANCELLED ← code-examples/PaymentStatus.java", "affects": ["TAX-03"], "owner": "Business Domain Owner", "status": "open", "id": "U-07"}, {"type": "sme_question", "priority": "medium", "question": "Are these the same thing? 'Address' may be the unqualified form of 'CustomerAddress'.", "why": "Merging them changes the entity catalogue and the stand-in schema.", "affects": ["ENT-02", "ENT-05"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-08"}, {"type": "sme_question", "priority": "medium", "question": "Are these the same thing? 'PaymentInstruction' looks like 'Payment' with a role suffix.", "why": "Merging them changes the entity catalogue and the stand-in schema.", "affects": ["ENT-06", "CON-06"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-09"}, {"type": "sme_question", "priority": "medium", "question": "What is 'mandate-svc', who owns it, and does it master any data?", "why": "'mandate-svc' appears in 1 source(s) but nothing says what it does.", "affects": ["SYS-08"], "owner": "Enterprise Architecture Authority", "status": "open", "id": "U-10"}, {"type": "sme_question", "priority": "medium", "question": "Where is 'Current Account' held, and which system is the source of truth?", "why": "No entity found for 'Current Account'.", "affects": ["CON-05"], "owner": "Data Architecture Authority", "status": "open", "id": "U-11"}, {"type": "sme_question", "priority": "medium", "question": "Where is 'Mandate' held, and which system is the source of truth?", "why": "No entity found for 'Mandate'. Possible home: mandate-svc.", "affects": ["CON-07"], "owner": "Data Architecture Authority", "status": "open", "id": "U-12"}, {"type": "sme_question", "priority": "medium", "question": "Where is 'Party' held, and which system is the source of truth?", "why": "No entity found for 'Party'.", "affects": ["CON-02"], "owner": "Data Architecture Authority", "status": "open", "id": "U-13"}, {"type": "sme_question", "priority": "medium", "question": "Where is 'Product Variant' held, and which system is the source of truth?", "why": "No entity found for 'Product Variant'.", "affects": ["CON-08"], "owner": "Data Architecture Authority", "status": "open", "id": "U-14"}, {"type": "sme_question", "priority": "low", "question": "The reference model expects 'Channel'. Does the bank have it, and where is it recorded?", "why": "Added at grade D from the playbook's reference ontology; no evidence yet.", "affects": ["ENT-11"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-15"}, {"type": "sme_question", "priority": "low", "question": "The reference model expects 'Customer subscribes to Product'. Is this relationship real here, and which system records it?", "why": "Added at grade D from the playbook's reference ontology; no evidence yet.", "affects": ["REL-07"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-16"}, {"type": "sme_question", "priority": "low", "question": "The reference model expects 'Organisation'. Does the bank have it, and where is it recorded?", "why": "Added at grade D from the playbook's reference ontology; no evidence yet.", "affects": ["ENT-08"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-17"}, {"type": "sme_question", "priority": "low", "question": "The reference model expects 'Payment debits Account'. Is this relationship real here, and which system records it?", "why": "Added at grade D from the playbook's reference ontology; no evidence yet.", "affects": ["REL-08"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-18"}, {"type": "sme_question", "priority": "low", "question": "The reference model expects 'Person'. Does the bank have it, and where is it recorded?", "why": "Added at grade D from the playbook's reference ontology; no evidence yet.", "affects": ["ENT-07"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-19"}, {"type": "sme_question", "priority": "low", "question": "The reference model expects 'Product Variant is a variant of Product'. Is this relationship real here, and which system records it?", "why": "Added at grade D from the playbook's reference ontology; no evidence yet.", "affects": ["REL-09"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-20"}, {"type": "sme_question", "priority": "low", "question": "The reference model expects 'Product is accessed through Channel'. Is this relationship real here, and which system records it?", "why": "Added at grade D from the playbook's reference ontology; no evidence yet.", "affects": ["REL-10"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-21"}, {"type": "sme_question", "priority": "low", "question": "The reference model expects 'Product'. Does the bank have it, and where is it recorded?", "why": "Added at grade D from the playbook's reference ontology; no evidence yet.", "affects": ["ENT-09"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-22"}, {"type": "sme_question", "priority": "low", "question": "The reference model expects 'Subscription'. Does the bank have it, and where is it recorded?", "why": "Added at grade D from the playbook's reference ontology; no evidence yet.", "affects": ["ENT-10"], "owner": "Domain Owner and Data Architecture Authority", "status": "open", "id": "U-23"}], "gates": [{"phase": 1, "name": "Enterprise scope and architecture discovery", "status": "provisional", "below_B": 6, "in_scope": 18, "criteria": [{"id": "P1.1", "text": "Every manifest file is ingested and citable", "status": "pass"}, {"id": "P1.2", "text": "Every candidate system has a role or an open unknown", "status": "provisional"}, {"id": "P1.3", "text": "Every candidate system cites at least one source", "status": "pass"}, {"id": "P1.4", "text": "An unknowns register has been produced", "status": "pass"}]}, {"phase": 2, "name": "Business concepts and domain modelling", "status": "provisional", "below_B": 18, "in_scope": 19, "criteria": [{"id": "P2.1", "text": "Every concept has a definition", "status": "pass"}, {"id": "P2.2", "text": "A synonym register exists", "status": "pass"}, {"id": "P2.3", "text": "Every contradiction has an open unknown", "status": "pass"}, {"id": "P2.4", "text": "Key concepts present: Customer, Account, Payment", "status": "pass"}]}, {"phase": 3, "name": "Entity and relationship modelling", "status": "provisional", "below_B": 41, "in_scope": 49, "criteria": [{"id": "P3.1", "text": "Every candidate entity has at least one attribute", "status": "provisional"}, {"id": "P3.2", "text": "Entities are traced to a concept or flagged for review", "status": "provisional"}]}], "rejections": [{"name": "Invented term", "problem": "quote not found in docs/customer-onboarding-process.md: 'A sentence the agent made up.'"}, {"name": "Out-of-scope system", "problem": "agent 'ba' may not propose 'system' (RACI write scope)"}, {"name": "Self-approved concept", "problem": "agents cannot mark elements 'confirmed'; only grade-A evidence or a human can"}], "standin": "-- STAND-IN schema for CustHub, generated from evidence batch loop-01.\n-- This is a hypothesis for the proof of concept, not a copy of the real system.\n-- Each column comment carries its evidence grade. Replace with the real schema when it arrives.\n\n-- ENT-01 Customer · grade B · approved (provisional) — simulated\nCREATE TABLE customer (\n    customer_number        CHAR(10) NOT NULL,  -- grade B\n    customer_type          VARCHAR(20) NOT NULL,  -- grade B; CustomerType grade X — values contested\n    full_name              VARCHAR(200) NOT NULL,  -- grade B\n    date_of_birth          DATE,  -- grade B\n    email_address          VARCHAR(254),  -- grade B\n    kyc_status             VARCHAR(20) NOT NULL CHECK (kyc_status IN ('PENDING', 'PASSED', 'FAILED', 'REFERRED')),  -- grade B; KycStatus grade B\n    created_timestamp      TIMESTAMP NOT NULL,  -- grade C\n    PRIMARY KEY (customer_number)\n);", "outputs": ["as-is-ontology.yaml", "elements.json", "evidence-register.json", "gate-report.md", "glossary.md", "jira-issues.json", "standins/core_ledger.sql", "standins/cust_hub.sql", "standins/pay_rail.sql", "summary.md", "system-inventory.md", "trace.json", "unknowns-register.md"], "agents": {"ba": {"title": "Business Analyst agent", "persona": "Business Analyst (BA)", "may_propose": ["concept", "rule", "taxonomy"]}, "ea": {"title": "Enterprise Architect agent", "persona": "Enterprise Architect (EA)", "may_propose": ["system", "flow", "domain"]}, "da": {"title": "Data Architect agent", "persona": "Data Architect (DA)", "may_propose": ["entity", "attribute", "relationship", "identifier", "taxonomy"]}, "eng": {"title": "Engineering agent", "persona": "Engineering Teams", "may_propose": ["interface", "event", "rule", "taxonomy"]}, "steward": {"title": "Ontology Steward", "persona": "Ontology Working Group / Ontology Steward", "may_propose": []}, "conformance": {"title": "Conformance agent", "persona": "Definition-of-done checker", "may_propose": []}}, "approvals": {"concept": {"recommends": "BA", "approves": "Business Domain Owner"}, "rule": {"recommends": "BA", "approves": "Business Domain Owner"}, "taxonomy": {"recommends": "BA / DA", "approves": "Business Domain Owner"}, "system": {"recommends": "EA", "approves": "Enterprise Architecture Authority"}, "flow": {"recommends": "EA", "approves": "Enterprise Architecture Authority"}, "domain": {"recommends": "EA", "approves": "Enterprise Architecture Authority"}, "entity": {"recommends": "BA / DA", "approves": "Domain Owner and Data Architecture Authority"}, "attribute": {"recommends": "DA", "approves": "Data Architecture Authority"}, "relationship": {"recommends": "BA / DA", "approves": "Domain Owner and Data Architecture Authority"}, "identifier": {"recommends": "DA", "approves": "Data Architecture Authority"}, "interface": {"recommends": "DA / Engineering", "approves": "Design Authority"}, "event": {"recommends": "DA / Engineering", "approves": "Design Authority"}}, "grade_text": {"A": "Confirmed by a real system artefact (real source code, schema export, data sample)", "B": "Two or more independent, current sources agree", "C": "Supported by a single source (or only by stale sources)", "D": "Assumed from the reference ontology, or inferred without direct evidence", "X": "Sources contradict each other"}, "phases": [{"id": 1, "name": "Enterprise scope and architecture discovery", "mode": "provisional", "gate": "Enterprise scope and architectural context are agreed."}, {"id": 2, "name": "Business concepts and domain modelling", "mode": "run", "gate": "Shared business concepts and definitions are approved."}, {"id": 3, "name": "Entity and relationship modelling", "mode": "run", "gate": "Conceptual model is validated by business and architecture stakeholders."}, {"id": 4, "name": "Logical data modelling", "mode": "provisional", "gate": "Logical data model is reviewed and agreed."}, {"id": 5, "name": "Taxonomy, semantics and rules", "mode": "run", "gate": "Business meaning and classification standards are agreed."}, {"id": 6, "name": "Enterprise architecture and system mapping", "mode": "provisional", "gate": "Enterprise architecture and system mapping are approved."}, {"id": 7, "name": "Integration, API and event design", "mode": "provisional", "gate": "Interface and integration designs are approved."}, {"id": 8, "name": "Governance, quality and security", "mode": "run", "gate": "Governance and operational controls are approved."}, {"id": 9, "name": "Implementation and engineering delivery", "mode": "deferred", "gate": "Technical implementation passes agreed acceptance criteria."}, {"id": 10, "name": "Validation, adoption and continuous evolution", "mode": "run", "gate": "Ongoing ownership, maintenance and change control are established."}]}</script>
+<script>
+(() => {
+const D = JSON.parse(document.getElementById('data').textContent);
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const GR = ['A', 'B', 'C', 'D', 'X'];
+const g = x => `<span class="g g-${x}">${x}</span>`;
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+                set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+const T = D.trace;
+const ev = (action, stage) => T.filter(e => e.action === action && (!stage || e.stage.startsWith(stage)));
+$('#brandsub').textContent = `${D.loop} · ${D.organisation || 'sample batch'} · storyboard for review`;
+
+/* ---------- Routing ---------- */
+const views = ['storyboard', 'agents', 'simulation', 'export'];
+function route() {
+  const v = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'storyboard';
+  views.forEach(x => { $('#v-' + x).hidden = x !== v; });
+  document.querySelectorAll('nav.tabs a').forEach(a => a.dataset.view === v ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+}
+addEventListener('hashchange', route); route();
+
+/* ---------- Storyboard frames ---------- */
+const counts = Object.fromEntries(ev('proposed').map(e => [e.data.agent, e.data]));
+const proposalsTotal = ev('proposed').reduce((n, e) => n + Object.values(e.data.counts).reduce((a, b) => a + b, 0), 0);
+const stale = D.files.filter(f => f.stale);
+const total = D.elements_total;
+const barHtml = () => {
+  const cols = { A: 'var(--gA)', B: 'var(--gB)', C: 'var(--gC)', D: 'var(--gD)', X: 'var(--gX)' };
+  return `<div class="bar" role="img" aria-label="Grade distribution">${GR.map(k => D.grades[k] ? `<i style="width:${(D.grades[k] / total * 100).toFixed(2)}%;background:${cols[k]}"></i>` : '').join('')}</div>
+    <div class="legend">${GR.map(k => `<span>${g(k)} ${D.grades[k]}</span>`).join('')}<span class="muted">of ${total} elements</span></div>`;
+};
+const agentName = { ea: 'EA agent', ba: 'BA agent', da: 'DA agent', eng: 'Engineering agent' };
+const high = D.unknowns.filter(u => u.priority === 'high');
+const evReq = D.unknowns.filter(u => u.type === 'evidence_request');
+
+const frames = [
+  { stage: 'Input', title: 'An evidence batch arrives',
+    what: `A loop starts with a folder of extracts and a manifest. This sample has ${D.files.length} files: documents, a wiki export, spreadsheets, a diagram transcribed from an image, and example code. There is no real source code. Each file's provenance limits how strong its evidence can be.`,
+    who: 'You (or a system owner) · manifest.yaml', io: ['Document extracts, example code', 'A manifest listing provenance, date, system hint'],
+    scene: () => `<div class="chips">${D.files.map(f => `<div class="fchip${f.stale ? ' stale' : ''}"><b>${esc(f.path.split('/').pop())}</b><span>${esc(f.provenance)} · ${esc(f.date)}${f.stale ? ' · stale' : ''}${f.hint ? ' · ' + esc(f.hint) : ''}</span></div>`).join('')}</div>`,
+    review: ['Are these the kinds of extracts you will have?', 'Is "provenance" the right way to classify them, or do you need more types?', 'Is a 5-year staleness threshold right for your estate?'] },
+  { stage: 'A · Intake', title: 'Intake builds a citable source index',
+    what: `Every listed file is loaded line by line and checked for age. ${stale.length} file is stale (${stale.map(f => esc(f.path.split('/').pop()) + `, ${f.age} years`).join('; ')}), so it can still be cited but cannot raise a grade to B. Files missing from the manifest cannot be cited at all.`,
+    who: 'Deterministic tool (ontokit ingest)', io: ['manifest.yaml + files', 'sources.json'],
+    scene: () => `<div class="tablewrap" style="border:0"><table><thead><tr><th>File</th><th>Type</th><th>Lines</th><th>Age</th></tr></thead><tbody>${D.files.map(f => `<tr><td class="mono">${esc(f.path)}</td><td>${esc(f.doc_type)}</td><td>${f.lines}</td><td>${f.age ?? '—'} y${f.stale ? ' · <span class="g g-C">stale</span>' : ''}</td></tr>`).join('')}</tbody></table></div>`,
+    review: ['Should any file types be refused at intake (e.g. personal data)?', 'Do you want sensitivity labels to route files to local models only?'] },
+  { stage: 'B · Agents propose', title: 'Four persona agents read in parallel',
+    what: `The BA, EA, DA and Engineering agents each read the whole batch through their own role's lens. Between them they wrote ${proposalsTotal} proposals. Each proposal cites one verbatim line, and the same fact found in three files becomes three proposals. That repetition is how independent agreement is measured later.`,
+    who: 'BA · EA · DA · Engineering agents', io: ['sources.json', 'proposals/{ba,ea,da,eng}.json'],
+    scene: () => `<div class="lanes">${['ba', 'ea', 'da', 'eng'].map(k => { const c = counts[k]?.counts || {}; const n = Object.values(c).reduce((a, b) => a + b, 0); return `<div class="lane"><b>${agentName[k]}</b><span class="n">${n}</span>${Object.entries(c).map(([kk, v]) => `<span class="kv">${v} ${kk}</span>`).join('')}</div>`; }).join('')}</div>`,
+    review: ['Is the split of responsibilities between the four agents right?', 'Should the Engineering agent also propose systems it sees in config, or leave those to EA?'] },
+  { stage: 'C · Validate', title: 'The validator rejects anything it cannot verify',
+    what: 'This is the guardrail against hallucination. Every quote is checked against its source file. Each agent may only propose the element kinds its RACI row allows, and no agent may mark anything confirmed. Rejected proposals go back to the agent to fix.',
+    who: 'Deterministic tool (ontokit validate)', io: ['proposals/*.json', 'validated.json (accepted + rejected)'],
+    scene: () => `<div class="rows">${D.rejections.map(r => `<div class="row"><span class="g g-X">✕</span><b>${esc(r.name)}</b><span class="mono muted">${esc(r.problem)}</span></div>`).join('')}</div><p class="muted" style="margin-top:8px;font-size:.78rem">Real validator messages for three deliberately bad proposals. The simulated agents passed with 0 rejections.</p>`,
+    review: ['Is two retries per agent enough before moving on?', 'Should a rejected proposal be kept for audit, or dropped?'] },
+  { stage: 'D · Steward', title: 'The Steward resolves what the systems are called',
+    what: 'Documents name the same system many ways. The Steward merges names only where a source says they are the same, for example "CustHub (also called Customer Hub)" or a diagram node "CH". A name nobody explains stays separate.',
+    who: 'Ontology Steward', io: ['validated proposals', 'system alias map'],
+    scene: () => `<div class="rows">${ev('resolved aliases').map(e => `<div class="row"><b>${esc(e.data.system)}</b><span class="arrow">=</span><span class="mono">${esc(e.data.aliases.join(' · '))}</span></div>`).join('')}${D.systems.filter(s => !s.aliases.length).map(s => `<div class="row"><b>${esc(s.name)}</b><span class="muted">no aliases found</span> ${g(s.grade)}</div>`).join('')}</div>`,
+    review: ['Is merging on stated aliases only too cautious? The alternative is fuzzy matching with human review.', 'Should team names and product names count as aliases?'] },
+  { stage: 'D · Steward', title: 'Contradictions are kept, not resolved',
+    what: `When sources disagree, both versions are kept, the element is graded X, and the disagreement becomes a question for the named decider. This batch has ${D.contradictions.length} contradictions. The Steward also flags likely synonyms, homonyms and concepts with nowhere to live.`,
+    who: 'Ontology Steward', io: ['merged elements', 'conflicts + review flags'],
+    scene: () => `<div class="rows">${D.contradictions.map(c => `<div class="row" style="display:grid;gap:4px"><div>${g('X')} <b>${esc(c.name)}</b> <span class="muted">${esc(c.kind)} · ${esc(c.variants[0].property.replace('_', ' '))}</span></div>${c.variants.map(v => `<div class="mono" style="font-size:.74rem">${esc(Array.isArray(v.value) ? v.value.join(', ') : v.value)} <span class="muted">← ${esc(v.files.map(f => f.split('/').pop()).join(', '))}${v.stale.length ? ' (stale)' : ''}</span></div>`).join('')}</div>`).join('')}</div>`,
+    review: ['Do these three look like the contradictions you would expect in your estate?', 'Should a stale source automatically lose to a current one, or always go to a human? (Currently: always a human.)'] },
+  { stage: 'E · Grade', title: 'Every element gets an evidence grade',
+    what: 'Grades are computed from rules, not judged. Two independent current files make B, one makes C, and a contradiction makes X. Documents and example code cannot reach A. Grade A needs real schemas, real source or data samples, which this loop does not have.',
+    who: 'Conformance agent (deterministic grading)', io: ['merged model', 'grade per element + reason'],
+    scene: () => barHtml() + `<div class="rows" style="margin-top:10px">${D.systems.slice(0, 4).map(s => `<div class="row">${g(s.grade)} <b>${esc(s.name)}</b><span class="muted">${s.sources} sources</span></div>`).join('')}</div>`,
+    review: ['Is "two independent files" the right bar for B?', 'Should a bare mention of a business concept count as support? (Currently: no.)'] },
+  { stage: 'F · Reference', title: 'The reference ontology fills gaps, labelled as assumptions',
+    what: `The playbook's product and platform reference model (§6) shows what is missing. ${D.assumed.length} items it expects were not found in the evidence. They are added at grade D as assumptions, and each one raises a question. They never appear as as-is fact.`,
+    who: 'Ontology Steward', io: ['graded model + reference_ontology.yaml', 'assumed elements (D)'],
+    scene: () => `<div class="chips">${D.assumed.map(a => `<span class="pill">${g('D')} ${esc(a.name)}</span>`).join('')}</div>`,
+    review: ['Is this the right part of the reference ontology for your first domain?', 'Should assumptions be hidden from stakeholder views until confirmed?'] },
+  { stage: 'G · Unknowns', title: 'The unknowns register is the main deliverable',
+    what: `${D.unknowns.length} specific questions and evidence requests, each with an owner taken from the decision-rights table. ${high.length} are high priority. Evidence requests show how many elements a schema export would move to grade A.`,
+    who: 'Ontology Steward', io: ['model + flags', 'unknowns-register.md, jira-issues.json'],
+    scene: () => `<div class="rows">${high.map(u => `<div class="row" style="display:grid;gap:3px"><div><span class="pill high">${u.id} · ${esc(u.type.replace('_', ' '))}</span></div><div>${esc(u.question)}</div><div class="muted" style="font-size:.78rem">Owner: ${esc(u.owner)}</div></div>`).join('')}</div>`,
+    review: ['Are these questions specific enough for an SME to answer in one reply?', 'Should unknowns go straight to Jira, or be reviewed first? (Currently: only with your go-ahead.)'] },
+  { stage: 'H · Gates', title: 'Automated gate checks: provisional, not passed',
+    what: 'Each phase\'s exit criteria are checked automatically. A failure that is covered by an open unknown makes the result provisional. With no grade-A evidence, a phase can only pass provisionally, so you can move ahead on the business phases while system mapping stays open.',
+    who: 'Conformance agent', io: ['model + unknowns', 'gates.json, gate-report.md'],
+    scene: () => `<div class="rows">${D.gates.map(p => `<div class="row" style="display:grid;gap:5px"><div><b>Phase ${p.phase}</b> ${esc(p.name)} <span class="pill ${p.status}">${p.status}</span></div><div class="chips">${p.criteria.map(c => `<span class="pill ${c.status}" title="${esc(c.text)}">${c.id}</span>`).join('')}<span class="muted" style="font-size:.76rem">${p.below_B}/${p.in_scope} below B</span></div></div>`).join('')}</div>`,
+    review: ['Are these the right automated checks for phases 1–3?', 'What should block a provisional phase from going further?'] },
+  { stage: 'I · Human gate', title: 'Named people approve, by role',
+    what: 'Every element goes to the approver the playbook names for its kind. In live mode Claude Code asks you one approver role at a time and never fills in a decision you did not give. In this simulation the decisions are filled in and labelled "simulated".',
+    who: 'Business Domain Owner · EA Authority · Data Architecture Authority · Design Authority', io: ['approvals.yaml (pending)', 'decisions with who + why'],
+    scene: () => `<div class="rows">${T.filter(e => e.action.startsWith('routed to')).map(e => `<div class="row"><b>${esc(e.data.approver)}</b><span class="muted">${esc(Object.entries(e.data.decisions).map(([k, v]) => `${v} ${k}`).join(' · '))}</span></div>`).join('')}</div>`,
+    review: ['Is "approve-provisional" a decision your approvers will accept?', 'Should approvals be batched by grade, by domain, or by system?'] },
+  { stage: 'J · Publish', title: 'Deliverables, including stand-ins for the proof of concept',
+    what: 'The loop publishes a LinkML-style as-is ontology, a system inventory, a glossary, the unknowns register and a gate report. It also writes a stand-in SQL schema for each data-holding system, which the reference architecture PoC can run against before real access exists.',
+    who: 'Publisher (ontokit publish)', io: ['approved model', 'discovery/outputs/loop-01/'],
+    scene: () => `<div class="chips" style="margin-bottom:10px">${D.outputs.filter(o => !o.endsWith('trace.json')).map(o => `<span class="pill mono">${esc(o)}</span>`).join('')}</div><pre class="code">${esc(D.standin)}</pre>`,
+    review: ['Is LinkML acceptable as the shared source-of-truth format?', 'Should stand-ins also generate synthetic data and a mock API, like the CRM and ERP stubs?'] },
+  { stage: 'Next loop', title: 'Answers and new code context raise the grades',
+    what: 'Answers and new evidence go into loop-02, and the whole loop runs again. The differences between loops go through the playbook\'s change process (phase 10). This frame shows what is planned, not a simulated result.',
+    who: 'SMEs, system owners, then the same agents', io: ['loop-02 inputs: SME answers, schema exports, real code', 'higher grades, resolved X, real adapters'],
+    scene: () => `<div class="rows">${evReq.map(u => `<div class="row"><span class="pill high">${u.id}</span><span>${esc(u.question)}</span><span class="muted" style="font-size:.78rem">${esc(u.why)}</span></div>`).join('')}<div class="row"><span class="muted">Contradictions</span> ${g('X')} <span class="arrow">→</span> ${g('B')} <span class="muted">once the named decider answers</span></div></div>`,
+    review: ['What code context can you realistically get first, and from which system?', 'Should loop-02 be a new folder (full history) or an add-on to loop-01?'] },
+];
+
+const rev = store.get('odl-review', {});
+function renderFrames() {
+  $('#frames').innerHTML = frames.map((f, i) => {
+    const r = rev[i] || {};
+    return `<article class="frame" data-i="${i}" data-verdict="${r.v || ''}">
+      <div class="frame-head"><span class="fno">${i + 1}</span><div><span class="eyebrow">${esc(f.stage)}</span><h3>${esc(f.title)}</h3></div></div>
+      <div class="scene">${f.scene()}</div>
+      <div class="frame-body"><p class="what">${f.what}</p>
+        <dl class="io"><dt>Who</dt><dd>${esc(f.who)}</dd><dt>In</dt><dd>${esc(f.io[0])}</dd><dt>Out</dt><dd>${esc(f.io[1])}</dd></dl></div>
+      <div class="review"><span class="eyebrow">Review</span><ul>${f.review.map(q => `<li>${esc(q)}</li>`).join('')}</ul>
+        <div class="review-actions">
+          <button class="btn" type="button" data-act="ok" aria-pressed="${r.v === 'ok'}">Looks right</button>
+          <button class="btn" type="button" data-act="change" aria-pressed="${r.v === 'change'}">Needs change</button>
+        </div>
+        <textarea id="note-${i}" placeholder="Notes for frame ${i + 1}" aria-label="Notes for frame ${i + 1}">${esc(r.n || '')}</textarea></div>
+    </article>`;
+  }).join('');
+  updateCount();
+}
+function updateCount() {
+  const n = Object.values(rev).filter(r => r.v).length;
+  $('#revcount').textContent = `${n} of ${frames.length} reviewed`;
+}
+$('#frames').addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]'); if (!b) return;
+  const art = b.closest('.frame'), i = art.dataset.i;
+  rev[i] = rev[i] || {};
+  rev[i].v = rev[i].v === b.dataset.act ? '' : b.dataset.act;
+  art.dataset.verdict = rev[i].v;
+  art.querySelectorAll('button[data-act]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.act === rev[i].v)));
+  store.set('odl-review', rev); updateCount();
+});
+$('#frames').addEventListener('input', e => {
+  if (e.target.tagName !== 'TEXTAREA') return;
+  const i = e.target.closest('.frame').dataset.i;
+  rev[i] = rev[i] || {}; rev[i].n = e.target.value; store.set('odl-review', rev);
+});
+$('#revclear').addEventListener('click', () => { for (const k in rev) delete rev[k]; store.set('odl-review', rev); renderFrames(); });
+function copyText(text, btn, fallbackEl) {
+  const done = () => { const o = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => btn.textContent = o, 1600); };
+  const fail = () => { if (fallbackEl) { const s = getSelection(), r = document.createRange(); r.selectNodeContents(fallbackEl); s.removeAllRanges(); s.addRange(r); } btn.textContent = 'Select and copy manually'; };
+  try { navigator.clipboard.writeText(text).then(done, fail); } catch { fail(); }
+}
+$('#revcopy').addEventListener('click', e => {
+  const lines = ['Storyboard review — ontology discovery loop 1', ''];
+  frames.forEach((f, i) => {
+    const r = rev[i] || {};
+    lines.push(`Frame ${i + 1} (${f.title}): ${r.v === 'ok' ? 'looks right' : r.v === 'change' ? 'NEEDS CHANGE' : 'not reviewed'}`);
+    if (r.n) lines.push('  ' + r.n.replace(/\n/g, '\n  '));
+  });
+  copyText(lines.join('\n'), e.currentTarget);
+});
+renderFrames();
+
+/* ---------- Agents view ---------- */
+const agentInfo = {
+  ba: { q: 'What does the business need to represent and understand?', reads: 'Glossaries, process documents, rule sections; business terms anywhere' },
+  ea: { q: 'How does this fit into the wider enterprise architecture?', reads: 'Prose system names and aliases, diagrams, interface catalogues, config endpoints' },
+  da: { q: 'How should information be structured, related and managed?', reads: 'Data dictionaries, DDL, example code, prose about identifiers' },
+  eng: { q: 'How do we implement, expose and operate this consistently?', reads: 'Interface catalogues, diagram edges, code enums and validation' },
+  steward: { q: 'Is the merged model coherent, and what must people decide?', reads: 'Reconciled model, flags, contradictions, unknowns', writes: 'steward-notes.md: merge review, contradiction briefs, sharpened questions' },
+  conformance: { q: 'Is it done, by the playbook\'s definition of done?', reads: 'Grades, gate results, spot-checked citations', writes: 'conformance-briefing.md: one briefing per approver role' },
+};
+$('#agentcards').innerHTML = Object.entries(D.agents).map(([k, a]) => `<div class="card">
+  <span class="eyebrow">${esc(a.persona)}</span><h3>${esc(a.title)}</h3><p class="q">${esc(agentInfo[k].q)}</p>
+  <dl><dt>Reads</dt><dd>${esc(agentInfo[k].reads)}</dd>
+  <dt>May propose</dt><dd>${a.may_propose.length ? a.may_propose.map(x => `<span class="tag">${esc(x)}</span>`).join('') : '<span class="muted">Nothing. Reviews and writes notes only.</span>'}</dd>
+  <dt>Writes</dt><dd>${esc(agentInfo[k].writes || `proposals/${k}.json, verbatim citations only`)}</dd>
+  <dt>Never</dt><dd>Approves, marks anything confirmed, or fills gaps from general knowledge</dd></dl></div>`).join('')
+  + `<div class="card human"><span class="eyebrow">People</span><h3>Human approvers</h3><p class="q">Agents recommend; these roles decide.</p>
+  <dl><dt>Roles</dt><dd>${[...new Set(Object.values(D.approvals).map(a => a.approves))].map(x => `<span class="tag">${esc(x)}</span>`).join('')}</dd>
+  <dt>Decide</dt><dd>approve · approve-provisional · defer · reject · note-assumption</dd></dl></div>`;
+$('#ladder').innerHTML = GR.map(k => `<div class="step">${g(k)}<div>${esc(D.grade_text[k])}</div></div>`).join('');
+$('#rights tbody').innerHTML = Object.entries(D.approvals).map(([k, a]) => `<tr><td><span class="tag">${esc(k)}</span></td><td>${esc(a.recommends)}</td><td>${esc(a.approves)}</td></tr>`).join('');
+const modeText = { run: 'run fully', provisional: 'provisional until grade-A evidence', deferred: 'waits for real system evidence' };
+$('#phases tbody').innerHTML = D.phases.map(p => `<tr><td><b>${p.id}</b> ${esc(p.name)}</td><td><span class="pill ${p.mode === 'run' ? 'pass' : p.mode === 'deferred' ? 'fail' : 'provisional'}">${esc(modeText[p.mode])}</span></td><td class="muted">${esc(p.gate)}</td></tr>`).join('');
+
+/* ---------- Simulation ---------- */
+const KEY = new Set(['proposed', 'rejected', 'checked', 'flagged stale', 'resolved aliases', 'contradiction', 'flagged', 'model assembled', 'graded',
+  'compared with reference ontology', 'unknowns register built', 'deliverables written', 'source index written', 'linked', 'kept earlier decisions']);
+const isKey = e => KEY.has(e.action) || e.action.startsWith('phase ') || e.action.startsWith('routed to') || (e.stage.startsWith('G') && e.action.startsWith('U-'));
+const stageNames = [...new Set(T.map(e => e.stage))];
+let list = [], cur = 0, timer = null;
+function rebuild() { list = $('#keyonly').checked ? T.filter(isKey) : T.slice(); }
+function stateAt(n) {
+  const s = { files: 0, proposals: 0, rejected: 0, elements: 0, conflicts: 0, flags: 0, grades: null, unknowns: 0, gates: [] };
+  for (const e of T) {
+    if (e.seq > n) break;
+    if (e.action === 'ingested') s.files++;
+    if (e.action === 'proposed') s.proposals += Object.values(e.data.counts).reduce((a, b) => a + b, 0);
+    if (e.action === 'checked') s.rejected += e.data.rejected;
+    if (e.action === 'contradiction') s.conflicts++;
+    if (e.action === 'flagged') s.flags++;
+    if (e.action === 'model assembled') s.elements = Object.values(e.data.counts).reduce((a, b) => a + b, 0);
+    if (e.action === 'graded') s.grades = { ...e.data.distribution };
+    if (e.action === 'compared with reference ontology') { s.elements += e.data.assumed.length; if (s.grades) s.grades.D += e.data.assumed.length; }
+    if (e.action === 'unknowns register built') s.unknowns = Object.values(e.data.priorities).reduce((a, b) => a + b, 0);
+    if (e.action.startsWith('phase ')) s.gates.push(`P${e.data.phase} ${e.data.status}`);
+  }
+  return s;
+}
+function render() {
+  const seq = cur ? list[cur - 1].seq : 0;
+  const s = stateAt(seq);
+  $('#prog').style.width = (cur / list.length * 100) + '%';
+  const nowStage = cur ? list[cur - 1].stage : null;
+  const idx = stageNames.indexOf(nowStage);
+  $('#stages').innerHTML = stageNames.map((n, i) => `<div class="stage ${i < idx || (cur === list.length) ? 'done' : ''} ${i === idx && cur < list.length ? 'now' : ''}"><span class="dot"></span>${esc(n)}</div>`).join('');
+  const stat = (b, l) => `<div class="stat"><b>${b}</b><span>${l}</span></div>`;
+  $('#stats').innerHTML = stat(s.files, 'files ingested') + stat(s.proposals, 'agent proposals') + stat(s.elements, 'elements') + stat(s.conflicts, 'contradictions (X)')
+    + stat(s.flags, 'review flags') + stat(s.unknowns, 'unknowns')
+    + `<div class="stat" style="grid-column:1/-1"><span>grades</span><div>${s.grades ? GR.map(k => `${g(k)} ${s.grades[k]}`).join(' &nbsp;') : '<span class="muted">not graded yet</span>'}</div></div>`
+    + `<div class="stat" style="grid-column:1/-1"><span>gates</span><div>${s.gates.length ? s.gates.map(x => `<span class="pill ${x.split(' ')[1]}">${esc(x)}</span>`).join(' ') : '<span class="muted">not checked yet</span>'}</div></div>`;
+  const log = $('#log');
+  log.innerHTML = list.slice(0, cur).map((e, i) => `<div class="ev${i === cur - 1 ? ' cur' : ''}${['contradiction', 'rejected'].includes(e.action) ? ' hl' : ''}"><span class="seq">${e.seq}</span><span class="who">${esc(e.actor)}</span><span class="txt"><b>${esc(e.action)}</b> — ${esc(e.detail)}</span></div>`).join('')
+    || '<div class="ev"><span class="seq"></span><span class="who">—</span><span class="txt muted">Press Replay or Step to start.</span></div>';
+  log.scrollTop = log.scrollHeight;
+  $('#play').textContent = timer ? 'Pause' : (cur >= list.length ? 'Replay from start' : 'Play');
+}
+function tick() { if (cur < list.length) { cur++; render(); } if (cur >= list.length) stop(); }
+function stop() { clearInterval(timer); timer = null; render(); }
+$('#play').addEventListener('click', () => {
+  if (timer) return stop();
+  if (cur >= list.length) cur = 0;
+  timer = setInterval(tick, +$('#speed').value); render();
+});
+$('#step').addEventListener('click', () => { if (timer) stop(); if (cur >= list.length) cur = 0; tick(); });
+$('#speed').addEventListener('change', () => { if (timer) { clearInterval(timer); timer = setInterval(tick, +$('#speed').value); } });
+$('#keyonly').addEventListener('change', () => { const seq = cur ? list[cur - 1].seq : 0; rebuild(); cur = list.filter(e => e.seq <= seq).length; render(); });
+rebuild(); cur = list.length; render();
+
+$('#results').innerHTML = `
+  <div class="card"><span class="eyebrow">System inventory</span><h3>${D.systems.length} candidate systems</h3>
+    <div class="rows">${D.systems.map(s => `<div class="row">${g(s.grade)}<b>${esc(s.name)}</b><span class="muted" style="font-size:.78rem">${esc(s.roles.join('; ') || 'role unknown')}</span></div>`).join('')}</div></div>
+  <div class="card"><span class="eyebrow">Evidence grades</span><h3>${total} elements</h3>${barHtml()}
+    <p class="muted" style="font-size:.84rem">${Object.entries(D.kinds).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${v} ${k}`).join(' · ')}</p></div>
+  <div class="card"><span class="eyebrow">Unknowns register</span><h3>${D.unknowns.length} questions and requests</h3>
+    <div class="rows">${D.unknowns.slice(0, 8).map(u => `<div class="row"><span class="pill ${u.priority}">${u.id}</span><span style="font-size:.84rem">${esc(u.question)}</span></div>`).join('')}</div>
+    <p class="muted" style="font-size:.8rem">Full list in outputs/${esc(D.loop)}/unknowns-register.md</p></div>`;
+
+/* ---------- Export ---------- */
+$('#copyhandoff').addEventListener('click', e => copyText($('#handoff').textContent, e.currentTarget, $('#handoff')));
+})();
+</script>

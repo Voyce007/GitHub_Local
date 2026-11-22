@@ -1,0 +1,3463 @@
+[
+  {
+    "id": "SYS-01",
+    "kind": "system",
+    "name": "CustHub",
+    "aliases": [
+      "Customer Hub",
+      "CRM",
+      "CH"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "system of record (candidate): Customer",
+        "data-holding application (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 11",
+        "quote": "CustHub (also called Customer Hub or \"the CRM\") holds the customer record.",
+        "support": "definition",
+        "id": "E-001"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 4",
+        "quote": "ONB -->|new application| CH[\"CustHub (Customer Hub)\"]",
+        "support": "structure",
+        "id": "E-002"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUST-ACC-01,New customer to ledger,Customer Hub,CoreLedger,MQ message,Real time,Customer Number; customer type; name,Integration team",
+        "support": "reference",
+        "id": "E-003"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-02,Customer extract,CH,DataMart,File (CSV),Daily 02:30,Customers,Data team",
+        "support": "reference",
+        "id": "E-004"
+      },
+      {
+        "file": "code-examples/application.properties",
+        "locator": "line 2",
+        "quote": "custhub.api.base-url=https://custhub.internal.example/api/v2",
+        "support": "reference",
+        "id": "E-005"
+      },
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 1",
+        "quote": "table,column,data_type,nullable,key,description,codes",
+        "support": "reference",
+        "id": "E-006"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 1",
+        "quote": "// Example extract supplied by CustHub support (2025). Simplified; not production source.",
+        "support": "reference",
+        "id": "E-007"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "6 independent current sources",
+    "open_unknowns": [
+      "U-03"
+    ]
+  },
+  {
+    "id": "SYS-02",
+    "kind": "system",
+    "name": "CoreLedger",
+    "aliases": [
+      "Account Platform",
+      "CL"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "system of record (candidate): Account",
+        "database: DB2",
+        "data-holding application (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 12",
+        "quote": "CoreLedger (also called the Account Platform) opens and maintains accounts.",
+        "support": "definition",
+        "id": "E-008"
+      },
+      {
+        "file": "docs/payments-overview.md",
+        "locator": "line 9",
+        "quote": "PayRail debits the account in CoreLedger (CL) and publishes a PaymentCompleted event.",
+        "support": "definition",
+        "id": "E-009"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 5",
+        "quote": "CH -->|CUST-ACC-01| CL[\"CoreLedger (Account Platform)\"]",
+        "support": "structure",
+        "id": "E-010"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUST-ACC-01,New customer to ledger,Customer Hub,CoreLedger,MQ message,Real time,Customer Number; customer type; name,Integration team",
+        "support": "reference",
+        "id": "E-003"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "PAY-EVT-02,Payment completed,PayRail,CoreLedger,Event,Real time,PaymentCompleted,Payments team",
+        "support": "reference",
+        "id": "E-011"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "MI-01,Nightly MI extract,CoreLedger,DataMart,File (CSV),Daily 02:00,Accounts; balances,Data team",
+        "support": "reference",
+        "id": "E-012"
+      },
+      {
+        "file": "code-examples/application.properties",
+        "locator": "line 4",
+        "quote": "coreledger.jdbc.url=jdbc:db2://ledger-db.internal.example:50000/LEDGER",
+        "support": "reference",
+        "id": "E-013"
+      },
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 1",
+        "quote": "-- Example DDL extract shared by the CoreLedger team (2023). Partial.",
+        "support": "reference",
+        "id": "E-014"
+      },
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 8",
+        "quote": "- **Account**: A record of balances and transactions held for one or more customers in CoreLedger.",
+        "support": "mention",
+        "id": "E-015"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "6 independent current sources",
+    "open_unknowns": [
+      "U-02"
+    ]
+  },
+  {
+    "id": "SYS-03",
+    "kind": "system",
+    "name": "ONB",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "onboarding front end"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 13",
+        "quote": "The onboarding front end is referred to as ONB.",
+        "support": "definition",
+        "id": "E-016"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 3",
+        "quote": "WB[\"Web Banking\"] -->|application| ONB[\"ONB\"]",
+        "support": "structure",
+        "id": "E-017"
+      },
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 7",
+        "quote": "- **Customer Number**: The unique identifier for a customer, issued by ONB at application time. Synonyms: Customer ID, CIF.",
+        "support": "mention",
+        "id": "E-018"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-04",
+    "kind": "system",
+    "name": "Mobile Banking",
+    "aliases": [
+      "MB"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "channel"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 17",
+        "quote": "1. The applicant completes the application in a Channel (Mobile Banking or Web Banking).",
+        "support": "definition",
+        "id": "E-019"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 2",
+        "quote": "MB[\"Mobile Banking\"] -->|PAY-01 payment instruction| PR[\"PayRail (Payments Platform)\"]",
+        "support": "structure",
+        "id": "E-020"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "PAY-01,Submit payment,Mobile Banking,PayRail,REST API,Real time,Payment instruction,Payments team",
+        "support": "reference",
+        "id": "E-021"
+      },
+      {
+        "file": "docs/payments-overview.md",
+        "locator": "line 8",
+        "quote": "Mobile Banking submits a payment instruction to PayRail over the PAY-01 API.",
+        "support": "mention",
+        "id": "E-022"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-05",
+    "kind": "system",
+    "name": "Web Banking",
+    "aliases": [
+      "WB"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "channel"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 17",
+        "quote": "1. The applicant completes the application in a Channel (Mobile Banking or Web Banking).",
+        "support": "definition",
+        "id": "E-019"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 3",
+        "quote": "WB[\"Web Banking\"] -->|application| ONB[\"ONB\"]",
+        "support": "structure",
+        "id": "E-017"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-06",
+    "kind": "system",
+    "name": "PayRail",
+    "aliases": [
+      "Payments Platform",
+      "PR"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "processing: outbound customer payments",
+        "data-holding application (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/payments-overview.md",
+        "locator": "line 7",
+        "quote": "PayRail (the Payments Platform) processes all outbound customer payments.",
+        "support": "definition",
+        "id": "E-023"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 2",
+        "quote": "MB[\"Mobile Banking\"] -->|PAY-01 payment instruction| PR[\"PayRail (Payments Platform)\"]",
+        "support": "structure",
+        "id": "E-020"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "PAY-01,Submit payment,Mobile Banking,PayRail,REST API,Real time,Payment instruction,Payments team",
+        "support": "reference",
+        "id": "E-021"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "PAY-EVT-02,Payment completed,PayRail,CoreLedger,Event,Real time,PaymentCompleted,Payments team",
+        "support": "reference",
+        "id": "E-011"
+      },
+      {
+        "file": "code-examples/application.properties",
+        "locator": "line 3",
+        "quote": "payrail.api.base-url=https://payrail.internal.example/api",
+        "support": "reference",
+        "id": "E-024"
+      },
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 1",
+        "quote": "// Example extract from the PayRail team (2024). Illustrative only.",
+        "support": "reference",
+        "id": "E-025"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "4 independent current sources",
+    "open_unknowns": [
+      "U-04"
+    ]
+  },
+  {
+    "id": "SYS-07",
+    "kind": "system",
+    "name": "DataMart",
+    "aliases": [
+      "MI warehouse",
+      "DM"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "reporting / analytics (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 7",
+        "quote": "CL -->|MI-01 nightly| DM[\"DataMart (MI warehouse)\"]",
+        "support": "structure",
+        "id": "E-026"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "MI-01,Nightly MI extract,CoreLedger,DataMart,File (CSV),Daily 02:00,Accounts; balances,Data team",
+        "support": "reference",
+        "id": "E-012"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-02,Customer extract,CH,DataMart,File (CSV),Daily 02:30,Customers,Data team",
+        "support": "reference",
+        "id": "E-004"
+      },
+      {
+        "file": "docs/payments-overview.md",
+        "locator": "line 10",
+        "quote": "Reporting extracts are sent nightly to the MI warehouse.",
+        "support": "mention",
+        "id": "E-027"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-01",
+    "kind": "flow",
+    "name": "Mobile Banking → PayRail",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "Mobile Banking",
+      "target": "PayRail",
+      "label": "PAY-01 payment instruction"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 2",
+        "quote": "MB[\"Mobile Banking\"] -->|PAY-01 payment instruction| PR[\"PayRail (Payments Platform)\"]",
+        "support": "structure",
+        "id": "E-020"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "PAY-01,Submit payment,Mobile Banking,PayRail,REST API,Real time,Payment instruction,Payments team",
+        "support": "structure",
+        "id": "E-021"
+      },
+      {
+        "file": "code-examples/application.properties",
+        "locator": "line 3",
+        "quote": "payrail.api.base-url=https://payrail.internal.example/api",
+        "support": "reference",
+        "id": "E-024"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-02",
+    "kind": "flow",
+    "name": "Web Banking → ONB",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "Web Banking",
+      "target": "ONB",
+      "label": "application"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 3",
+        "quote": "WB[\"Web Banking\"] -->|application| ONB[\"ONB\"]",
+        "support": "structure",
+        "id": "E-017"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-03",
+    "kind": "flow",
+    "name": "ONB → CustHub",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "ONB",
+      "target": "CustHub",
+      "label": "new application"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 4",
+        "quote": "ONB -->|new application| CH[\"CustHub (Customer Hub)\"]",
+        "support": "structure",
+        "id": "E-002"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-04",
+    "kind": "flow",
+    "name": "CustHub → CoreLedger",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "CustHub",
+      "target": "CoreLedger",
+      "label": "CUST-ACC-01"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 5",
+        "quote": "CH -->|CUST-ACC-01| CL[\"CoreLedger (Account Platform)\"]",
+        "support": "structure",
+        "id": "E-010"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUST-ACC-01,New customer to ledger,Customer Hub,CoreLedger,MQ message,Real time,Customer Number; customer type; name,Integration team",
+        "support": "structure",
+        "id": "E-003"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-05",
+    "kind": "flow",
+    "name": "PayRail → CoreLedger",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "PayRail",
+      "target": "CoreLedger",
+      "label": "PaymentCompleted"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 6",
+        "quote": "PR -->|PaymentCompleted| CL",
+        "support": "structure",
+        "id": "E-028"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "PAY-EVT-02,Payment completed,PayRail,CoreLedger,Event,Real time,PaymentCompleted,Payments team",
+        "support": "structure",
+        "id": "E-011"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-06",
+    "kind": "flow",
+    "name": "CoreLedger → DataMart",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "CoreLedger",
+      "target": "DataMart",
+      "label": "MI-01 nightly"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 7",
+        "quote": "CL -->|MI-01 nightly| DM[\"DataMart (MI warehouse)\"]",
+        "support": "structure",
+        "id": "E-026"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "MI-01,Nightly MI extract,CoreLedger,DataMart,File (CSV),Daily 02:00,Accounts; balances,Data team",
+        "support": "structure",
+        "id": "E-012"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-07",
+    "kind": "flow",
+    "name": "CustHub → DataMart",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "CustHub",
+      "target": "DataMart",
+      "label": "MI-02 nightly"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 8",
+        "quote": "CH -->|MI-02 nightly| DM",
+        "support": "structure",
+        "id": "E-029"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-02,Customer extract,CH,DataMart,File (CSV),Daily 02:30,Customers,Data team",
+        "support": "structure",
+        "id": "E-004"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-08",
+    "kind": "flow",
+    "name": "Mobile Banking → CustHub",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "Mobile Banking",
+      "target": "CustHub",
+      "label": "runtime dependency (config)"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/application.properties",
+        "locator": "line 2",
+        "quote": "custhub.api.base-url=https://custhub.internal.example/api/v2",
+        "support": "reference",
+        "id": "E-005"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-09",
+    "kind": "flow",
+    "name": "Mobile Banking → CoreLedger",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "Mobile Banking",
+      "target": "CoreLedger",
+      "label": "runtime dependency (config)"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/application.properties",
+        "locator": "line 4",
+        "quote": "coreledger.jdbc.url=jdbc:db2://ledger-db.internal.example:50000/LEDGER",
+        "support": "reference",
+        "id": "E-013"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-08",
+    "kind": "system",
+    "name": "mandate-svc",
+    "aliases": [],
+    "definition": "",
+    "properties": {},
+    "evidence": [
+      {
+        "file": "code-examples/application.properties",
+        "locator": "line 5",
+        "quote": "mandate-svc.api.base-url=https://mandates.internal.example/api",
+        "support": "reference",
+        "id": "E-030"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-10"
+    ]
+  },
+  {
+    "id": "FLW-10",
+    "kind": "flow",
+    "name": "Mobile Banking → mandate-svc",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "Mobile Banking",
+      "target": "mandate-svc",
+      "label": "runtime dependency (config)"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/application.properties",
+        "locator": "line 5",
+        "quote": "mandate-svc.api.base-url=https://mandates.internal.example/api",
+        "support": "reference",
+        "id": "E-030"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-01",
+    "kind": "rule",
+    "name": "A customer must pass KYC checks before an account can be opened.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A customer must pass KYC checks before an account can be opened."
+    },
+    "evidence": [
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 25",
+        "quote": "- A customer must pass KYC checks before an account can be opened.",
+        "support": "definition",
+        "id": "E-031"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-02",
+    "kind": "rule",
+    "name": "Every account must have at least one account holder.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Every account must have at least one account holder."
+    },
+    "evidence": [
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 26",
+        "quote": "- Every account must have at least one account holder.",
+        "support": "definition",
+        "id": "E-032"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-03",
+    "kind": "rule",
+    "name": "A customer cannot hold more than one Current Account of the same product variant.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A customer cannot hold more than one Current Account of the same product variant."
+    },
+    "evidence": [
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 27",
+        "quote": "- A customer cannot hold more than one Current Account of the same product variant.",
+        "support": "definition",
+        "id": "E-033"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-01",
+    "kind": "taxonomy",
+    "name": "CustomerType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "IND": "Individual",
+        "BUS": "Business"
+      }
+    },
+    "evidence": [
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 31",
+        "quote": "Customer type values: Individual, Business.",
+        "support": "value-list",
+        "id": "E-034"
+      },
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 3",
+        "quote": "CUSTOMER,CUST_TYPE,CHAR(3),N,,Customer type,IND=Individual|BUS=Business",
+        "support": "value-list",
+        "id": "E-035"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 23",
+        "quote": "enum CustomerType { INDIVIDUAL, SOLE_TRADER, COMPANY }",
+        "support": "value-list",
+        "id": "E-036"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "da",
+      "eng"
+    ],
+    "conflicts": [
+      {
+        "property": "values",
+        "variants": [
+          {
+            "value": [
+              "INDIVIDUAL",
+              "BUSINESS"
+            ],
+            "files": [
+              "docs/customer-onboarding-process.md",
+              "spreadsheets/custhub-data-dictionary.csv"
+            ],
+            "stale": []
+          },
+          {
+            "value": [
+              "INDIVIDUAL",
+              "SOLE_TRADER",
+              "COMPANY"
+            ],
+            "files": [
+              "code-examples/CustomerRecord.java"
+            ],
+            "stale": []
+          }
+        ]
+      }
+    ],
+    "origin": "inferred",
+    "grade": "X",
+    "status": "deferred — simulated",
+    "grade_reason": "sources contradict on values",
+    "open_unknowns": [
+      "U-06"
+    ]
+  },
+  {
+    "id": "TAX-02",
+    "kind": "taxonomy",
+    "name": "KycStatus",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "PEN": "Pending",
+        "PAS": "Passed",
+        "FAI": "Failed",
+        "REF": "Referred"
+      },
+      "values": [
+        "PENDING",
+        "PASSED",
+        "FAILED",
+        "REFERRED"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 33",
+        "quote": "KYC status values: Pending, Passed, Failed, Referred.",
+        "support": "value-list",
+        "id": "E-037"
+      },
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 7",
+        "quote": "CUSTOMER,KYC_STATUS,CHAR(3),N,,KYC status,PEN=Pending|PAS=Passed|FAI=Failed|REF=Referred",
+        "support": "value-list",
+        "id": "E-038"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 25",
+        "quote": "enum KycStatus { PENDING, PASSED, FAILED, REFERRED }",
+        "support": "value-list",
+        "id": "E-039"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "da",
+      "eng"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-03",
+    "kind": "taxonomy",
+    "name": "PaymentStatus",
+    "aliases": [],
+    "definition": "",
+    "properties": {},
+    "evidence": [
+      {
+        "file": "docs/payments-overview.md",
+        "locator": "line 14",
+        "quote": "Payment status values: Pending, Completed, Failed, Cancelled.",
+        "support": "value-list",
+        "id": "E-040"
+      },
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 4",
+        "quote": "public enum PaymentStatus { RECEIVED, VALIDATED, PENDING, COMPLETED, FAILED, CANCELLED }",
+        "support": "value-list",
+        "id": "E-041"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "eng"
+    ],
+    "conflicts": [
+      {
+        "property": "values",
+        "variants": [
+          {
+            "value": [
+              "PENDING",
+              "COMPLETED",
+              "FAILED",
+              "CANCELLED"
+            ],
+            "files": [
+              "docs/payments-overview.md"
+            ],
+            "stale": [
+              "docs/payments-overview.md"
+            ]
+          },
+          {
+            "value": [
+              "RECEIVED",
+              "VALIDATED",
+              "PENDING",
+              "COMPLETED",
+              "FAILED",
+              "CANCELLED"
+            ],
+            "files": [
+              "code-examples/PaymentStatus.java"
+            ],
+            "stale": []
+          }
+        ]
+      }
+    ],
+    "origin": "inferred",
+    "grade": "X",
+    "status": "deferred — simulated",
+    "grade_reason": "sources contradict on values",
+    "open_unknowns": [
+      "U-07"
+    ]
+  },
+  {
+    "id": "RUL-04",
+    "kind": "rule",
+    "name": "A payment must not exceed the available balance of the debit account.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A payment must not exceed the available balance of the debit account."
+    },
+    "evidence": [
+      {
+        "file": "docs/payments-overview.md",
+        "locator": "line 18",
+        "quote": "- A payment must not exceed the available balance of the debit account.",
+        "support": "definition",
+        "id": "E-042"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-05",
+    "kind": "rule",
+    "name": "A payment must reference exactly one debit account.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A payment must reference exactly one debit account."
+    },
+    "evidence": [
+      {
+        "file": "docs/payments-overview.md",
+        "locator": "line 19",
+        "quote": "- A payment must reference exactly one debit account.",
+        "support": "definition",
+        "id": "E-043"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-01",
+    "kind": "concept",
+    "name": "Customer",
+    "aliases": [
+      "Client",
+      "Account Holder"
+    ],
+    "definition": "A party that holds or has applied for a product with the bank.",
+    "properties": {
+      "realised_by": "ENT-01",
+      "reference_match": "Customer",
+      "domain": "Party"
+    },
+    "evidence": [
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 5",
+        "quote": "- **Customer**: A party that holds or has applied for a product with the bank. Synonyms: Client, Account Holder.",
+        "support": "definition",
+        "id": "E-044"
+      },
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 1",
+        "quote": "# Customer Onboarding — Process Description",
+        "support": "mention",
+        "id": "E-045"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-01"
+    ]
+  },
+  {
+    "id": "CON-02",
+    "kind": "concept",
+    "name": "Party",
+    "aliases": [],
+    "definition": "A person or organisation the bank has a relationship with.",
+    "properties": {
+      "reference_match": "Party",
+      "domain": "Party"
+    },
+    "evidence": [
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 6",
+        "quote": "- **Party**: A person or organisation the bank has a relationship with.",
+        "support": "definition",
+        "id": "E-046"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-13"
+    ]
+  },
+  {
+    "id": "CON-03",
+    "kind": "concept",
+    "name": "Customer Number",
+    "aliases": [
+      "Customer ID",
+      "CIF"
+    ],
+    "definition": "The unique identifier for a customer, issued by ONB at application time.",
+    "properties": {
+      "defines_identifier": "IDN-01"
+    },
+    "evidence": [
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 7",
+        "quote": "- **Customer Number**: The unique identifier for a customer, issued by ONB at application time. Synonyms: Customer ID, CIF.",
+        "support": "definition",
+        "id": "E-018"
+      },
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 19",
+        "quote": "3. The Customer Number is issued by CustHub when the record is created.",
+        "support": "mention",
+        "id": "E-047"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-04",
+    "kind": "concept",
+    "name": "Account",
+    "aliases": [],
+    "definition": "A record of balances and transactions held for one or more customers in CoreLedger.",
+    "properties": {
+      "realised_by": "ENT-03",
+      "reference_match": "Account",
+      "domain": "Commercial"
+    },
+    "evidence": [
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 8",
+        "quote": "- **Account**: A record of balances and transactions held for one or more customers in CoreLedger.",
+        "support": "definition",
+        "id": "E-015"
+      },
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 7",
+        "quote": "Describes how a new customer is onboarded for a Current Account.",
+        "support": "mention",
+        "id": "E-048"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-05",
+    "kind": "concept",
+    "name": "Current Account",
+    "aliases": [],
+    "definition": "A product that provides day-to-day banking with a debit card and an overdraft option.",
+    "properties": {},
+    "evidence": [
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 9",
+        "quote": "- **Current Account**: A product that provides day-to-day banking with a debit card and an overdraft option.",
+        "support": "definition",
+        "id": "E-049"
+      },
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 7",
+        "quote": "Describes how a new customer is onboarded for a Current Account.",
+        "support": "mention",
+        "id": "E-048"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-11"
+    ]
+  },
+  {
+    "id": "CON-06",
+    "kind": "concept",
+    "name": "Payment",
+    "aliases": [],
+    "definition": "An instruction to move money from a debit account to a beneficiary.",
+    "properties": {
+      "reference_match": "Payment",
+      "domain": "Transaction"
+    },
+    "evidence": [
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 10",
+        "quote": "- **Payment**: An instruction to move money from a debit account to a beneficiary.",
+        "support": "definition",
+        "id": "E-050"
+      },
+      {
+        "file": "docs/payments-overview.md",
+        "locator": "line 14",
+        "quote": "Payment status values: Pending, Completed, Failed, Cancelled.",
+        "support": "mention",
+        "id": "E-040"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-09"
+    ]
+  },
+  {
+    "id": "CON-07",
+    "kind": "concept",
+    "name": "Mandate",
+    "aliases": [],
+    "definition": "A standing authority for a third party to collect payments from an account.",
+    "properties": {},
+    "evidence": [
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 11",
+        "quote": "- **Mandate**: A standing authority for a third party to collect payments from an account.",
+        "support": "definition",
+        "id": "E-051"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-12"
+    ]
+  },
+  {
+    "id": "CON-08",
+    "kind": "concept",
+    "name": "Product Variant",
+    "aliases": [],
+    "definition": "A particular configuration of a product, such as a Current Account with a premium fee tier.",
+    "properties": {
+      "reference_match": "Product Variant",
+      "domain": "Product"
+    },
+    "evidence": [
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 12",
+        "quote": "- **Product Variant**: A particular configuration of a product, such as a Current Account with a premium fee tier.",
+        "support": "definition",
+        "id": "E-052"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-14"
+    ]
+  },
+  {
+    "id": "ENT-01",
+    "kind": "entity",
+    "name": "Customer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "CustHub",
+      "physical": "CUSTOMER",
+      "attribute_ids": [
+        "ATT-01",
+        "ATT-02",
+        "ATT-03",
+        "ATT-04",
+        "ATT-05",
+        "ATT-06",
+        "ATT-07"
+      ],
+      "realises": "CON-01"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "CUSTOMER,CUSTOMER_NO,CHAR(10),N,PK,Customer Number,",
+        "support": "structure",
+        "id": "E-053"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 4",
+        "quote": "public class CustomerRecord {",
+        "support": "structure",
+        "id": "E-054"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-01",
+    "kind": "attribute",
+    "name": "Customer.customerNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "customerNumber",
+      "physical": "CUSTOMER_NO",
+      "data_type": "CHAR(10)",
+      "nullable": false,
+      "description": "Customer Number",
+      "comment": "10 chars, issued on creation",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "CUSTOMER,CUSTOMER_NO,CHAR(10),N,PK,Customer Number,",
+        "support": "structure",
+        "id": "E-053"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 5",
+        "quote": "private String customerNumber;      // 10 chars, issued on creation",
+        "support": "structure",
+        "id": "E-055"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-01",
+    "kind": "identifier",
+    "name": "Customer Number",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "customerNumber",
+      "key": "primary",
+      "note": "10 chars, issued on creation",
+      "seen_in": "AccountHolder.customerNumber",
+      "entity_id": "ENT-01",
+      "defined_by": "CON-03"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "CUSTOMER,CUSTOMER_NO,CHAR(10),N,PK,Customer Number,",
+        "support": "structure",
+        "id": "E-053"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 5",
+        "quote": "private String customerNumber;      // 10 chars, issued on creation",
+        "support": "structure",
+        "id": "E-055"
+      },
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 19",
+        "quote": "3. The Customer Number is issued by CustHub when the record is created.",
+        "support": "definition",
+        "id": "E-047"
+      },
+      {
+        "file": "wiki/glossary-export.md",
+        "locator": "line 7",
+        "quote": "- **Customer Number**: The unique identifier for a customer, issued by ONB at application time. Synonyms: Customer ID, CIF.",
+        "support": "definition",
+        "id": "E-018"
+      },
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 13",
+        "quote": "customer_no      CHAR(10)     NOT NULL,",
+        "support": "reference",
+        "id": "E-056"
+      },
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 15",
+        "quote": "PRIMARY KEY (account_number, customer_no)",
+        "support": "reference",
+        "id": "E-057"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [
+      {
+        "property": "issued_by",
+        "variants": [
+          {
+            "value": "CustHub",
+            "files": [
+              "docs/customer-onboarding-process.md"
+            ],
+            "stale": []
+          },
+          {
+            "value": "ONB",
+            "files": [
+              "wiki/glossary-export.md"
+            ],
+            "stale": []
+          }
+        ]
+      }
+    ],
+    "origin": "inferred",
+    "grade": "X",
+    "status": "deferred — simulated",
+    "grade_reason": "sources contradict on issued_by",
+    "open_unknowns": [
+      "U-05"
+    ]
+  },
+  {
+    "id": "ATT-02",
+    "kind": "attribute",
+    "name": "Customer.customerType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "customerType",
+      "physical": "CUST_TYPE",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Customer type",
+      "range": "CustomerType",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 3",
+        "quote": "CUSTOMER,CUST_TYPE,CHAR(3),N,,Customer type,IND=Individual|BUS=Business",
+        "support": "structure",
+        "id": "E-035"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 6",
+        "quote": "private CustomerType customerType;",
+        "support": "structure",
+        "id": "E-058"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-03",
+    "kind": "attribute",
+    "name": "Customer.fullName",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "fullName",
+      "physical": "FULL_NAME",
+      "data_type": "VARCHAR(200)",
+      "nullable": false,
+      "description": "Customer full name",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 4",
+        "quote": "CUSTOMER,FULL_NAME,VARCHAR(200),N,,Customer full name,",
+        "support": "structure",
+        "id": "E-059"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 7",
+        "quote": "private String fullName;",
+        "support": "structure",
+        "id": "E-060"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-04",
+    "kind": "attribute",
+    "name": "Customer.dateOfBirth",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "dateOfBirth",
+      "physical": "DATE_OF_BIRTH",
+      "data_type": "DATE",
+      "nullable": true,
+      "description": "Date of birth (individuals only)",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 5",
+        "quote": "CUSTOMER,DATE_OF_BIRTH,DATE,Y,,Date of birth (individuals only),",
+        "support": "structure",
+        "id": "E-061"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 8",
+        "quote": "private LocalDate dateOfBirth;",
+        "support": "structure",
+        "id": "E-062"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-05",
+    "kind": "attribute",
+    "name": "Customer.emailAddress",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "emailAddress",
+      "physical": "EMAIL_ADDR",
+      "data_type": "VARCHAR(254)",
+      "nullable": true,
+      "description": "Primary email address",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 6",
+        "quote": "CUSTOMER,EMAIL_ADDR,VARCHAR(254),Y,,Primary email address,",
+        "support": "structure",
+        "id": "E-063"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 9",
+        "quote": "private String emailAddress;",
+        "support": "structure",
+        "id": "E-064"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-06",
+    "kind": "attribute",
+    "name": "Customer.kycStatus",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "kycStatus",
+      "physical": "KYC_STATUS",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "KYC status",
+      "range": "KycStatus",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 7",
+        "quote": "CUSTOMER,KYC_STATUS,CHAR(3),N,,KYC status,PEN=Pending|PAS=Passed|FAI=Failed|REF=Referred",
+        "support": "structure",
+        "id": "E-038"
+      },
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 10",
+        "quote": "private KycStatus kycStatus;",
+        "support": "structure",
+        "id": "E-065"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-07",
+    "kind": "attribute",
+    "name": "Customer.createdTimestamp",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "createdTimestamp",
+      "physical": "CREATED_TS",
+      "data_type": "TIMESTAMP",
+      "nullable": false,
+      "description": "Record created",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 8",
+        "quote": "CUSTOMER,CREATED_TS,TIMESTAMP,N,,Record created,",
+        "support": "structure",
+        "id": "E-066"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-02",
+    "kind": "entity",
+    "name": "CustomerAddress",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "CustHub",
+      "physical": "CUSTOMER_ADDRESS",
+      "attribute_ids": [
+        "ATT-08",
+        "ATT-09",
+        "ATT-10",
+        "ATT-11"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "CUSTOMER_ADDRESS,CUSTOMER_NO,CHAR(10),N,FK:CUSTOMER.CUSTOMER_NO,Customer Number,",
+        "support": "structure",
+        "id": "E-067"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-08"
+    ]
+  },
+  {
+    "id": "ATT-08",
+    "kind": "attribute",
+    "name": "CustomerAddress.customerNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerAddress",
+      "attribute": "customerNumber",
+      "physical": "CUSTOMER_NO",
+      "data_type": "CHAR(10)",
+      "nullable": false,
+      "description": "Customer Number",
+      "entity_id": "ENT-02"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "CUSTOMER_ADDRESS,CUSTOMER_NO,CHAR(10),N,FK:CUSTOMER.CUSTOMER_NO,Customer Number,",
+        "support": "structure",
+        "id": "E-067"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-01",
+    "kind": "relationship",
+    "name": "CustomerAddress → Customer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "CustomerAddress",
+      "to": "Customer",
+      "via": "customerNumber",
+      "cardinality": "many-to-one"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "CUSTOMER_ADDRESS,CUSTOMER_NO,CHAR(10),N,FK:CUSTOMER.CUSTOMER_NO,Customer Number,",
+        "support": "structure",
+        "id": "E-067"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-09",
+    "kind": "attribute",
+    "name": "CustomerAddress.addressType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerAddress",
+      "attribute": "addressType",
+      "physical": "ADDR_TYPE",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Address type",
+      "range": "AddressType",
+      "entity_id": "ENT-02"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 10",
+        "quote": "CUSTOMER_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,HOM=Home|COR=Correspondence",
+        "support": "structure",
+        "id": "E-068"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-04",
+    "kind": "taxonomy",
+    "name": "AddressType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "HOM": "Home",
+        "COR": "Correspondence"
+      },
+      "values": [
+        "HOME",
+        "CORRESPONDENCE"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 10",
+        "quote": "CUSTOMER_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,HOM=Home|COR=Correspondence",
+        "support": "value-list",
+        "id": "E-068"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-10",
+    "kind": "attribute",
+    "name": "CustomerAddress.line1",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerAddress",
+      "attribute": "line1",
+      "physical": "LINE_1",
+      "data_type": "VARCHAR(100)",
+      "nullable": false,
+      "description": "Address line 1",
+      "entity_id": "ENT-02"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 11",
+        "quote": "CUSTOMER_ADDRESS,LINE_1,VARCHAR(100),N,,Address line 1,",
+        "support": "structure",
+        "id": "E-069"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-11",
+    "kind": "attribute",
+    "name": "CustomerAddress.postcode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerAddress",
+      "attribute": "postcode",
+      "physical": "POSTCODE",
+      "data_type": "VARCHAR(10)",
+      "nullable": false,
+      "description": "Postcode",
+      "entity_id": "ENT-02"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/custhub-data-dictionary.csv",
+        "locator": "line 12",
+        "quote": "CUSTOMER_ADDRESS,POSTCODE,VARCHAR(10),N,,Postcode,",
+        "support": "structure",
+        "id": "E-070"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-03",
+    "kind": "entity",
+    "name": "Account",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "CoreLedger",
+      "physical": "account",
+      "attribute_ids": [
+        "ATT-12",
+        "ATT-13",
+        "ATT-14",
+        "ATT-15",
+        "ATT-16",
+        "ATT-17"
+      ],
+      "realises": "CON-04"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 2",
+        "quote": "CREATE TABLE account (",
+        "support": "structure",
+        "id": "E-071"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-12",
+    "kind": "attribute",
+    "name": "Account.accountNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "accountNumber",
+      "physical": "account_number",
+      "data_type": "CHAR(8)",
+      "nullable": true,
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 3",
+        "quote": "account_number   CHAR(8)      PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-072"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-02",
+    "kind": "identifier",
+    "name": "Account Number",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "accountNumber",
+      "key": "primary",
+      "seen_in": "AccountHolder.accountNumber",
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 3",
+        "quote": "account_number   CHAR(8)      PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-072"
+      },
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 15",
+        "quote": "PRIMARY KEY (account_number, customer_no)",
+        "support": "reference",
+        "id": "E-057"
+      },
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 8",
+        "quote": "private String debitAccountNumber;",
+        "support": "reference",
+        "id": "E-073"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-13",
+    "kind": "attribute",
+    "name": "Account.sortCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "sortCode",
+      "physical": "sort_code",
+      "data_type": "CHAR(6)",
+      "nullable": false,
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 4",
+        "quote": "sort_code        CHAR(6)      NOT NULL,",
+        "support": "structure",
+        "id": "E-074"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-14",
+    "kind": "attribute",
+    "name": "Account.productCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "productCode",
+      "physical": "product_code",
+      "data_type": "VARCHAR(10)",
+      "nullable": false,
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 5",
+        "quote": "product_code     VARCHAR(10)  NOT NULL,",
+        "support": "structure",
+        "id": "E-075"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-15",
+    "kind": "attribute",
+    "name": "Account.currency",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "currency",
+      "physical": "currency",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 6",
+        "quote": "currency         CHAR(3)      NOT NULL DEFAULT 'GBP',",
+        "support": "structure",
+        "id": "E-076"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-16",
+    "kind": "attribute",
+    "name": "Account.status",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "status",
+      "physical": "status",
+      "data_type": "VARCHAR(10)",
+      "nullable": false,
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 7",
+        "quote": "status           VARCHAR(10)  NOT NULL,",
+        "support": "structure",
+        "id": "E-077"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-17",
+    "kind": "attribute",
+    "name": "Account.openedDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "openedDate",
+      "physical": "opened_date",
+      "data_type": "DATE",
+      "nullable": false,
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 8",
+        "quote": "opened_date      DATE         NOT NULL",
+        "support": "structure",
+        "id": "E-078"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-04",
+    "kind": "entity",
+    "name": "AccountHolder",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "CoreLedger",
+      "physical": "account_holder",
+      "attribute_ids": [
+        "ATT-18",
+        "ATT-19",
+        "ATT-20"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 11",
+        "quote": "CREATE TABLE account_holder (",
+        "support": "structure",
+        "id": "E-079"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-01"
+    ]
+  },
+  {
+    "id": "ATT-18",
+    "kind": "attribute",
+    "name": "AccountHolder.accountNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "AccountHolder",
+      "attribute": "accountNumber",
+      "physical": "account_number",
+      "data_type": "CHAR(8)",
+      "nullable": false,
+      "entity_id": "ENT-04"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 12",
+        "quote": "account_number   CHAR(8)      NOT NULL REFERENCES account(account_number),",
+        "support": "structure",
+        "id": "E-080"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-02",
+    "kind": "relationship",
+    "name": "AccountHolder → Account",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "AccountHolder",
+      "to": "Account",
+      "via": "accountNumber",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 12",
+        "quote": "account_number   CHAR(8)      NOT NULL REFERENCES account(account_number),",
+        "support": "structure",
+        "id": "E-080"
+      },
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 15",
+        "quote": "PRIMARY KEY (account_number, customer_no)",
+        "support": "reference",
+        "id": "E-057"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-19",
+    "kind": "attribute",
+    "name": "AccountHolder.customerNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "AccountHolder",
+      "attribute": "customerNumber",
+      "physical": "customer_no",
+      "data_type": "CHAR(10)",
+      "nullable": false,
+      "entity_id": "ENT-04"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 13",
+        "quote": "customer_no      CHAR(10)     NOT NULL,",
+        "support": "structure",
+        "id": "E-056"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-20",
+    "kind": "attribute",
+    "name": "AccountHolder.holderRole",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "AccountHolder",
+      "attribute": "holderRole",
+      "physical": "holder_role",
+      "data_type": "VARCHAR(10)",
+      "nullable": false,
+      "entity_id": "ENT-04"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 14",
+        "quote": "holder_role      VARCHAR(10)  NOT NULL,",
+        "support": "structure",
+        "id": "E-081"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-05",
+    "kind": "entity",
+    "name": "Address",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "CustHub",
+      "implied_by": "Customer.addresses"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 11",
+        "quote": "private List<Address> addresses;",
+        "support": "reference",
+        "id": "E-082"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-08"
+    ]
+  },
+  {
+    "id": "REL-03",
+    "kind": "relationship",
+    "name": "Customer → Address",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Customer",
+      "to": "Address",
+      "via": "addresses",
+      "cardinality": "one-to-many"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 11",
+        "quote": "private List<Address> addresses;",
+        "support": "structure",
+        "id": "E-082"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-06",
+    "kind": "entity",
+    "name": "PaymentInstruction",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "PayRail",
+      "physical": "PaymentInstruction",
+      "attribute_ids": [
+        "ATT-21",
+        "ATT-22",
+        "ATT-23",
+        "ATT-24",
+        "ATT-25"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 6",
+        "quote": "public class PaymentInstruction {",
+        "support": "structure",
+        "id": "E-083"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-09"
+    ]
+  },
+  {
+    "id": "ATT-21",
+    "kind": "attribute",
+    "name": "PaymentInstruction.paymentId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PaymentInstruction",
+      "attribute": "paymentId",
+      "data_type": "String",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 7",
+        "quote": "private String paymentId;",
+        "support": "structure",
+        "id": "E-084"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-03",
+    "kind": "identifier",
+    "name": "Payment Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PaymentInstruction",
+      "attribute": "paymentId",
+      "key": "business",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 7",
+        "quote": "private String paymentId;",
+        "support": "structure",
+        "id": "E-084"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-22",
+    "kind": "attribute",
+    "name": "PaymentInstruction.debitAccountNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PaymentInstruction",
+      "attribute": "debitAccountNumber",
+      "data_type": "String",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 8",
+        "quote": "private String debitAccountNumber;",
+        "support": "structure",
+        "id": "E-073"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-23",
+    "kind": "attribute",
+    "name": "PaymentInstruction.amount",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PaymentInstruction",
+      "attribute": "amount",
+      "data_type": "BigDecimal",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 9",
+        "quote": "private BigDecimal amount;",
+        "support": "structure",
+        "id": "E-085"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-24",
+    "kind": "attribute",
+    "name": "PaymentInstruction.currency",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PaymentInstruction",
+      "attribute": "currency",
+      "data_type": "String",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 10",
+        "quote": "private String currency;",
+        "support": "structure",
+        "id": "E-086"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-25",
+    "kind": "attribute",
+    "name": "PaymentInstruction.status",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PaymentInstruction",
+      "attribute": "status",
+      "data_type": "PaymentStatus",
+      "range": "PaymentStatus",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 11",
+        "quote": "private PaymentStatus status;",
+        "support": "structure",
+        "id": "E-087"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-04",
+    "kind": "relationship",
+    "name": "AccountHolder → Customer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "AccountHolder",
+      "to": "Customer",
+      "via": "customerNumber",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 13",
+        "quote": "customer_no      CHAR(10)     NOT NULL,",
+        "support": "reference",
+        "id": "E-056"
+      },
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 15",
+        "quote": "PRIMARY KEY (account_number, customer_no)",
+        "support": "reference",
+        "id": "E-057"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-05",
+    "kind": "relationship",
+    "name": "PaymentInstruction → Account",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "PaymentInstruction",
+      "to": "Account",
+      "via": "debitAccountNumber",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source",
+      "role": "debit"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/PaymentStatus.java",
+        "locator": "line 8",
+        "quote": "private String debitAccountNumber;",
+        "support": "reference",
+        "id": "E-073"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-06",
+    "kind": "relationship",
+    "name": "Customer ↔ Account",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Customer",
+      "to": "Account",
+      "via": "AccountHolder",
+      "cardinality": "many-to-many",
+      "reference_match": "Customer holds Account"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/ledger_accounts.sql",
+        "locator": "line 15",
+        "quote": "PRIMARY KEY (account_number, customer_no)",
+        "support": "structure",
+        "id": "E-057"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-01",
+    "kind": "interface",
+    "name": "CUST-ACC-01",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "New customer to ledger",
+      "source": "CustHub",
+      "target": "CoreLedger",
+      "mechanism": "MQ message",
+      "frequency": "Real time",
+      "payload": "Customer Number; customer type; name",
+      "owner": "Integration team"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUST-ACC-01,New customer to ledger,Customer Hub,CoreLedger,MQ message,Real time,Customer Number; customer type; name,Integration team",
+        "support": "definition",
+        "id": "E-003"
+      },
+      {
+        "file": "docs/customer-onboarding-process.md",
+        "locator": "line 20",
+        "quote": "4. CustHub sends the new customer to CoreLedger through the CUST-ACC-01 interface.",
+        "support": "mention",
+        "id": "E-088"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 5",
+        "quote": "CH -->|CUST-ACC-01| CL[\"CoreLedger (Account Platform)\"]",
+        "support": "mention",
+        "id": "E-010"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-02",
+    "kind": "interface",
+    "name": "PAY-01",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Submit payment",
+      "source": "Mobile Banking",
+      "target": "PayRail",
+      "mechanism": "REST API",
+      "frequency": "Real time",
+      "payload": "Payment instruction",
+      "owner": "Payments team"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "PAY-01,Submit payment,Mobile Banking,PayRail,REST API,Real time,Payment instruction,Payments team",
+        "support": "definition",
+        "id": "E-021"
+      },
+      {
+        "file": "docs/payments-overview.md",
+        "locator": "line 8",
+        "quote": "Mobile Banking submits a payment instruction to PayRail over the PAY-01 API.",
+        "support": "mention",
+        "id": "E-022"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 2",
+        "quote": "MB[\"Mobile Banking\"] -->|PAY-01 payment instruction| PR[\"PayRail (Payments Platform)\"]",
+        "support": "mention",
+        "id": "E-020"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-03",
+    "kind": "interface",
+    "name": "PAY-EVT-02",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Payment completed",
+      "source": "PayRail",
+      "target": "CoreLedger",
+      "mechanism": "Event",
+      "frequency": "Real time",
+      "payload": "PaymentCompleted",
+      "owner": "Payments team"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "PAY-EVT-02,Payment completed,PayRail,CoreLedger,Event,Real time,PaymentCompleted,Payments team",
+        "support": "definition",
+        "id": "E-011"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "EVT-01",
+    "kind": "event",
+    "name": "PaymentCompleted",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "producer": "PayRail",
+      "consumer": "CoreLedger",
+      "interface": "PAY-EVT-02"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "PAY-EVT-02,Payment completed,PayRail,CoreLedger,Event,Real time,PaymentCompleted,Payments team",
+        "support": "definition",
+        "id": "E-011"
+      },
+      {
+        "file": "docs/payments-overview.md",
+        "locator": "line 9",
+        "quote": "PayRail debits the account in CoreLedger (CL) and publishes a PaymentCompleted event.",
+        "support": "definition",
+        "id": "E-009"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 6",
+        "quote": "PR -->|PaymentCompleted| CL",
+        "support": "structure",
+        "id": "E-028"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-04",
+    "kind": "interface",
+    "name": "MI-01",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Nightly MI extract",
+      "source": "CoreLedger",
+      "target": "DataMart",
+      "mechanism": "File (CSV)",
+      "frequency": "Daily 02:00",
+      "payload": "Accounts; balances",
+      "owner": "Data team"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "MI-01,Nightly MI extract,CoreLedger,DataMart,File (CSV),Daily 02:00,Accounts; balances,Data team",
+        "support": "definition",
+        "id": "E-012"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 7",
+        "quote": "CL -->|MI-01 nightly| DM[\"DataMart (MI warehouse)\"]",
+        "support": "mention",
+        "id": "E-026"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-05",
+    "kind": "interface",
+    "name": "MI-02",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Customer extract",
+      "source": "CustHub",
+      "target": "DataMart",
+      "mechanism": "File (CSV)",
+      "frequency": "Daily 02:30",
+      "payload": "Customers",
+      "owner": "Data team"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-02,Customer extract,CH,DataMart,File (CSV),Daily 02:30,Customers,Data team",
+        "support": "definition",
+        "id": "E-004"
+      },
+      {
+        "file": "diagrams/context-diagram.mmd",
+        "locator": "line 8",
+        "quote": "CH -->|MI-02 nightly| DM",
+        "support": "mention",
+        "id": "E-029"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-06",
+    "kind": "rule",
+    "name": "customerNumber must be 10 characters",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "customerNumber must be 10 characters",
+      "enforced_in": "code-examples/CustomerRecord.java"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 15",
+        "quote": "throw new ValidationException(\"customerNumber must be 10 characters\");",
+        "support": "structure",
+        "id": "E-089"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-07",
+    "kind": "rule",
+    "name": "dateOfBirth is required for individuals",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "dateOfBirth is required for individuals",
+      "enforced_in": "code-examples/CustomerRecord.java"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/CustomerRecord.java",
+        "locator": "line 18",
+        "quote": "throw new ValidationException(\"dateOfBirth is required for individuals\");",
+        "support": "structure",
+        "id": "E-090"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-07",
+    "kind": "entity",
+    "name": "Person",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "domain": "Party",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-19"
+    ]
+  },
+  {
+    "id": "ENT-08",
+    "kind": "entity",
+    "name": "Organisation",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "domain": "Party",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-17"
+    ]
+  },
+  {
+    "id": "ENT-09",
+    "kind": "entity",
+    "name": "Product",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "domain": "Product",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-22"
+    ]
+  },
+  {
+    "id": "ENT-10",
+    "kind": "entity",
+    "name": "Subscription",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "domain": "Commercial",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-23"
+    ]
+  },
+  {
+    "id": "ENT-11",
+    "kind": "entity",
+    "name": "Channel",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "domain": "Channel",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-15"
+    ]
+  },
+  {
+    "id": "REL-07",
+    "kind": "relationship",
+    "name": "Customer subscribes to Product",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Customer",
+      "to": "Product",
+      "verb": "subscribes to",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-16"
+    ]
+  },
+  {
+    "id": "REL-08",
+    "kind": "relationship",
+    "name": "Payment debits Account",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Payment",
+      "to": "Account",
+      "verb": "debits",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-18"
+    ]
+  },
+  {
+    "id": "REL-09",
+    "kind": "relationship",
+    "name": "Product Variant is a variant of Product",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Product Variant",
+      "to": "Product",
+      "verb": "is a variant of",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-20"
+    ]
+  },
+  {
+    "id": "REL-10",
+    "kind": "relationship",
+    "name": "Product is accessed through Channel",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Product",
+      "to": "Channel",
+      "verb": "is accessed through",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-21"
+    ]
+  }
+]

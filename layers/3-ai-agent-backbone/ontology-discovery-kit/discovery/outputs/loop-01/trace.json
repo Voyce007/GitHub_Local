@@ -1,0 +1,1396 @@
+[
+  {
+    "seq": 1,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "docs/customer-onboarding-process.md",
+    "data": {
+      "provenance": "document",
+      "doc_type": "process",
+      "stale": false,
+      "lines": 33
+    }
+  },
+  {
+    "seq": 2,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "docs/payments-overview.md",
+    "data": {
+      "provenance": "document",
+      "doc_type": "architecture-overview",
+      "stale": true,
+      "lines": 19
+    }
+  },
+  {
+    "seq": 3,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "flagged stale",
+    "detail": "docs/payments-overview.md is 7.5 years old (threshold 5); it will not count towards grade B"
+  },
+  {
+    "seq": 4,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "wiki/glossary-export.md",
+    "data": {
+      "provenance": "wiki",
+      "doc_type": "glossary",
+      "stale": false,
+      "lines": 12
+    }
+  },
+  {
+    "seq": 5,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "spreadsheets/custhub-data-dictionary.csv",
+    "data": {
+      "provenance": "spreadsheet",
+      "doc_type": "data-dictionary",
+      "stale": false,
+      "lines": 12
+    }
+  },
+  {
+    "seq": 6,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "spreadsheets/interface-catalogue.csv",
+    "data": {
+      "provenance": "spreadsheet",
+      "doc_type": "interface-catalogue",
+      "stale": false,
+      "lines": 6
+    }
+  },
+  {
+    "seq": 7,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "diagrams/context-diagram.mmd",
+    "data": {
+      "provenance": "diagram",
+      "doc_type": "context-diagram",
+      "stale": false,
+      "lines": 8
+    }
+  },
+  {
+    "seq": 8,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "code-examples/CustomerRecord.java",
+    "data": {
+      "provenance": "example-code",
+      "doc_type": "code",
+      "stale": false,
+      "lines": 25
+    }
+  },
+  {
+    "seq": 9,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "code-examples/PaymentStatus.java",
+    "data": {
+      "provenance": "example-code",
+      "doc_type": "code",
+      "stale": false,
+      "lines": 12
+    }
+  },
+  {
+    "seq": 10,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "code-examples/ledger_accounts.sql",
+    "data": {
+      "provenance": "example-code",
+      "doc_type": "ddl",
+      "stale": false,
+      "lines": 16
+    }
+  },
+  {
+    "seq": 11,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "code-examples/application.properties",
+    "data": {
+      "provenance": "example-code",
+      "doc_type": "config",
+      "stale": false,
+      "lines": 6
+    }
+  },
+  {
+    "seq": 12,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "source index written",
+    "detail": "10 files citable, 0 missing",
+    "data": {
+      "files": 10,
+      "missing": []
+    }
+  },
+  {
+    "seq": 13,
+    "stage": "B. Agents propose",
+    "actor": "EA agent",
+    "action": "proposed",
+    "detail": "60 proposals (16 flow, 44 system)",
+    "data": {
+      "agent": "ea",
+      "counts": {
+        "system": 44,
+        "flow": 16
+      }
+    }
+  },
+  {
+    "seq": 14,
+    "stage": "B. Agents propose",
+    "actor": "BA agent",
+    "action": "proposed",
+    "detail": "21 proposals (13 concept, 5 rule, 3 taxonomy)",
+    "data": {
+      "agent": "ba",
+      "counts": {
+        "rule": 5,
+        "taxonomy": 3,
+        "concept": 13
+      }
+    }
+  },
+  {
+    "seq": 15,
+    "stage": "B. Agents propose",
+    "actor": "DA agent",
+    "action": "proposed",
+    "detail": "59 proposals (31 attribute, 7 entity, 10 identifier, 8 relationship, 3 taxonomy)",
+    "data": {
+      "agent": "da",
+      "counts": {
+        "entity": 7,
+        "attribute": 31,
+        "identifier": 10,
+        "taxonomy": 3,
+        "relationship": 8
+      }
+    }
+  },
+  {
+    "seq": 16,
+    "stage": "B. Agents propose",
+    "actor": "Engineering agent",
+    "action": "proposed",
+    "detail": "19 proposals (3 event, 11 interface, 2 rule, 3 taxonomy)",
+    "data": {
+      "agent": "eng",
+      "counts": {
+        "interface": 11,
+        "event": 3,
+        "rule": 2,
+        "taxonomy": 3
+      }
+    }
+  },
+  {
+    "seq": 17,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "EA: 60 accepted, 0 rejected",
+    "data": {
+      "agent": "ea",
+      "accepted": 60,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 18,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "BA: 21 accepted, 0 rejected",
+    "data": {
+      "agent": "ba",
+      "accepted": 21,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 19,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "DA: 59 accepted, 0 rejected",
+    "data": {
+      "agent": "da",
+      "accepted": 59,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 20,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "ENG: 19 accepted, 0 rejected",
+    "data": {
+      "agent": "eng",
+      "accepted": 19,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 21,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "CustHub = CH, CRM, Customer Hub",
+    "data": {
+      "system": "CustHub",
+      "aliases": [
+        "CH",
+        "CRM",
+        "Customer Hub"
+      ]
+    }
+  },
+  {
+    "seq": 22,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "CoreLedger = Account Platform, CL",
+    "data": {
+      "system": "CoreLedger",
+      "aliases": [
+        "Account Platform",
+        "CL"
+      ]
+    }
+  },
+  {
+    "seq": 23,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "Mobile Banking = MB",
+    "data": {
+      "system": "Mobile Banking",
+      "aliases": [
+        "MB"
+      ]
+    }
+  },
+  {
+    "seq": 24,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "Web Banking = WB",
+    "data": {
+      "system": "Web Banking",
+      "aliases": [
+        "WB"
+      ]
+    }
+  },
+  {
+    "seq": 25,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "PayRail = Payments Platform, PR",
+    "data": {
+      "system": "PayRail",
+      "aliases": [
+        "Payments Platform",
+        "PR"
+      ]
+    }
+  },
+  {
+    "seq": 26,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "DataMart = DM, MI warehouse",
+    "data": {
+      "system": "DataMart",
+      "aliases": [
+        "DM",
+        "MI warehouse"
+      ]
+    }
+  },
+  {
+    "seq": 27,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'CustHub': 9 proposals from ea across 6 files",
+    "data": {
+      "element": "SYS-01"
+    }
+  },
+  {
+    "seq": 28,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'CoreLedger': 11 proposals from ea across 7 files",
+    "data": {
+      "element": "SYS-02"
+    }
+  },
+  {
+    "seq": 29,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'ONB': 4 proposals from ea across 3 files",
+    "data": {
+      "element": "SYS-03"
+    }
+  },
+  {
+    "seq": 30,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'Mobile Banking': 5 proposals from ea across 4 files",
+    "data": {
+      "element": "SYS-04"
+    }
+  },
+  {
+    "seq": 31,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'Web Banking': 3 proposals from ea across 2 files",
+    "data": {
+      "element": "SYS-05"
+    }
+  },
+  {
+    "seq": 32,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'PayRail': 7 proposals from ea across 5 files",
+    "data": {
+      "element": "SYS-06"
+    }
+  },
+  {
+    "seq": 33,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'DataMart': 4 proposals from ea across 3 files",
+    "data": {
+      "element": "SYS-07"
+    }
+  },
+  {
+    "seq": 34,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "flow 'Mobile Banking → PayRail': 3 proposals from ea across 3 files",
+    "data": {
+      "element": "FLW-01"
+    }
+  },
+  {
+    "seq": 35,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "flow 'CustHub → CoreLedger': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "FLW-04"
+    }
+  },
+  {
+    "seq": 36,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "flow 'PayRail → CoreLedger': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "FLW-05"
+    }
+  },
+  {
+    "seq": 37,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "flow 'CoreLedger → DataMart': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "FLW-06"
+    }
+  },
+  {
+    "seq": 38,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "flow 'CustHub → DataMart': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "FLW-07"
+    }
+  },
+  {
+    "seq": 39,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "taxonomy 'CustomerType': 3 proposals from ba, da, eng across 3 files",
+    "data": {
+      "element": "TAX-01"
+    }
+  },
+  {
+    "seq": 40,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "contradiction",
+    "detail": "taxonomy 'CustomerType' · values: ['INDIVIDUAL', 'BUSINESS'] (docs/customer-onboarding-process.md, spreadsheets/custhub-data-dictionary.csv) vs ['INDIVIDUAL', 'SOLE_TRADER', 'COMPANY'] (code-examples/CustomerRecord.java)",
+    "data": {
+      "element": "TAX-01"
+    }
+  },
+  {
+    "seq": 41,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "taxonomy 'KycStatus': 3 proposals from ba, da, eng across 3 files",
+    "data": {
+      "element": "TAX-02"
+    }
+  },
+  {
+    "seq": 42,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "taxonomy 'PaymentStatus': 2 proposals from ba, eng across 2 files",
+    "data": {
+      "element": "TAX-03"
+    }
+  },
+  {
+    "seq": 43,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "contradiction",
+    "detail": "taxonomy 'PaymentStatus' · values: ['PENDING', 'COMPLETED', 'FAILED', 'CANCELLED'] (docs/payments-overview.md) vs ['RECEIVED', 'VALIDATED', 'PENDING', 'COMPLETED', 'FAILED', 'CANCELLED'] (code-examples/PaymentStatus.java)",
+    "data": {
+      "element": "TAX-03"
+    }
+  },
+  {
+    "seq": 44,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "concept 'Customer': 2 proposals from ba across 2 files",
+    "data": {
+      "element": "CON-01"
+    }
+  },
+  {
+    "seq": 45,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "concept 'Customer Number': 2 proposals from ba across 2 files",
+    "data": {
+      "element": "CON-03"
+    }
+  },
+  {
+    "seq": 46,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "concept 'Account': 2 proposals from ba across 2 files",
+    "data": {
+      "element": "CON-04"
+    }
+  },
+  {
+    "seq": 47,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "concept 'Current Account': 2 proposals from ba across 2 files",
+    "data": {
+      "element": "CON-05"
+    }
+  },
+  {
+    "seq": 48,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "concept 'Payment': 2 proposals from ba across 2 files",
+    "data": {
+      "element": "CON-06"
+    }
+  },
+  {
+    "seq": 49,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'Customer': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ENT-01"
+    }
+  },
+  {
+    "seq": 50,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "attribute 'Customer.customerNumber': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ATT-01"
+    }
+  },
+  {
+    "seq": 51,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "identifier 'Customer Number': 6 proposals from da across 5 files",
+    "data": {
+      "element": "IDN-01"
+    }
+  },
+  {
+    "seq": 52,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "contradiction",
+    "detail": "identifier 'Customer Number' · issued_by: CustHub (docs/customer-onboarding-process.md) vs ONB (wiki/glossary-export.md)",
+    "data": {
+      "element": "IDN-01"
+    }
+  },
+  {
+    "seq": 53,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "attribute 'Customer.customerType': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ATT-02"
+    }
+  },
+  {
+    "seq": 54,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "attribute 'Customer.fullName': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ATT-03"
+    }
+  },
+  {
+    "seq": 55,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "attribute 'Customer.dateOfBirth': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ATT-04"
+    }
+  },
+  {
+    "seq": 56,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "attribute 'Customer.emailAddress': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ATT-05"
+    }
+  },
+  {
+    "seq": 57,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "attribute 'Customer.kycStatus': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ATT-06"
+    }
+  },
+  {
+    "seq": 58,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "identifier 'Account Number': 3 proposals from da across 2 files",
+    "data": {
+      "element": "IDN-02"
+    }
+  },
+  {
+    "seq": 59,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "relationship 'AccountHolder → Account': 2 proposals from da across 1 files",
+    "data": {
+      "element": "REL-02"
+    }
+  },
+  {
+    "seq": 60,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "relationship 'AccountHolder → Customer': 2 proposals from da across 1 files",
+    "data": {
+      "element": "REL-04"
+    }
+  },
+  {
+    "seq": 61,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "interface 'CUST-ACC-01': 3 proposals from eng across 3 files",
+    "data": {
+      "element": "INT-01"
+    }
+  },
+  {
+    "seq": 62,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "interface 'PAY-01': 3 proposals from eng across 3 files",
+    "data": {
+      "element": "INT-02"
+    }
+  },
+  {
+    "seq": 63,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "event 'PaymentCompleted': 3 proposals from eng across 3 files",
+    "data": {
+      "element": "EVT-01"
+    }
+  },
+  {
+    "seq": 64,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "interface 'MI-01': 2 proposals from eng across 2 files",
+    "data": {
+      "element": "INT-04"
+    }
+  },
+  {
+    "seq": 65,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "interface 'MI-02': 2 proposals from eng across 2 files",
+    "data": {
+      "element": "INT-05"
+    }
+  },
+  {
+    "seq": 66,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'Customer' is realised by entity 'Customer' (CustHub)"
+  },
+  {
+    "seq": 67,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'Account' is realised by entity 'Account' (CoreLedger)"
+  },
+  {
+    "seq": 68,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "homonym_risk: Glossary lists 'Account Holder' as a synonym of Customer, but CoreLedger has an entity 'AccountHolder' with its own structure."
+  },
+  {
+    "seq": 69,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "candidate_synonym: 'Address' may be the unqualified form of 'CustomerAddress'"
+  },
+  {
+    "seq": 70,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "candidate_synonym: 'PaymentInstruction' looks like 'Payment' with a role suffix"
+  },
+  {
+    "seq": 71,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "unrealised_concept: No entity found for 'Party'."
+  },
+  {
+    "seq": 72,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "unrealised_concept: No entity found for 'Current Account'."
+  },
+  {
+    "seq": 73,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "unrealised_concept: No entity found for 'Mandate'. Possible home: mandate-svc."
+  },
+  {
+    "seq": 74,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "unrealised_concept: No entity found for 'Product Variant'."
+  },
+  {
+    "seq": 75,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "system_without_role: 'mandate-svc' appears in 1 source(s) but nothing says what it does."
+  },
+  {
+    "seq": 76,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "model assembled",
+    "detail": "159 proposals → 83 elements; 3 contradictions; 8 review flags",
+    "data": {
+      "counts": {
+        "system": 8,
+        "flow": 10,
+        "rule": 7,
+        "taxonomy": 4,
+        "concept": 8,
+        "entity": 6,
+        "attribute": 25,
+        "identifier": 3,
+        "relationship": 6,
+        "interface": 5,
+        "event": 1
+      }
+    }
+  },
+  {
+    "seq": 77,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "graded",
+    "detail": "A: 0 · B: 26 · C: 54 · D: 0 · X: 3",
+    "data": {
+      "distribution": {
+        "A": 0,
+        "B": 26,
+        "C": 54,
+        "D": 0,
+        "X": 3
+      }
+    }
+  },
+  {
+    "seq": 78,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'CustHub': 6 independent current sources",
+    "data": {
+      "element": "SYS-01",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 79,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'CoreLedger': 6 independent current sources",
+    "data": {
+      "element": "SYS-02",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 80,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'ONB': 3 independent current sources",
+    "data": {
+      "element": "SYS-03",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 81,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'Mobile Banking': 3 independent current sources",
+    "data": {
+      "element": "SYS-04",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 82,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'Web Banking': 2 independent current sources",
+    "data": {
+      "element": "SYS-05",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 83,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'PayRail': 4 independent current sources",
+    "data": {
+      "element": "SYS-06",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 84,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'DataMart': 2 independent current sources",
+    "data": {
+      "element": "SYS-07",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 85,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "system 'mandate-svc': single source",
+    "data": {
+      "element": "SYS-08",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 86,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade X",
+    "detail": "taxonomy 'CustomerType': sources contradict on values",
+    "data": {
+      "element": "TAX-01",
+      "grade": "X"
+    }
+  },
+  {
+    "seq": 87,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade X",
+    "detail": "taxonomy 'PaymentStatus': sources contradict on values",
+    "data": {
+      "element": "TAX-03",
+      "grade": "X"
+    }
+  },
+  {
+    "seq": 88,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Customer': single source",
+    "data": {
+      "element": "CON-01",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 89,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Party': single source",
+    "data": {
+      "element": "CON-02",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 90,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Customer Number': single source",
+    "data": {
+      "element": "CON-03",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 91,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Account': single source",
+    "data": {
+      "element": "CON-04",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 92,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Current Account': single source",
+    "data": {
+      "element": "CON-05",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 93,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Payment': single source",
+    "data": {
+      "element": "CON-06",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 94,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Mandate': single source",
+    "data": {
+      "element": "CON-07",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 95,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Product Variant': single source",
+    "data": {
+      "element": "CON-08",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 96,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade X",
+    "detail": "identifier 'Customer Number': sources contradict on issued_by",
+    "data": {
+      "element": "IDN-01",
+      "grade": "X"
+    }
+  },
+  {
+    "seq": 97,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "identifier 'Account Number': 2 independent current sources",
+    "data": {
+      "element": "IDN-02",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 98,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "identifier 'Payment Id': single source",
+    "data": {
+      "element": "IDN-03",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 99,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "compared with reference ontology",
+    "detail": "6 reference items found in evidence; 9 added as assumptions (grade D)",
+    "data": {
+      "matched": [
+        "Party",
+        "Customer",
+        "Product Variant",
+        "Account",
+        "Payment",
+        "Customer holds Account"
+      ],
+      "assumed": [
+        "Person",
+        "Organisation",
+        "Product",
+        "Subscription",
+        "Channel",
+        "Customer subscribes to Product",
+        "Payment debits Account",
+        "Product Variant is a variant of Product",
+        "Product is accessed through Channel"
+      ]
+    }
+  },
+  {
+    "seq": 100,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "assumed (D)",
+    "detail": "entity 'Person' — expected by reference, not seen in evidence",
+    "data": {
+      "element": "ENT-07"
+    }
+  },
+  {
+    "seq": 101,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "assumed (D)",
+    "detail": "entity 'Organisation' — expected by reference, not seen in evidence",
+    "data": {
+      "element": "ENT-08"
+    }
+  },
+  {
+    "seq": 102,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "assumed (D)",
+    "detail": "entity 'Product' — expected by reference, not seen in evidence",
+    "data": {
+      "element": "ENT-09"
+    }
+  },
+  {
+    "seq": 103,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "assumed (D)",
+    "detail": "entity 'Subscription' — expected by reference, not seen in evidence",
+    "data": {
+      "element": "ENT-10"
+    }
+  },
+  {
+    "seq": 104,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "assumed (D)",
+    "detail": "entity 'Channel' — expected by reference, not seen in evidence",
+    "data": {
+      "element": "ENT-11"
+    }
+  },
+  {
+    "seq": 105,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "assumed (D)",
+    "detail": "relationship 'Customer subscribes to Product' — expected by reference, not seen in evidence",
+    "data": {
+      "element": "REL-07"
+    }
+  },
+  {
+    "seq": 106,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "assumed (D)",
+    "detail": "relationship 'Payment debits Account' — expected by reference, not seen in evidence",
+    "data": {
+      "element": "REL-08"
+    }
+  },
+  {
+    "seq": 107,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "assumed (D)",
+    "detail": "relationship 'Product Variant is a variant of Product' — expected by reference, not seen in evidence",
+    "data": {
+      "element": "REL-09"
+    }
+  },
+  {
+    "seq": 108,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "assumed (D)",
+    "detail": "relationship 'Product is accessed through Channel' — expected by reference, not seen in evidence",
+    "data": {
+      "element": "REL-10"
+    }
+  },
+  {
+    "seq": 109,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "unknowns register built",
+    "detail": "23 items — high 7, medium 7, low 9",
+    "data": {
+      "priorities": {
+        "high": 7,
+        "medium": 7,
+        "low": 9
+      }
+    }
+  },
+  {
+    "seq": 110,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-01",
+    "detail": "Is 'Account Holder' a synonym of Customer, or a different concept (a role) that shares the name?",
+    "data": {
+      "owner": "Business Domain Owner"
+    }
+  },
+  {
+    "seq": 111,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-02",
+    "detail": "Request a schema export and a masked data sample from CoreLedger.",
+    "data": {
+      "owner": "Engineering Lead (with the system owner)"
+    }
+  },
+  {
+    "seq": 112,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-03",
+    "detail": "Request a schema export and a masked data sample from CustHub.",
+    "data": {
+      "owner": "Engineering Lead (with the system owner)"
+    }
+  },
+  {
+    "seq": 113,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-04",
+    "detail": "Request a schema export and a masked data sample from PayRail.",
+    "data": {
+      "owner": "Engineering Lead (with the system owner)"
+    }
+  },
+  {
+    "seq": 114,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-05",
+    "detail": "Sources disagree on the issued by of identifier 'Customer Number'. Which is correct today?",
+    "data": {
+      "owner": "Data Architecture Authority"
+    }
+  },
+  {
+    "seq": 115,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-06",
+    "detail": "Sources disagree on the values of taxonomy 'CustomerType'. Which is correct today?",
+    "data": {
+      "owner": "Business Domain Owner"
+    }
+  },
+  {
+    "seq": 116,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-07",
+    "detail": "Sources disagree on the values of taxonomy 'PaymentStatus'. Which is correct today?",
+    "data": {
+      "owner": "Business Domain Owner"
+    }
+  },
+  {
+    "seq": 117,
+    "stage": "H. Gate checks",
+    "actor": "Conformance agent",
+    "action": "phase 1 gate: provisional",
+    "detail": "Enterprise scope and architecture discovery — P1.1 pass; P1.2 provisional; P1.3 pass; P1.4 pass; 6/18 in-scope elements below grade B",
+    "data": {
+      "phase": 1,
+      "status": "provisional"
+    }
+  },
+  {
+    "seq": 118,
+    "stage": "H. Gate checks",
+    "actor": "Conformance agent",
+    "action": "phase 2 gate: provisional",
+    "detail": "Business concepts and domain modelling — P2.1 pass; P2.2 pass; P2.3 pass; P2.4 pass; 18/19 in-scope elements below grade B",
+    "data": {
+      "phase": 2,
+      "status": "provisional"
+    }
+  },
+  {
+    "seq": 119,
+    "stage": "H. Gate checks",
+    "actor": "Conformance agent",
+    "action": "phase 3 gate: provisional",
+    "detail": "Entity and relationship modelling — P3.1 provisional; P3.2 provisional; 41/49 in-scope elements below grade B",
+    "data": {
+      "phase": 3,
+      "status": "provisional"
+    }
+  },
+  {
+    "seq": 120,
+    "stage": "I. Human gate",
+    "actor": "Human gate",
+    "action": "routed to Enterprise Architecture Authority",
+    "detail": "18 items — approve-provisional 18",
+    "data": {
+      "approver": "Enterprise Architecture Authority",
+      "decisions": {
+        "approve-provisional": 18
+      },
+      "simulated": true
+    }
+  },
+  {
+    "seq": 121,
+    "stage": "I. Human gate",
+    "actor": "Human gate",
+    "action": "routed to Business Domain Owner",
+    "detail": "19 items — approve-provisional 17, defer 2",
+    "data": {
+      "approver": "Business Domain Owner",
+      "decisions": {
+        "approve-provisional": 17,
+        "defer": 2
+      },
+      "simulated": true
+    }
+  },
+  {
+    "seq": 122,
+    "stage": "I. Human gate",
+    "actor": "Human gate",
+    "action": "routed to Domain Owner and Data Architecture Authority",
+    "detail": "21 items — approve-provisional 12, note-assumption 9",
+    "data": {
+      "approver": "Domain Owner and Data Architecture Authority",
+      "decisions": {
+        "approve-provisional": 12,
+        "note-assumption": 9
+      },
+      "simulated": true
+    }
+  },
+  {
+    "seq": 123,
+    "stage": "I. Human gate",
+    "actor": "Human gate",
+    "action": "routed to Data Architecture Authority",
+    "detail": "28 items — approve-provisional 27, defer 1",
+    "data": {
+      "approver": "Data Architecture Authority",
+      "decisions": {
+        "approve-provisional": 27,
+        "defer": 1
+      },
+      "simulated": true
+    }
+  },
+  {
+    "seq": 124,
+    "stage": "I. Human gate",
+    "actor": "Human gate",
+    "action": "routed to Design Authority",
+    "detail": "6 items — approve-provisional 6",
+    "data": {
+      "approver": "Design Authority",
+      "decisions": {
+        "approve-provisional": 6
+      },
+      "simulated": true
+    }
+  },
+  {
+    "seq": 125,
+    "stage": "J. Publish",
+    "actor": "Publisher",
+    "action": "deliverables written",
+    "detail": "14 files in outputs/loop-01/",
+    "data": {
+      "grades": {
+        "A": 0,
+        "B": 26,
+        "C": 54,
+        "D": 9,
+        "X": 3
+      }
+    }
+  }
+]

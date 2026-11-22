@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/ontokit/proposal.schema.json",
+  "title": "Agent proposal file",
+  "description": "What each persona agent writes to discovery/work/<loop>/proposals/<agent>.json. Checked by `python -m ontokit validate` (ontokit/validate.py mirrors these rules and also verifies every quote exists in its source file).",
+  "type": "object",
+  "required": ["agent", "loop", "proposals"],
+  "properties": {
+    "agent": {"enum": ["ba", "ea", "da", "eng"]},
+    "loop": {"type": "string", "pattern": "^loop-[0-9]{2}$"},
+    "proposals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "name", "evidence", "origin"],
+        "properties": {
+          "kind": {"enum": ["concept", "rule", "taxonomy", "system", "flow", "domain", "entity", "attribute",
+                             "relationship", "identifier", "interface", "event"]},
+          "name": {"type": "string", "minLength": 1},
+          "aliases": {"type": "array", "items": {"type": "string"}},
+          "definition": {"type": "string"},
+          "properties": {
+            "type": "object",
+            "description": "Kind-specific. Common keys: entity (attribute/identifier), values (taxonomy), issued_by (identifier), source/target (flow, interface), from/to/cardinality (relationship), role (system), system (entity).",
+            "additionalProperties": true
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["file", "quote"],
+              "properties": {
+                "file": {"type": "string", "description": "Path relative to the loop's input folder, as listed in manifest.yaml"},
+                "locator": {"type": "string", "description": "e.g. 'line 12', 'row 3'"},
+                "quote": {"type": "string", "description": "Verbatim text from the file. Verified by the validator."}
+              }
+            }
+          },
+          "origin": {"enum": ["inferred", "assumed", "confirmed"]},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "notes": {"type": "string"}
+        }
+      }
+    }
+  }
+}

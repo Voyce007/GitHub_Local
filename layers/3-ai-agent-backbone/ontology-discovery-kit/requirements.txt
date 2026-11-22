@@ -1,0 +1,4 @@
+PyYAML>=6.0
+# Optional, for live runs over larger code/SQL extracts and for validating outputs:
+# sqlglot>=25
+# linkml>=1.8

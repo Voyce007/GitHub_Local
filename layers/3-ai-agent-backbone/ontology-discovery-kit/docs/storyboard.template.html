@@ -1,0 +1,569 @@
+<title>Ontology Discovery Loop</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column (max 1180px) with a sticky tab bar; storyboard frames in a two-up grid that stacks on phones. */
+:root {
+  --bg: #F4F5F8; --surface: #FFFFFF; --sunk: #EBEDF2; --ink: #17202B; --muted: #596273; --line: #D8DCE4;
+  --accent: #3A4AA8; --accent-soft: #E5E8F6; --accent-ink: #FFFFFF;
+  --gA: #1D7A44; --gB: #2867A0; --gC: #9A6210; --gD: #6B7483; --gX: #B23824;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10141A; --surface: #171C24; --sunk: #0C0F14; --ink: #E5E8EE; --muted: #98A1AF; --line: #29303B;
+  --accent: #929FF2; --accent-soft: #222A4C; --accent-ink: #0F1320;
+  --gA: #52C283; --gB: #66A9E2; --gC: #E2A64B; --gD: #9AA3B1; --gX: #F27D64; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #10141A; --surface: #171C24; --sunk: #0C0F14; --ink: #E5E8EE; --muted: #98A1AF; --line: #29303B;
+  --accent: #929FF2; --accent-soft: #222A4C; --accent-ink: #0F1320;
+  --gA: #52C283; --gB: #66A9E2; --gC: #E2A64B; --gD: #9AA3B1; --gX: #F27D64; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { background: var(--bg); color: var(--ink); }
+body { font: 15px/1.55 var(--body); margin: 0; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3, h4 { font-family: var(--display); line-height: 1.2; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 700; }
+h2 { font-size: 1.45rem; font-weight: 600; }
+h3 { font-size: 1.12rem; font-weight: 600; }
+h4 { font-size: .95rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+code, .mono { font-family: var(--mono); font-size: .86em; }
+.eyebrow { font: 500 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* Header + tabs */
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+header.top .wrap { display: flex; align-items: center; gap: 16px; padding-block: 10px; flex-wrap: wrap; }
+.brand { display: flex; flex-direction: column; gap: 2px; margin-right: auto; min-width: 0; }
+.brand b { font: 600 1rem/1.1 var(--display); }
+.brand span { font-size: .78rem; color: var(--muted); }
+nav.tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+nav.tabs a { text-decoration: none; color: var(--muted); font-weight: 500; font-size: .9rem; padding: 7px 12px; border-radius: 8px; }
+nav.tabs a[aria-current="page"] { background: var(--accent-soft); color: var(--accent); }
+nav.tabs a:hover { color: var(--ink); }
+
+main { padding-block: 28px 64px; }
+section.view { display: grid; gap: 28px; }
+.intro { display: grid; gap: 12px; }
+.intro p { color: var(--muted); font-size: 1.02rem; }
+
+/* Grade chips */
+.g { display: inline-flex; align-items: center; justify-content: center; min-width: 1.7em; height: 1.55em; padding: 0 .45em; border-radius: 6px; font: 600 .78rem/1 var(--mono);
+     color: var(--gc); background: color-mix(in srgb, var(--gc) 14%, transparent); border: 1px solid color-mix(in srgb, var(--gc) 35%, transparent); }
+.g-A { --gc: var(--gA); } .g-B { --gc: var(--gB); } .g-C { --gc: var(--gC); } .g-D { --gc: var(--gD); } .g-X { --gc: var(--gX); }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 500; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); white-space: nowrap; }
+.pill.pass { color: var(--gA); border-color: color-mix(in srgb, var(--gA) 40%, transparent); }
+.pill.provisional { color: var(--gC); border-color: color-mix(in srgb, var(--gC) 40%, transparent); }
+.pill.fail { color: var(--gX); border-color: color-mix(in srgb, var(--gX) 40%, transparent); }
+.pill.high { color: var(--gX); } .pill.medium { color: var(--gC); } .pill.low { color: var(--gD); }
+
+/* Review bar */
+.reviewbar { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+.reviewbar .count { font: 600 .95rem var(--display); }
+.btn { font: 500 .88rem var(--body); padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+/* Frames */
+.frames { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 18px; }
+.frame { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); display: grid; grid-template-rows: auto auto 1fr auto; overflow: hidden; min-width: 0; }
+.frame-head { display: flex; gap: 12px; align-items: baseline; padding: 14px 16px 10px; }
+.fno { font: 700 1.5rem/1 var(--display); color: var(--accent); min-width: 2.2ch; font-variant-numeric: tabular-nums; }
+.frame-head div { display: grid; gap: 4px; min-width: 0; }
+.scene { margin: 0 16px; background: var(--sunk); border-radius: 8px; padding: 12px; min-height: 120px; overflow-x: auto; font-size: .84rem; }
+.frame-body { padding: 12px 16px 14px; display: grid; gap: 10px; align-content: start; }
+.frame-body .what { color: var(--ink); }
+.io { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: .84rem; }
+.io dt { color: var(--muted); font-weight: 500; }
+.io dd { margin: 0; min-width: 0; }
+.review { border-top: 1px dashed var(--line); padding: 12px 16px 14px; display: grid; gap: 8px; background: color-mix(in srgb, var(--accent-soft) 35%, var(--surface)); }
+.review ul { margin: 0; padding-left: 18px; font-size: .86rem; display: grid; gap: 3px; }
+.review-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.review textarea { width: 100%; min-height: 54px; resize: vertical; font: .86rem var(--body); padding: 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.frame[data-verdict="ok"] { border-color: color-mix(in srgb, var(--gA) 55%, var(--line)); }
+.frame[data-verdict="change"] { border-color: color-mix(in srgb, var(--gC) 70%, var(--line)); }
+
+/* Scene parts */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.fchip { display: grid; gap: 1px; padding: 6px 8px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); min-width: 0; }
+.fchip b { font: 500 .76rem var(--mono); overflow-wrap: anywhere; }
+.fchip span { font-size: .7rem; color: var(--muted); }
+.fchip.stale { border-style: dashed; border-color: var(--gC); }
+.lanes { display: grid; grid-template-columns: repeat(4, minmax(110px, 1fr)); gap: 8px; }
+.lane { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px; display: grid; gap: 4px; align-content: start; }
+.lane b { font: 600 .82rem var(--display); }
+.lane .n { font: 700 1.3rem var(--display); color: var(--accent); }
+.kv { font: .75rem var(--mono); color: var(--muted); }
+.rows { display: grid; gap: 6px; }
+.row { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--line); border-radius: 7px; padding: 6px 8px; }
+.row .mono { font-size: .78rem; }
+.bar { display: flex; height: 22px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+.bar i { display: block; height: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .8rem; margin-top: 8px; }
+pre.code { margin: 0; font: .74rem/1.5 var(--mono); white-space: pre; overflow-x: auto; color: var(--ink); }
+.arrow { color: var(--muted); font-family: var(--mono); }
+
+/* Agents view */
+.grid3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.card .q { font-style: italic; color: var(--muted); font-size: .9rem; }
+.card dl { margin: 0; display: grid; gap: 6px; font-size: .86rem; }
+.card dt { font: 500 .7rem var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.card dd { margin: 0; }
+.tag { display: inline-block; font: 500 .74rem var(--mono); padding: 1px 7px; border-radius: 5px; background: var(--sunk); margin: 0 4px 4px 0; }
+.card.human { border-style: dashed; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .86rem; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 500 .72rem var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--sunk); }
+tr:last-child td { border-bottom: 0; }
+.ladder { display: grid; gap: 8px; }
+.ladder .step { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.ladder .g { font-size: .95rem; min-width: 2.1em; height: 2em; }
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; overflow-x: auto; }
+
+/* Simulation */
+.sim { display: grid; grid-template-columns: 320px 1fr; gap: 18px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 12px; min-width: 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.controls select { font: .86rem var(--body); padding: 7px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.progress { height: 6px; background: var(--sunk); border-radius: 3px; overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+.stages { display: grid; gap: 4px; }
+.stage { display: flex; gap: 8px; align-items: center; font-size: .84rem; color: var(--muted); padding: 3px 6px; border-radius: 6px; }
+.stage .dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--line); flex: none; }
+.stage.done { color: var(--ink); } .stage.done .dot { background: var(--accent); border-color: var(--accent); }
+.stage.now { background: var(--accent-soft); color: var(--accent); font-weight: 600; } .stage.now .dot { border-color: var(--accent); background: var(--surface); }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.stat { background: var(--sunk); border-radius: 8px; padding: 8px 10px; display: grid; gap: 2px; }
+.stat b { font: 700 1.25rem var(--display); font-variant-numeric: tabular-nums; }
+.stat span { font-size: .74rem; color: var(--muted); }
+.log { max-height: 640px; overflow-y: auto; display: grid; align-content: start; }
+.ev { display: grid; grid-template-columns: 3.2ch 9.5rem 1fr; gap: 10px; padding: 7px 10px; border-bottom: 1px solid var(--line); font-size: .84rem; }
+.ev .seq { font: .74rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 2px; }
+.ev .who { font: 500 .78rem var(--mono); color: var(--accent); overflow-wrap: anywhere; }
+.ev .txt { min-width: 0; overflow-wrap: anywhere; }
+.ev .txt b { font-weight: 600; }
+.ev.cur { background: var(--accent-soft); }
+.ev.hl .txt b { color: var(--gX); }
+.check { display: flex; gap: 6px; align-items: center; font-size: .84rem; color: var(--muted); }
+
+/* Export */
+.steps { display: grid; gap: 12px; counter-reset: s; }
+.stepcard { display: grid; grid-template-columns: auto 1fr; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; }
+.stepcard::before { counter-increment: s; content: counter(s); font: 700 1.3rem/1 var(--display); color: var(--accent); }
+.stepcard > div { display: grid; gap: 6px; min-width: 0; }
+.cmd { background: var(--sunk); border-radius: 8px; padding: 10px 12px; font: .8rem/1.55 var(--mono); overflow-x: auto; white-space: pre; }
+.copyrow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.note { border-left: 3px solid var(--gC); padding: 8px 12px; background: var(--surface); border-radius: 0 8px 8px 0; font-size: .9rem; }
+
+@media (max-width: 860px) {
+  .sim { grid-template-columns: 1fr; }
+  .lanes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ev { grid-template-columns: 3ch 1fr; }
+  .ev .who { grid-column: 2; }
+  .ev .txt { grid-column: 2; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><b>Ontology Discovery Loop</b><span id="brandsub">Loop 1 · documents + example code · storyboard for review</span></div>
+    <nav class="tabs" aria-label="Views">
+      <a href="#storyboard" data-view="storyboard">Storyboard</a>
+      <a href="#agents" data-view="agents">Agents &amp; rules</a>
+      <a href="#simulation" data-view="simulation">Simulation</a>
+      <a href="#export" data-view="export">Export</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- STORYBOARD -->
+<section class="view" id="v-storyboard">
+  <div class="intro">
+    <span class="eyebrow">Storyboard · 13 frames</span>
+    <h1>From document extracts to an evidence-graded ontology</h1>
+    <p>Each frame is one step of the first discovery loop, shown with real output from a simulated run over the sample evidence batch (a fictional bank). Every frame ends with review questions. Mark each frame <em>Looks right</em> or <em>Needs change</em>, add notes, then copy your review and paste it back into the conversation.</p>
+  </div>
+  <div class="reviewbar">
+    <span class="count" id="revcount">0 of 13 reviewed</span>
+    <span class="muted" style="font-size:.86rem">Notes stay in this browser until you copy them.</span>
+    <span style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap">
+      <button class="btn" id="revclear" type="button">Clear review</button>
+      <button class="btn primary" id="revcopy" type="button">Copy review notes</button>
+    </span>
+  </div>
+  <div class="frames" id="frames"></div>
+</section>
+
+<!-- AGENTS -->
+<section class="view" id="v-agents" hidden>
+  <div class="intro">
+    <span class="eyebrow">Explainer</span>
+    <h1>Six agents, one deterministic pipeline, named human approvers</h1>
+    <p>The four persona agents come from the playbook's BA, EA, DA and Engineering roles. Two more do the working-group jobs: the Ontology Steward and the Conformance agent. Agents only ever <strong>recommend</strong>. Merging, grading and gate checks are deterministic code, so results can be repeated and audited. Approval stays with the people named in the playbook's decision-rights table.</p>
+  </div>
+  <div class="diagram"><pre class="mermaid">
+flowchart LR
+  M[Evidence batch<br/>manifest.yaml] --> I[Intake<br/>source index]
+  I --> BA[BA agent]
+  I --> EA[EA agent]
+  I --> DA[DA agent]
+  I --> EN[Engineering agent]
+  BA --> V{Validator<br/>quotes · scope}
+  EA --> V
+  DA --> V
+  EN --> V
+  V -- rejected --> BA
+  V --> S[Steward<br/>merge · aliases · conflicts]
+  S --> G[Conformance<br/>grade A–X]
+  G --> R[Reference check<br/>assumptions = D]
+  R --> U[Unknowns register]
+  U --> GT[Gate checks]
+  GT --> H[[Human gate<br/>decision rights]]
+  H --> P[Publish<br/>ontology · inventory · stand-ins]
+  P -. answers + new evidence .-> M
+</pre></div>
+  <h2>The agents</h2>
+  <div class="grid3" id="agentcards"></div>
+  <h2>Evidence grades</h2>
+  <div class="ladder" id="ladder"></div>
+  <h2>Who approves what</h2>
+  <div class="tablewrap"><table id="rights"><thead><tr><th>Element</th><th>Recommends</th><th>Approves</th></tr></thead><tbody></tbody></table></div>
+  <h2>How each playbook phase behaves in a documents-only loop</h2>
+  <div class="tablewrap"><table id="phases"><thead><tr><th>Phase</th><th>Mode</th><th>Exit gate</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<!-- SIMULATION -->
+<section class="view" id="v-simulation" hidden>
+  <div class="intro">
+    <span class="eyebrow">Simulation · replay of a real run</span>
+    <h1>Watch loop 1 run</h1>
+    <p>This replays the event trace that <code>python -m ontokit simulate</code> wrote. The persona agents in the simulation are rule-based stand-ins. In a live run, Claude Code subagents write the same proposal files, and every later step is identical.</p>
+  </div>
+  <div class="sim">
+    <div class="panel">
+      <div class="controls">
+        <button class="btn primary" id="play" type="button">Replay from start</button>
+        <button class="btn" id="step" type="button">Step</button>
+        <select id="speed" aria-label="Playback speed"><option value="700">Slow</option><option value="300" selected>Normal</option><option value="90">Fast</option></select>
+      </div>
+      <label class="check"><input type="checkbox" id="keyonly" checked> Key events only</label>
+      <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+      <div class="stages" id="stages"></div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="panel" style="padding:0">
+      <div class="log" id="log" aria-live="polite"></div>
+    </div>
+  </div>
+  <h2>What the run produced</h2>
+  <div class="grid3" id="results"></div>
+</section>
+
+<!-- EXPORT -->
+<section class="view" id="v-export" hidden>
+  <div class="intro">
+    <span class="eyebrow">Export</span>
+    <h1>Run it for real in another Claude Code</h1>
+    <p>The kit is self-contained. It is a folder with the playbook as config, six subagent definitions, an orchestration skill, the deterministic pipeline and tests. It needs Python 3.10+ and PyYAML. It doesn't need Docker or an API key, because Claude Code is the LLM for the live agents.</p>
+  </div>
+  <div class="steps">
+    <div class="stepcard"><div><h3>Copy the kit</h3><p>Copy <code>layers/3-ai-agent-backbone/ontology-discovery-kit/</code> to the root of a new or existing repository, or open the folder itself as the project. Its <code>.claude/</code> folder must be at the project root so the agents and skill load.</p></div></div>
+    <div class="stepcard"><div><h3>Check it works</h3><div class="cmd">pip install -r requirements.txt
+python -m unittest discover -s tests
+python -m ontokit simulate</div></div></div>
+    <div class="stepcard"><div><h3>Add your evidence</h3><p>Create <code>discovery/inputs/loop-01/</code> (or replace the sample) with your document extracts and example code. List every file in <code>manifest.yaml</code> with its provenance, date and, where known, the system it came from. Images of diagrams are fine: the orchestrator transcribes them to Mermaid first.</p></div></div>
+    <div class="stepcard"><div><h3>Start the live loop</h3><p>Paste this into Claude Code in that project:</p>
+      <div class="cmd" id="handoff">Run the ontology discovery loop for loop-01 following .claude/skills/ontology-discovery-loop/SKILL.md.
+Use the ea-agent, ba-agent, da-agent and eng-agent subagents in parallel, validate
+their proposals, run the pipeline, then the ontology-steward and conformance-agent
+reviews. Stop at the human gate and ask me for decisions one approver role at a
+time. Do not fill in any decision I have not given.</div>
+      <div class="copyrow"><button class="btn" id="copyhandoff" type="button">Copy prompt</button><span class="muted" id="copymsg" style="font-size:.85rem"></span></div></div></div>
+    <div class="stepcard"><div><h3>Answer, add evidence, repeat</h3><p>Send the unknowns register to the named owners. Put their answers and any new code context (schemas, data samples, real source) into <code>loop-02</code> and run again. Grades move up, contradictions get resolved, and stand-ins get replaced with real adapters. Rebuild this page from any run with <code>python tools/build_storyboard.py --loop loop-02</code>.</p></div></div>
+  </div>
+  <div class="note"><strong>What the simulation does not show:</strong> how well the live agents read messy real documents. The rule-based stand-in agents only find what is written in recognisable patterns. Expect the live agents to find more, and the validator to reject some of their proposals on the first pass. That rejection loop is intentional.</div>
+  <h2>Kit contents</h2>
+  <div class="cmd" id="tree">ontology-discovery-kit/
+├── CLAUDE.md                     instructions the receiving Claude Code reads first
+├── README.md · STORYBOARD.md
+├── config/                       the playbook as data
+│   ├── playbook.yaml             10 phases, deliverables, exit gates, loop-1 criteria
+│   ├── decision_rights.yaml      agent write scopes (RACI) and approvers
+│   ├── evidence_grades.yaml      A/B/C/D/X rules and provenance ceilings
+│   └── reference_ontology.yaml   playbook §6 subset, used only as a prior
+├── schemas/proposal.schema.json  the contract every persona agent writes
+├── .claude/agents/               ba · ea · da · eng · ontology-steward · conformance
+├── .claude/skills/ontology-discovery-loop/SKILL.md
+├── ontokit/                      ingest · validate · steward · grading · prior · unknowns · gates · approvals · publish · sim_agents
+├── tests/test_loop.py            planted-issue checks + guardrail checks
+├── tools/build_storyboard.py     rebuilds this page from any run
+└── discovery/
+    ├── inputs/loop-01/           sample evidence batch (fictional)
+    └── outputs/loop-01/          deliverables from the simulated run</div>
+</section>
+</main>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+(() => {
+const D = JSON.parse(document.getElementById('data').textContent);
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const GR = ['A', 'B', 'C', 'D', 'X'];
+const g = x => `<span class="g g-${x}">${x}</span>`;
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+                set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+const T = D.trace;
+const ev = (action, stage) => T.filter(e => e.action === action && (!stage || e.stage.startsWith(stage)));
+$('#brandsub').textContent = `${D.loop} · ${D.organisation || 'sample batch'} · storyboard for review`;
+
+/* ---------- Routing ---------- */
+const views = ['storyboard', 'agents', 'simulation', 'export'];
+function route() {
+  const v = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'storyboard';
+  views.forEach(x => { $('#v-' + x).hidden = x !== v; });
+  document.querySelectorAll('nav.tabs a').forEach(a => a.dataset.view === v ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+}
+addEventListener('hashchange', route); route();
+
+/* ---------- Storyboard frames ---------- */
+const counts = Object.fromEntries(ev('proposed').map(e => [e.data.agent, e.data]));
+const proposalsTotal = ev('proposed').reduce((n, e) => n + Object.values(e.data.counts).reduce((a, b) => a + b, 0), 0);
+const stale = D.files.filter(f => f.stale);
+const total = D.elements_total;
+const barHtml = () => {
+  const cols = { A: 'var(--gA)', B: 'var(--gB)', C: 'var(--gC)', D: 'var(--gD)', X: 'var(--gX)' };
+  return `<div class="bar" role="img" aria-label="Grade distribution">${GR.map(k => D.grades[k] ? `<i style="width:${(D.grades[k] / total * 100).toFixed(2)}%;background:${cols[k]}"></i>` : '').join('')}</div>
+    <div class="legend">${GR.map(k => `<span>${g(k)} ${D.grades[k]}</span>`).join('')}<span class="muted">of ${total} elements</span></div>`;
+};
+const agentName = { ea: 'EA agent', ba: 'BA agent', da: 'DA agent', eng: 'Engineering agent' };
+const high = D.unknowns.filter(u => u.priority === 'high');
+const evReq = D.unknowns.filter(u => u.type === 'evidence_request');
+
+const frames = [
+  { stage: 'Input', title: 'An evidence batch arrives',
+    what: `A loop starts with a folder of extracts and a manifest. This sample has ${D.files.length} files: documents, a wiki export, spreadsheets, a diagram transcribed from an image, and example code. There is no real source code. Each file's provenance limits how strong its evidence can be.`,
+    who: 'You (or a system owner) · manifest.yaml', io: ['Document extracts, example code', 'A manifest listing provenance, date, system hint'],
+    scene: () => `<div class="chips">${D.files.map(f => `<div class="fchip${f.stale ? ' stale' : ''}"><b>${esc(f.path.split('/').pop())}</b><span>${esc(f.provenance)} · ${esc(f.date)}${f.stale ? ' · stale' : ''}${f.hint ? ' · ' + esc(f.hint) : ''}</span></div>`).join('')}</div>`,
+    review: ['Are these the kinds of extracts you will have?', 'Is "provenance" the right way to classify them, or do you need more types?', 'Is a 5-year staleness threshold right for your estate?'] },
+  { stage: 'A · Intake', title: 'Intake builds a citable source index',
+    what: `Every listed file is loaded line by line and checked for age. ${stale.length} file is stale (${stale.map(f => esc(f.path.split('/').pop()) + `, ${f.age} years`).join('; ')}), so it can still be cited but cannot raise a grade to B. Files missing from the manifest cannot be cited at all.`,
+    who: 'Deterministic tool (ontokit ingest)', io: ['manifest.yaml + files', 'sources.json'],
+    scene: () => `<div class="tablewrap" style="border:0"><table><thead><tr><th>File</th><th>Type</th><th>Lines</th><th>Age</th></tr></thead><tbody>${D.files.map(f => `<tr><td class="mono">${esc(f.path)}</td><td>${esc(f.doc_type)}</td><td>${f.lines}</td><td>${f.age ?? '—'} y${f.stale ? ' · <span class="g g-C">stale</span>' : ''}</td></tr>`).join('')}</tbody></table></div>`,
+    review: ['Should any file types be refused at intake (e.g. personal data)?', 'Do you want sensitivity labels to route files to local models only?'] },
+  { stage: 'B · Agents propose', title: 'Four persona agents read in parallel',
+    what: `The BA, EA, DA and Engineering agents each read the whole batch through their own role's lens. Between them they wrote ${proposalsTotal} proposals. Each proposal cites one verbatim line, and the same fact found in three files becomes three proposals. That repetition is how independent agreement is measured later.`,
+    who: 'BA · EA · DA · Engineering agents', io: ['sources.json', 'proposals/{ba,ea,da,eng}.json'],
+    scene: () => `<div class="lanes">${['ba', 'ea', 'da', 'eng'].map(k => { const c = counts[k]?.counts || {}; const n = Object.values(c).reduce((a, b) => a + b, 0); return `<div class="lane"><b>${agentName[k]}</b><span class="n">${n}</span>${Object.entries(c).map(([kk, v]) => `<span class="kv">${v} ${kk}</span>`).join('')}</div>`; }).join('')}</div>`,
+    review: ['Is the split of responsibilities between the four agents right?', 'Should the Engineering agent also propose systems it sees in config, or leave those to EA?'] },
+  { stage: 'C · Validate', title: 'The validator rejects anything it cannot verify',
+    what: 'This is the guardrail against hallucination. Every quote is checked against its source file. Each agent may only propose the element kinds its RACI row allows, and no agent may mark anything confirmed. Rejected proposals go back to the agent to fix.',
+    who: 'Deterministic tool (ontokit validate)', io: ['proposals/*.json', 'validated.json (accepted + rejected)'],
+    scene: () => `<div class="rows">${D.rejections.map(r => `<div class="row"><span class="g g-X">✕</span><b>${esc(r.name)}</b><span class="mono muted">${esc(r.problem)}</span></div>`).join('')}</div><p class="muted" style="margin-top:8px;font-size:.78rem">Real validator messages for three deliberately bad proposals. The simulated agents passed with 0 rejections.</p>`,
+    review: ['Is two retries per agent enough before moving on?', 'Should a rejected proposal be kept for audit, or dropped?'] },
+  { stage: 'D · Steward', title: 'The Steward resolves what the systems are called',
+    what: 'Documents name the same system many ways. The Steward merges names only where a source says they are the same, for example "CustHub (also called Customer Hub)" or a diagram node "CH". A name nobody explains stays separate.',
+    who: 'Ontology Steward', io: ['validated proposals', 'system alias map'],
+    scene: () => `<div class="rows">${ev('resolved aliases').map(e => `<div class="row"><b>${esc(e.data.system)}</b><span class="arrow">=</span><span class="mono">${esc(e.data.aliases.join(' · '))}</span></div>`).join('')}${D.systems.filter(s => !s.aliases.length).map(s => `<div class="row"><b>${esc(s.name)}</b><span class="muted">no aliases found</span> ${g(s.grade)}</div>`).join('')}</div>`,
+    review: ['Is merging on stated aliases only too cautious? The alternative is fuzzy matching with human review.', 'Should team names and product names count as aliases?'] },
+  { stage: 'D · Steward', title: 'Contradictions are kept, not resolved',
+    what: `When sources disagree, both versions are kept, the element is graded X, and the disagreement becomes a question for the named decider. This batch has ${D.contradictions.length} contradictions. The Steward also flags likely synonyms, homonyms and concepts with nowhere to live.`,
+    who: 'Ontology Steward', io: ['merged elements', 'conflicts + review flags'],
+    scene: () => `<div class="rows">${D.contradictions.map(c => `<div class="row" style="display:grid;gap:4px"><div>${g('X')} <b>${esc(c.name)}</b> <span class="muted">${esc(c.kind)} · ${esc(c.variants[0].property.replace('_', ' '))}</span></div>${c.variants.map(v => `<div class="mono" style="font-size:.74rem">${esc(Array.isArray(v.value) ? v.value.join(', ') : v.value)} <span class="muted">← ${esc(v.files.map(f => f.split('/').pop()).join(', '))}${v.stale.length ? ' (stale)' : ''}</span></div>`).join('')}</div>`).join('')}</div>`,
+    review: ['Do these three look like the contradictions you would expect in your estate?', 'Should a stale source automatically lose to a current one, or always go to a human? (Currently: always a human.)'] },
+  { stage: 'E · Grade', title: 'Every element gets an evidence grade',
+    what: 'Grades are computed from rules, not judged. Two independent current files make B, one makes C, and a contradiction makes X. Documents and example code cannot reach A. Grade A needs real schemas, real source or data samples, which this loop does not have.',
+    who: 'Conformance agent (deterministic grading)', io: ['merged model', 'grade per element + reason'],
+    scene: () => barHtml() + `<div class="rows" style="margin-top:10px">${D.systems.slice(0, 4).map(s => `<div class="row">${g(s.grade)} <b>${esc(s.name)}</b><span class="muted">${s.sources} sources</span></div>`).join('')}</div>`,
+    review: ['Is "two independent files" the right bar for B?', 'Should a bare mention of a business concept count as support? (Currently: no.)'] },
+  { stage: 'F · Reference', title: 'The reference ontology fills gaps, labelled as assumptions',
+    what: `The playbook's product and platform reference model (§6) shows what is missing. ${D.assumed.length} items it expects were not found in the evidence. They are added at grade D as assumptions, and each one raises a question. They never appear as as-is fact.`,
+    who: 'Ontology Steward', io: ['graded model + reference_ontology.yaml', 'assumed elements (D)'],
+    scene: () => `<div class="chips">${D.assumed.map(a => `<span class="pill">${g('D')} ${esc(a.name)}</span>`).join('')}</div>`,
+    review: ['Is this the right part of the reference ontology for your first domain?', 'Should assumptions be hidden from stakeholder views until confirmed?'] },
+  { stage: 'G · Unknowns', title: 'The unknowns register is the main deliverable',
+    what: `${D.unknowns.length} specific questions and evidence requests, each with an owner taken from the decision-rights table. ${high.length} are high priority. Evidence requests show how many elements a schema export would move to grade A.`,
+    who: 'Ontology Steward', io: ['model + flags', 'unknowns-register.md, jira-issues.json'],
+    scene: () => `<div class="rows">${high.map(u => `<div class="row" style="display:grid;gap:3px"><div><span class="pill high">${u.id} · ${esc(u.type.replace('_', ' '))}</span></div><div>${esc(u.question)}</div><div class="muted" style="font-size:.78rem">Owner: ${esc(u.owner)}</div></div>`).join('')}</div>`,
+    review: ['Are these questions specific enough for an SME to answer in one reply?', 'Should unknowns go straight to Jira, or be reviewed first? (Currently: only with your go-ahead.)'] },
+  { stage: 'H · Gates', title: 'Automated gate checks: provisional, not passed',
+    what: 'Each phase\'s exit criteria are checked automatically. A failure that is covered by an open unknown makes the result provisional. With no grade-A evidence, a phase can only pass provisionally, so you can move ahead on the business phases while system mapping stays open.',
+    who: 'Conformance agent', io: ['model + unknowns', 'gates.json, gate-report.md'],
+    scene: () => `<div class="rows">${D.gates.map(p => `<div class="row" style="display:grid;gap:5px"><div><b>Phase ${p.phase}</b> ${esc(p.name)} <span class="pill ${p.status}">${p.status}</span></div><div class="chips">${p.criteria.map(c => `<span class="pill ${c.status}" title="${esc(c.text)}">${c.id}</span>`).join('')}<span class="muted" style="font-size:.76rem">${p.below_B}/${p.in_scope} below B</span></div></div>`).join('')}</div>`,
+    review: ['Are these the right automated checks for phases 1–3?', 'What should block a provisional phase from going further?'] },
+  { stage: 'I · Human gate', title: 'Named people approve, by role',
+    what: 'Every element goes to the approver the playbook names for its kind. In live mode Claude Code asks you one approver role at a time and never fills in a decision you did not give. In this simulation the decisions are filled in and labelled "simulated".',
+    who: 'Business Domain Owner · EA Authority · Data Architecture Authority · Design Authority', io: ['approvals.yaml (pending)', 'decisions with who + why'],
+    scene: () => `<div class="rows">${T.filter(e => e.action.startsWith('routed to')).map(e => `<div class="row"><b>${esc(e.data.approver)}</b><span class="muted">${esc(Object.entries(e.data.decisions).map(([k, v]) => `${v} ${k}`).join(' · '))}</span></div>`).join('')}</div>`,
+    review: ['Is "approve-provisional" a decision your approvers will accept?', 'Should approvals be batched by grade, by domain, or by system?'] },
+  { stage: 'J · Publish', title: 'Deliverables, including stand-ins for the proof of concept',
+    what: 'The loop publishes a LinkML-style as-is ontology, a system inventory, a glossary, the unknowns register and a gate report. It also writes a stand-in SQL schema for each data-holding system, which the reference architecture PoC can run against before real access exists.',
+    who: 'Publisher (ontokit publish)', io: ['approved model', 'discovery/outputs/loop-01/'],
+    scene: () => `<div class="chips" style="margin-bottom:10px">${D.outputs.filter(o => !o.endsWith('trace.json')).map(o => `<span class="pill mono">${esc(o)}</span>`).join('')}</div><pre class="code">${esc(D.standin)}</pre>`,
+    review: ['Is LinkML acceptable as the shared source-of-truth format?', 'Should stand-ins also generate synthetic data and a mock API, like the CRM and ERP stubs?'] },
+  { stage: 'Next loop', title: 'Answers and new code context raise the grades',
+    what: 'Answers and new evidence go into loop-02, and the whole loop runs again. The differences between loops go through the playbook\'s change process (phase 10). This frame shows what is planned, not a simulated result.',
+    who: 'SMEs, system owners, then the same agents', io: ['loop-02 inputs: SME answers, schema exports, real code', 'higher grades, resolved X, real adapters'],
+    scene: () => `<div class="rows">${evReq.map(u => `<div class="row"><span class="pill high">${u.id}</span><span>${esc(u.question)}</span><span class="muted" style="font-size:.78rem">${esc(u.why)}</span></div>`).join('')}<div class="row"><span class="muted">Contradictions</span> ${g('X')} <span class="arrow">→</span> ${g('B')} <span class="muted">once the named decider answers</span></div></div>`,
+    review: ['What code context can you realistically get first, and from which system?', 'Should loop-02 be a new folder (full history) or an add-on to loop-01?'] },
+];
+
+const rev = store.get('odl-review', {});
+function renderFrames() {
+  $('#frames').innerHTML = frames.map((f, i) => {
+    const r = rev[i] || {};
+    return `<article class="frame" data-i="${i}" data-verdict="${r.v || ''}">
+      <div class="frame-head"><span class="fno">${i + 1}</span><div><span class="eyebrow">${esc(f.stage)}</span><h3>${esc(f.title)}</h3></div></div>
+      <div class="scene">${f.scene()}</div>
+      <div class="frame-body"><p class="what">${f.what}</p>
+        <dl class="io"><dt>Who</dt><dd>${esc(f.who)}</dd><dt>In</dt><dd>${esc(f.io[0])}</dd><dt>Out</dt><dd>${esc(f.io[1])}</dd></dl></div>
+      <div class="review"><span class="eyebrow">Review</span><ul>${f.review.map(q => `<li>${esc(q)}</li>`).join('')}</ul>
+        <div class="review-actions">
+          <button class="btn" type="button" data-act="ok" aria-pressed="${r.v === 'ok'}">Looks right</button>
+          <button class="btn" type="button" data-act="change" aria-pressed="${r.v === 'change'}">Needs change</button>
+        </div>
+        <textarea id="note-${i}" placeholder="Notes for frame ${i + 1}" aria-label="Notes for frame ${i + 1}">${esc(r.n || '')}</textarea></div>
+    </article>`;
+  }).join('');
+  updateCount();
+}
+function updateCount() {
+  const n = Object.values(rev).filter(r => r.v).length;
+  $('#revcount').textContent = `${n} of ${frames.length} reviewed`;
+}
+$('#frames').addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]'); if (!b) return;
+  const art = b.closest('.frame'), i = art.dataset.i;
+  rev[i] = rev[i] || {};
+  rev[i].v = rev[i].v === b.dataset.act ? '' : b.dataset.act;
+  art.dataset.verdict = rev[i].v;
+  art.querySelectorAll('button[data-act]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.act === rev[i].v)));
+  store.set('odl-review', rev); updateCount();
+});
+$('#frames').addEventListener('input', e => {
+  if (e.target.tagName !== 'TEXTAREA') return;
+  const i = e.target.closest('.frame').dataset.i;
+  rev[i] = rev[i] || {}; rev[i].n = e.target.value; store.set('odl-review', rev);
+});
+$('#revclear').addEventListener('click', () => { for (const k in rev) delete rev[k]; store.set('odl-review', rev); renderFrames(); });
+function copyText(text, btn, fallbackEl) {
+  const done = () => { const o = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => btn.textContent = o, 1600); };
+  const fail = () => { if (fallbackEl) { const s = getSelection(), r = document.createRange(); r.selectNodeContents(fallbackEl); s.removeAllRanges(); s.addRange(r); } btn.textContent = 'Select and copy manually'; };
+  try { navigator.clipboard.writeText(text).then(done, fail); } catch { fail(); }
+}
+$('#revcopy').addEventListener('click', e => {
+  const lines = ['Storyboard review — ontology discovery loop 1', ''];
+  frames.forEach((f, i) => {
+    const r = rev[i] || {};
+    lines.push(`Frame ${i + 1} (${f.title}): ${r.v === 'ok' ? 'looks right' : r.v === 'change' ? 'NEEDS CHANGE' : 'not reviewed'}`);
+    if (r.n) lines.push('  ' + r.n.replace(/\n/g, '\n  '));
+  });
+  copyText(lines.join('\n'), e.currentTarget);
+});
+renderFrames();
+
+/* ---------- Agents view ---------- */
+const agentInfo = {
+  ba: { q: 'What does the business need to represent and understand?', reads: 'Glossaries, process documents, rule sections; business terms anywhere' },
+  ea: { q: 'How does this fit into the wider enterprise architecture?', reads: 'Prose system names and aliases, diagrams, interface catalogues, config endpoints' },
+  da: { q: 'How should information be structured, related and managed?', reads: 'Data dictionaries, DDL, example code, prose about identifiers' },
+  eng: { q: 'How do we implement, expose and operate this consistently?', reads: 'Interface catalogues, diagram edges, code enums and validation' },
+  steward: { q: 'Is the merged model coherent, and what must people decide?', reads: 'Reconciled model, flags, contradictions, unknowns', writes: 'steward-notes.md: merge review, contradiction briefs, sharpened questions' },
+  conformance: { q: 'Is it done, by the playbook\'s definition of done?', reads: 'Grades, gate results, spot-checked citations', writes: 'conformance-briefing.md: one briefing per approver role' },
+};
+$('#agentcards').innerHTML = Object.entries(D.agents).map(([k, a]) => `<div class="card">
+  <span class="eyebrow">${esc(a.persona)}</span><h3>${esc(a.title)}</h3><p class="q">${esc(agentInfo[k].q)}</p>
+  <dl><dt>Reads</dt><dd>${esc(agentInfo[k].reads)}</dd>
+  <dt>May propose</dt><dd>${a.may_propose.length ? a.may_propose.map(x => `<span class="tag">${esc(x)}</span>`).join('') : '<span class="muted">Nothing. Reviews and writes notes only.</span>'}</dd>
+  <dt>Writes</dt><dd>${esc(agentInfo[k].writes || `proposals/${k}.json, verbatim citations only`)}</dd>
+  <dt>Never</dt><dd>Approves, marks anything confirmed, or fills gaps from general knowledge</dd></dl></div>`).join('')
+  + `<div class="card human"><span class="eyebrow">People</span><h3>Human approvers</h3><p class="q">Agents recommend; these roles decide.</p>
+  <dl><dt>Roles</dt><dd>${[...new Set(Object.values(D.approvals).map(a => a.approves))].map(x => `<span class="tag">${esc(x)}</span>`).join('')}</dd>
+  <dt>Decide</dt><dd>approve · approve-provisional · defer · reject · note-assumption</dd></dl></div>`;
+$('#ladder').innerHTML = GR.map(k => `<div class="step">${g(k)}<div>${esc(D.grade_text[k])}</div></div>`).join('');
+$('#rights tbody').innerHTML = Object.entries(D.approvals).map(([k, a]) => `<tr><td><span class="tag">${esc(k)}</span></td><td>${esc(a.recommends)}</td><td>${esc(a.approves)}</td></tr>`).join('');
+const modeText = { run: 'run fully', provisional: 'provisional until grade-A evidence', deferred: 'waits for real system evidence' };
+$('#phases tbody').innerHTML = D.phases.map(p => `<tr><td><b>${p.id}</b> ${esc(p.name)}</td><td><span class="pill ${p.mode === 'run' ? 'pass' : p.mode === 'deferred' ? 'fail' : 'provisional'}">${esc(modeText[p.mode])}</span></td><td class="muted">${esc(p.gate)}</td></tr>`).join('');
+
+/* ---------- Simulation ---------- */
+const KEY = new Set(['proposed', 'rejected', 'checked', 'flagged stale', 'resolved aliases', 'contradiction', 'flagged', 'model assembled', 'graded',
+  'compared with reference ontology', 'unknowns register built', 'deliverables written', 'source index written', 'linked', 'kept earlier decisions']);
+const isKey = e => KEY.has(e.action) || e.action.startsWith('phase ') || e.action.startsWith('routed to') || (e.stage.startsWith('G') && e.action.startsWith('U-'));
+const stageNames = [...new Set(T.map(e => e.stage))];
+let list = [], cur = 0, timer = null;
+function rebuild() { list = $('#keyonly').checked ? T.filter(isKey) : T.slice(); }
+function stateAt(n) {
+  const s = { files: 0, proposals: 0, rejected: 0, elements: 0, conflicts: 0, flags: 0, grades: null, unknowns: 0, gates: [] };
+  for (const e of T) {
+    if (e.seq > n) break;
+    if (e.action === 'ingested') s.files++;
+    if (e.action === 'proposed') s.proposals += Object.values(e.data.counts).reduce((a, b) => a + b, 0);
+    if (e.action === 'checked') s.rejected += e.data.rejected;
+    if (e.action === 'contradiction') s.conflicts++;
+    if (e.action === 'flagged') s.flags++;
+    if (e.action === 'model assembled') s.elements = Object.values(e.data.counts).reduce((a, b) => a + b, 0);
+    if (e.action === 'graded') s.grades = { ...e.data.distribution };
+    if (e.action === 'compared with reference ontology') { s.elements += e.data.assumed.length; if (s.grades) s.grades.D += e.data.assumed.length; }
+    if (e.action === 'unknowns register built') s.unknowns = Object.values(e.data.priorities).reduce((a, b) => a + b, 0);
+    if (e.action.startsWith('phase ')) s.gates.push(`P${e.data.phase} ${e.data.status}`);
+  }
+  return s;
+}
+function render() {
+  const seq = cur ? list[cur - 1].seq : 0;
+  const s = stateAt(seq);
+  $('#prog').style.width = (cur / list.length * 100) + '%';
+  const nowStage = cur ? list[cur - 1].stage : null;
+  const idx = stageNames.indexOf(nowStage);
+  $('#stages').innerHTML = stageNames.map((n, i) => `<div class="stage ${i < idx || (cur === list.length) ? 'done' : ''} ${i === idx && cur < list.length ? 'now' : ''}"><span class="dot"></span>${esc(n)}</div>`).join('');
+  const stat = (b, l) => `<div class="stat"><b>${b}</b><span>${l}</span></div>`;
+  $('#stats').innerHTML = stat(s.files, 'files ingested') + stat(s.proposals, 'agent proposals') + stat(s.elements, 'elements') + stat(s.conflicts, 'contradictions (X)')
+    + stat(s.flags, 'review flags') + stat(s.unknowns, 'unknowns')
+    + `<div class="stat" style="grid-column:1/-1"><span>grades</span><div>${s.grades ? GR.map(k => `${g(k)} ${s.grades[k]}`).join(' &nbsp;') : '<span class="muted">not graded yet</span>'}</div></div>`
+    + `<div class="stat" style="grid-column:1/-1"><span>gates</span><div>${s.gates.length ? s.gates.map(x => `<span class="pill ${x.split(' ')[1]}">${esc(x)}</span>`).join(' ') : '<span class="muted">not checked yet</span>'}</div></div>`;
+  const log = $('#log');
+  log.innerHTML = list.slice(0, cur).map((e, i) => `<div class="ev${i === cur - 1 ? ' cur' : ''}${['contradiction', 'rejected'].includes(e.action) ? ' hl' : ''}"><span class="seq">${e.seq}</span><span class="who">${esc(e.actor)}</span><span class="txt"><b>${esc(e.action)}</b> — ${esc(e.detail)}</span></div>`).join('')
+    || '<div class="ev"><span class="seq"></span><span class="who">—</span><span class="txt muted">Press Replay or Step to start.</span></div>';
+  log.scrollTop = log.scrollHeight;
+  $('#play').textContent = timer ? 'Pause' : (cur >= list.length ? 'Replay from start' : 'Play');
+}
+function tick() { if (cur < list.length) { cur++; render(); } if (cur >= list.length) stop(); }
+function stop() { clearInterval(timer); timer = null; render(); }
+$('#play').addEventListener('click', () => {
+  if (timer) return stop();
+  if (cur >= list.length) cur = 0;
+  timer = setInterval(tick, +$('#speed').value); render();
+});
+$('#step').addEventListener('click', () => { if (timer) stop(); if (cur >= list.length) cur = 0; tick(); });
+$('#speed').addEventListener('change', () => { if (timer) { clearInterval(timer); timer = setInterval(tick, +$('#speed').value); } });
+$('#keyonly').addEventListener('change', () => { const seq = cur ? list[cur - 1].seq : 0; rebuild(); cur = list.filter(e => e.seq <= seq).length; render(); });
+rebuild(); cur = list.length; render();
+
+$('#results').innerHTML = `
+  <div class="card"><span class="eyebrow">System inventory</span><h3>${D.systems.length} candidate systems</h3>
+    <div class="rows">${D.systems.map(s => `<div class="row">${g(s.grade)}<b>${esc(s.name)}</b><span class="muted" style="font-size:.78rem">${esc(s.roles.join('; ') || 'role unknown')}</span></div>`).join('')}</div></div>
+  <div class="card"><span class="eyebrow">Evidence grades</span><h3>${total} elements</h3>${barHtml()}
+    <p class="muted" style="font-size:.84rem">${Object.entries(D.kinds).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${v} ${k}`).join(' · ')}</p></div>
+  <div class="card"><span class="eyebrow">Unknowns register</span><h3>${D.unknowns.length} questions and requests</h3>
+    <div class="rows">${D.unknowns.slice(0, 8).map(u => `<div class="row"><span class="pill ${u.priority}">${u.id}</span><span style="font-size:.84rem">${esc(u.question)}</span></div>`).join('')}</div>
+    <p class="muted" style="font-size:.8rem">Full list in outputs/${esc(D.loop)}/unknowns-register.md</p></div>`;
+
+/* ---------- Export ---------- */
+$('#copyhandoff').addEventListener('click', e => copyText($('#handoff').textContent, e.currentTarget, $('#handoff')));
+})();
+</script>

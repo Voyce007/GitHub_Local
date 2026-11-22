@@ -1,0 +1,43 @@
+# Decision rights (playbook section 9) and agent write scopes (from the RACI matrix).
+# Rule: agents RECOMMEND, named humans APPROVE. No agent may approve anything.
+
+agents:
+  ba:
+    title: Business Analyst agent
+    persona: Business Analyst (BA)
+    may_propose: [concept, rule, taxonomy]
+  ea:
+    title: Enterprise Architect agent
+    persona: Enterprise Architect (EA)
+    may_propose: [system, flow, domain]
+  da:
+    title: Data Architect agent
+    persona: Data Architect (DA)
+    may_propose: [entity, attribute, relationship, identifier, taxonomy]
+  eng:
+    title: Engineering agent
+    persona: Engineering Teams
+    may_propose: [interface, event, rule, taxonomy]
+  steward:
+    title: Ontology Steward
+    persona: Ontology Working Group / Ontology Steward
+    may_propose: []          # merges and links only; never invents elements
+  conformance:
+    title: Conformance agent
+    persona: Definition-of-done checker
+    may_propose: []          # read-only: grades and gate checks
+
+# Who approves each kind of element at the human gate.
+approvals:
+  concept:      {recommends: BA,              approves: Business Domain Owner}
+  rule:         {recommends: BA,              approves: Business Domain Owner}
+  taxonomy:     {recommends: BA / DA,         approves: Business Domain Owner}
+  system:       {recommends: EA,              approves: Enterprise Architecture Authority}
+  flow:         {recommends: EA,              approves: Enterprise Architecture Authority}
+  domain:       {recommends: EA,              approves: Enterprise Architecture Authority}
+  entity:       {recommends: BA / DA,         approves: Domain Owner and Data Architecture Authority}
+  attribute:    {recommends: DA,              approves: Data Architecture Authority}
+  relationship: {recommends: BA / DA,         approves: Domain Owner and Data Architecture Authority}
+  identifier:   {recommends: DA,              approves: Data Architecture Authority}
+  interface:    {recommends: DA / Engineering, approves: Design Authority}
+  event:        {recommends: DA / Engineering, approves: Design Authority}

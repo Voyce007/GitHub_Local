@@ -1,0 +1,97 @@
+# Evidence batch manifest — one per loop.
+# Every file the agents may cite must be listed here. Provenance drives the
+# evidence grade ceiling: only real-code / schema / data-sample can reach A.
+#
+# SAMPLE DATA: "Northbridge Bank" and all system names below are fictional,
+# written to exercise the workflow (aliases, contradictions, stale docs,
+# unknown systems). Replace this whole folder with your own extracts.
+
+batch: loop-01
+received: 2026-11-22
+organisation: Northbridge Bank (fictional sample)
+description: >
+  First evidence batch. As-is documentation extracts plus illustrative code
+  examples supplied by support teams. No real source code, schemas or data
+  samples are available yet.
+staleness_years: 5          # documents older than this (vs `received`) are treated as stale
+
+files:
+  - path: docs/customer-onboarding-process.md
+    provenance: document
+    doc_type: process
+    date: 2022-03-14
+    author: Operations Design
+    sensitivity: internal
+
+  - path: docs/payments-overview.md
+    provenance: document
+    doc_type: architecture-overview
+    date: 2019-06-03
+    author: Payments Architecture
+    sensitivity: internal
+    notes: Known to pre-date the 2023 payments re-platforming.
+
+  - path: wiki/glossary-export.md
+    provenance: wiki
+    doc_type: glossary
+    date: 2024-09-02
+    author: Data Governance (wiki page owner)
+    sensitivity: internal
+
+  - path: spreadsheets/custhub-data-dictionary.csv
+    provenance: spreadsheet
+    doc_type: data-dictionary
+    date: 2023-01-20
+    author: CustHub support
+    system_hint: CustHub
+    sensitivity: confidential
+
+  - path: spreadsheets/interface-catalogue.csv
+    provenance: spreadsheet
+    doc_type: interface-catalogue
+    date: 2024-05-11
+    author: Integration team
+    sensitivity: internal
+
+  - path: diagrams/context-diagram.mmd
+    provenance: diagram
+    doc_type: context-diagram
+    date: 2024-02-28
+    author: Enterprise Architecture
+    sensitivity: internal
+    notes: Transcribed from a PNG in the architecture repository.
+
+  - path: code-examples/CustomerRecord.java
+    provenance: example-code
+    doc_type: code
+    date: 2025-04-02
+    author: CustHub support
+    system_hint: CustHub
+    sensitivity: internal
+    notes: Simplified extract, not production source.
+
+  - path: code-examples/PaymentStatus.java
+    provenance: example-code
+    doc_type: code
+    date: 2024-10-15
+    author: PayRail team
+    system_hint: PayRail
+    sensitivity: internal
+
+  - path: code-examples/ledger_accounts.sql
+    provenance: example-code
+    doc_type: ddl
+    date: 2023-08-09
+    author: CoreLedger team
+    system_hint: CoreLedger
+    sensitivity: internal
+    notes: Partial DDL extract.
+
+  - path: code-examples/application.properties
+    provenance: example-code
+    doc_type: config
+    date: 2025-01-30
+    author: Mobile Banking backend team
+    system_hint: Mobile Banking
+    sensitivity: internal
+    notes: Sanitised; hostnames replaced.

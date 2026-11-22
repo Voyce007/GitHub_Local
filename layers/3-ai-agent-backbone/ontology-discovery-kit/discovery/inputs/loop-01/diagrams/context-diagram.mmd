@@ -1,0 +1,8 @@
+flowchart LR
+  MB["Mobile Banking"] -->|PAY-01 payment instruction| PR["PayRail (Payments Platform)"]
+  WB["Web Banking"] -->|application| ONB["ONB"]
+  ONB -->|new application| CH["CustHub (Customer Hub)"]
+  CH -->|CUST-ACC-01| CL["CoreLedger (Account Platform)"]
+  PR -->|PaymentCompleted| CL
+  CL -->|MI-01 nightly| DM["DataMart (MI warehouse)"]
+  CH -->|MI-02 nightly| DM

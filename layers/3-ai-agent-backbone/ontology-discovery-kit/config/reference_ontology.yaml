@@ -1,0 +1,22 @@
+# Subset of the playbook's product & platform reference ontology (section 6).
+# Used only as a PRIOR: anything taken from here and not found in the evidence
+# is added at grade D with origin "assumed", and raises an unknown.
+
+entities:
+  - {name: Party,          domain: Party}
+  - {name: Person,         domain: Party}
+  - {name: Organisation,   domain: Party}
+  - {name: Customer,       domain: Party}
+  - {name: Product,        domain: Product}
+  - {name: Product Variant, domain: Product}
+  - {name: Account,        domain: Commercial}
+  - {name: Subscription,   domain: Commercial}
+  - {name: Payment,        domain: Transaction}
+  - {name: Channel,        domain: Channel}
+
+relationships:
+  - {from: Customer, verb: holds,           to: Account}
+  - {from: Customer, verb: subscribes to,   to: Product}
+  - {from: Payment,  verb: debits,          to: Account}
+  - {from: Product Variant, verb: is a variant of, to: Product}
+  - {from: Product,  verb: is accessed through, to: Channel}
