@@ -1,0 +1,341 @@
+[
+  {
+    "seq": 1,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "docs/taxcore-system-overview.md",
+    "data": {
+      "provenance": "document",
+      "doc_type": "architecture-overview",
+      "stale": true,
+      "lines": 20
+    }
+  },
+  {
+    "seq": 2,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "flagged stale",
+    "detail": "docs/taxcore-system-overview.md is 10.2 years old (threshold 5); it will not count towards grade B"
+  },
+  {
+    "seq": 3,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "docs/business-capability-map.md",
+    "data": {
+      "provenance": "document",
+      "doc_type": "capability-map",
+      "stale": false,
+      "lines": 19
+    }
+  },
+  {
+    "seq": 4,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "docs/paye-operations-manual.md",
+    "data": {
+      "provenance": "document",
+      "doc_type": "process",
+      "stale": false,
+      "lines": 18
+    }
+  },
+  {
+    "seq": 5,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "docs/national-insurance-procedures.md",
+    "data": {
+      "provenance": "document",
+      "doc_type": "process",
+      "stale": false,
+      "lines": 22
+    }
+  },
+  {
+    "seq": 6,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "docs/childcare-scheme-guide.md",
+    "data": {
+      "provenance": "document",
+      "doc_type": "process",
+      "stale": false,
+      "lines": 19
+    }
+  },
+  {
+    "seq": 7,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "wiki/data-glossary.md",
+    "data": {
+      "provenance": "wiki",
+      "doc_type": "glossary",
+      "stale": false,
+      "lines": 16
+    }
+  },
+  {
+    "seq": 8,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "spreadsheets/taxcore-data-dictionary.csv",
+    "data": {
+      "provenance": "spreadsheet",
+      "doc_type": "data-dictionary",
+      "stale": false,
+      "lines": 59
+    }
+  },
+  {
+    "seq": 9,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "spreadsheets/taxcore-batch-jobs.csv",
+    "data": {
+      "provenance": "spreadsheet",
+      "doc_type": "job-catalogue",
+      "stale": false,
+      "lines": 12
+    }
+  },
+  {
+    "seq": 10,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "spreadsheets/interface-catalogue.csv",
+    "data": {
+      "provenance": "spreadsheet",
+      "doc_type": "interface-catalogue",
+      "stale": false,
+      "lines": 6
+    }
+  },
+  {
+    "seq": 11,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "diagrams/current-state.mmd",
+    "data": {
+      "provenance": "diagram",
+      "doc_type": "context-diagram",
+      "stale": false,
+      "lines": 6
+    }
+  },
+  {
+    "seq": 12,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "code-examples/taxcore_procedures.sql",
+    "data": {
+      "provenance": "example-code",
+      "doc_type": "procedures",
+      "stale": true,
+      "lines": 44
+    }
+  },
+  {
+    "seq": 13,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "flagged stale",
+    "detail": "code-examples/taxcore_procedures.sql is 6.4 years old (threshold 5); it will not count towards grade B"
+  },
+  {
+    "seq": 14,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "ingested",
+    "detail": "code-examples/childcare-portal.properties",
+    "data": {
+      "provenance": "example-code",
+      "doc_type": "config",
+      "stale": false,
+      "lines": 5
+    }
+  },
+  {
+    "seq": 15,
+    "stage": "A. Intake",
+    "actor": "Intake",
+    "action": "source index written",
+    "detail": "12 files citable (0 carried forward), 0 missing",
+    "data": {
+      "files": 12,
+      "carried": 0,
+      "missing": []
+    }
+  },
+  {
+    "seq": 16,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "missing proposals",
+    "detail": "ea.json not found"
+  },
+  {
+    "seq": 17,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "missing proposals",
+    "detail": "ba.json not found"
+  },
+  {
+    "seq": 18,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "missing proposals",
+    "detail": "da.json not found"
+  },
+  {
+    "seq": 19,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "ENG: 46 accepted, 0 rejected",
+    "data": {
+      "agent": "eng",
+      "accepted": 46,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 20,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "missing proposals",
+    "detail": "ea.json not found"
+  },
+  {
+    "seq": 21,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "BA: 57 accepted, 0 rejected",
+    "data": {
+      "agent": "ba",
+      "accepted": 57,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 22,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "missing proposals",
+    "detail": "da.json not found"
+  },
+  {
+    "seq": 23,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "ENG: 46 accepted, 0 rejected",
+    "data": {
+      "agent": "eng",
+      "accepted": 46,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 24,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "EA: 80 accepted, 0 rejected",
+    "data": {
+      "agent": "ea",
+      "accepted": 80,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 25,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "BA: 57 accepted, 0 rejected",
+    "data": {
+      "agent": "ba",
+      "accepted": 57,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 26,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "missing proposals",
+    "detail": "da.json not found"
+  },
+  {
+    "seq": 27,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "ENG: 46 accepted, 0 rejected",
+    "data": {
+      "agent": "eng",
+      "accepted": 46,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 28,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "EA: 80 accepted, 0 rejected",
+    "data": {
+      "agent": "ea",
+      "accepted": 80,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 29,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "BA: 57 accepted, 0 rejected",
+    "data": {
+      "agent": "ba",
+      "accepted": 57,
+      "rejected": 0
+    }
+  },
+  {
+    "seq": 30,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "missing proposals",
+    "detail": "da.json not found"
+  },
+  {
+    "seq": 31,
+    "stage": "C. Validate",
+    "actor": "Validator",
+    "action": "checked",
+    "detail": "ENG: 46 accepted, 0 rejected",
+    "data": {
+      "agent": "eng",
+      "accepted": 46,
+      "rejected": 0
+    }
+  }
+]

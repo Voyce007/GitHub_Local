@@ -1,0 +1,6 @@
+interface_id,name,source,target,mechanism,frequency,payload,owner
+CUS-01,Customer self-service,CitizenPortal,TC,REST API,Real time,Customer details; addresses,Customer Services
+PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations
+NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations
+CC-01,Parent payments,ChildcarePortal,TAXCORE,REST API,Real time,Parent payment,Family Support
+MI-01,Nightly extract,TAXCORE,RevenueWarehouse,File (CSV),Daily 02:00,All modules,Data team

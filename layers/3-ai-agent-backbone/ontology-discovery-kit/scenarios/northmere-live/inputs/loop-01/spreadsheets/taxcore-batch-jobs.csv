@@ -1,0 +1,12 @@
+job_id,job_name,program,capability,reads,writes,owner,frequency
+J010,Register person,PRC_REGISTER_PERSON,Register Customer,,TC_PERSON;TC_ADDRESS,Customer Services,On demand
+J020,Allocate NI number,PRC_ALLOCATE_NINO,Allocate NI Number,TC_PERSON,TC_PERSON,NI Operations,Daily
+J110,Load employer returns,PRC_LOAD_RETURNS,Process Employer Returns,TC_EMPLOYER,TC_EMPLOYMENT;TC_PAY_PERIOD,PAYE Operations,Daily
+J120,Calculate PAYE,PRC_CALC_PAYE,Calculate PAYE,TC_PAY_PERIOD;TC_TAX_CODE,TC_PAY_PERIOD,PAYE Operations,Daily
+J130,Issue tax codes,PRC_ISSUE_TAX_CODE,Issue Tax Code,TC_EMPLOYMENT,TC_TAX_CODE,PAYE Operations,Weekly
+J210,Calculate NI contributions,PRC_CALC_NIC,Calculate NI Contributions,TC_PAY_PERIOD;TC_EMPLOYMENT;TC_PERSON,TC_NI_CONTRIBUTION,NI Operations,Daily
+J220,Update NI record,PRC_UPDATE_NI_RECORD,Maintain NI Record,TC_NI_CONTRIBUTION,TC_NI_RECORD,NI Operations,Year end
+J300,Open childcare account,PRC_OPEN_CC_ACCOUNT,Open Childcare Account,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_CHILD,Family Support,On demand
+J310,Check childcare eligibility,PRC_CHECK_ELIGIBILITY,Check Childcare Eligibility,TC_CHILDCARE_ACCOUNT;TC_EMPLOYMENT;TC_PAY_PERIOD,TC_ELIGIBILITY_CHECK,Family Support,Daily
+J320,Calculate childcare top-up,PRC_CALC_TOPUP,Calculate Childcare Top-up,TC_CHILDCARE_PAYMENT,TC_CHILDCARE_PAYMENT,Family Support,Real time
+J330,Close accounts of deceased,PRC_CLOSE_DECEASED,Record Life Events,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_NI_RECORD,Customer Services,Daily
