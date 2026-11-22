@@ -50,8 +50,8 @@ def run_gates(paths: LoopPaths, trace: Trace) -> list[dict]:
     sc = paths.root / "scenario.yaml"
     if sc.exists():
         over = yaml.safe_load(sc.read_text(encoding="utf-8")) or {}
-        if over.get("key_concepts"):
-            cfg["key_concepts"] = over["key_concepts"]
+        if over.get("key_concepts") is not None:
+            cfg["key_concepts"] = over["key_concepts"] or []
             for ph in cfg["phases"]:
                 for c in ph.get("loop1_criteria", []):
                     if c["check"] == "key_concepts_present":

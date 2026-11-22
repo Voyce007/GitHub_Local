@@ -32,7 +32,7 @@ phases:
       - {id: P2.1, check: concepts_defined, text: Every concept has a definition}
       - {id: P2.2, check: synonyms_registered, text: A synonym register exists}
       - {id: P2.3, check: conflicts_have_unknowns, text: Every contradiction has an open unknown}
-      - {id: P2.4, check: key_concepts_present, text: "Key concepts present: Customer, Product, Order"}
+      - {id: P2.4, check: key_concepts_present, text: "Key concepts present (listed in <root>/scenario.yaml)"}
 
   - id: 3
     name: Entity and relationship modelling
@@ -95,4 +95,4 @@ phases:
 # Every loop runs these phases' automated gates. Add phases here as evidence matures.
 loop1_gated_phases: [1, 2, 3]
 
-key_concepts: [Customer, Product, Order]
+key_concepts: []     # set per discovery root in <root>/scenario.yaml

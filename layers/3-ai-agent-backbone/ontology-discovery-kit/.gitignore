@@ -2,3 +2,5 @@ discovery/work/
 __pycache__/
 *.pyc
 scenarios/*/work/
+dist/
+*.egg-info/

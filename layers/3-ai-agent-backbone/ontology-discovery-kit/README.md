@@ -13,6 +13,7 @@ Finance (Legal Entity, Cost Centre, General Ledger) and Risk (Risk, Control).
 To extend it, add other functions such as HR, Procurement or Treasury in
 `config/reference_ontology.yaml`.
 
+- **Installing it in Claude Code or a Claude app:** see `INSTALL.md`. Build the bundles with `python tools/build_bundles.py`.
 - **Storyboard, explainer, flow diagram and simulation:** open `docs/storyboard.html` in a browser.
 - **Instructions for Claude Code:** `CLAUDE.md`
 - **The loop procedure:** `.claude/skills/ontology-discovery-loop/SKILL.md`
