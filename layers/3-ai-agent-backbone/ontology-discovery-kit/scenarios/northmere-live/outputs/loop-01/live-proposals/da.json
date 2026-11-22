@@ -1,0 +1,3132 @@
+{
+  "agent": "da",
+  "loop": "loop-01",
+  "proposals": [
+    {
+      "kind": "entity",
+      "name": "Person",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_PERSON"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 2",
+          "quote": "TC_PERSON,PERSON_ID,INTEGER,N,PK,Person Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Person.personId",
+      "properties": {
+        "entity": "Person",
+        "attribute": "personId",
+        "physical": "PERSON_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Person Id",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 2",
+          "quote": "TC_PERSON,PERSON_ID,INTEGER,N,PK,Person Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "identifier",
+      "name": "Person Id",
+      "properties": {
+        "entity": "Person",
+        "attribute": "personId",
+        "physical": "PERSON_ID",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 2",
+          "quote": "TC_PERSON,PERSON_ID,INTEGER,N,PK,Person Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Person.nationalInsuranceNumber",
+      "properties": {
+        "entity": "Person",
+        "attribute": "nationalInsuranceNumber",
+        "physical": "NI_NUMBER",
+        "data_type": "CHAR(9)",
+        "nullable": true,
+        "description": "National Insurance Number"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 3",
+          "quote": "TC_PERSON,NI_NUMBER,CHAR(9),Y,,National Insurance Number,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "identifier",
+      "name": "National Insurance Number",
+      "properties": {
+        "entity": "Person",
+        "attribute": "nationalInsuranceNumber",
+        "physical": "NI_NUMBER",
+        "key": "business"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 3",
+          "quote": "TC_PERSON,NI_NUMBER,CHAR(9),Y,,National Insurance Number,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "aliases": [
+        "NINO"
+      ],
+      "notes": "Nullable in TC_PERSON (CHAR(9), Y), so a person can exist before a number is allocated. No issuer stated in this source."
+    },
+    {
+      "kind": "attribute",
+      "name": "Person.forename",
+      "properties": {
+        "entity": "Person",
+        "attribute": "forename",
+        "physical": "FORENAME",
+        "data_type": "VARCHAR(60)",
+        "nullable": false,
+        "description": "Forename"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 4",
+          "quote": "TC_PERSON,FORENAME,VARCHAR(60),N,,Forename,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Person.surname",
+      "properties": {
+        "entity": "Person",
+        "attribute": "surname",
+        "physical": "SURNAME",
+        "data_type": "VARCHAR(60)",
+        "nullable": false,
+        "description": "Surname"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 5",
+          "quote": "TC_PERSON,SURNAME,VARCHAR(60),N,,Surname,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Person.dateOfBirth",
+      "properties": {
+        "entity": "Person",
+        "attribute": "dateOfBirth",
+        "physical": "DATE_OF_BIRTH",
+        "data_type": "DATE",
+        "nullable": false,
+        "description": "Date of birth"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 6",
+          "quote": "TC_PERSON,DATE_OF_BIRTH,DATE,N,,Date of birth,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Person.dateOfDeath",
+      "properties": {
+        "entity": "Person",
+        "attribute": "dateOfDeath",
+        "physical": "DATE_OF_DEATH",
+        "data_type": "DATE",
+        "nullable": true,
+        "description": "Date of death"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 7",
+          "quote": "TC_PERSON,DATE_OF_DEATH,DATE,Y,,Date of death,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Person.correspondencePreference",
+      "properties": {
+        "entity": "Person",
+        "attribute": "correspondencePreference",
+        "physical": "CORR_PREF",
+        "data_type": "CHAR(3)",
+        "nullable": false,
+        "description": "Correspondence preference",
+        "range": "CorrespondencePreference"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 8",
+          "quote": "TC_PERSON,CORR_PREF,CHAR(3),N,,Correspondence preference,PST=Post|DIG=Digital",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "taxonomy",
+      "name": "CorrespondencePreference",
+      "properties": {
+        "values": [
+          "POST",
+          "DIGITAL"
+        ],
+        "codes": {
+          "PST": "Post",
+          "DIG": "Digital"
+        },
+        "used_by": "Person.correspondencePreference",
+        "physical": "TC_PERSON.CORR_PREF"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 8",
+          "quote": "TC_PERSON,CORR_PREF,CHAR(3),N,,Correspondence preference,PST=Post|DIG=Digital",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "entity",
+      "name": "Address",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_ADDRESS"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 9",
+          "quote": "TC_ADDRESS,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "No primary key is declared for this table in the data dictionary; the natural key is unconfirmed."
+    },
+    {
+      "kind": "attribute",
+      "name": "Address.personId",
+      "properties": {
+        "entity": "Address",
+        "attribute": "personId",
+        "physical": "PERSON_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Person Id",
+        "references": "TC_PERSON.PERSON_ID"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 9",
+          "quote": "TC_ADDRESS,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "Address → Person",
+      "properties": {
+        "from": "Address",
+        "to": "Person",
+        "via": "TC_ADDRESS.PERSON_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 9",
+          "quote": "TC_ADDRESS,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Address.addressType",
+      "properties": {
+        "entity": "Address",
+        "attribute": "addressType",
+        "physical": "ADDR_TYPE",
+        "data_type": "CHAR(3)",
+        "nullable": false,
+        "description": "Address type",
+        "range": "AddressType"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 10",
+          "quote": "TC_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,RES=Residential|COR=Correspondence",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "taxonomy",
+      "name": "AddressType",
+      "properties": {
+        "values": [
+          "RESIDENTIAL",
+          "CORRESPONDENCE"
+        ],
+        "codes": {
+          "RES": "Residential",
+          "COR": "Correspondence"
+        },
+        "used_by": "Address.addressType",
+        "physical": "TC_ADDRESS.ADDR_TYPE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 10",
+          "quote": "TC_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,RES=Residential|COR=Correspondence",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Address.addressLine1",
+      "properties": {
+        "entity": "Address",
+        "attribute": "addressLine1",
+        "physical": "LINE_1",
+        "data_type": "VARCHAR(100)",
+        "nullable": false,
+        "description": "Address line 1"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 11",
+          "quote": "TC_ADDRESS,LINE_1,VARCHAR(100),N,,Address line 1,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Address.postcode",
+      "properties": {
+        "entity": "Address",
+        "attribute": "postcode",
+        "physical": "POSTCODE",
+        "data_type": "VARCHAR(10)",
+        "nullable": false,
+        "description": "Postcode"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 12",
+          "quote": "TC_ADDRESS,POSTCODE,VARCHAR(10),N,,Postcode,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "entity",
+      "name": "Employer",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_EMPLOYER"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 13",
+          "quote": "TC_EMPLOYER,EMPLOYER_REF,VARCHAR(12),N,PK,Employer Reference,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Employer.employerReference",
+      "properties": {
+        "entity": "Employer",
+        "attribute": "employerReference",
+        "physical": "EMPLOYER_REF",
+        "data_type": "VARCHAR(12)",
+        "nullable": false,
+        "description": "Employer Reference",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 13",
+          "quote": "TC_EMPLOYER,EMPLOYER_REF,VARCHAR(12),N,PK,Employer Reference,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "identifier",
+      "name": "Employer Reference",
+      "properties": {
+        "entity": "Employer",
+        "attribute": "employerReference",
+        "physical": "EMPLOYER_REF",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 13",
+          "quote": "TC_EMPLOYER,EMPLOYER_REF,VARCHAR(12),N,PK,Employer Reference,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Employer.employerName",
+      "properties": {
+        "entity": "Employer",
+        "attribute": "employerName",
+        "physical": "EMPLOYER_NAME",
+        "data_type": "VARCHAR(200)",
+        "nullable": false,
+        "description": "Employer name"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 14",
+          "quote": "TC_EMPLOYER,EMPLOYER_NAME,VARCHAR(200),N,,Employer name,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "entity",
+      "name": "Employment",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_EMPLOYMENT"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 15",
+          "quote": "TC_EMPLOYMENT,EMPLOYMENT_ID,INTEGER,N,PK,Employment Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Employment.employmentId",
+      "properties": {
+        "entity": "Employment",
+        "attribute": "employmentId",
+        "physical": "EMPLOYMENT_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Employment Id",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 15",
+          "quote": "TC_EMPLOYMENT,EMPLOYMENT_ID,INTEGER,N,PK,Employment Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "identifier",
+      "name": "Employment Id",
+      "properties": {
+        "entity": "Employment",
+        "attribute": "employmentId",
+        "physical": "EMPLOYMENT_ID",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 15",
+          "quote": "TC_EMPLOYMENT,EMPLOYMENT_ID,INTEGER,N,PK,Employment Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Employment.personId",
+      "properties": {
+        "entity": "Employment",
+        "attribute": "personId",
+        "physical": "PERSON_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Person Id",
+        "references": "TC_PERSON.PERSON_ID"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 16",
+          "quote": "TC_EMPLOYMENT,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "Employment → Person",
+      "properties": {
+        "from": "Employment",
+        "to": "Person",
+        "via": "TC_EMPLOYMENT.PERSON_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 16",
+          "quote": "TC_EMPLOYMENT,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Employment.employerReference",
+      "properties": {
+        "entity": "Employment",
+        "attribute": "employerReference",
+        "physical": "EMPLOYER_REF",
+        "data_type": "VARCHAR(12)",
+        "nullable": false,
+        "description": "Employer Reference",
+        "references": "TC_EMPLOYER.EMPLOYER_REF"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 17",
+          "quote": "TC_EMPLOYMENT,EMPLOYER_REF,VARCHAR(12),N,FK:TC_EMPLOYER.EMPLOYER_REF,Employer Reference,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "Employment → Employer",
+      "properties": {
+        "from": "Employment",
+        "to": "Employer",
+        "via": "TC_EMPLOYMENT.EMPLOYER_REF",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 17",
+          "quote": "TC_EMPLOYMENT,EMPLOYER_REF,VARCHAR(12),N,FK:TC_EMPLOYER.EMPLOYER_REF,Employer Reference,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Employment.startDate",
+      "properties": {
+        "entity": "Employment",
+        "attribute": "startDate",
+        "physical": "START_DATE",
+        "data_type": "DATE",
+        "nullable": false,
+        "description": "Employment start"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 18",
+          "quote": "TC_EMPLOYMENT,START_DATE,DATE,N,,Employment start,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Employment.endDate",
+      "properties": {
+        "entity": "Employment",
+        "attribute": "endDate",
+        "physical": "END_DATE",
+        "data_type": "DATE",
+        "nullable": true,
+        "description": "Employment end"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 19",
+          "quote": "TC_EMPLOYMENT,END_DATE,DATE,Y,,Employment end,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Employment.status",
+      "properties": {
+        "entity": "Employment",
+        "attribute": "status",
+        "physical": "STATUS",
+        "data_type": "CHAR(3)",
+        "nullable": false,
+        "description": "Employment status",
+        "range": "EmploymentStatus"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 20",
+          "quote": "TC_EMPLOYMENT,STATUS,CHAR(3),N,,Employment status,LIV=Live|CEA=Ceased|SUS=Suspended",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "taxonomy",
+      "name": "EmploymentStatus",
+      "properties": {
+        "values": [
+          "LIVE",
+          "CEASED",
+          "SUSPENDED"
+        ],
+        "codes": {
+          "LIV": "Live",
+          "CEA": "Ceased",
+          "SUS": "Suspended"
+        },
+        "used_by": "Employment.status",
+        "physical": "TC_EMPLOYMENT.STATUS"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 20",
+          "quote": "TC_EMPLOYMENT,STATUS,CHAR(3),N,,Employment status,LIV=Live|CEA=Ceased|SUS=Suspended",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "Dictionary lists SUS=Suspended; the PAYE Operations Manual lists only Live and Ceased."
+    },
+    {
+      "kind": "entity",
+      "name": "TaxCode",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_TAX_CODE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 21",
+          "quote": "TC_TAX_CODE,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "No primary key is declared for this table in the data dictionary; the natural key is unconfirmed."
+    },
+    {
+      "kind": "attribute",
+      "name": "TaxCode.employmentId",
+      "properties": {
+        "entity": "TaxCode",
+        "attribute": "employmentId",
+        "physical": "EMPLOYMENT_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Employment Id",
+        "references": "TC_EMPLOYMENT.EMPLOYMENT_ID"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 21",
+          "quote": "TC_TAX_CODE,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "TaxCode → Employment",
+      "properties": {
+        "from": "TaxCode",
+        "to": "Employment",
+        "via": "TC_TAX_CODE.EMPLOYMENT_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 21",
+          "quote": "TC_TAX_CODE,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "TaxCode.taxCode",
+      "properties": {
+        "entity": "TaxCode",
+        "attribute": "taxCode",
+        "physical": "TAX_CODE",
+        "data_type": "VARCHAR(8)",
+        "nullable": false,
+        "description": "Tax code"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 22",
+          "quote": "TC_TAX_CODE,TAX_CODE,VARCHAR(8),N,,Tax code,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "TaxCode.effectiveFrom",
+      "properties": {
+        "entity": "TaxCode",
+        "attribute": "effectiveFrom",
+        "physical": "EFFECTIVE_FROM",
+        "data_type": "DATE",
+        "nullable": false,
+        "description": "Effective from"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 23",
+          "quote": "TC_TAX_CODE,EFFECTIVE_FROM,DATE,N,,Effective from,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "entity",
+      "name": "PayPeriod",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_PAY_PERIOD"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 24",
+          "quote": "TC_PAY_PERIOD,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "No primary key is declared for this table in the data dictionary; the natural key is unconfirmed."
+    },
+    {
+      "kind": "attribute",
+      "name": "PayPeriod.employmentId",
+      "properties": {
+        "entity": "PayPeriod",
+        "attribute": "employmentId",
+        "physical": "EMPLOYMENT_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Employment Id",
+        "references": "TC_EMPLOYMENT.EMPLOYMENT_ID"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 24",
+          "quote": "TC_PAY_PERIOD,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "PayPeriod → Employment",
+      "properties": {
+        "from": "PayPeriod",
+        "to": "Employment",
+        "via": "TC_PAY_PERIOD.EMPLOYMENT_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 24",
+          "quote": "TC_PAY_PERIOD,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "PayPeriod.taxYear",
+      "properties": {
+        "entity": "PayPeriod",
+        "attribute": "taxYear",
+        "physical": "TAX_YEAR",
+        "data_type": "CHAR(7)",
+        "nullable": false,
+        "description": "Tax year"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 25",
+          "quote": "TC_PAY_PERIOD,TAX_YEAR,CHAR(7),N,,Tax year,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "PayPeriod.periodNumber",
+      "properties": {
+        "entity": "PayPeriod",
+        "attribute": "periodNumber",
+        "physical": "PERIOD_NO",
+        "data_type": "SMALLINT",
+        "nullable": false,
+        "description": "Period number"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 26",
+          "quote": "TC_PAY_PERIOD,PERIOD_NO,SMALLINT,N,,Period number,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "PayPeriod.grossPay",
+      "properties": {
+        "entity": "PayPeriod",
+        "attribute": "grossPay",
+        "physical": "GROSS_PAY",
+        "data_type": "DECIMAL(11,2)",
+        "nullable": false,
+        "description": "Gross pay"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 27",
+          "quote": "TC_PAY_PERIOD,GROSS_PAY,\"DECIMAL(11,2)\",N,,Gross pay,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "PayPeriod.taxDeducted",
+      "properties": {
+        "entity": "PayPeriod",
+        "attribute": "taxDeducted",
+        "physical": "TAX_DEDUCTED",
+        "data_type": "DECIMAL(11,2)",
+        "nullable": false,
+        "description": "Tax deducted"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 28",
+          "quote": "TC_PAY_PERIOD,TAX_DEDUCTED,\"DECIMAL(11,2)\",N,,Tax deducted,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "PayPeriod.niCategory",
+      "properties": {
+        "entity": "PayPeriod",
+        "attribute": "niCategory",
+        "physical": "NI_CATEGORY",
+        "data_type": "CHAR(1)",
+        "nullable": false,
+        "description": "NI category letter",
+        "range": "NiCategory"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 29",
+          "quote": "TC_PAY_PERIOD,NI_CATEGORY,CHAR(1),N,,NI category letter,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "No code list on this column; assumed to share the NiCategory code list from TC_NI_CONTRIBUTION.NI_CATEGORY."
+    },
+    {
+      "kind": "entity",
+      "name": "NiContribution",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_NI_CONTRIBUTION"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 30",
+          "quote": "TC_NI_CONTRIBUTION,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "No primary key is declared for this table in the data dictionary; the natural key is unconfirmed."
+    },
+    {
+      "kind": "attribute",
+      "name": "NiContribution.employmentId",
+      "properties": {
+        "entity": "NiContribution",
+        "attribute": "employmentId",
+        "physical": "EMPLOYMENT_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Employment Id",
+        "references": "TC_EMPLOYMENT.EMPLOYMENT_ID"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 30",
+          "quote": "TC_NI_CONTRIBUTION,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "NiContribution → Employment",
+      "properties": {
+        "from": "NiContribution",
+        "to": "Employment",
+        "via": "TC_NI_CONTRIBUTION.EMPLOYMENT_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 30",
+          "quote": "TC_NI_CONTRIBUTION,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "NiContribution.taxYear",
+      "properties": {
+        "entity": "NiContribution",
+        "attribute": "taxYear",
+        "physical": "TAX_YEAR",
+        "data_type": "CHAR(7)",
+        "nullable": false,
+        "description": "Tax year"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 31",
+          "quote": "TC_NI_CONTRIBUTION,TAX_YEAR,CHAR(7),N,,Tax year,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "NiContribution.periodNumber",
+      "properties": {
+        "entity": "NiContribution",
+        "attribute": "periodNumber",
+        "physical": "PERIOD_NO",
+        "data_type": "SMALLINT",
+        "nullable": false,
+        "description": "Period number"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 32",
+          "quote": "TC_NI_CONTRIBUTION,PERIOD_NO,SMALLINT,N,,Period number,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "NiContribution.niCategory",
+      "properties": {
+        "entity": "NiContribution",
+        "attribute": "niCategory",
+        "physical": "NI_CATEGORY",
+        "data_type": "CHAR(1)",
+        "nullable": false,
+        "description": "NI category",
+        "range": "NiCategory"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 33",
+          "quote": "TC_NI_CONTRIBUTION,NI_CATEGORY,CHAR(1),N,,NI category,A=A|B=B|C=C|H=H|J=J|M=M|Z=Z|V=V",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "taxonomy",
+      "name": "NiCategory",
+      "properties": {
+        "values": [
+          "A",
+          "B",
+          "C",
+          "H",
+          "J",
+          "M",
+          "Z",
+          "V"
+        ],
+        "codes": {
+          "A": "A",
+          "B": "B",
+          "C": "C",
+          "H": "H",
+          "J": "J",
+          "M": "M",
+          "Z": "Z",
+          "V": "V"
+        },
+        "used_by": "NiContribution.niCategory",
+        "physical": "TC_NI_CONTRIBUTION.NI_CATEGORY"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 33",
+          "quote": "TC_NI_CONTRIBUTION,NI_CATEGORY,CHAR(1),N,,NI category,A=A|B=B|C=C|H=H|J=J|M=M|Z=Z|V=V",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "Dictionary includes V; the National Insurance Procedures list only A, B, C, H, J, M, Z."
+    },
+    {
+      "kind": "attribute",
+      "name": "NiContribution.employeeNiContribution",
+      "properties": {
+        "entity": "NiContribution",
+        "attribute": "employeeNiContribution",
+        "physical": "EMPLOYEE_NIC",
+        "data_type": "DECIMAL(11,2)",
+        "nullable": false,
+        "description": "Employee contribution"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 34",
+          "quote": "TC_NI_CONTRIBUTION,EMPLOYEE_NIC,\"DECIMAL(11,2)\",N,,Employee contribution,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "NiContribution.employerNiContribution",
+      "properties": {
+        "entity": "NiContribution",
+        "attribute": "employerNiContribution",
+        "physical": "EMPLOYER_NIC",
+        "data_type": "DECIMAL(11,2)",
+        "nullable": false,
+        "description": "Employer contribution"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 35",
+          "quote": "TC_NI_CONTRIBUTION,EMPLOYER_NIC,\"DECIMAL(11,2)\",N,,Employer contribution,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "entity",
+      "name": "NiRecord",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_NI_RECORD"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 36",
+          "quote": "TC_NI_RECORD,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "No primary key is declared for this table in the data dictionary; the natural key is unconfirmed."
+    },
+    {
+      "kind": "attribute",
+      "name": "NiRecord.personId",
+      "properties": {
+        "entity": "NiRecord",
+        "attribute": "personId",
+        "physical": "PERSON_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Person Id",
+        "references": "TC_PERSON.PERSON_ID"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 36",
+          "quote": "TC_NI_RECORD,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "NiRecord → Person",
+      "properties": {
+        "from": "NiRecord",
+        "to": "Person",
+        "via": "TC_NI_RECORD.PERSON_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 36",
+          "quote": "TC_NI_RECORD,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "NiRecord.taxYear",
+      "properties": {
+        "entity": "NiRecord",
+        "attribute": "taxYear",
+        "physical": "TAX_YEAR",
+        "data_type": "CHAR(7)",
+        "nullable": false,
+        "description": "Tax year"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 37",
+          "quote": "TC_NI_RECORD,TAX_YEAR,CHAR(7),N,,Tax year,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "NiRecord.qualifyingYear",
+      "properties": {
+        "entity": "NiRecord",
+        "attribute": "qualifyingYear",
+        "physical": "QUALIFYING",
+        "data_type": "CHAR(1)",
+        "nullable": false,
+        "description": "Qualifying year",
+        "range": "QualifyingYear"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 38",
+          "quote": "TC_NI_RECORD,QUALIFYING,CHAR(1),N,,Qualifying year,Y=Yes|N=No",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "taxonomy",
+      "name": "QualifyingYear",
+      "properties": {
+        "values": [
+          "YES",
+          "NO"
+        ],
+        "codes": {
+          "Y": "Yes",
+          "N": "No"
+        },
+        "used_by": "NiRecord.qualifyingYear",
+        "physical": "TC_NI_RECORD.QUALIFYING"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 38",
+          "quote": "TC_NI_RECORD,QUALIFYING,CHAR(1),N,,Qualifying year,Y=Yes|N=No",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "Yes/No flag; may be better modelled as a boolean."
+    },
+    {
+      "kind": "attribute",
+      "name": "NiRecord.class1Total",
+      "properties": {
+        "entity": "NiRecord",
+        "attribute": "class1Total",
+        "physical": "CLASS1_TOTAL",
+        "data_type": "DECIMAL(11,2)",
+        "nullable": false,
+        "description": "Class 1 total for year"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 39",
+          "quote": "TC_NI_RECORD,CLASS1_TOTAL,\"DECIMAL(11,2)\",N,,Class 1 total for year,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "entity",
+      "name": "ChildcareAccount",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_CHILDCARE_ACCOUNT"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 40",
+          "quote": "TC_CHILDCARE_ACCOUNT,CC_ACCOUNT_ID,INTEGER,N,PK,Childcare Account Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "ChildcareAccount.childcareAccountId",
+      "properties": {
+        "entity": "ChildcareAccount",
+        "attribute": "childcareAccountId",
+        "physical": "CC_ACCOUNT_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Childcare Account Id",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 40",
+          "quote": "TC_CHILDCARE_ACCOUNT,CC_ACCOUNT_ID,INTEGER,N,PK,Childcare Account Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "identifier",
+      "name": "Childcare Account Id",
+      "properties": {
+        "entity": "ChildcareAccount",
+        "attribute": "childcareAccountId",
+        "physical": "CC_ACCOUNT_ID",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 40",
+          "quote": "TC_CHILDCARE_ACCOUNT,CC_ACCOUNT_ID,INTEGER,N,PK,Childcare Account Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "ChildcareAccount.personId",
+      "properties": {
+        "entity": "ChildcareAccount",
+        "attribute": "personId",
+        "physical": "PERSON_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Person Id",
+        "references": "TC_PERSON.PERSON_ID"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 41",
+          "quote": "TC_CHILDCARE_ACCOUNT,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "ChildcareAccount → Person",
+      "properties": {
+        "from": "ChildcareAccount",
+        "to": "Person",
+        "via": "TC_CHILDCARE_ACCOUNT.PERSON_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 41",
+          "quote": "TC_CHILDCARE_ACCOUNT,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "ChildcareAccount.status",
+      "properties": {
+        "entity": "ChildcareAccount",
+        "attribute": "status",
+        "physical": "STATUS",
+        "data_type": "CHAR(3)",
+        "nullable": false,
+        "description": "Childcare account status",
+        "range": "ChildcareAccountStatus"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 42",
+          "quote": "TC_CHILDCARE_ACCOUNT,STATUS,CHAR(3),N,,Childcare account status,OPN=Open|SUS=Suspended|CLO=Closed",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "taxonomy",
+      "name": "ChildcareAccountStatus",
+      "properties": {
+        "values": [
+          "OPEN",
+          "SUSPENDED",
+          "CLOSED"
+        ],
+        "codes": {
+          "OPN": "Open",
+          "SUS": "Suspended",
+          "CLO": "Closed"
+        },
+        "used_by": "ChildcareAccount.status",
+        "physical": "TC_CHILDCARE_ACCOUNT.STATUS"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 42",
+          "quote": "TC_CHILDCARE_ACCOUNT,STATUS,CHAR(3),N,,Childcare account status,OPN=Open|SUS=Suspended|CLO=Closed",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "ChildcareAccount.openedDate",
+      "properties": {
+        "entity": "ChildcareAccount",
+        "attribute": "openedDate",
+        "physical": "OPENED_DATE",
+        "data_type": "DATE",
+        "nullable": false,
+        "description": "Opened date"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 43",
+          "quote": "TC_CHILDCARE_ACCOUNT,OPENED_DATE,DATE,N,,Opened date,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "entity",
+      "name": "Child",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_CHILD"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 44",
+          "quote": "TC_CHILD,CHILD_ID,INTEGER,N,PK,Child Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Child.childId",
+      "properties": {
+        "entity": "Child",
+        "attribute": "childId",
+        "physical": "CHILD_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Child Id",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 44",
+          "quote": "TC_CHILD,CHILD_ID,INTEGER,N,PK,Child Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "identifier",
+      "name": "Child Id",
+      "properties": {
+        "entity": "Child",
+        "attribute": "childId",
+        "physical": "CHILD_ID",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 44",
+          "quote": "TC_CHILD,CHILD_ID,INTEGER,N,PK,Child Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Child.childcareAccountId",
+      "properties": {
+        "entity": "Child",
+        "attribute": "childcareAccountId",
+        "physical": "CC_ACCOUNT_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Childcare Account Id",
+        "references": "TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 45",
+          "quote": "TC_CHILD,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "Child → ChildcareAccount",
+      "properties": {
+        "from": "Child",
+        "to": "ChildcareAccount",
+        "via": "TC_CHILD.CC_ACCOUNT_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 45",
+          "quote": "TC_CHILD,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Child.personId",
+      "properties": {
+        "entity": "Child",
+        "attribute": "personId",
+        "physical": "PERSON_ID",
+        "data_type": "INTEGER",
+        "nullable": true,
+        "description": "Child's person id (if registered)"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 46",
+          "quote": "TC_CHILD,PERSON_ID,INTEGER,Y,,Child's person id (if registered),",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "Nullable reference to TC_PERSON with no foreign key declared."
+    },
+    {
+      "kind": "attribute",
+      "name": "Child.forename",
+      "properties": {
+        "entity": "Child",
+        "attribute": "forename",
+        "physical": "FORENAME",
+        "data_type": "VARCHAR(60)",
+        "nullable": false,
+        "description": "Child forename"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 47",
+          "quote": "TC_CHILD,FORENAME,VARCHAR(60),N,,Child forename,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "Child.dateOfBirth",
+      "properties": {
+        "entity": "Child",
+        "attribute": "dateOfBirth",
+        "physical": "DATE_OF_BIRTH",
+        "data_type": "DATE",
+        "nullable": false,
+        "description": "Child date of birth"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 48",
+          "quote": "TC_CHILD,DATE_OF_BIRTH,DATE,N,,Child date of birth,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "entity",
+      "name": "ChildcarePayment",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_CHILDCARE_PAYMENT"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 49",
+          "quote": "TC_CHILDCARE_PAYMENT,PAYMENT_ID,INTEGER,N,PK,Payment Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "ChildcarePayment.paymentId",
+      "properties": {
+        "entity": "ChildcarePayment",
+        "attribute": "paymentId",
+        "physical": "PAYMENT_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Payment Id",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 49",
+          "quote": "TC_CHILDCARE_PAYMENT,PAYMENT_ID,INTEGER,N,PK,Payment Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "identifier",
+      "name": "Payment Id",
+      "properties": {
+        "entity": "ChildcarePayment",
+        "attribute": "paymentId",
+        "physical": "PAYMENT_ID",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 49",
+          "quote": "TC_CHILDCARE_PAYMENT,PAYMENT_ID,INTEGER,N,PK,Payment Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "ChildcarePayment.childcareAccountId",
+      "properties": {
+        "entity": "ChildcarePayment",
+        "attribute": "childcareAccountId",
+        "physical": "CC_ACCOUNT_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Childcare Account Id",
+        "references": "TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 50",
+          "quote": "TC_CHILDCARE_PAYMENT,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "ChildcarePayment → ChildcareAccount",
+      "properties": {
+        "from": "ChildcarePayment",
+        "to": "ChildcareAccount",
+        "via": "TC_CHILDCARE_PAYMENT.CC_ACCOUNT_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 50",
+          "quote": "TC_CHILDCARE_PAYMENT,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "ChildcarePayment.childcareProviderReference",
+      "properties": {
+        "entity": "ChildcarePayment",
+        "attribute": "childcareProviderReference",
+        "physical": "PROVIDER_REF",
+        "data_type": "VARCHAR(12)",
+        "nullable": false,
+        "description": "Childcare provider reference"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 51",
+          "quote": "TC_CHILDCARE_PAYMENT,PROVIDER_REF,VARCHAR(12),N,,Childcare provider reference,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "References a childcare provider; no provider table exists in this dictionary and no foreign key is declared."
+    },
+    {
+      "kind": "identifier",
+      "name": "Childcare Provider Reference",
+      "properties": {
+        "entity": "ChildcareProvider",
+        "attribute": "childcareProviderReference",
+        "physical": "PROVIDER_REF",
+        "key": "business"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 51",
+          "quote": "TC_CHILDCARE_PAYMENT,PROVIDER_REF,VARCHAR(12),N,,Childcare provider reference,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Identifies a childcare provider held outside TAXCORE (no provider table in the dictionary). Issuer unknown."
+    },
+    {
+      "kind": "attribute",
+      "name": "ChildcarePayment.parentAmount",
+      "properties": {
+        "entity": "ChildcarePayment",
+        "attribute": "parentAmount",
+        "physical": "PARENT_AMOUNT",
+        "data_type": "DECIMAL(9,2)",
+        "nullable": false,
+        "description": "Parent payment"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 52",
+          "quote": "TC_CHILDCARE_PAYMENT,PARENT_AMOUNT,\"DECIMAL(9,2)\",N,,Parent payment,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "ChildcarePayment.topUpAmount",
+      "properties": {
+        "entity": "ChildcarePayment",
+        "attribute": "topUpAmount",
+        "physical": "TOPUP_AMOUNT",
+        "data_type": "DECIMAL(9,2)",
+        "nullable": true,
+        "description": "Government top-up"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 53",
+          "quote": "TC_CHILDCARE_PAYMENT,TOPUP_AMOUNT,\"DECIMAL(9,2)\",Y,,Government top-up,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "ChildcarePayment.paidDate",
+      "properties": {
+        "entity": "ChildcarePayment",
+        "attribute": "paidDate",
+        "physical": "PAID_DATE",
+        "data_type": "DATE",
+        "nullable": false,
+        "description": "Paid date"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 54",
+          "quote": "TC_CHILDCARE_PAYMENT,PAID_DATE,DATE,N,,Paid date,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "entity",
+      "name": "EligibilityCheck",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_ELIGIBILITY_CHECK"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 55",
+          "quote": "TC_ELIGIBILITY_CHECK,CHECK_ID,INTEGER,N,PK,Check Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "EligibilityCheck.checkId",
+      "properties": {
+        "entity": "EligibilityCheck",
+        "attribute": "checkId",
+        "physical": "CHECK_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Check Id",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 55",
+          "quote": "TC_ELIGIBILITY_CHECK,CHECK_ID,INTEGER,N,PK,Check Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "identifier",
+      "name": "Check Id",
+      "properties": {
+        "entity": "EligibilityCheck",
+        "attribute": "checkId",
+        "physical": "CHECK_ID",
+        "key": "primary"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 55",
+          "quote": "TC_ELIGIBILITY_CHECK,CHECK_ID,INTEGER,N,PK,Check Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "EligibilityCheck.childcareAccountId",
+      "properties": {
+        "entity": "EligibilityCheck",
+        "attribute": "childcareAccountId",
+        "physical": "CC_ACCOUNT_ID",
+        "data_type": "INTEGER",
+        "nullable": false,
+        "description": "Childcare Account Id",
+        "references": "TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 56",
+          "quote": "TC_ELIGIBILITY_CHECK,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "EligibilityCheck → ChildcareAccount",
+      "properties": {
+        "from": "EligibilityCheck",
+        "to": "ChildcareAccount",
+        "via": "TC_ELIGIBILITY_CHECK.CC_ACCOUNT_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 56",
+          "quote": "TC_ELIGIBILITY_CHECK,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "EligibilityCheck.checkDate",
+      "properties": {
+        "entity": "EligibilityCheck",
+        "attribute": "checkDate",
+        "physical": "CHECK_DATE",
+        "data_type": "DATE",
+        "nullable": false,
+        "description": "Check date"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 57",
+          "quote": "TC_ELIGIBILITY_CHECK,CHECK_DATE,DATE,N,,Check date,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "EligibilityCheck.expectedIncome",
+      "properties": {
+        "entity": "EligibilityCheck",
+        "attribute": "expectedIncome",
+        "physical": "EXPECTED_INCOME",
+        "data_type": "DECIMAL(11,2)",
+        "nullable": false,
+        "description": "Expected annual income"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 58",
+          "quote": "TC_ELIGIBILITY_CHECK,EXPECTED_INCOME,\"DECIMAL(11,2)\",N,,Expected annual income,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "attribute",
+      "name": "EligibilityCheck.outcome",
+      "properties": {
+        "entity": "EligibilityCheck",
+        "attribute": "outcome",
+        "physical": "OUTCOME",
+        "data_type": "CHAR(3)",
+        "nullable": false,
+        "description": "Eligibility outcome",
+        "range": "EligibilityOutcome"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 59",
+          "quote": "TC_ELIGIBILITY_CHECK,OUTCOME,CHAR(3),N,,Eligibility outcome,ELG=Eligible|NEL=Not eligible",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "taxonomy",
+      "name": "EligibilityOutcome",
+      "properties": {
+        "values": [
+          "ELIGIBLE",
+          "NOT_ELIGIBLE"
+        ],
+        "codes": {
+          "ELG": "Eligible",
+          "NEL": "Not eligible"
+        },
+        "used_by": "EligibilityCheck.outcome",
+        "physical": "TC_ELIGIBILITY_CHECK.OUTCOME"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 59",
+          "quote": "TC_ELIGIBILITY_CHECK,OUTCOME,CHAR(3),N,,Eligibility outcome,ELG=Eligible|NEL=Not eligible",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85
+    },
+    {
+      "kind": "relationship",
+      "name": "Child → Person",
+      "properties": {
+        "from": "Child",
+        "to": "Person",
+        "via": "TC_CHILD.PERSON_ID",
+        "cardinality": "many-to-zero-or-one",
+        "note": "no foreign key; optional (only if the child is registered)"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 46",
+          "quote": "TC_CHILD,PERSON_ID,INTEGER,Y,,Child's person id (if registered),",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "relationship",
+      "name": "ChildcarePayment → ChildcareProvider",
+      "properties": {
+        "from": "ChildcarePayment",
+        "to": "ChildcareProvider",
+        "via": "TC_CHILDCARE_PAYMENT.PROVIDER_REF",
+        "cardinality": "many-to-one",
+        "note": "no foreign key; provider master is not in TAXCORE (likely cross-system)"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 51",
+          "quote": "TC_CHILDCARE_PAYMENT,PROVIDER_REF,VARCHAR(12),N,,Childcare provider reference,",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "relationship",
+      "name": "NiContribution → PayPeriod",
+      "properties": {
+        "from": "NiContribution",
+        "to": "PayPeriod",
+        "via": "TC_NI_CONTRIBUTION (EMPLOYMENT_ID, TAX_YEAR, PERIOD_NO)",
+        "cardinality": "one-to-one",
+        "note": "no foreign key; matched on shared columns EMPLOYMENT_ID, TAX_YEAR, PERIOD_NO"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 30",
+          "quote": "TC_NI_CONTRIBUTION,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "reference"
+        },
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 31",
+          "quote": "TC_NI_CONTRIBUTION,TAX_YEAR,CHAR(7),N,,Tax year,",
+          "support": "structure"
+        },
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 32",
+          "quote": "TC_NI_CONTRIBUTION,PERIOD_NO,SMALLINT,N,,Period number,",
+          "support": "structure"
+        },
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 24",
+          "quote": "TC_PAY_PERIOD,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+          "support": "reference"
+        },
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 25",
+          "quote": "TC_PAY_PERIOD,TAX_YEAR,CHAR(7),N,,Tax year,",
+          "support": "structure"
+        },
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 26",
+          "quote": "TC_PAY_PERIOD,PERIOD_NO,SMALLINT,N,,Period number,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "relationship",
+      "name": "NiRecord → NiContribution",
+      "properties": {
+        "from": "NiRecord",
+        "to": "NiContribution",
+        "via": "TC_NI_RECORD (PERSON_ID, TAX_YEAR) to TC_NI_CONTRIBUTION (EMPLOYMENT_ID -> PERSON_ID, TAX_YEAR)",
+        "cardinality": "one-to-many",
+        "note": "no foreign key; NI record is a yearly aggregate per person (Class 1 total)"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 39",
+          "quote": "TC_NI_RECORD,CLASS1_TOTAL,\"DECIMAL(11,2)\",N,,Class 1 total for year,",
+          "support": "structure"
+        },
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 36",
+          "quote": "TC_NI_RECORD,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+          "support": "reference"
+        },
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 37",
+          "quote": "TC_NI_RECORD,TAX_YEAR,CHAR(7),N,,Tax year,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.45
+    },
+    {
+      "kind": "entity",
+      "name": "NiContribution",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_NI_CONTRIBUTION"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 6",
+          "quote": "  INSERT INTO TC_NI_CONTRIBUTION (EMPLOYMENT_ID, TAX_YEAR, PERIOD_NO, NI_CATEGORY, EMPLOYEE_NIC, EMPLOYER_NIC)",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Example code (2020, simplified); corroborates the table, not its full structure."
+    },
+    {
+      "kind": "entity",
+      "name": "PayPeriod",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_PAY_PERIOD"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 9",
+          "quote": "  FROM TC_PAY_PERIOD p",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Example code (2020, simplified); corroborates the table, not its full structure."
+    },
+    {
+      "kind": "entity",
+      "name": "Employment",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_EMPLOYMENT"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 10",
+          "quote": "  JOIN TC_EMPLOYMENT e ON e.EMPLOYMENT_ID = p.EMPLOYMENT_ID",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Example code (2020, simplified); corroborates the table, not its full structure."
+    },
+    {
+      "kind": "entity",
+      "name": "Person",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_PERSON"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 11",
+          "quote": "  JOIN TC_PERSON per ON per.PERSON_ID = e.PERSON_ID",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Example code (2020, simplified); corroborates the table, not its full structure."
+    },
+    {
+      "kind": "entity",
+      "name": "EligibilityCheck",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_ELIGIBILITY_CHECK"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 24",
+          "quote": "  INSERT INTO TC_ELIGIBILITY_CHECK (CC_ACCOUNT_ID, CHECK_DATE, EXPECTED_INCOME, OUTCOME)",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Example code (2020, simplified); corroborates the table, not its full structure."
+    },
+    {
+      "kind": "entity",
+      "name": "ChildcareAccount",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_CHILDCARE_ACCOUNT"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 27",
+          "quote": "  FROM TC_CHILDCARE_ACCOUNT a",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Example code (2020, simplified); corroborates the table, not its full structure."
+    },
+    {
+      "kind": "entity",
+      "name": "ChildcarePayment",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_CHILDCARE_PAYMENT"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 36",
+          "quote": "  UPDATE TC_CHILDCARE_PAYMENT SET TOPUP_AMOUNT = PARENT_AMOUNT * 0.25 WHERE PAYMENT_ID = p_payment_id;",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Example code (2020, simplified); corroborates the table, not its full structure."
+    },
+    {
+      "kind": "relationship",
+      "name": "PayPeriod → Employment",
+      "properties": {
+        "from": "PayPeriod",
+        "to": "Employment",
+        "via": "TC_PAY_PERIOD.EMPLOYMENT_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 10",
+          "quote": "  JOIN TC_EMPLOYMENT e ON e.EMPLOYMENT_ID = p.EMPLOYMENT_ID",
+          "support": "reference"
+        },
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 29",
+          "quote": "  JOIN TC_PAY_PERIOD p ON p.EMPLOYMENT_ID = e.EMPLOYMENT_ID",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "relationship",
+      "name": "Employment → Person",
+      "properties": {
+        "from": "Employment",
+        "to": "Person",
+        "via": "TC_EMPLOYMENT.PERSON_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 11",
+          "quote": "  JOIN TC_PERSON per ON per.PERSON_ID = e.PERSON_ID",
+          "support": "reference"
+        },
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 28",
+          "quote": "  JOIN TC_EMPLOYMENT e ON e.PERSON_ID = a.PERSON_ID",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "relationship",
+      "name": "ChildcareAccount → Person",
+      "properties": {
+        "from": "ChildcareAccount",
+        "to": "Person",
+        "via": "TC_CHILDCARE_ACCOUNT.PERSON_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 43",
+          "quote": "  WHERE PERSON_ID IN (SELECT PERSON_ID FROM TC_PERSON WHERE DATE_OF_DEATH IS NOT NULL);",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "relationship",
+      "name": "NiContribution → PayPeriod",
+      "properties": {
+        "from": "NiContribution",
+        "to": "PayPeriod",
+        "via": "TC_NI_CONTRIBUTION (EMPLOYMENT_ID, TAX_YEAR, PERIOD_NO)",
+        "cardinality": "one-to-one",
+        "note": "no foreign key; PRC_CALC_NIC derives one contribution row per pay period row"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 6",
+          "quote": "  INSERT INTO TC_NI_CONTRIBUTION (EMPLOYMENT_ID, TAX_YEAR, PERIOD_NO, NI_CATEGORY, EMPLOYEE_NIC, EMPLOYER_NIC)",
+          "support": "reference"
+        },
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 7",
+          "quote": "  SELECT p.EMPLOYMENT_ID, p.TAX_YEAR, p.PERIOD_NO, p.NI_CATEGORY,",
+          "support": "reference"
+        },
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 9",
+          "quote": "  FROM TC_PAY_PERIOD p",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.55
+    },
+    {
+      "kind": "identifier",
+      "name": "National Insurance Number",
+      "properties": {
+        "entity": "Person",
+        "attribute": "nationalInsuranceNumber",
+        "physical": "NI_NUMBER",
+        "key": "business",
+        "issued_by": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 18",
+          "quote": "  UPDATE TC_PERSON SET NI_NUMBER = NEXT VALUE FOR SEQ_NINO WHERE PERSON_ID = p_person_id;",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "aliases": [
+        "NINO"
+      ],
+      "notes": "2020 example code generates the number inside TAXCORE from sequence SEQ_NINO. Pre-dates the 2022 NumberHub carve-out described in the National Insurance Procedures; may be obsolete."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "EligibilityOutcome",
+      "properties": {
+        "values": [
+          "NOT_ELIGIBLE",
+          "ELIGIBLE"
+        ],
+        "codes": {
+          "NEL": "Not eligible",
+          "ELG": "Eligible"
+        },
+        "used_by": "EligibilityCheck.outcome"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 26",
+          "quote": "         CASE WHEN SUM(p.GROSS_PAY) * 4 > 100000 THEN 'NEL' ELSE 'ELG' END",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Code uses NEL/ELG; labels taken from the data dictionary code list."
+    },
+    {
+      "kind": "entity",
+      "name": "Person",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_PERSON"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 2",
+          "quote": "J010,Register person,PRC_REGISTER_PERSON,Register Customer,,TC_PERSON;TC_ADDRESS,Customer Services,On demand",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "Address",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_ADDRESS"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 2",
+          "quote": "J010,Register person,PRC_REGISTER_PERSON,Register Customer,,TC_PERSON;TC_ADDRESS,Customer Services,On demand",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "Employer",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_EMPLOYER"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 4",
+          "quote": "J110,Load employer returns,PRC_LOAD_RETURNS,Process Employer Returns,TC_EMPLOYER,TC_EMPLOYMENT;TC_PAY_PERIOD,PAYE Operations,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "Employment",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_EMPLOYMENT"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 4",
+          "quote": "J110,Load employer returns,PRC_LOAD_RETURNS,Process Employer Returns,TC_EMPLOYER,TC_EMPLOYMENT;TC_PAY_PERIOD,PAYE Operations,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "PayPeriod",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_PAY_PERIOD"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 4",
+          "quote": "J110,Load employer returns,PRC_LOAD_RETURNS,Process Employer Returns,TC_EMPLOYER,TC_EMPLOYMENT;TC_PAY_PERIOD,PAYE Operations,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "TaxCode",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_TAX_CODE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 5",
+          "quote": "J120,Calculate PAYE,PRC_CALC_PAYE,Calculate PAYE,TC_PAY_PERIOD;TC_TAX_CODE,TC_PAY_PERIOD,PAYE Operations,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "NiContribution",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_NI_CONTRIBUTION"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 7",
+          "quote": "J210,Calculate NI contributions,PRC_CALC_NIC,Calculate NI Contributions,TC_PAY_PERIOD;TC_EMPLOYMENT;TC_PERSON,TC_NI_CONTRIBUTION,NI Operations,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "NiRecord",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_NI_RECORD"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 8",
+          "quote": "J220,Update NI record,PRC_UPDATE_NI_RECORD,Maintain NI Record,TC_NI_CONTRIBUTION,TC_NI_RECORD,NI Operations,Year end",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "ChildcareAccount",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_CHILDCARE_ACCOUNT"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 9",
+          "quote": "J300,Open childcare account,PRC_OPEN_CC_ACCOUNT,Open Childcare Account,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_CHILD,Family Support,On demand",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "Child",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_CHILD"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 9",
+          "quote": "J300,Open childcare account,PRC_OPEN_CC_ACCOUNT,Open Childcare Account,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_CHILD,Family Support,On demand",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "EligibilityCheck",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_ELIGIBILITY_CHECK"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 10",
+          "quote": "J310,Check childcare eligibility,PRC_CHECK_ELIGIBILITY,Check Childcare Eligibility,TC_CHILDCARE_ACCOUNT;TC_EMPLOYMENT;TC_PAY_PERIOD,TC_ELIGIBILITY_CHECK,Family Support,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "entity",
+      "name": "ChildcarePayment",
+      "properties": {
+        "system": "TAXCORE",
+        "physical": "TC_CHILDCARE_PAYMENT"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 11",
+          "quote": "J320,Calculate childcare top-up,PRC_CALC_TOPUP,Calculate Childcare Top-up,TC_CHILDCARE_PAYMENT,TC_CHILDCARE_PAYMENT,Family Support,Real time",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary."
+    },
+    {
+      "kind": "identifier",
+      "name": "National Insurance Number",
+      "properties": {
+        "entity": "Person",
+        "attribute": "nationalInsuranceNumber",
+        "physical": "NI_NUMBER",
+        "key": "business"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 3",
+          "quote": "J020,Allocate NI number,PRC_ALLOCATE_NINO,Allocate NI Number,TC_PERSON,TC_PERSON,NI Operations,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "aliases": [
+        "NINO"
+      ],
+      "notes": "Job J020 (PRC_ALLOCATE_NINO, daily) still writes TC_PERSON in a 2024 catalogue, after the 2022 NumberHub carve-out. Unclear whether TAXCORE still generates the number or only stores the number received from NumberHub (NIN-02). No issuer asserted here."
+    },
+    {
+      "kind": "identifier",
+      "name": "National Insurance Number",
+      "properties": {
+        "entity": "Person",
+        "attribute": "nationalInsuranceNumber",
+        "key": "business",
+        "issued_by": "NumberHub"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 4",
+          "quote": "NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.55,
+      "aliases": [
+        "NINO"
+      ],
+      "notes": "Interface NIN-02 'NI number allocated' sends the National Insurance Number from NumberHub to TAXCORE in real time."
+    },
+    {
+      "kind": "identifier",
+      "name": "National Insurance Number",
+      "properties": {
+        "entity": "Person",
+        "attribute": "nationalInsuranceNumber",
+        "key": "business",
+        "issued_by": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 14",
+          "quote": "The National Insurance Number is issued by TAXCORE when a person is first registered.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "aliases": [
+        "NINO"
+      ],
+      "notes": "Source is stale (2016) and pre-dates the 2022 NumberHub carve-out. Contradicts docs/national-insurance-procedures.md (issued by NumberHub, at age 16 rather than first registration)."
+    },
+    {
+      "kind": "identifier",
+      "name": "Person Id",
+      "properties": {
+        "entity": "Person",
+        "attribute": "personId",
+        "key": "primary",
+        "issued_by": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 15",
+          "quote": "Every record in TAXCORE is keyed on the internal Person Id.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "'Internal' Person Id; issued_by TAXCORE inferred from 'internal'. Source is stale (2016)."
+    },
+    {
+      "kind": "identifier",
+      "name": "National Insurance Number",
+      "properties": {
+        "entity": "Person",
+        "attribute": "nationalInsuranceNumber",
+        "key": "business",
+        "issued_by": "NumberHub",
+        "cardinality": "exactly one per person for life"
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 12",
+          "quote": "The National Insurance Number is issued by NumberHub when a person reaches 16.",
+          "support": "definition"
+        },
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 16",
+          "quote": "- A person must have exactly one National Insurance Number for life.",
+          "support": "definition"
+        },
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 7",
+          "quote": "NumberHub (also called NI allocation) allocates National Insurance numbers. It replaced the TAXCORE allocation module in 2022.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "aliases": [
+        "NINO"
+      ],
+      "notes": "Contradicts docs/taxcore-system-overview.md (issued by TAXCORE at first registration). This source is newer (2023) and states NumberHub replaced the TAXCORE allocation module in 2022."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "NiCategory",
+      "properties": {
+        "values": [
+          "A",
+          "B",
+          "C",
+          "H",
+          "J",
+          "M",
+          "Z"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 22",
+          "quote": "NI category values: A, B, C, H, J, M, Z.",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Data dictionary code list for TC_NI_CONTRIBUTION.NI_CATEGORY also includes V."
+    },
+    {
+      "kind": "relationship",
+      "name": "Employment → Employer",
+      "properties": {
+        "from": "Employment",
+        "to": "Employer",
+        "via": "TC_EMPLOYMENT.EMPLOYER_REF",
+        "cardinality": "many-to-one (exactly one employer per employment)"
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 12",
+          "quote": "- Every employment must be linked to exactly one employer and one person.",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "relationship",
+      "name": "Employment → Person",
+      "properties": {
+        "from": "Employment",
+        "to": "Person",
+        "via": "TC_EMPLOYMENT.PERSON_ID",
+        "cardinality": "many-to-one (exactly one person per employment)"
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 12",
+          "quote": "- Every employment must be linked to exactly one employer and one person.",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "taxonomy",
+      "name": "EmploymentStatus",
+      "properties": {
+        "values": [
+          "LIVE",
+          "CEASED"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 18",
+          "quote": "Employment status values: Live, Ceased.",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Data dictionary code list for TC_EMPLOYMENT.STATUS also includes SUS=Suspended."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "ChildcareAccountStatus",
+      "properties": {
+        "values": [
+          "OPEN",
+          "SUSPENDED",
+          "CLOSED"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 19",
+          "quote": "Childcare account status values: Open, Suspended, Closed.",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "relationship",
+      "name": "ChildcareAccount → Person",
+      "properties": {
+        "from": "ChildcareAccount",
+        "to": "Person",
+        "via": "TC_CHILDCARE_ACCOUNT.PERSON_ID",
+        "cardinality": "many-to-one",
+        "role": "account holder"
+      },
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 15",
+          "quote": "- A childcare account must be closed when the account holder dies.",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "The Person referenced by the account is the account holder (parent)."
+    },
+    {
+      "kind": "identifier",
+      "name": "National Insurance Number",
+      "properties": {
+        "entity": "Person",
+        "attribute": "nationalInsuranceNumber",
+        "key": "business"
+      },
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 6",
+          "quote": "- **National Insurance Number**: The lifelong reference that identifies a person for National Insurance. Synonyms: NINO.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "definition": "The lifelong reference that identifies a person for National Insurance.",
+      "aliases": [
+        "NINO"
+      ]
+    },
+    {
+      "kind": "relationship",
+      "name": "Child → ChildcareAccount",
+      "properties": {
+        "from": "Child",
+        "to": "ChildcareAccount",
+        "via": "TC_CHILD.CC_ACCOUNT_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 15",
+          "quote": "- **Child**: A child named on a childcare account.",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "relationship",
+      "name": "ChildcarePayment → ChildcareProvider",
+      "properties": {
+        "from": "ChildcarePayment",
+        "to": "ChildcareProvider",
+        "via": "TC_CHILDCARE_PAYMENT.PROVIDER_REF",
+        "cardinality": "many-to-one",
+        "note": "no foreign key; provider master is not in TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 14",
+          "quote": "- **Childcare Provider**: A registered nursery, childminder or club that is paid from a childcare account.",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5
+    },
+    {
+      "kind": "relationship",
+      "name": "PayPeriod → Employment",
+      "properties": {
+        "from": "PayPeriod",
+        "to": "Employment",
+        "via": "TC_PAY_PERIOD.EMPLOYMENT_ID",
+        "cardinality": "many-to-one"
+      },
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 9",
+          "quote": "- **Pay Period**: One period of pay, such as a week or month, reported in an employer return.",
+          "support": "reference"
+        },
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 8",
+          "quote": "- **Employment**: A period during which a person is paid by an employer.",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Glossary says a pay period is reported in an employer return; the dictionary links it to an employment."
+    }
+  ]
+}

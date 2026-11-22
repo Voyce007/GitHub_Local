@@ -1,0 +1,1207 @@
+{
+  "agent": "eng",
+  "loop": "loop-01",
+  "proposals": [
+    {
+      "kind": "calculation",
+      "name": "PRC_REGISTER_PERSON",
+      "properties": {
+        "program": "PRC_REGISTER_PERSON",
+        "capability": "Register Customer",
+        "reads": [],
+        "writes": [
+          "TC_PERSON",
+          "TC_ADDRESS"
+        ],
+        "writes_columns": [],
+        "owner_team": "Customer Services",
+        "title": "Register person",
+        "frequency": "On demand",
+        "job_id": "J010",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 2",
+          "quote": "J010,Register person,PRC_REGISTER_PERSON,Register Customer,,TC_PERSON;TC_ADDRESS,Customer Services,On demand",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_ALLOCATE_NINO",
+      "properties": {
+        "program": "PRC_ALLOCATE_NINO",
+        "capability": "Allocate NI Number",
+        "reads": [],
+        "writes": [
+          "TC_PERSON"
+        ],
+        "writes_columns": [],
+        "owner_team": "NI Operations",
+        "title": "Allocate NI number",
+        "frequency": "Daily",
+        "job_id": "J020",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 3",
+          "quote": "J020,Allocate NI number,PRC_ALLOCATE_NINO,Allocate NI Number,TC_PERSON,TC_PERSON,NI Operations,Daily",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue. TC_PERSON listed as both read and written; counted as written only. Still scheduled Daily in TAXCORE although the NI procedures say NumberHub replaced the TAXCORE allocation module in 2022."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_LOAD_RETURNS",
+      "properties": {
+        "program": "PRC_LOAD_RETURNS",
+        "capability": "Process Employer Returns",
+        "reads": [
+          "TC_EMPLOYER"
+        ],
+        "writes": [
+          "TC_EMPLOYMENT",
+          "TC_PAY_PERIOD"
+        ],
+        "writes_columns": [],
+        "owner_team": "PAYE Operations",
+        "title": "Load employer returns",
+        "frequency": "Daily",
+        "job_id": "J110",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 4",
+          "quote": "J110,Load employer returns,PRC_LOAD_RETURNS,Process Employer Returns,TC_EMPLOYER,TC_EMPLOYMENT;TC_PAY_PERIOD,PAYE Operations,Daily",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_CALC_PAYE",
+      "properties": {
+        "program": "PRC_CALC_PAYE",
+        "capability": "Calculate PAYE",
+        "reads": [
+          "TC_TAX_CODE"
+        ],
+        "writes": [
+          "TC_PAY_PERIOD"
+        ],
+        "writes_columns": [],
+        "owner_team": "PAYE Operations",
+        "title": "Calculate PAYE",
+        "frequency": "Daily",
+        "job_id": "J120",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 5",
+          "quote": "J120,Calculate PAYE,PRC_CALC_PAYE,Calculate PAYE,TC_PAY_PERIOD;TC_TAX_CODE,TC_PAY_PERIOD,PAYE Operations,Daily",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue. TC_PAY_PERIOD listed as both read and written; counted as written only."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_ISSUE_TAX_CODE",
+      "properties": {
+        "program": "PRC_ISSUE_TAX_CODE",
+        "capability": "Issue Tax Code",
+        "reads": [
+          "TC_EMPLOYMENT"
+        ],
+        "writes": [
+          "TC_TAX_CODE"
+        ],
+        "writes_columns": [],
+        "owner_team": "PAYE Operations",
+        "title": "Issue tax codes",
+        "frequency": "Weekly",
+        "job_id": "J130",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 6",
+          "quote": "J130,Issue tax codes,PRC_ISSUE_TAX_CODE,Issue Tax Code,TC_EMPLOYMENT,TC_TAX_CODE,PAYE Operations,Weekly",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_CALC_NIC",
+      "properties": {
+        "program": "PRC_CALC_NIC",
+        "capability": "Calculate NI Contributions",
+        "reads": [
+          "TC_PAY_PERIOD",
+          "TC_EMPLOYMENT",
+          "TC_PERSON"
+        ],
+        "writes": [
+          "TC_NI_CONTRIBUTION"
+        ],
+        "writes_columns": [],
+        "owner_team": "NI Operations",
+        "title": "Calculate NI contributions",
+        "frequency": "Daily",
+        "job_id": "J210",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 7",
+          "quote": "J210,Calculate NI contributions,PRC_CALC_NIC,Calculate NI Contributions,TC_PAY_PERIOD;TC_EMPLOYMENT;TC_PERSON,TC_NI_CONTRIBUTION,NI Operations,Daily",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_UPDATE_NI_RECORD",
+      "properties": {
+        "program": "PRC_UPDATE_NI_RECORD",
+        "capability": "Maintain NI Record",
+        "reads": [
+          "TC_NI_CONTRIBUTION"
+        ],
+        "writes": [
+          "TC_NI_RECORD"
+        ],
+        "writes_columns": [],
+        "owner_team": "NI Operations",
+        "title": "Update NI record",
+        "frequency": "Year end",
+        "job_id": "J220",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 8",
+          "quote": "J220,Update NI record,PRC_UPDATE_NI_RECORD,Maintain NI Record,TC_NI_CONTRIBUTION,TC_NI_RECORD,NI Operations,Year end",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_OPEN_CC_ACCOUNT",
+      "properties": {
+        "program": "PRC_OPEN_CC_ACCOUNT",
+        "capability": "Open Childcare Account",
+        "reads": [
+          "TC_PERSON"
+        ],
+        "writes": [
+          "TC_CHILDCARE_ACCOUNT",
+          "TC_CHILD"
+        ],
+        "writes_columns": [],
+        "owner_team": "Family Support",
+        "title": "Open childcare account",
+        "frequency": "On demand",
+        "job_id": "J300",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 9",
+          "quote": "J300,Open childcare account,PRC_OPEN_CC_ACCOUNT,Open Childcare Account,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_CHILD,Family Support,On demand",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_CHECK_ELIGIBILITY",
+      "properties": {
+        "program": "PRC_CHECK_ELIGIBILITY",
+        "capability": "Check Childcare Eligibility",
+        "reads": [
+          "TC_CHILDCARE_ACCOUNT",
+          "TC_EMPLOYMENT",
+          "TC_PAY_PERIOD"
+        ],
+        "writes": [
+          "TC_ELIGIBILITY_CHECK"
+        ],
+        "writes_columns": [],
+        "owner_team": "Family Support",
+        "title": "Check childcare eligibility",
+        "frequency": "Daily",
+        "job_id": "J310",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 10",
+          "quote": "J310,Check childcare eligibility,PRC_CHECK_ELIGIBILITY,Check Childcare Eligibility,TC_CHILDCARE_ACCOUNT;TC_EMPLOYMENT;TC_PAY_PERIOD,TC_ELIGIBILITY_CHECK,Family Support,Daily",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_CALC_TOPUP",
+      "properties": {
+        "program": "PRC_CALC_TOPUP",
+        "capability": "Calculate Childcare Top-up",
+        "reads": [],
+        "writes": [
+          "TC_CHILDCARE_PAYMENT"
+        ],
+        "writes_columns": [],
+        "owner_team": "Family Support",
+        "title": "Calculate childcare top-up",
+        "frequency": "Real time",
+        "job_id": "J320",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 11",
+          "quote": "J320,Calculate childcare top-up,PRC_CALC_TOPUP,Calculate Childcare Top-up,TC_CHILDCARE_PAYMENT,TC_CHILDCARE_PAYMENT,Family Support,Real time",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue. TC_CHILDCARE_PAYMENT listed as both read and written; counted as written only."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_CLOSE_DECEASED",
+      "properties": {
+        "program": "PRC_CLOSE_DECEASED",
+        "capability": "Record Life Events",
+        "reads": [
+          "TC_PERSON"
+        ],
+        "writes": [
+          "TC_CHILDCARE_ACCOUNT",
+          "TC_NI_RECORD"
+        ],
+        "writes_columns": [],
+        "owner_team": "Customer Services",
+        "title": "Close accounts of deceased",
+        "frequency": "Daily",
+        "job_id": "J330",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 12",
+          "quote": "J330,Close accounts of deceased,PRC_CLOSE_DECEASED,Record Life Events,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_NI_RECORD,Customer Services,Daily",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue. Catalogue says it writes TC_NI_RECORD too; the 2020 procedure extract only updates TC_CHILDCARE_ACCOUNT. Contradiction for review."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_CALC_NIC",
+      "properties": {
+        "program": "PRC_CALC_NIC",
+        "capability": "Calculate NI Contributions",
+        "reads": [
+          "TC_PAY_PERIOD",
+          "TC_EMPLOYMENT",
+          "TC_PERSON"
+        ],
+        "writes": [
+          "TC_NI_CONTRIBUTION"
+        ],
+        "writes_columns": [],
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 3",
+          "quote": "CREATE PROCEDURE PRC_CALC_NIC (IN p_tax_year CHAR(7))",
+          "support": "definition"
+        },
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 4",
+          "quote": "-- Capability: Calculate NI Contributions",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Stored procedure from the 2020 example extract (simplified, stale). INSERT INTO TC_NI_CONTRIBUTION from TC_PAY_PERIOD joined to TC_EMPLOYMENT and TC_PERSON, excluding persons with DATE_OF_DEATH set. Hard-coded thresholds 1048/758 and rates 0.08/0.138."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_ALLOCATE_NINO",
+      "properties": {
+        "program": "PRC_ALLOCATE_NINO",
+        "capability": "Allocate NI Number",
+        "reads": [],
+        "writes": [
+          "TC_PERSON"
+        ],
+        "writes_columns": [
+          "TC_PERSON.NI_NUMBER"
+        ],
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 15",
+          "quote": "CREATE PROCEDURE PRC_ALLOCATE_NINO (IN p_person_id INTEGER)",
+          "support": "definition"
+        },
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 16",
+          "quote": "-- Capability: Allocate NI Number",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Stored procedure from the 2020 example extract (simplified, stale). UPDATE TC_PERSON SET NI_NUMBER from sequence SEQ_NINO. Writes an NI-domain column in the person table. Extract dates from 2020, before the 2022 NumberHub carve-out."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_CHECK_ELIGIBILITY",
+      "properties": {
+        "program": "PRC_CHECK_ELIGIBILITY",
+        "capability": "Check Childcare Eligibility",
+        "reads": [
+          "TC_CHILDCARE_ACCOUNT",
+          "TC_EMPLOYMENT",
+          "TC_PAY_PERIOD"
+        ],
+        "writes": [
+          "TC_ELIGIBILITY_CHECK"
+        ],
+        "writes_columns": [],
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 21",
+          "quote": "CREATE PROCEDURE PRC_CHECK_ELIGIBILITY (IN p_account_id INTEGER)",
+          "support": "definition"
+        },
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 22",
+          "quote": "-- Capability: Check Childcare Eligibility",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Stored procedure from the 2020 example extract (simplified, stale). INSERT INTO TC_ELIGIBILITY_CHECK; expected income = SUM(GROSS_PAY) * 4, outcome NEL when > 100000 else ELG. Childcare domain reads PAYE tables directly."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_CALC_TOPUP",
+      "properties": {
+        "program": "PRC_CALC_TOPUP",
+        "capability": "Calculate Childcare Top-up",
+        "reads": [],
+        "writes": [
+          "TC_CHILDCARE_PAYMENT"
+        ],
+        "writes_columns": [
+          "TC_CHILDCARE_PAYMENT.TOPUP_AMOUNT"
+        ],
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 33",
+          "quote": "CREATE PROCEDURE PRC_CALC_TOPUP (IN p_payment_id INTEGER)",
+          "support": "definition"
+        },
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 34",
+          "quote": "-- Capability: Calculate Childcare Top-up",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Stored procedure from the 2020 example extract (simplified, stale). UPDATE TC_CHILDCARE_PAYMENT SET TOPUP_AMOUNT = PARENT_AMOUNT * 0.25 (table both read and written; counted as written)."
+    },
+    {
+      "kind": "calculation",
+      "name": "PRC_CLOSE_DECEASED",
+      "properties": {
+        "program": "PRC_CLOSE_DECEASED",
+        "capability": "Record Life Events",
+        "reads": [
+          "TC_PERSON"
+        ],
+        "writes": [
+          "TC_CHILDCARE_ACCOUNT"
+        ],
+        "writes_columns": [
+          "TC_CHILDCARE_ACCOUNT.STATUS"
+        ],
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 39",
+          "quote": "CREATE PROCEDURE PRC_CLOSE_DECEASED ()",
+          "support": "definition"
+        },
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 40",
+          "quote": "-- Capability: Record Life Events",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Stored procedure from the 2020 example extract (simplified, stale). UPDATE TC_CHILDCARE_ACCOUNT SET STATUS = 'CLO' for persons with DATE_OF_DEATH set. Does not touch TC_NI_RECORD, unlike the batch-job catalogue entry."
+    },
+    {
+      "kind": "interface",
+      "name": "CUS-01",
+      "properties": {
+        "title": "Customer self-service",
+        "source": "CitizenPortal",
+        "target": "TC",
+        "mechanism": "REST API",
+        "frequency": "Real time",
+        "payload": "Customer details; addresses",
+        "owner": "Customer Services"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 2",
+          "quote": "CUS-01,Customer self-service,CitizenPortal,TC,REST API,Real time,Customer details; addresses,Customer Services",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "Catalogue row. Target 'TC' is an alias of TAXCORE."
+    },
+    {
+      "kind": "interface",
+      "name": "PAY-01",
+      "properties": {
+        "title": "Employer returns",
+        "source": "EmployerGateway",
+        "target": "TAXCORE",
+        "mechanism": "File (XML)",
+        "frequency": "Daily",
+        "payload": "Employer return",
+        "owner": "PAYE Operations"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 3",
+          "quote": "PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "Catalogue row."
+    },
+    {
+      "kind": "interface",
+      "name": "NIN-02",
+      "properties": {
+        "title": "NI number allocated",
+        "source": "NumberHub",
+        "target": "TAXCORE",
+        "mechanism": "MQ message",
+        "frequency": "Real time",
+        "payload": "National Insurance Number",
+        "owner": "NI Operations"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 4",
+          "quote": "NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "Catalogue row."
+    },
+    {
+      "kind": "interface",
+      "name": "CC-01",
+      "properties": {
+        "title": "Parent payments",
+        "source": "ChildcarePortal",
+        "target": "TAXCORE",
+        "mechanism": "REST API",
+        "frequency": "Real time",
+        "payload": "Parent payment",
+        "owner": "Family Support"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 5",
+          "quote": "CC-01,Parent payments,ChildcarePortal,TAXCORE,REST API,Real time,Parent payment,Family Support",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "Catalogue row."
+    },
+    {
+      "kind": "interface",
+      "name": "MI-01",
+      "properties": {
+        "title": "Nightly extract",
+        "source": "TAXCORE",
+        "target": "RevenueWarehouse",
+        "mechanism": "File (CSV)",
+        "frequency": "Daily 02:00",
+        "payload": "All modules",
+        "owner": "Data team"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 6",
+          "quote": "MI-01,Nightly extract,TAXCORE,RevenueWarehouse,File (CSV),Daily 02:00,All modules,Data team",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.85,
+      "notes": "Catalogue row."
+    },
+    {
+      "kind": "interface",
+      "name": "CUS-01",
+      "properties": {
+        "source": "CitizenPortal",
+        "target": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 2",
+          "quote": "  CP[\"CitizenPortal (online account)\"] -->|CUS-01| TC[\"TAXCORE (the Core)\"]",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Edge in current-state context diagram (transcribed from a slide)."
+    },
+    {
+      "kind": "interface",
+      "name": "PAY-01",
+      "properties": {
+        "source": "EmployerGateway",
+        "target": "TAXCORE",
+        "title": "employer returns"
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 3",
+          "quote": "  EG[\"EmployerGateway (employer filing)\"] -->|PAY-01 employer returns| TC",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Edge in current-state context diagram (transcribed from a slide)."
+    },
+    {
+      "kind": "interface",
+      "name": "NIN-02",
+      "properties": {
+        "source": "NumberHub",
+        "target": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 4",
+          "quote": "  NH[\"NumberHub (NI allocation)\"] -->|NIN-02| TC",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Edge in current-state context diagram (transcribed from a slide)."
+    },
+    {
+      "kind": "interface",
+      "name": "CC-01",
+      "properties": {
+        "source": "ChildcarePortal",
+        "target": "TAXCORE",
+        "title": "parent payments"
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 5",
+          "quote": "  CC[\"ChildcarePortal (parent account)\"] -->|CC-01 parent payments| TC",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Edge in current-state context diagram (transcribed from a slide)."
+    },
+    {
+      "kind": "interface",
+      "name": "MI-01",
+      "properties": {
+        "source": "TAXCORE",
+        "target": "RevenueWarehouse",
+        "title": "nightly"
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 6",
+          "quote": "  TC -->|MI-01 nightly| RW[\"RevenueWarehouse (MI warehouse)\"]",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Edge in current-state context diagram (transcribed from a slide)."
+    },
+    {
+      "kind": "interface",
+      "name": "MI-01",
+      "properties": {
+        "source": "TAXCORE",
+        "target": "RevenueWarehouse",
+        "frequency": "nightly",
+        "payload": "extracts for reporting"
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 10",
+          "quote": "RevenueWarehouse (also called the MI warehouse) receives nightly extracts for reporting.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Prose mention matching catalogue MI-01 (stale 2016 doc); ID not stated in the text."
+    },
+    {
+      "kind": "interface",
+      "name": "PAY-01",
+      "properties": {
+        "source": "EmployerGateway",
+        "target": "TAXCORE",
+        "frequency": "overnight",
+        "payload": "Employer return"
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 8",
+          "quote": "Returns are loaded into TAXCORE overnight, where PAYE is calculated for each employment.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Prose mention matching catalogue PAY-01; ID not stated in the text."
+    },
+    {
+      "kind": "interface",
+      "name": "ChildcarePortal-TAXCORE-JDBC",
+      "properties": {
+        "title": "ChildcarePortal direct database connection to TAXCORE",
+        "source": "ChildcarePortal",
+        "target": "TAXCORE",
+        "mechanism": "JDBC (DB2)"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 2",
+          "quote": "taxcore.jdbc.url=jdbc:db2://taxcore-db.internal.example:50000/TAXCORE",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Not in the interface catalogue. ChildcarePortal backend connects directly to the TAXCORE DB2 database (port 50000), bypassing CC-01."
+    },
+    {
+      "kind": "interface",
+      "name": "ChildcarePortal-NumberHub-API",
+      "properties": {
+        "title": "ChildcarePortal call to NumberHub API",
+        "source": "ChildcarePortal",
+        "target": "NumberHub",
+        "mechanism": "HTTPS API"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 3",
+          "quote": "numberhub.api.base-url=https://numberhub.internal.example/api",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.55,
+      "notes": "Not in the interface catalogue or diagram."
+    },
+    {
+      "kind": "interface",
+      "name": "ChildcarePortal-IncomeVerify-API",
+      "properties": {
+        "title": "ChildcarePortal call to income verification service",
+        "source": "ChildcarePortal",
+        "target": "income-verify-svc",
+        "mechanism": "HTTPS API"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 4",
+          "quote": "income-verify-svc.api.base-url=https://income-verify.internal.example/api",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.55,
+      "notes": "Not in the interface catalogue or diagram; income-verify-svc appears in no other source. Childcare guide says expected income comes from PAYE employment records, and PRC_CHECK_ELIGIBILITY reads TC_PAY_PERIOD; possible contradiction."
+    },
+    {
+      "kind": "event",
+      "name": "NationalInsuranceNumberAllocated",
+      "properties": {
+        "producer": "NumberHub",
+        "consumer": "TAXCORE",
+        "interface": "NIN-02"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 4",
+          "quote": "NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Catalogue interface 'NI number allocated' is an MQ message, real time."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "Correspondence Preference Code",
+      "properties": {
+        "values": [
+          "Post",
+          "Digital"
+        ],
+        "codes": {
+          "PST": "Post",
+          "DIG": "Digital"
+        },
+        "column": "TC_PERSON.CORR_PREF",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 8",
+          "quote": "TC_PERSON,CORR_PREF,CHAR(3),N,,Correspondence preference,PST=Post|DIG=Digital",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "Code list from the TAXCORE data dictionary."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "Address Type Code",
+      "properties": {
+        "values": [
+          "Residential",
+          "Correspondence"
+        ],
+        "codes": {
+          "RES": "Residential",
+          "COR": "Correspondence"
+        },
+        "column": "TC_ADDRESS.ADDR_TYPE",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 10",
+          "quote": "TC_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,RES=Residential|COR=Correspondence",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "Code list from the TAXCORE data dictionary."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "Employment Status Code",
+      "properties": {
+        "values": [
+          "Live",
+          "Ceased",
+          "Suspended"
+        ],
+        "codes": {
+          "LIV": "Live",
+          "CEA": "Ceased",
+          "SUS": "Suspended"
+        },
+        "column": "TC_EMPLOYMENT.STATUS",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 20",
+          "quote": "TC_EMPLOYMENT,STATUS,CHAR(3),N,,Employment status,LIV=Live|CEA=Ceased|SUS=Suspended",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "Code list includes SUS=Suspended; PAYE Operations Manual lists only Live, Ceased. Contradiction for Business Domain Owner."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "NI Category Code",
+      "properties": {
+        "values": [
+          "A",
+          "B",
+          "C",
+          "H",
+          "J",
+          "M",
+          "Z",
+          "V"
+        ],
+        "codes": {
+          "A": "A",
+          "B": "B",
+          "C": "C",
+          "H": "H",
+          "J": "J",
+          "M": "M",
+          "Z": "Z",
+          "V": "V"
+        },
+        "column": "TC_NI_CONTRIBUTION.NI_CATEGORY",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 33",
+          "quote": "TC_NI_CONTRIBUTION,NI_CATEGORY,CHAR(1),N,,NI category,A=A|B=B|C=C|H=H|J=J|M=M|Z=Z|V=V",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "Code list includes V; NI procedures list A, B, C, H, J, M, Z only. Contradiction for Business Domain Owner."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "NI Qualifying Year Flag",
+      "properties": {
+        "values": [
+          "Yes",
+          "No"
+        ],
+        "codes": {
+          "Y": "Yes",
+          "N": "No"
+        },
+        "column": "TC_NI_RECORD.QUALIFYING",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 38",
+          "quote": "TC_NI_RECORD,QUALIFYING,CHAR(1),N,,Qualifying year,Y=Yes|N=No",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "Code list from the TAXCORE data dictionary."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "Childcare Account Status Code",
+      "properties": {
+        "values": [
+          "Open",
+          "Suspended",
+          "Closed"
+        ],
+        "codes": {
+          "OPN": "Open",
+          "SUS": "Suspended",
+          "CLO": "Closed"
+        },
+        "column": "TC_CHILDCARE_ACCOUNT.STATUS",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 42",
+          "quote": "TC_CHILDCARE_ACCOUNT,STATUS,CHAR(3),N,,Childcare account status,OPN=Open|SUS=Suspended|CLO=Closed",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "Code list from the TAXCORE data dictionary."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "Eligibility Outcome Code",
+      "properties": {
+        "values": [
+          "Eligible",
+          "Not eligible"
+        ],
+        "codes": {
+          "ELG": "Eligible",
+          "NEL": "Not eligible"
+        },
+        "column": "TC_ELIGIBILITY_CHECK.OUTCOME",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 59",
+          "quote": "TC_ELIGIBILITY_CHECK,OUTCOME,CHAR(3),N,,Eligibility outcome,ELG=Eligible|NEL=Not eligible",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "Code list from the TAXCORE data dictionary."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "Eligibility Outcome Code",
+      "properties": {
+        "values": [
+          "Not eligible",
+          "Eligible"
+        ],
+        "codes": {
+          "NEL": "Not eligible",
+          "ELG": "Eligible"
+        },
+        "column": "TC_ELIGIBILITY_CHECK.OUTCOME",
+        "system": "TAXCORE"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 26",
+          "quote": "         CASE WHEN SUM(p.GROSS_PAY) * 4 > 100000 THEN 'NEL' ELSE 'ELG' END",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.65,
+      "notes": "Codes NEL/ELG used as literals in PRC_CHECK_ELIGIBILITY; labels from the data dictionary."
+    },
+    {
+      "kind": "rule",
+      "name": "NI contributions excluded for deceased persons",
+      "properties": {
+        "statement": "NI contributions are only calculated for pay periods of persons with no recorded date of death (DATE_OF_DEATH IS NULL).",
+        "enforced_in": "PRC_CALC_NIC"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 12",
+          "quote": "  WHERE p.TAX_YEAR = p_tax_year AND per.DATE_OF_DEATH IS NULL;",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Matches the NI procedures rule on date of death."
+    },
+    {
+      "kind": "rule",
+      "name": "Childcare income limit",
+      "properties": {
+        "statement": "A childcare eligibility check is Not eligible (NEL) when expected income, computed as the sum of gross pay times 4, exceeds 100000; otherwise Eligible (ELG).",
+        "enforced_in": "PRC_CHECK_ELIGIBILITY"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 26",
+          "quote": "         CASE WHEN SUM(p.GROSS_PAY) * 4 > 100000 THEN 'NEL' ELSE 'ELG' END",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Sum of all pay periods x 4 as annual income looks questionable; flag for review."
+    },
+    {
+      "kind": "rule",
+      "name": "Childcare top-up rate",
+      "properties": {
+        "statement": "The childcare top-up amount is 25% of the parent payment amount (TOPUP_AMOUNT = PARENT_AMOUNT * 0.25).",
+        "enforced_in": "PRC_CALC_TOPUP"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 36",
+          "quote": "  UPDATE TC_CHILDCARE_PAYMENT SET TOPUP_AMOUNT = PARENT_AMOUNT * 0.25 WHERE PAYMENT_ID = p_payment_id;",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75
+    },
+    {
+      "kind": "rule",
+      "name": "Close childcare accounts of deceased",
+      "properties": {
+        "statement": "A childcare account is set to Closed (CLO) when its account holder has a recorded date of death.",
+        "enforced_in": "PRC_CLOSE_DECEASED"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 43",
+          "quote": "  WHERE PERSON_ID IN (SELECT PERSON_ID FROM TC_PERSON WHERE DATE_OF_DEATH IS NOT NULL);",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75
+    },
+    {
+      "kind": "rule",
+      "name": "NI contribution thresholds and rates",
+      "properties": {
+        "statement": "Employee NIC is (gross pay - 1048) * 0.08 and employer NIC is (gross pay - 758) * 0.138 per pay period.",
+        "enforced_in": "PRC_CALC_NIC"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 8",
+          "quote": "         (p.GROSS_PAY - 1048) * 0.08, (p.GROSS_PAY - 758) * 0.138",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "No floor at zero in the extract; hard-coded values in a simplified 2020 extract."
+    },
+    {
+      "kind": "rule",
+      "name": "Quarterly eligibility reconfirmation",
+      "properties": {
+        "statement": "Quarterly reconfirmation of childcare eligibility is switched on in the ChildcarePortal backend.",
+        "enforced_in": "ChildcarePortal"
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 5",
+          "quote": "feature.quarterly-reconfirmation.enabled=true",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.55,
+      "notes": "Feature flag; matches the guide's three-monthly reconfirmation rule."
+    }
+  ]
+}

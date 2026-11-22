@@ -185,22 +185,37 @@
     "seq": 16,
     "stage": "C. Validate",
     "actor": "Validator",
-    "action": "missing proposals",
-    "detail": "ea.json not found"
+    "action": "checked",
+    "detail": "EA: 80 accepted, 0 rejected",
+    "data": {
+      "agent": "ea",
+      "accepted": 80,
+      "rejected": 0
+    }
   },
   {
     "seq": 17,
     "stage": "C. Validate",
     "actor": "Validator",
-    "action": "missing proposals",
-    "detail": "ba.json not found"
+    "action": "checked",
+    "detail": "BA: 57 accepted, 0 rejected",
+    "data": {
+      "agent": "ba",
+      "accepted": 57,
+      "rejected": 0
+    }
   },
   {
     "seq": 18,
     "stage": "C. Validate",
     "actor": "Validator",
-    "action": "missing proposals",
-    "detail": "da.json not found"
+    "action": "checked",
+    "detail": "DA: 141 accepted, 0 rejected",
+    "data": {
+      "agent": "da",
+      "accepted": 141,
+      "rejected": 0
+    }
   },
   {
     "seq": 19,
@@ -216,126 +231,1689 @@
   },
   {
     "seq": 20,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "missing proposals",
-    "detail": "ea.json not found"
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "TAXCORE = TAXCORE (the Core), taxcore-db, TC, the Core",
+    "data": {
+      "system": "TAXCORE",
+      "aliases": [
+        "TAXCORE (the Core)",
+        "taxcore-db",
+        "TC",
+        "the Core"
+      ]
+    }
   },
   {
     "seq": 21,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "checked",
-    "detail": "BA: 57 accepted, 0 rejected",
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "CitizenPortal = CitizenPortal (online account), CP, the online account",
     "data": {
-      "agent": "ba",
-      "accepted": 57,
-      "rejected": 0
+      "system": "CitizenPortal",
+      "aliases": [
+        "CitizenPortal (online account)",
+        "CP",
+        "the online account"
+      ]
     }
   },
   {
     "seq": 22,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "missing proposals",
-    "detail": "da.json not found"
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "RevenueWarehouse = RevenueWarehouse (MI warehouse), RW, the MI warehouse",
+    "data": {
+      "system": "RevenueWarehouse",
+      "aliases": [
+        "RevenueWarehouse (MI warehouse)",
+        "RW",
+        "the MI warehouse"
+      ]
+    }
   },
   {
     "seq": 23,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "checked",
-    "detail": "ENG: 46 accepted, 0 rejected",
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "EmployerGateway = EG, employer filing, EmployerGateway (employer filing)",
     "data": {
-      "agent": "eng",
-      "accepted": 46,
-      "rejected": 0
+      "system": "EmployerGateway",
+      "aliases": [
+        "EG",
+        "employer filing",
+        "EmployerGateway (employer filing)"
+      ]
     }
   },
   {
     "seq": 24,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "checked",
-    "detail": "EA: 80 accepted, 0 rejected",
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "NumberHub = NH, NI allocation, NumberHub (NI allocation)",
     "data": {
-      "agent": "ea",
-      "accepted": 80,
-      "rejected": 0
+      "system": "NumberHub",
+      "aliases": [
+        "NH",
+        "NI allocation",
+        "NumberHub (NI allocation)"
+      ]
     }
   },
   {
     "seq": 25,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "checked",
-    "detail": "BA: 57 accepted, 0 rejected",
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "ChildcarePortal = CC, ChildcarePortal (parent account), the parent account",
     "data": {
-      "agent": "ba",
-      "accepted": 57,
-      "rejected": 0
+      "system": "ChildcarePortal",
+      "aliases": [
+        "CC",
+        "ChildcarePortal (parent account)",
+        "the parent account"
+      ]
     }
   },
   {
     "seq": 26,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "missing proposals",
-    "detail": "da.json not found"
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "resolved aliases",
+    "detail": "income-verify-svc = income-verify",
+    "data": {
+      "system": "income-verify-svc",
+      "aliases": [
+        "income-verify"
+      ]
+    }
   },
   {
     "seq": 27,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "checked",
-    "detail": "ENG: 46 accepted, 0 rejected",
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'TAXCORE': 14 proposals from ea across 9 files",
     "data": {
-      "agent": "eng",
-      "accepted": 46,
-      "rejected": 0
+      "element": "SYS-01"
     }
   },
   {
     "seq": 28,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "checked",
-    "detail": "EA: 80 accepted, 0 rejected",
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'CitizenPortal': 3 proposals from ea across 3 files",
     "data": {
-      "agent": "ea",
-      "accepted": 80,
-      "rejected": 0
+      "element": "SYS-02"
     }
   },
   {
     "seq": 29,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "checked",
-    "detail": "BA: 57 accepted, 0 rejected",
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'RevenueWarehouse': 3 proposals from ea across 3 files",
     "data": {
-      "agent": "ba",
-      "accepted": 57,
-      "rejected": 0
+      "element": "SYS-03"
     }
   },
   {
     "seq": 30,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "missing proposals",
-    "detail": "da.json not found"
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'EmployerGateway': 3 proposals from ea across 3 files",
+    "data": {
+      "element": "SYS-04"
+    }
   },
   {
     "seq": 31,
-    "stage": "C. Validate",
-    "actor": "Validator",
-    "action": "checked",
-    "detail": "ENG: 46 accepted, 0 rejected",
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'NumberHub': 5 proposals from ea across 4 files",
     "data": {
-      "agent": "eng",
-      "accepted": 46,
-      "rejected": 0
+      "element": "SYS-05"
     }
+  },
+  {
+    "seq": 32,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "system 'ChildcarePortal': 4 proposals from ea across 4 files",
+    "data": {
+      "element": "SYS-06"
+    }
+  },
+  {
+    "seq": 33,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "flow 'CitizenPortal → TAXCORE': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "FLW-01"
+    }
+  },
+  {
+    "seq": 34,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "flow 'EmployerGateway → TAXCORE': 3 proposals from ea across 3 files",
+    "data": {
+      "element": "FLW-02"
+    }
+  },
+  {
+    "seq": 35,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "flow 'NumberHub → TAXCORE': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "FLW-03"
+    }
+  },
+  {
+    "seq": 36,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "flow 'ChildcarePortal → TAXCORE': 3 proposals from ea across 3 files",
+    "data": {
+      "element": "FLW-04"
+    }
+  },
+  {
+    "seq": 37,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "flow 'TAXCORE → RevenueWarehouse': 3 proposals from ea across 3 files",
+    "data": {
+      "element": "FLW-05"
+    }
+  },
+  {
+    "seq": 38,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Register Customer': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "CAP-01"
+    }
+  },
+  {
+    "seq": 39,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Record Life Events': 3 proposals from ea across 3 files",
+    "data": {
+      "element": "CAP-02"
+    }
+  },
+  {
+    "seq": 40,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Process Employer Returns': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "CAP-03"
+    }
+  },
+  {
+    "seq": 41,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Issue Tax Code': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "CAP-04"
+    }
+  },
+  {
+    "seq": 42,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Calculate PAYE': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "CAP-05"
+    }
+  },
+  {
+    "seq": 43,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Allocate NI Number': 3 proposals from ea across 3 files",
+    "data": {
+      "element": "CAP-06"
+    }
+  },
+  {
+    "seq": 44,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Calculate NI Contributions': 3 proposals from ea across 3 files",
+    "data": {
+      "element": "CAP-07"
+    }
+  },
+  {
+    "seq": 45,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Maintain NI Record': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "CAP-08"
+    }
+  },
+  {
+    "seq": 46,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Open Childcare Account': 2 proposals from ea across 2 files",
+    "data": {
+      "element": "CAP-09"
+    }
+  },
+  {
+    "seq": 47,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Check Childcare Eligibility': 3 proposals from ea across 3 files",
+    "data": {
+      "element": "CAP-10"
+    }
+  },
+  {
+    "seq": 48,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "capability 'Calculate Childcare Top-up': 3 proposals from ea across 3 files",
+    "data": {
+      "element": "CAP-11"
+    }
+  },
+  {
+    "seq": 49,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "concept 'Customer': 2 proposals from ba across 2 files",
+    "data": {
+      "element": "CON-01"
+    }
+  },
+  {
+    "seq": 50,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "concept 'National Insurance Number': 3 proposals from ba across 3 files",
+    "data": {
+      "element": "CON-02"
+    }
+  },
+  {
+    "seq": 51,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "concept 'Employer Return': 3 proposals from ba across 3 files",
+    "data": {
+      "element": "CON-13"
+    }
+  },
+  {
+    "seq": 52,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "taxonomy 'EmploymentStatus': 5 proposals from ba, da, eng across 2 files",
+    "data": {
+      "element": "TAX-01"
+    }
+  },
+  {
+    "seq": 53,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "contradiction",
+    "detail": "taxonomy 'EmploymentStatus' · values: ['LIVE', 'CEASED'] (docs/paye-operations-manual.md) vs ['LIVE', 'CEASED', 'SUSPENDED'] (spreadsheets/taxcore-data-dictionary.csv)",
+    "data": {
+      "element": "TAX-01"
+    }
+  },
+  {
+    "seq": 54,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "taxonomy 'NiCategory': 5 proposals from ba, da, eng across 2 files",
+    "data": {
+      "element": "TAX-02"
+    }
+  },
+  {
+    "seq": 55,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "contradiction",
+    "detail": "taxonomy 'NiCategory' · values: ['A', 'B', 'C', 'H', 'J', 'M', 'Z'] (docs/national-insurance-procedures.md) vs ['A', 'B', 'C', 'H', 'J', 'M', 'Z', 'V'] (spreadsheets/taxcore-data-dictionary.csv)",
+    "data": {
+      "element": "TAX-02"
+    }
+  },
+  {
+    "seq": 56,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "rule 'Quarterly eligibility reconfirmation': 2 proposals from ba, eng across 2 files",
+    "data": {
+      "element": "RUL-13"
+    }
+  },
+  {
+    "seq": 57,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "rule 'Childcare income limit': 2 proposals from ba, eng across 2 files",
+    "data": {
+      "element": "RUL-14"
+    }
+  },
+  {
+    "seq": 58,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "taxonomy 'ChildcareAccountStatus': 5 proposals from ba, da, eng across 2 files",
+    "data": {
+      "element": "TAX-03"
+    }
+  },
+  {
+    "seq": 59,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "taxonomy 'CorrespondencePreference': 3 proposals from ba, da, eng across 1 files",
+    "data": {
+      "element": "TAX-04"
+    }
+  },
+  {
+    "seq": 60,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "taxonomy 'AddressType': 3 proposals from ba, da, eng across 1 files",
+    "data": {
+      "element": "TAX-05"
+    }
+  },
+  {
+    "seq": 61,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "taxonomy 'EligibilityOutcome': 5 proposals from ba, da, eng across 2 files",
+    "data": {
+      "element": "TAX-06"
+    }
+  },
+  {
+    "seq": 62,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "concept 'Parent Payment': 2 proposals from ba across 2 files",
+    "data": {
+      "element": "CON-20"
+    }
+  },
+  {
+    "seq": 63,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'Person': 3 proposals from da across 3 files",
+    "data": {
+      "element": "ENT-01"
+    }
+  },
+  {
+    "seq": 64,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "identifier 'Person Id': 2 proposals from da across 2 files",
+    "data": {
+      "element": "IDN-01"
+    }
+  },
+  {
+    "seq": 65,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "identifier 'National Insurance Number': 7 proposals from da across 7 files",
+    "data": {
+      "element": "IDN-02"
+    }
+  },
+  {
+    "seq": 66,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "contradiction",
+    "detail": "identifier 'National Insurance Number' · issued_by: TAXCORE (code-examples/taxcore_procedures.sql, docs/taxcore-system-overview.md) vs NumberHub (spreadsheets/interface-catalogue.csv, docs/national-insurance-procedures.md)",
+    "data": {
+      "element": "IDN-02"
+    }
+  },
+  {
+    "seq": 67,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'Address': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ENT-02"
+    }
+  },
+  {
+    "seq": 68,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'Employer': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ENT-03"
+    }
+  },
+  {
+    "seq": 69,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'Employment': 3 proposals from da across 3 files",
+    "data": {
+      "element": "ENT-04"
+    }
+  },
+  {
+    "seq": 70,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "relationship 'Employment → Person': 3 proposals from da across 3 files",
+    "data": {
+      "element": "REL-02"
+    }
+  },
+  {
+    "seq": 71,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "relationship 'Employment → Employer': 2 proposals from da across 2 files",
+    "data": {
+      "element": "REL-03"
+    }
+  },
+  {
+    "seq": 72,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'TaxCode': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ENT-05"
+    }
+  },
+  {
+    "seq": 73,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'PayPeriod': 3 proposals from da across 3 files",
+    "data": {
+      "element": "ENT-06"
+    }
+  },
+  {
+    "seq": 74,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "relationship 'PayPeriod → Employment': 3 proposals from da across 3 files",
+    "data": {
+      "element": "REL-05"
+    }
+  },
+  {
+    "seq": 75,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'NiContribution': 3 proposals from da across 3 files",
+    "data": {
+      "element": "ENT-07"
+    }
+  },
+  {
+    "seq": 76,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'NiRecord': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ENT-08"
+    }
+  },
+  {
+    "seq": 77,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'ChildcareAccount': 3 proposals from da across 3 files",
+    "data": {
+      "element": "ENT-09"
+    }
+  },
+  {
+    "seq": 78,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "relationship 'ChildcareAccount → Person': 3 proposals from da across 3 files",
+    "data": {
+      "element": "REL-08"
+    }
+  },
+  {
+    "seq": 79,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'Child': 2 proposals from da across 2 files",
+    "data": {
+      "element": "ENT-10"
+    }
+  },
+  {
+    "seq": 80,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "relationship 'Child → ChildcareAccount': 2 proposals from da across 2 files",
+    "data": {
+      "element": "REL-09"
+    }
+  },
+  {
+    "seq": 81,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'ChildcarePayment': 3 proposals from da across 3 files",
+    "data": {
+      "element": "ENT-11"
+    }
+  },
+  {
+    "seq": 82,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "entity 'EligibilityCheck': 3 proposals from da across 3 files",
+    "data": {
+      "element": "ENT-12"
+    }
+  },
+  {
+    "seq": 83,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "relationship 'ChildcarePayment → ChildcareProvider': 2 proposals from da across 2 files",
+    "data": {
+      "element": "REL-13"
+    }
+  },
+  {
+    "seq": 84,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "relationship 'NiContribution → PayPeriod': 2 proposals from da across 2 files",
+    "data": {
+      "element": "REL-14"
+    }
+  },
+  {
+    "seq": 85,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "calculation 'PRC_ALLOCATE_NINO': 2 proposals from eng across 2 files",
+    "data": {
+      "element": "CAL-02"
+    }
+  },
+  {
+    "seq": 86,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "calculation 'PRC_CALC_NIC': 2 proposals from eng across 2 files",
+    "data": {
+      "element": "CAL-06"
+    }
+  },
+  {
+    "seq": 87,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "calculation 'PRC_CHECK_ELIGIBILITY': 2 proposals from eng across 2 files",
+    "data": {
+      "element": "CAL-09"
+    }
+  },
+  {
+    "seq": 88,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "calculation 'PRC_CALC_TOPUP': 2 proposals from eng across 2 files",
+    "data": {
+      "element": "CAL-10"
+    }
+  },
+  {
+    "seq": 89,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "calculation 'PRC_CLOSE_DECEASED': 2 proposals from eng across 2 files",
+    "data": {
+      "element": "CAL-11"
+    }
+  },
+  {
+    "seq": 90,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "interface 'CUS-01': 2 proposals from eng across 2 files",
+    "data": {
+      "element": "INT-01"
+    }
+  },
+  {
+    "seq": 91,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "interface 'PAY-01': 3 proposals from eng across 3 files",
+    "data": {
+      "element": "INT-02"
+    }
+  },
+  {
+    "seq": 92,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "interface 'NIN-02': 2 proposals from eng across 2 files",
+    "data": {
+      "element": "INT-03"
+    }
+  },
+  {
+    "seq": 93,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "interface 'CC-01': 2 proposals from eng across 2 files",
+    "data": {
+      "element": "INT-04"
+    }
+  },
+  {
+    "seq": 94,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "merged",
+    "detail": "interface 'MI-01': 3 proposals from eng across 3 files",
+    "data": {
+      "element": "INT-05"
+    }
+  },
+  {
+    "seq": 95,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'Employer' is realised by entity 'Employer' (TAXCORE)"
+  },
+  {
+    "seq": 96,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'Employment' is realised by entity 'Employment' (TAXCORE)"
+  },
+  {
+    "seq": 97,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'Pay Period' is realised by entity 'PayPeriod' (TAXCORE)"
+  },
+  {
+    "seq": 98,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'Tax Code' is realised by entity 'TaxCode' (TAXCORE)"
+  },
+  {
+    "seq": 99,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'NI Contribution' is realised by entity 'NiContribution' (TAXCORE)"
+  },
+  {
+    "seq": 100,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'NI Record' is realised by entity 'NiRecord' (TAXCORE)"
+  },
+  {
+    "seq": 101,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'Childcare Account' is realised by entity 'ChildcareAccount' (TAXCORE)"
+  },
+  {
+    "seq": 102,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'Child' is realised by entity 'Child' (TAXCORE)"
+  },
+  {
+    "seq": 103,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "linked",
+    "detail": "concept 'Eligibility Check' is realised by entity 'EligibilityCheck' (TAXCORE)"
+  },
+  {
+    "seq": 104,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "homonym_risk: Glossary lists 'Person' as a synonym of Customer, but TAXCORE has an entity 'Person' with its own structure."
+  },
+  {
+    "seq": 105,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "unrealised_concept: No entity found for 'Childcare Provider'. Possible home: ChildcarePortal."
+  },
+  {
+    "seq": 106,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "unrealised_concept: No entity found for 'Top-up Payment'."
+  },
+  {
+    "seq": 107,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "unrealised_concept: No entity found for 'Qualifying Year'."
+  },
+  {
+    "seq": 108,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "flagged",
+    "detail": "system_without_role: 'income-verify-svc' appears in 1 source(s) but nothing says what it does."
+  },
+  {
+    "seq": 109,
+    "stage": "D. Steward reconciles",
+    "actor": "Ontology Steward",
+    "action": "model assembled",
+    "detail": "324 proposals → 198 elements; 3 contradictions; 5 review flags",
+    "data": {
+      "counts": {
+        "system": 7,
+        "flow": 7,
+        "domain": 5,
+        "capability": 11,
+        "concept": 20,
+        "rule": 26,
+        "taxonomy": 8,
+        "entity": 12,
+        "attribute": 58,
+        "identifier": 9,
+        "relationship": 15,
+        "calculation": 11,
+        "interface": 8,
+        "event": 1
+      }
+    }
+  },
+  {
+    "seq": 110,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "graded",
+    "detail": "A: 0 · B: 47 · C: 141 · D: 7 · X: 3",
+    "data": {
+      "distribution": {
+        "A": 0,
+        "B": 47,
+        "C": 141,
+        "D": 7,
+        "X": 3
+      }
+    }
+  },
+  {
+    "seq": 111,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'TAXCORE': 7 independent current sources",
+    "data": {
+      "element": "SYS-01",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 112,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'CitizenPortal': 2 independent current sources",
+    "data": {
+      "element": "SYS-02",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 113,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'RevenueWarehouse': 2 independent current sources",
+    "data": {
+      "element": "SYS-03",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 114,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'EmployerGateway': 3 independent current sources",
+    "data": {
+      "element": "SYS-04",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 115,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'NumberHub': 4 independent current sources",
+    "data": {
+      "element": "SYS-05",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 116,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade B",
+    "detail": "system 'ChildcarePortal': 4 independent current sources",
+    "data": {
+      "element": "SYS-06",
+      "grade": "B"
+    }
+  },
+  {
+    "seq": 117,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "system 'income-verify-svc': single source",
+    "data": {
+      "element": "SYS-07",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 118,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Customer': single source",
+    "data": {
+      "element": "CON-01",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 119,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'National Insurance Number': single source",
+    "data": {
+      "element": "CON-02",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 120,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Employer': single source",
+    "data": {
+      "element": "CON-03",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 121,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Employment': single source",
+    "data": {
+      "element": "CON-04",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 122,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Pay Period': single source",
+    "data": {
+      "element": "CON-05",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 123,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Tax Code': single source",
+    "data": {
+      "element": "CON-06",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 124,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'NI Contribution': single source",
+    "data": {
+      "element": "CON-07",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 125,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'NI Record': single source",
+    "data": {
+      "element": "CON-08",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 126,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Childcare Account': single source",
+    "data": {
+      "element": "CON-09",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 127,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Childcare Provider': single source",
+    "data": {
+      "element": "CON-10",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 128,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Child': single source",
+    "data": {
+      "element": "CON-11",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 129,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Top-up Payment': single source",
+    "data": {
+      "element": "CON-12",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 130,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade X",
+    "detail": "taxonomy 'EmploymentStatus': sources contradict on values",
+    "data": {
+      "element": "TAX-01",
+      "grade": "X"
+    }
+  },
+  {
+    "seq": 131,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "concept 'Qualifying Year': single source",
+    "data": {
+      "element": "CON-14",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 132,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade X",
+    "detail": "taxonomy 'NiCategory': sources contradict on values",
+    "data": {
+      "element": "TAX-02",
+      "grade": "X"
+    }
+  },
+  {
+    "seq": 133,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "identifier 'Person Id': only one current source (others stale)",
+    "data": {
+      "element": "IDN-01",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 134,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade X",
+    "detail": "identifier 'National Insurance Number': sources contradict on issued_by",
+    "data": {
+      "element": "IDN-02",
+      "grade": "X"
+    }
+  },
+  {
+    "seq": 135,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "identifier 'Employer Reference': single source",
+    "data": {
+      "element": "IDN-03",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 136,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "identifier 'Employment Id': single source",
+    "data": {
+      "element": "IDN-04",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 137,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "identifier 'Childcare Account Id': single source",
+    "data": {
+      "element": "IDN-05",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 138,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "identifier 'Child Id': single source",
+    "data": {
+      "element": "IDN-06",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 139,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "identifier 'Payment Id': single source",
+    "data": {
+      "element": "IDN-07",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 140,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "identifier 'Childcare Provider Reference': single source",
+    "data": {
+      "element": "IDN-08",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 141,
+    "stage": "E. Grade evidence",
+    "actor": "Conformance agent",
+    "action": "grade C",
+    "detail": "identifier 'Check Id': single source",
+    "data": {
+      "element": "IDN-09",
+      "grade": "C"
+    }
+  },
+  {
+    "seq": 142,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "compared with reference ontology",
+    "detail": "19 reference items found in evidence; 1 added as assumptions (grade D)",
+    "data": {
+      "matched": [
+        "Person",
+        "Customer",
+        "Address",
+        "Employer",
+        "Employment",
+        "Pay Period",
+        "Tax Code",
+        "NI Record",
+        "NI Contribution",
+        "Childcare Account",
+        "Child",
+        "Childcare Provider",
+        "Childcare Payment",
+        "Employment is held by Person",
+        "Employment is with Employer",
+        "NI Contribution is due on Employment",
+        "NI Record belongs to Person",
+        "Childcare Account is held by Person",
+        "Childcare Payment is paid to Childcare Provider"
+      ],
+      "assumed": [
+        "Party"
+      ]
+    }
+  },
+  {
+    "seq": 143,
+    "stage": "F. Reference check",
+    "actor": "Ontology Steward",
+    "action": "assumed (D)",
+    "detail": "entity 'Party' — expected by reference, not seen in evidence",
+    "data": {
+      "element": "ENT-13"
+    }
+  },
+  {
+    "seq": 144,
+    "stage": "F2. Decompose",
+    "actor": "Ontology Steward",
+    "action": "split candidate",
+    "detail": "Person.NI_NUMBER: created by Allocate NI Number → move to National Insurance; Customer keeps a reference"
+  },
+  {
+    "seq": 145,
+    "stage": "F2. Decompose",
+    "actor": "Ontology Steward",
+    "action": "cross-domain write",
+    "detail": "Customer changes NiRecord (National Insurance) via PRC_CLOSE_DECEASED → event PersonChanged"
+  },
+  {
+    "seq": 146,
+    "stage": "F2. Decompose",
+    "actor": "Ontology Steward",
+    "action": "cross-domain write",
+    "detail": "Customer changes ChildcareAccount (Childcare) via PRC_CLOSE_DECEASED → event PersonChanged"
+  },
+  {
+    "seq": 147,
+    "stage": "F2. Decompose",
+    "actor": "Ontology Steward",
+    "action": "domain Customer",
+    "detail": "2 entities, 10 attributes, 2 calculations, 4 services",
+    "data": {
+      "domain": "customer",
+      "name": "Customer",
+      "owner": "Director of Customer Services",
+      "counts": {
+        "capability": 2,
+        "rule": 2,
+        "taxonomy": 2,
+        "entity": 2,
+        "attribute": 10,
+        "identifier": 1,
+        "relationship": 1,
+        "calculation": 2
+      },
+      "grades": {
+        "B": 4,
+        "C": 18
+      },
+      "entities": [
+        "Address",
+        "Person"
+      ],
+      "services": 4
+    }
+  },
+  {
+    "seq": 148,
+    "stage": "F2. Decompose",
+    "actor": "Ontology Steward",
+    "action": "domain PAYE",
+    "detail": "4 entities, 17 attributes, 3 calculations, 5 services",
+    "data": {
+      "domain": "paye",
+      "name": "PAYE",
+      "owner": "Director of Employer Taxes",
+      "counts": {
+        "capability": 3,
+        "concept": 5,
+        "rule": 3,
+        "taxonomy": 2,
+        "entity": 4,
+        "attribute": 17,
+        "identifier": 2,
+        "relationship": 4,
+        "calculation": 3
+      },
+      "grades": {
+        "B": 10,
+        "C": 30,
+        "D": 1,
+        "X": 2
+      },
+      "entities": [
+        "Employer",
+        "Employment",
+        "PayPeriod",
+        "TaxCode"
+      ],
+      "services": 5
+    }
+  },
+  {
+    "seq": 149,
+    "stage": "F2. Decompose",
+    "actor": "Ontology Steward",
+    "action": "domain National Insurance",
+    "detail": "2 entities, 11 attributes, 3 calculations, 4 services",
+    "data": {
+      "domain": "ni",
+      "name": "National Insurance",
+      "owner": "Director of National Insurance",
+      "counts": {
+        "capability": 3,
+        "concept": 5,
+        "rule": 6,
+        "attribute": 11,
+        "identifier": 1,
+        "entity": 2,
+        "relationship": 4,
+        "taxonomy": 2,
+        "calculation": 3
+      },
+      "grades": {
+        "B": 5,
+        "C": 30,
+        "D": 1,
+        "X": 1
+      },
+      "entities": [
+        "NiContribution",
+        "NiRecord"
+      ],
+      "services": 4
+    }
+  },
+  {
+    "seq": 150,
+    "stage": "F2. Decompose",
+    "actor": "Ontology Steward",
+    "action": "domain Childcare",
+    "detail": "4 entities, 20 attributes, 3 calculations, 3 services",
+    "data": {
+      "domain": "childcare",
+      "name": "Childcare",
+      "owner": "Director of Family Support",
+      "counts": {
+        "capability": 3,
+        "concept": 5,
+        "rule": 10,
+        "taxonomy": 2,
+        "entity": 4,
+        "attribute": 20,
+        "identifier": 5,
+        "relationship": 6,
+        "calculation": 3
+      },
+      "grades": {
+        "B": 12,
+        "C": 45,
+        "D": 1
+      },
+      "entities": [
+        "Child",
+        "ChildcareAccount",
+        "ChildcarePayment",
+        "EligibilityCheck"
+      ],
+      "services": 3
+    }
+  },
+  {
+    "seq": 151,
+    "stage": "F2. Decompose",
+    "actor": "Ontology Steward",
+    "action": "decomposition proposed",
+    "detail": "4 domains; 6 cross-domain dependencies; 1 split candidates; 2 cross-domain writes → events; 0 unassigned",
+    "data": {
+      "dependencies": 6,
+      "splits": 1,
+      "events": 2,
+      "unassigned": 0
+    }
+  },
+  {
+    "seq": 152,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "unknowns register built",
+    "detail": "19 items — high 7, medium 11, low 1",
+    "data": {
+      "priorities": {
+        "high": 7,
+        "medium": 11,
+        "low": 1
+      }
+    }
+  },
+  {
+    "seq": 153,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-01",
+    "detail": "Agree the event that replaces a cross-domain write: PersonChanged?",
+    "data": {
+      "owner": "Domain owners with the Enterprise Architecture Authority"
+    }
+  },
+  {
+    "seq": 154,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-02",
+    "detail": "Is 'Person' a synonym of Customer, or a different concept (a role) that shares the name?",
+    "data": {
+      "owner": "Business Domain Owner"
+    }
+  },
+  {
+    "seq": 155,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-03",
+    "detail": "Should this data move domains? NI_NUMBER in TC_PERSON is created by Allocate NI Number (National Insurance), but the table belongs to Customer.",
+    "data": {
+      "owner": "Domain owners with the Enterprise Architecture Authority"
+    }
+  },
+  {
+    "seq": 156,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-04",
+    "detail": "Request a schema export and a masked data sample from TAXCORE.",
+    "data": {
+      "owner": "Engineering Lead (with the system owner)"
+    }
+  },
+  {
+    "seq": 157,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-05",
+    "detail": "Sources disagree on the issued by of identifier 'National Insurance Number'. Which is correct today?",
+    "data": {
+      "owner": "Data Architecture Authority"
+    }
+  },
+  {
+    "seq": 158,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-06",
+    "detail": "Sources disagree on the values of taxonomy 'EmploymentStatus'. Which is correct today?",
+    "data": {
+      "owner": "Business Domain Owner"
+    }
+  },
+  {
+    "seq": 159,
+    "stage": "G. Unknowns",
+    "actor": "Ontology Steward",
+    "action": "U-07",
+    "detail": "Sources disagree on the values of taxonomy 'NiCategory'. Which is correct today?",
+    "data": {
+      "owner": "Business Domain Owner"
+    }
+  },
+  {
+    "seq": 160,
+    "stage": "H. Gate checks",
+    "actor": "Conformance agent",
+    "action": "phase 1 gate: provisional",
+    "detail": "Enterprise scope and architecture discovery — P1.1 pass; P1.2 provisional; P1.3 pass; P1.4 pass; 3/14 in-scope elements below grade B",
+    "data": {
+      "phase": 1,
+      "status": "provisional"
+    }
+  },
+  {
+    "seq": 161,
+    "stage": "H. Gate checks",
+    "actor": "Conformance agent",
+    "action": "phase 2 gate: provisional",
+    "detail": "Business concepts and domain modelling — P2.1 provisional; P2.2 pass; P2.3 pass; P2.4 pass; 52/54 in-scope elements below grade B",
+    "data": {
+      "phase": 2,
+      "status": "provisional"
+    }
+  },
+  {
+    "seq": 162,
+    "stage": "H. Gate checks",
+    "actor": "Conformance agent",
+    "action": "phase 3 gate: provisional",
+    "detail": "Entity and relationship modelling — P3.1 pass; P3.2 pass; 77/95 in-scope elements below grade B",
+    "data": {
+      "phase": 3,
+      "status": "provisional"
+    }
+  },
+  {
+    "seq": 163,
+    "stage": "J. Human gate",
+    "actor": "Human gate",
+    "action": "routed to Enterprise Architecture Authority",
+    "detail": "30 items — pending 30",
+    "data": {
+      "approver": "Enterprise Architecture Authority",
+      "decisions": {
+        "pending": 30
+      },
+      "simulated": false
+    }
+  },
+  {
+    "seq": 164,
+    "stage": "J. Human gate",
+    "actor": "Human gate",
+    "action": "routed to Business Domain Owner",
+    "detail": "65 items — pending 65",
+    "data": {
+      "approver": "Business Domain Owner",
+      "decisions": {
+        "pending": 65
+      },
+      "simulated": false
+    }
+  },
+  {
+    "seq": 165,
+    "stage": "J. Human gate",
+    "actor": "Human gate",
+    "action": "routed to Domain Owner and Data Architecture Authority",
+    "detail": "28 items — pending 28",
+    "data": {
+      "approver": "Domain Owner and Data Architecture Authority",
+      "decisions": {
+        "pending": 28
+      },
+      "simulated": false
+    }
+  },
+  {
+    "seq": 166,
+    "stage": "J. Human gate",
+    "actor": "Human gate",
+    "action": "routed to Data Architecture Authority",
+    "detail": "67 items — pending 67",
+    "data": {
+      "approver": "Data Architecture Authority",
+      "decisions": {
+        "pending": 67
+      },
+      "simulated": false
+    }
+  },
+  {
+    "seq": 167,
+    "stage": "J. Human gate",
+    "actor": "Human gate",
+    "action": "routed to Design Authority",
+    "detail": "9 items — pending 9",
+    "data": {
+      "approver": "Design Authority",
+      "decisions": {
+        "pending": 9
+      },
+      "simulated": false
+    }
+  },
+  {
+    "seq": 168,
+    "stage": "K. Publish",
+    "actor": "Publisher",
+    "action": "deliverables written",
+    "detail": "28 files in outputs/loop-01/",
+    "data": {
+      "grades": {
+        "A": 0,
+        "B": 47,
+        "C": 141,
+        "D": 8,
+        "X": 3
+      }
+    }
+  },
+  {
+    "seq": 169,
+    "stage": "K. Publish",
+    "actor": "Publisher",
+    "action": "decomposition written",
+    "detail": "4 domain ontologies, 4 service contracts, source-to-target mapping"
   }
 ]

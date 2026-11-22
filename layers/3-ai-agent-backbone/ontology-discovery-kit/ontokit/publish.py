@@ -252,6 +252,24 @@ def publish(paths: LoopPaths, trace: Trace) -> None:
             ddl += [f"-- {e['id']} {e['name']} · grade {e['grade']} · {e['status']}", f"CREATE TABLE {_snake(e['name'])} (", *cols, ");", ""]
         (sdir / f"{_snake(re.sub(r'[^A-Za-z0-9]', '', sysname))}.sql").write_text("\n".join(ddl), encoding="utf-8")
 
+    # Agent notes: observations the agents recorded that are not elements themselves
+    vfile = paths.work / "validated.json"
+    if vfile.exists():
+        notes, seen = {}, set()
+        for p in read_json(vfile)["accepted"]:
+            n = (p.get("notes") or "").strip()
+            if n and n not in seen:
+                seen.add(n)
+                notes.setdefault(p["proposed_by"], []).append(f"- **{p['kind']} {p['name']}**: {n}")
+        if notes:
+            label = {"ba": "Business Analyst", "ea": "Enterprise Architect", "da": "Data Architect", "eng": "Engineering"}
+            md = [f"# Agent notes — {paths.loop}", "",
+                  "Observations the agents recorded alongside their findings. Reviewers should read these: they often hold "
+                  "the most useful judgment, such as undocumented dependencies or doubts about a source.", ""]
+            for a, items in notes.items():
+                md += [f"## {label.get(a, a)} agent ({len(items)})", "", *items, ""]
+            (out / "agent-notes.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+
     # Summary
     dist = Counter(e["grade"] for e in els)
     kinds = Counter(e["kind"] for e in els)

@@ -1,0 +1,1728 @@
+{
+  "agent": "ea",
+  "loop": "loop-01",
+  "proposals": [
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "aliases": [
+        "the Core",
+        "TC"
+      ],
+      "properties": {
+        "roles": [
+          "system of record (candidate): Customer",
+          "system of record (candidate): PAYE",
+          "system of record (candidate): National Insurance",
+          "system of record (candidate): Childcare"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 7",
+          "quote": "TAXCORE (also called \"the Core\" or \"TC\") holds the customer record and every PAYE, National Insurance and childcare record in one DB2 database.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8,
+      "notes": "Source is a 2016 document (stale); it predates the 2022 NumberHub carve-out."
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "properties": {
+        "roles": [
+          "calculation engine (candidate): stored procedures run by overnight batch"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 8",
+          "quote": "All calculations run as stored procedures inside TAXCORE, scheduled by overnight batch jobs.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "properties": {
+        "roles": [
+          "identifier issuer (candidate): National Insurance Number"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 14",
+          "quote": "The National Insurance Number is issued by TAXCORE when a person is first registered.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.3,
+      "notes": "Conflicts with docs/national-insurance-procedures.md lines 7 and 13 (NumberHub issues NINO; replaced TAXCORE allocation module in 2022). This 2016 source is stale; likely superseded. Question for EA Authority."
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "properties": {
+        "roles": [
+          "identifier issuer (candidate): Person Id"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 15",
+          "quote": "Every record in TAXCORE is keyed on the internal Person Id.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "properties": {
+        "roles": [
+          "calculation engine (candidate): PAYE"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 8",
+          "quote": "Returns are loaded into TAXCORE overnight, where PAYE is calculated for each employment.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "properties": {
+        "roles": [
+          "calculation engine (candidate): NI contributions"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 8",
+          "quote": "Class 1 contributions are calculated in TAXCORE from the earnings in each employer return.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "properties": {
+        "roles": []
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 7",
+          "quote": "It replaced the TAXCORE allocation module in 2022.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "States TAXCORE once had an NI allocation module, replaced by NumberHub in 2022."
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "aliases": [
+        "TC_"
+      ],
+      "properties": {
+        "roles": [
+          "system of record (candidate): Customer",
+          "system of record (candidate): PAYE",
+          "system of record (candidate): National Insurance",
+          "system of record (candidate): Childcare"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 2",
+          "quote": "TC_PERSON,PERSON_ID,INTEGER,N,PK,Person Id,",
+          "support": "structure"
+        },
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 40",
+          "quote": "TC_CHILDCARE_ACCOUNT,CC_ACCOUNT_ID,INTEGER,N,PK,Childcare Account Id,",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Data dictionary attributed to TAXCORE by manifest system_hint (table_prefix TC_). Tables cover person, address, employer, employment, tax code, pay period, NI contribution/record, childcare account/child/payment/eligibility."
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "properties": {
+        "roles": [
+          "calculation engine (candidate): batch jobs"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 1",
+          "quote": "job_id,job_name,program,capability,reads,writes,owner,frequency",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Batch job catalogue attributed to TAXCORE by manifest system_hint."
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "aliases": [
+        "TC"
+      ],
+      "properties": {
+        "roles": []
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 2",
+          "quote": "CUS-01,Customer self-service,CitizenPortal,TC,REST API,Real time,Customer details; addresses,Customer Services",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Interface catalogue uses 'TC' as target here and 'TAXCORE' elsewhere; TC is a stated alias in the overview."
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "properties": {
+        "roles": []
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 3",
+          "quote": "PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "aliases": [
+        "TC",
+        "TAXCORE (the Core)",
+        "the Core"
+      ],
+      "properties": {
+        "roles": []
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 2",
+          "quote": "TC[\"TAXCORE (the Core)\"]",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7,
+      "notes": "Diagram node id TC."
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "properties": {
+        "roles": [
+          "calculation engine (candidate): stored procedures"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 1",
+          "quote": "-- Example extract of TAXCORE stored procedures (2020). Simplified; not production source.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "system",
+      "name": "TAXCORE",
+      "aliases": [
+        "taxcore-db"
+      ],
+      "properties": {
+        "roles": [
+          "database (candidate): DB2"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 2",
+          "quote": "taxcore.jdbc.url=jdbc:db2://taxcore-db.internal.example:50000/TAXCORE",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "ChildcarePortal connects directly to the TAXCORE DB2 database over JDBC (shared-database dependency)."
+    },
+    {
+      "kind": "system",
+      "name": "CitizenPortal",
+      "aliases": [
+        "the online account",
+        "online account"
+      ],
+      "properties": {
+        "roles": [
+          "channel",
+          "customer self-service (candidate)"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 9",
+          "quote": "CitizenPortal (also called the online account) captures and fulfils customer self-service requests.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "system",
+      "name": "CitizenPortal",
+      "properties": {
+        "roles": [
+          "channel"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 2",
+          "quote": "CUS-01,Customer self-service,CitizenPortal,TC,REST API,Real time,Customer details; addresses,Customer Services",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "system",
+      "name": "CitizenPortal",
+      "aliases": [
+        "CP",
+        "CitizenPortal (online account)",
+        "online account"
+      ],
+      "properties": {
+        "roles": [
+          "channel"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 2",
+          "quote": "CP[\"CitizenPortal (online account)\"]",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Diagram node id CP."
+    },
+    {
+      "kind": "system",
+      "name": "RevenueWarehouse",
+      "aliases": [
+        "the MI warehouse",
+        "MI warehouse"
+      ],
+      "properties": {
+        "roles": [
+          "reporting / analytics (candidate)"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 10",
+          "quote": "RevenueWarehouse (also called the MI warehouse) receives nightly extracts for reporting.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "system",
+      "name": "RevenueWarehouse",
+      "properties": {
+        "roles": [
+          "reporting / analytics (candidate)"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 6",
+          "quote": "MI-01,Nightly extract,TAXCORE,RevenueWarehouse,File (CSV),Daily 02:00,All modules,Data team",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "system",
+      "name": "RevenueWarehouse",
+      "aliases": [
+        "RW",
+        "RevenueWarehouse (MI warehouse)",
+        "MI warehouse"
+      ],
+      "properties": {
+        "roles": [
+          "reporting / analytics (candidate)"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 6",
+          "quote": "RW[\"RevenueWarehouse (MI warehouse)\"]",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Diagram node id RW."
+    },
+    {
+      "kind": "system",
+      "name": "EmployerGateway",
+      "aliases": [
+        "employer filing"
+      ],
+      "properties": {
+        "roles": [
+          "channel",
+          "employer return capture (candidate)"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 7",
+          "quote": "EmployerGateway (also called employer filing) captures and fulfils employer returns for every pay period.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "system",
+      "name": "EmployerGateway",
+      "properties": {
+        "roles": [
+          "channel"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 3",
+          "quote": "PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "system",
+      "name": "EmployerGateway",
+      "aliases": [
+        "EG",
+        "EmployerGateway (employer filing)",
+        "employer filing"
+      ],
+      "properties": {
+        "roles": [
+          "channel"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 3",
+          "quote": "EG[\"EmployerGateway (employer filing)\"]",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Diagram node id EG."
+    },
+    {
+      "kind": "system",
+      "name": "NumberHub",
+      "aliases": [
+        "NI allocation"
+      ],
+      "properties": {
+        "roles": [
+          "identifier issuer (candidate): National Insurance Number"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 7",
+          "quote": "NumberHub (also called NI allocation) allocates National Insurance numbers.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Same line says it replaced the TAXCORE allocation module in 2022."
+    },
+    {
+      "kind": "system",
+      "name": "NumberHub",
+      "properties": {
+        "roles": [
+          "identifier issuer (candidate): National Insurance Number"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 12",
+          "quote": "The National Insurance Number is issued by NumberHub when a person reaches 16.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "system",
+      "name": "NumberHub",
+      "properties": {
+        "roles": [
+          "identifier issuer (candidate): National Insurance Number"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 4",
+          "quote": "NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "system",
+      "name": "NumberHub",
+      "aliases": [
+        "NH",
+        "NumberHub (NI allocation)",
+        "NI allocation"
+      ],
+      "properties": {
+        "roles": []
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 4",
+          "quote": "NH[\"NumberHub (NI allocation)\"]",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Diagram node id NH."
+    },
+    {
+      "kind": "system",
+      "name": "NumberHub",
+      "aliases": [
+        "numberhub"
+      ],
+      "properties": {
+        "roles": []
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 3",
+          "quote": "numberhub.api.base-url=https://numberhub.internal.example/api",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "ChildcarePortal backend calls a NumberHub API; this dependency is not in the interface catalogue or diagram."
+    },
+    {
+      "kind": "system",
+      "name": "ChildcarePortal",
+      "aliases": [
+        "the parent account",
+        "parent account"
+      ],
+      "properties": {
+        "roles": [
+          "channel",
+          "childcare parent payment capture (candidate)"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 7",
+          "quote": "ChildcarePortal (also called the parent account) captures and fulfils parent payments to childcare providers.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "system",
+      "name": "ChildcarePortal",
+      "properties": {
+        "roles": [
+          "channel"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 5",
+          "quote": "CC-01,Parent payments,ChildcarePortal,TAXCORE,REST API,Real time,Parent payment,Family Support",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "system",
+      "name": "ChildcarePortal",
+      "aliases": [
+        "CC",
+        "ChildcarePortal (parent account)",
+        "parent account"
+      ],
+      "properties": {
+        "roles": [
+          "channel"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 5",
+          "quote": "CC[\"ChildcarePortal (parent account)\"]",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Diagram node id CC (not to be confused with interface id CC-01)."
+    },
+    {
+      "kind": "system",
+      "name": "ChildcarePortal",
+      "properties": {
+        "roles": []
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 1",
+          "quote": "# Example config extract (sanitised) from the ChildcarePortal backend, 2025",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "system",
+      "name": "income-verify-svc",
+      "aliases": [
+        "income-verify"
+      ],
+      "properties": {
+        "roles": []
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 4",
+          "quote": "income-verify-svc.api.base-url=https://income-verify.internal.example/api",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Unknown system: appears only in ChildcarePortal config. Not in the interface catalogue or the current-state diagram; no stated purpose. Name suggests income verification, possibly related to childcare eligibility (expected income) - question for SMEs."
+    },
+    {
+      "kind": "flow",
+      "name": "CUS-01 Customer self-service",
+      "properties": {
+        "source": "CitizenPortal",
+        "target": "TAXCORE",
+        "label": "Customer details; addresses",
+        "interface_id": "CUS-01",
+        "mechanism": "REST API",
+        "frequency": "Real time",
+        "owner": "Customer Services",
+        "target_as_written": "TC"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 2",
+          "quote": "CUS-01,Customer self-service,CitizenPortal,TC,REST API,Real time,Customer details; addresses,Customer Services",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "flow",
+      "name": "PAY-01 Employer returns",
+      "properties": {
+        "source": "EmployerGateway",
+        "target": "TAXCORE",
+        "label": "Employer return",
+        "interface_id": "PAY-01",
+        "mechanism": "File (XML)",
+        "frequency": "Daily",
+        "owner": "PAYE Operations"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 3",
+          "quote": "PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "flow",
+      "name": "NIN-02 NI number allocated",
+      "properties": {
+        "source": "NumberHub",
+        "target": "TAXCORE",
+        "label": "National Insurance Number",
+        "interface_id": "NIN-02",
+        "mechanism": "MQ message",
+        "frequency": "Real time",
+        "owner": "NI Operations"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 4",
+          "quote": "NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "flow",
+      "name": "CC-01 Parent payments",
+      "properties": {
+        "source": "ChildcarePortal",
+        "target": "TAXCORE",
+        "label": "Parent payment",
+        "interface_id": "CC-01",
+        "mechanism": "REST API",
+        "frequency": "Real time",
+        "owner": "Family Support"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 5",
+          "quote": "CC-01,Parent payments,ChildcarePortal,TAXCORE,REST API,Real time,Parent payment,Family Support",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "flow",
+      "name": "MI-01 Nightly extract",
+      "properties": {
+        "source": "TAXCORE",
+        "target": "RevenueWarehouse",
+        "label": "All modules",
+        "interface_id": "MI-01",
+        "mechanism": "File (CSV)",
+        "frequency": "Daily 02:00",
+        "owner": "Data team"
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 6",
+          "quote": "MI-01,Nightly extract,TAXCORE,RevenueWarehouse,File (CSV),Daily 02:00,All modules,Data team",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "flow",
+      "name": "CUS-01 Customer self-service",
+      "properties": {
+        "source": "CitizenPortal",
+        "target": "TAXCORE",
+        "label": "CUS-01",
+        "interface_id": "CUS-01",
+        "source_as_written": "CP",
+        "target_as_written": "TC"
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 2",
+          "quote": "CP[\"CitizenPortal (online account)\"] -->|CUS-01| TC[\"TAXCORE (the Core)\"]",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "flow",
+      "name": "PAY-01 Employer returns",
+      "properties": {
+        "source": "EmployerGateway",
+        "target": "TAXCORE",
+        "label": "PAY-01 employer returns",
+        "interface_id": "PAY-01",
+        "source_as_written": "EG",
+        "target_as_written": "TC"
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 3",
+          "quote": "EG[\"EmployerGateway (employer filing)\"] -->|PAY-01 employer returns| TC",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "flow",
+      "name": "NIN-02 NI number allocated",
+      "properties": {
+        "source": "NumberHub",
+        "target": "TAXCORE",
+        "label": "NIN-02",
+        "interface_id": "NIN-02",
+        "source_as_written": "NH",
+        "target_as_written": "TC"
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 4",
+          "quote": "NH[\"NumberHub (NI allocation)\"] -->|NIN-02| TC",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "flow",
+      "name": "CC-01 Parent payments",
+      "properties": {
+        "source": "ChildcarePortal",
+        "target": "TAXCORE",
+        "label": "CC-01 parent payments",
+        "interface_id": "CC-01",
+        "source_as_written": "CC",
+        "target_as_written": "TC"
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 5",
+          "quote": "CC[\"ChildcarePortal (parent account)\"] -->|CC-01 parent payments| TC",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "flow",
+      "name": "MI-01 Nightly extract",
+      "properties": {
+        "source": "TAXCORE",
+        "target": "RevenueWarehouse",
+        "label": "MI-01 nightly",
+        "interface_id": "MI-01",
+        "source_as_written": "TC",
+        "target_as_written": "RW"
+      },
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 6",
+          "quote": "TC -->|MI-01 nightly| RW[\"RevenueWarehouse (MI warehouse)\"]",
+          "support": "structure"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "flow",
+      "name": "MI-01 Nightly extract",
+      "properties": {
+        "source": "TAXCORE",
+        "target": "RevenueWarehouse",
+        "label": "nightly extracts for reporting"
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 10",
+          "quote": "RevenueWarehouse (also called the MI warehouse) receives nightly extracts for reporting.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Source text does not name the sender explicitly; inferred TAXCORE from the document subject. Matches interface MI-01."
+    },
+    {
+      "kind": "flow",
+      "name": "PAY-01 Employer returns",
+      "properties": {
+        "source": "EmployerGateway",
+        "target": "TAXCORE",
+        "label": "employer returns loaded overnight"
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 8",
+          "quote": "Returns are loaded into TAXCORE overnight, where PAYE is calculated for each employment.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Previous line names EmployerGateway as capturing the returns. Catalogue says Daily; manual says overnight."
+    },
+    {
+      "kind": "flow",
+      "name": "ChildcarePortal -> TAXCORE database (JDBC)",
+      "properties": {
+        "source": "ChildcarePortal",
+        "target": "TAXCORE",
+        "label": "direct JDBC connection to TAXCORE DB2 database",
+        "mechanism": "JDBC (DB2)",
+        "direction_stated": false
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 2",
+          "quote": "taxcore.jdbc.url=jdbc:db2://taxcore-db.internal.example:50000/TAXCORE",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Runtime dependency from config; data direction not stated. Not in interface catalogue (which lists CC-01 as REST API). Possible undocumented shared-database integration."
+    },
+    {
+      "kind": "flow",
+      "name": "ChildcarePortal -> NumberHub API",
+      "properties": {
+        "source": "ChildcarePortal",
+        "target": "NumberHub",
+        "label": "NumberHub API call",
+        "mechanism": "API",
+        "direction_stated": false
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 3",
+          "quote": "numberhub.api.base-url=https://numberhub.internal.example/api",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Runtime dependency from config; data direction and payload not stated; undocumented in interface catalogue and diagram."
+    },
+    {
+      "kind": "flow",
+      "name": "ChildcarePortal -> income-verify-svc API",
+      "properties": {
+        "source": "ChildcarePortal",
+        "target": "income-verify-svc",
+        "label": "income-verify API call",
+        "mechanism": "API",
+        "direction_stated": false
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 4",
+          "quote": "income-verify-svc.api.base-url=https://income-verify.internal.example/api",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Runtime dependency from config; purpose not stated; undocumented elsewhere."
+    },
+    {
+      "kind": "domain",
+      "name": "Customer",
+      "properties": {
+        "systems": [
+          "TAXCORE",
+          "CitizenPortal"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 7",
+          "quote": "TAXCORE (also called \"the Core\" or \"TC\") holds the customer record and every PAYE, National Insurance and childcare record in one DB2 database.",
+          "support": "mention"
+        },
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 9",
+          "quote": "- **Register Customer**:",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5
+    },
+    {
+      "kind": "domain",
+      "name": "PAYE",
+      "properties": {
+        "systems": [
+          "TAXCORE",
+          "EmployerGateway"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 7",
+          "quote": "TAXCORE (also called \"the Core\" or \"TC\") holds the customer record and every PAYE, National Insurance and childcare record in one DB2 database.",
+          "support": "mention"
+        },
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 1",
+          "quote": "# PAYE Operations Manual (extract)",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5
+    },
+    {
+      "kind": "domain",
+      "name": "National Insurance",
+      "properties": {
+        "systems": [
+          "TAXCORE",
+          "NumberHub"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 7",
+          "quote": "TAXCORE (also called \"the Core\" or \"TC\") holds the customer record and every PAYE, National Insurance and childcare record in one DB2 database.",
+          "support": "mention"
+        },
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 1",
+          "quote": "# National Insurance Procedures (extract)",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5
+    },
+    {
+      "kind": "domain",
+      "name": "Childcare",
+      "properties": {
+        "systems": [
+          "TAXCORE",
+          "ChildcarePortal",
+          "income-verify-svc"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 7",
+          "quote": "TAXCORE (also called \"the Core\" or \"TC\") holds the customer record and every PAYE, National Insurance and childcare record in one DB2 database.",
+          "support": "mention"
+        },
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 1",
+          "quote": "# Childcare Scheme Guide (staff extract)",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "income-verify-svc placement is speculative (only seen in ChildcarePortal config)."
+    },
+    {
+      "kind": "domain",
+      "name": "Reporting / MI",
+      "properties": {
+        "systems": [
+          "RevenueWarehouse"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 10",
+          "quote": "RevenueWarehouse (also called the MI warehouse) receives nightly extracts for reporting.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.3
+    },
+    {
+      "kind": "capability",
+      "name": "Register Customer",
+      "definition": "Create and maintain a customer's identity, addresses and contact preferences.",
+      "properties": {
+        "owner_team": "Customer Services"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 9",
+          "quote": "- **Register Customer**: Create and maintain a customer's identity, addresses and contact preferences. Owner: Customer Services.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Record Life Events",
+      "definition": "Record births, deaths and changes of circumstance for a person.",
+      "properties": {
+        "owner_team": "Customer Services"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 10",
+          "quote": "- **Record Life Events**: Record births, deaths and changes of circumstance for a person. Owner: Customer Services.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Process Employer Returns",
+      "definition": "Receive each employer's pay and deductions return for every pay period.",
+      "properties": {
+        "owner_team": "PAYE Operations"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 11",
+          "quote": "- **Process Employer Returns**: Receive each employer's pay and deductions return for every pay period. Owner: PAYE Operations.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Issue Tax Code",
+      "definition": "Decide and issue a tax code for each employment.",
+      "properties": {
+        "owner_team": "PAYE Operations"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 12",
+          "quote": "- **Issue Tax Code**: Decide and issue a tax code for each employment. Owner: PAYE Operations.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Calculate PAYE",
+      "definition": "Calculate the income tax due for an employment and pay period.",
+      "properties": {
+        "owner_team": "PAYE Operations"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 13",
+          "quote": "- **Calculate PAYE**: Calculate the income tax due for an employment and pay period. Owner: PAYE Operations.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Allocate NI Number",
+      "definition": "Allocate a National Insurance number to a person.",
+      "properties": {
+        "owner_team": "NI Operations"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 14",
+          "quote": "- **Allocate NI Number**: Allocate a National Insurance number to a person. Owner: NI Operations.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Calculate NI Contributions",
+      "definition": "Calculate Class 1 contributions from the earnings in each employer return.",
+      "properties": {
+        "owner_team": "NI Operations"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 15",
+          "quote": "- **Calculate NI Contributions**: Calculate Class 1 contributions from the earnings in each employer return. Owner: NI Operations.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Maintain NI Record",
+      "definition": "Keep each person's contribution record and qualifying years.",
+      "properties": {
+        "owner_team": "NI Operations"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 16",
+          "quote": "- **Maintain NI Record**: Keep each person's contribution record and qualifying years. Owner: NI Operations.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Open Childcare Account",
+      "definition": "Open an account for a parent to pay a childcare provider.",
+      "properties": {
+        "owner_team": "Family Support"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 17",
+          "quote": "- **Open Childcare Account**: Open an account for a parent to pay a childcare provider. Owner: Family Support.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Check Childcare Eligibility",
+      "definition": "Check a parent's eligibility, including income limits, every three months.",
+      "properties": {
+        "owner_team": "Family Support"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 18",
+          "quote": "- **Check Childcare Eligibility**: Check a parent's eligibility, including income limits, every three months. Owner: Family Support.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Calculate Childcare Top-up",
+      "definition": "Add the government top-up to each parent payment.",
+      "properties": {
+        "owner_team": "Family Support"
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 19",
+          "quote": "- **Calculate Childcare Top-up**: Add the government top-up to each parent payment. Owner: Family Support.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.8
+    },
+    {
+      "kind": "capability",
+      "name": "Register Customer",
+      "properties": {
+        "owner_team": "Customer Services",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J010",
+          "program": "PRC_REGISTER_PERSON",
+          "frequency": "On demand"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 2",
+          "quote": "J010,Register person,PRC_REGISTER_PERSON,Register Customer,,TC_PERSON;TC_ADDRESS,Customer Services,On demand",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Allocate NI Number",
+      "properties": {
+        "owner_team": "NI Operations",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J020",
+          "program": "PRC_ALLOCATE_NINO",
+          "frequency": "Daily"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 3",
+          "quote": "J020,Allocate NI number,PRC_ALLOCATE_NINO,Allocate NI Number,TC_PERSON,TC_PERSON,NI Operations,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Process Employer Returns",
+      "properties": {
+        "owner_team": "PAYE Operations",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J110",
+          "program": "PRC_LOAD_RETURNS",
+          "frequency": "Daily"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 4",
+          "quote": "J110,Load employer returns,PRC_LOAD_RETURNS,Process Employer Returns,TC_EMPLOYER,TC_EMPLOYMENT;TC_PAY_PERIOD,PAYE Operations,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Calculate PAYE",
+      "properties": {
+        "owner_team": "PAYE Operations",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J120",
+          "program": "PRC_CALC_PAYE",
+          "frequency": "Daily"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 5",
+          "quote": "J120,Calculate PAYE,PRC_CALC_PAYE,Calculate PAYE,TC_PAY_PERIOD;TC_TAX_CODE,TC_PAY_PERIOD,PAYE Operations,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Issue Tax Code",
+      "properties": {
+        "owner_team": "PAYE Operations",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J130",
+          "program": "PRC_ISSUE_TAX_CODE",
+          "frequency": "Weekly"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 6",
+          "quote": "J130,Issue tax codes,PRC_ISSUE_TAX_CODE,Issue Tax Code,TC_EMPLOYMENT,TC_TAX_CODE,PAYE Operations,Weekly",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Calculate NI Contributions",
+      "properties": {
+        "owner_team": "NI Operations",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J210",
+          "program": "PRC_CALC_NIC",
+          "frequency": "Daily"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 7",
+          "quote": "J210,Calculate NI contributions,PRC_CALC_NIC,Calculate NI Contributions,TC_PAY_PERIOD;TC_EMPLOYMENT;TC_PERSON,TC_NI_CONTRIBUTION,NI Operations,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Maintain NI Record",
+      "properties": {
+        "owner_team": "NI Operations",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J220",
+          "program": "PRC_UPDATE_NI_RECORD",
+          "frequency": "Year end"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 8",
+          "quote": "J220,Update NI record,PRC_UPDATE_NI_RECORD,Maintain NI Record,TC_NI_CONTRIBUTION,TC_NI_RECORD,NI Operations,Year end",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Open Childcare Account",
+      "properties": {
+        "owner_team": "Family Support",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J300",
+          "program": "PRC_OPEN_CC_ACCOUNT",
+          "frequency": "On demand"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 9",
+          "quote": "J300,Open childcare account,PRC_OPEN_CC_ACCOUNT,Open Childcare Account,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_CHILD,Family Support,On demand",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Check Childcare Eligibility",
+      "properties": {
+        "owner_team": "Family Support",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J310",
+          "program": "PRC_CHECK_ELIGIBILITY",
+          "frequency": "Daily"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 10",
+          "quote": "J310,Check childcare eligibility,PRC_CHECK_ELIGIBILITY,Check Childcare Eligibility,TC_CHILDCARE_ACCOUNT;TC_EMPLOYMENT;TC_PAY_PERIOD,TC_ELIGIBILITY_CHECK,Family Support,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Calculate Childcare Top-up",
+      "properties": {
+        "owner_team": "Family Support",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J320",
+          "program": "PRC_CALC_TOPUP",
+          "frequency": "Real time"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 11",
+          "quote": "J320,Calculate childcare top-up,PRC_CALC_TOPUP,Calculate Childcare Top-up,TC_CHILDCARE_PAYMENT,TC_CHILDCARE_PAYMENT,Family Support,Real time",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Record Life Events",
+      "properties": {
+        "owner_team": "Customer Services",
+        "implemented_by": {
+          "system": "TAXCORE",
+          "job_id": "J330",
+          "program": "PRC_CLOSE_DECEASED",
+          "frequency": "Daily"
+        }
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 12",
+          "quote": "J330,Close accounts of deceased,PRC_CLOSE_DECEASED,Record Life Events,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_NI_RECORD,Customer Services,Daily",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.7
+    },
+    {
+      "kind": "capability",
+      "name": "Calculate NI Contributions",
+      "properties": {
+        "owner_team": "NI Operations",
+        "implemented_by": {
+          "system": "TAXCORE"
+        }
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 4",
+          "quote": "-- Capability: Calculate NI Contributions",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "SQL comment does not state an owner; owner_team copied exactly from the capability map / batch job catalogue for the same capability name."
+    },
+    {
+      "kind": "capability",
+      "name": "Allocate NI Number",
+      "properties": {
+        "owner_team": "NI Operations",
+        "implemented_by": {
+          "system": "TAXCORE"
+        }
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 16",
+          "quote": "-- Capability: Allocate NI Number",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "SQL comment does not state an owner; owner_team copied exactly from the capability map / batch job catalogue for the same capability name."
+    },
+    {
+      "kind": "capability",
+      "name": "Check Childcare Eligibility",
+      "properties": {
+        "owner_team": "Family Support",
+        "implemented_by": {
+          "system": "TAXCORE"
+        }
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 22",
+          "quote": "-- Capability: Check Childcare Eligibility",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "SQL comment does not state an owner; owner_team copied exactly from the capability map / batch job catalogue for the same capability name."
+    },
+    {
+      "kind": "capability",
+      "name": "Calculate Childcare Top-up",
+      "properties": {
+        "owner_team": "Family Support",
+        "implemented_by": {
+          "system": "TAXCORE"
+        }
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 34",
+          "quote": "-- Capability: Calculate Childcare Top-up",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "SQL comment does not state an owner; owner_team copied exactly from the capability map / batch job catalogue for the same capability name."
+    },
+    {
+      "kind": "capability",
+      "name": "Record Life Events",
+      "properties": {
+        "owner_team": "Customer Services",
+        "implemented_by": {
+          "system": "TAXCORE"
+        }
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 40",
+          "quote": "-- Capability: Record Life Events",
+          "support": "reference"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "SQL comment does not state an owner; owner_team copied exactly from the capability map / batch job catalogue for the same capability name."
+    }
+  ]
+}

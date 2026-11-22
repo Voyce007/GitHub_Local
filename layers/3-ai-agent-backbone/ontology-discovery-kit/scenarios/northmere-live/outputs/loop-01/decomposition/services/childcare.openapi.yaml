@@ -1,0 +1,98 @@
+openapi: 3.0.3
+info:
+  title: Childcare business services
+  version: 0.1.0
+  description: Ontology-based access layer for the Childcare domain. Generated stub for review.
+paths:
+  /open-childcare-account:
+    post:
+      summary: Open Childcare Account
+      operationId: openChildcareAccount
+      description: Business service. Replaces PRC_OPEN_CC_ACCOUNT in TAXCORE.
+      responses:
+        '200':
+          description: Done
+  /check-childcare-eligibility:
+    post:
+      summary: Check Childcare Eligibility
+      operationId: checkChildcareEligibility
+      description: Business service. Replaces PRC_CHECK_ELIGIBILITY in TAXCORE.
+      responses:
+        '200':
+          description: Done
+  /calculate-childcare-top-up:
+    post:
+      summary: Calculate Childcare Top-up
+      operationId: calculateChildcareTopUp
+      description: Business service. Replaces PRC_CALC_TOPUP in TAXCORE.
+      responses:
+        '200':
+          description: Done
+components:
+  schemas:
+    ChildcareAccount:
+      type: object
+      properties:
+        childcareAccountId:
+          type: integer
+        personId:
+          type: integer
+        status:
+          type: string
+        openedDate:
+          type: string
+          format: date
+        personRef:
+          type: string
+    Child:
+      type: object
+      properties:
+        childId:
+          type: integer
+        childcareAccountId:
+          type: integer
+        personId:
+          type: integer
+        forename:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        childcareAccountRef:
+          type: string
+        personRef:
+          type: string
+    ChildcarePayment:
+      type: object
+      properties:
+        paymentId:
+          type: integer
+        childcareAccountId:
+          type: integer
+        childcareProviderReference:
+          type: string
+        parentAmount:
+          type: number
+        topUpAmount:
+          type: number
+        paidDate:
+          type: string
+          format: date
+        childcareAccountRef:
+          type: string
+    EligibilityCheck:
+      type: object
+      properties:
+        checkId:
+          type: integer
+        childcareAccountId:
+          type: integer
+        checkDate:
+          type: string
+          format: date
+        expectedIncome:
+          type: number
+        outcome:
+          type: string
+        childcareAccountRef:
+          type: string

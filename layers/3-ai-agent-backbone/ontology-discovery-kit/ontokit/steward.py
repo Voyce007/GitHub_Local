@@ -96,6 +96,8 @@ def _key(p: dict) -> str:
         return f"relationship:{norm(pr['from'])}>{norm(pr['to'])}"
     if k == "interface":
         return f"interface:{p['name'].upper()}"
+    if k == "taxonomy":
+        return f"taxonomy:{re.sub(r'(codes?|flag|values|list)$', '', norm(p['name'])) or norm(p['name'])}"
     return f"{k}:{norm(p['name'])}"
 
 
@@ -358,6 +360,8 @@ def _link_and_flag(elements: list[dict], trace: Trace) -> list[dict]:
     for c in by_kind["concept"]:
         if any(k in c["properties"] for k in ("realised_by", "also_realised_by", "defines_identifier")):
             continue
+        if not c["definition"]:
+            continue   # asked as "what does it mean?" instead (unknowns.py)
         if any(c["id"] in f["affects"] for f in flags):
             continue
         hint = next((s["name"] for s in by_kind["system"]

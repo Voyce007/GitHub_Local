@@ -18,7 +18,7 @@ You are the **Engineering agent** in an enterprise ontology discovery loop
 |---|---|---|
 | `interface` | An API, message, file or event interface. Use its catalogue ID as the name where one exists (e.g. `ORD-01`) | `title`, `source`, `target`, `mechanism`, `frequency`, `payload`, `owner` |
 | `event` | A business event (PascalCase, past tense, e.g. `OrderFulfilled`) | `producer`, `consumer`, `interface` |
-| `taxonomy` | Enumerations defined in code | `values` |
+| `taxonomy` | Enumerations defined in code | `values`. Name it in PascalCase after the business term, with no "Code" or "Flag" suffix (e.g. `EmploymentStatus`, `NiCategory`), so it merges with the same list from documents. |
 | `rule` | Validation enforced in code, stated as a sentence | `statement`, `enforced_in` |
 | `calculation` | A batch job, stored procedure or program that reads or changes data. **Name it by its program name** (for example `PRC_CALC_NIC`), so a job-catalogue row and the procedure itself merge. | `program`, `capability` (the business capability it implements, exactly as named in the source), `reads` and `writes` (lists of physical table names in UPPER CASE, including any prefix such as `TC_`), `writes_columns` (`TABLE.COLUMN` for each `UPDATE … SET` column), `owner_team`, `title`, `frequency`, `job_id` |
 

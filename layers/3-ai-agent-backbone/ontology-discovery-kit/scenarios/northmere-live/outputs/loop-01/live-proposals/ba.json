@@ -1,0 +1,1002 @@
+{
+  "agent": "ba",
+  "loop": "loop-01",
+  "proposals": [
+    {
+      "kind": "concept",
+      "name": "Customer",
+      "aliases": [
+        "Taxpayer",
+        "Citizen",
+        "Person"
+      ],
+      "definition": "A person who has a tax, National Insurance or childcare relationship with the agency.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 5",
+          "quote": "- **Customer**: A person who has a tax, National Insurance or childcare relationship with the agency. Synonyms: Taxpayer, Citizen, Person.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Glossary lists Person as a synonym of Customer; TAXCORE keys every record on an internal Person Id (DA identifier) and other sources use 'person' for non-customers (e.g. a registered child). Whether Person is truly a synonym is an SME question."
+    },
+    {
+      "kind": "concept",
+      "name": "National Insurance Number",
+      "aliases": [
+        "NINO"
+      ],
+      "definition": "The lifelong reference that identifies a person for National Insurance.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 6",
+          "quote": "- **National Insurance Number**: The lifelong reference that identifies a person for National Insurance. Synonyms: NINO.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Also an identifier (DA scope); issuer is contested between TAXCORE (2016 overview) and NumberHub (2023 NI procedures)."
+    },
+    {
+      "kind": "concept",
+      "name": "Employer",
+      "definition": "An organisation that pays employees and files PAYE returns.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 7",
+          "quote": "- **Employer**: An organisation that pays employees and files PAYE returns.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Employer Reference appears as the TC_EMPLOYER key in the data dictionary (DA identifier)."
+    },
+    {
+      "kind": "concept",
+      "name": "Employment",
+      "definition": "A period during which a person is paid by an employer.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 8",
+          "quote": "- **Employment**: A period during which a person is paid by an employer.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75
+    },
+    {
+      "kind": "concept",
+      "name": "Pay Period",
+      "definition": "One period of pay, such as a week or month, reported in an employer return.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 9",
+          "quote": "- **Pay Period**: One period of pay, such as a week or month, reported in an employer return.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75
+    },
+    {
+      "kind": "concept",
+      "name": "Tax Code",
+      "definition": "A code that tells the employer how much tax-free pay to allow for an employment.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 10",
+          "quote": "- **Tax Code**: A code that tells the employer how much tax-free pay to allow for an employment.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75
+    },
+    {
+      "kind": "concept",
+      "name": "NI Contribution",
+      "definition": "An amount of National Insurance due for a pay period.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 11",
+          "quote": "- **NI Contribution**: An amount of National Insurance due for a pay period.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75,
+      "notes": "Data dictionary splits it into employee and employer contribution amounts (DA attributes)."
+    },
+    {
+      "kind": "concept",
+      "name": "NI Record",
+      "definition": "A person's yearly contribution history, including qualifying years.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 12",
+          "quote": "- **NI Record**: A person's yearly contribution history, including qualifying years.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75
+    },
+    {
+      "kind": "concept",
+      "name": "Childcare Account",
+      "definition": "An account a parent uses to pay a registered childcare provider.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 13",
+          "quote": "- **Childcare Account**: An account a parent uses to pay a registered childcare provider.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75
+    },
+    {
+      "kind": "concept",
+      "name": "Childcare Provider",
+      "definition": "A registered nursery, childminder or club that is paid from a childcare account.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 14",
+          "quote": "- **Childcare Provider**: A registered nursery, childminder or club that is paid from a childcare account.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75
+    },
+    {
+      "kind": "concept",
+      "name": "Child",
+      "definition": "A child named on a childcare account.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 15",
+          "quote": "- **Child**: A child named on a childcare account.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75
+    },
+    {
+      "kind": "concept",
+      "name": "Top-up Payment",
+      "definition": "The government contribution added to a parent's payment into a childcare account.",
+      "evidence": [
+        {
+          "file": "wiki/data-glossary.md",
+          "locator": "line 16",
+          "quote": "- **Top-up Payment**: The government contribution added to a parent's payment into a childcare account.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.75
+    },
+    {
+      "kind": "concept",
+      "name": "Customer",
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 7",
+          "quote": "TAXCORE (also called \"the Core\" or \"TC\") holds the customer record and every PAYE, National Insurance and childcare record in one DB2 database.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Mentions 'the customer record' held in TAXCORE; no definition. Source is stale (2016)."
+    },
+    {
+      "kind": "concept",
+      "name": "National Insurance Number",
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 14",
+          "quote": "The National Insurance Number is issued by TAXCORE when a person is first registered.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Stale (2016) source; pre-dates the 2022 NumberHub carve-out."
+    },
+    {
+      "kind": "rule",
+      "name": "National Insurance Number issued at first registration",
+      "properties": {
+        "statement": "The National Insurance Number is issued by TAXCORE when a person is first registered."
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 14",
+          "quote": "The National Insurance Number is issued by TAXCORE when a person is first registered.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.3,
+      "notes": "CONTRADICTS national-insurance-procedures.md line 12 (issued by NumberHub when a person reaches 16). This source is stale (2016) and pre-dates the 2022 NumberHub carve-out; the newer operational source is preferred but both are proposed as written. Issuer is also a DA identifier concern."
+    },
+    {
+      "kind": "rule",
+      "name": "Cross-module table change control",
+      "properties": {
+        "statement": "No module may change another module's tables without a Core Systems change request."
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 19",
+          "quote": "- No module may change another module's tables without a Core Systems change request.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "IT governance rule rather than a business-domain rule; stale (2016) source."
+    },
+    {
+      "kind": "rule",
+      "name": "Full regression test per release",
+      "properties": {
+        "statement": "Every release of TAXCORE requires a full regression test of all modules."
+      },
+      "evidence": [
+        {
+          "file": "docs/taxcore-system-overview.md",
+          "locator": "line 20",
+          "quote": "- Every release of TAXCORE requires a full regression test of all modules.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "IT delivery rule rather than a business-domain rule; stale (2016) source."
+    },
+    {
+      "kind": "concept",
+      "name": "Employer Return",
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 11",
+          "quote": "Receive each employer's pay and deductions return for every pay period.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Capability text describes 'each employer's pay and deductions return for every pay period'; not a glossary definition. No source defines Employer Return formally - gap for SME."
+    },
+    {
+      "kind": "rule",
+      "name": "Quarterly childcare eligibility check",
+      "properties": {
+        "statement": "A parent's childcare eligibility, including income limits, is checked every three months."
+      },
+      "evidence": [
+        {
+          "file": "docs/business-capability-map.md",
+          "locator": "line 18",
+          "quote": "- **Check Childcare Eligibility**: Check a parent's eligibility, including income limits, every three months. Owner: Family Support.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Derived from a capability description (capability itself belongs to EA). Corroborates childcare-scheme-guide.md line 12."
+    },
+    {
+      "kind": "concept",
+      "name": "Employer Return",
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 7",
+          "quote": "EmployerGateway (also called employer filing) captures and fulfils employer returns for every pay period.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Employer returns are captured per pay period by EmployerGateway (system, EA scope); no definition given."
+    },
+    {
+      "kind": "rule",
+      "name": "Employment links to one employer and one person",
+      "properties": {
+        "statement": "Every employment must be linked to exactly one employer and one person."
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 12",
+          "quote": "- Every employment must be linked to exactly one employer and one person.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Also implies DA relationships Employment-Employer and Employment-Person."
+    },
+    {
+      "kind": "rule",
+      "name": "Tax code before PAYE calculation",
+      "properties": {
+        "statement": "A tax code must be issued before PAYE can be calculated for an employment."
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 13",
+          "quote": "- A tax code must be issued before PAYE can be calculated for an employment.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "rule",
+      "name": "Late employer returns flagged for penalty review",
+      "properties": {
+        "statement": "Employer returns received after the filing deadline are flagged for penalty review."
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 14",
+          "quote": "- Employer returns received after the filing deadline are flagged for penalty review.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "'Filing deadline' and 'penalty review' are not defined anywhere in this batch - gap for SME."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "EmploymentStatus",
+      "properties": {
+        "values": [
+          "LIVE",
+          "CEASED"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/paye-operations-manual.md",
+          "locator": "line 18",
+          "quote": "Employment status values: Live, Ceased.",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "CONTRADICTS taxcore-data-dictionary.csv line 20, which also lists Suspended. Proposed as written."
+    },
+    {
+      "kind": "concept",
+      "name": "National Insurance Number",
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 12",
+          "quote": "The National Insurance Number is issued by NumberHub when a person reaches 16.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "States issuer (NumberHub) and timing (age 16); no definition."
+    },
+    {
+      "kind": "rule",
+      "name": "National Insurance Number issued at age 16",
+      "properties": {
+        "statement": "The National Insurance Number is issued by NumberHub when a person reaches 16."
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 12",
+          "quote": "The National Insurance Number is issued by NumberHub when a person reaches 16.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "CONTRADICTS taxcore-system-overview.md line 14 (issued by TAXCORE at first registration). This source is newer (2023) and operational, so preferred, but the contradiction is left for SME resolution."
+    },
+    {
+      "kind": "rule",
+      "name": "One National Insurance Number for life",
+      "properties": {
+        "statement": "A person must have exactly one National Insurance Number for life."
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 16",
+          "quote": "- A person must have exactly one National Insurance Number for life.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "rule",
+      "name": "Qualifying year threshold",
+      "properties": {
+        "statement": "A tax year counts as a qualifying year when contributions reach the lower earnings limit."
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 17",
+          "quote": "- A tax year counts as a qualifying year when contributions reach the lower earnings limit.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "The lower earnings limit value is not given in this batch."
+    },
+    {
+      "kind": "concept",
+      "name": "Qualifying Year",
+      "definition": "A tax year in which contributions reach the lower earnings limit.",
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 17",
+          "quote": "- A tax year counts as a qualifying year when contributions reach the lower earnings limit.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.55,
+      "notes": "Defined only through the rule sentence. Data dictionary holds a Y/N qualifying flag per tax year on TC_NI_RECORD (DA attribute)."
+    },
+    {
+      "kind": "concept",
+      "name": "Lower Earnings Limit",
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 17",
+          "quote": "- A tax year counts as a qualifying year when contributions reach the lower earnings limit.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Used but not defined; no value given. Gap for SME."
+    },
+    {
+      "kind": "rule",
+      "name": "No contributions after death",
+      "properties": {
+        "statement": "Contributions must not be calculated for a person after their recorded date of death."
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 18",
+          "quote": "- Contributions must not be calculated for a person after their recorded date of death.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "concept",
+      "name": "Class 1 Contribution",
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 8",
+          "quote": "Class 1 contributions are calculated in TAXCORE from the earnings in each employer return.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Calculated from the earnings in each employer return; no definition of Class 1 or of other classes."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "NiCategory",
+      "properties": {
+        "values": [
+          "A",
+          "B",
+          "C",
+          "H",
+          "J",
+          "M",
+          "Z"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/national-insurance-procedures.md",
+          "locator": "line 22",
+          "quote": "NI category values: A, B, C, H, J, M, Z.",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "CONTRADICTS taxcore-data-dictionary.csv line 33, which also lists V. Proposed as written."
+    },
+    {
+      "kind": "rule",
+      "name": "Childcare eligibility based on expected income",
+      "properties": {
+        "statement": "Eligibility depends on each parent's expected income, which is taken from their PAYE employment records."
+      },
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 8",
+          "quote": "Eligibility depends on each parent's expected income, which is taken from their PAYE employment records.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "How expected income is derived is not stated here; taxcore_procedures.sql line 25 derives it as SUM(GROSS_PAY) * 4 (calculation, Engineering scope). A separate income-verify-svc appears in the ChildcarePortal config."
+    },
+    {
+      "kind": "concept",
+      "name": "Expected Income",
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 8",
+          "quote": "Eligibility depends on each parent's expected income, which is taken from their PAYE employment records.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Used but not defined (period, gross/net). Data dictionary calls it 'Expected annual income'."
+    },
+    {
+      "kind": "concept",
+      "name": "Parent",
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 7",
+          "quote": "ChildcarePortal (also called the parent account) captures and fulfils parent payments to childcare providers.",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Not defined in the glossary. childcare-scheme-guide.md line 15 uses 'account holder'; whether Parent and Account Holder are the same role is an SME question."
+    },
+    {
+      "kind": "rule",
+      "name": "Quarterly eligibility reconfirmation",
+      "properties": {
+        "statement": "A parent must reconfirm eligibility every three months."
+      },
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 12",
+          "quote": "- A parent must reconfirm eligibility every three months.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Batch catalogue runs the eligibility check job daily (J310); frequency of the job vs. the reconfirmation period may differ - not a contradiction as written."
+    },
+    {
+      "kind": "rule",
+      "name": "Childcare income limit",
+      "properties": {
+        "statement": "A parent whose expected income exceeds 100,000 is not eligible."
+      },
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 13",
+          "quote": "- A parent whose expected income exceeds 100,000 is not eligible.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "rule",
+      "name": "Top-up paid within one working day",
+      "properties": {
+        "statement": "The top-up must be paid within one working day of the parent payment."
+      },
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 14",
+          "quote": "- The top-up must be paid within one working day of the parent payment.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Batch catalogue shows the top-up calculation (J320) running in real time."
+    },
+    {
+      "kind": "rule",
+      "name": "Close childcare account on death of account holder",
+      "properties": {
+        "statement": "A childcare account must be closed when the account holder dies."
+      },
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 15",
+          "quote": "- A childcare account must be closed when the account holder dies.",
+          "support": "definition"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "taxonomy",
+      "name": "ChildcareAccountStatus",
+      "properties": {
+        "values": [
+          "OPEN",
+          "SUSPENDED",
+          "CLOSED"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "docs/childcare-scheme-guide.md",
+          "locator": "line 19",
+          "quote": "Childcare account status values: Open, Suspended, Closed.",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6
+    },
+    {
+      "kind": "taxonomy",
+      "name": "CorrespondencePreference",
+      "properties": {
+        "values": [
+          "POST",
+          "DIGITAL"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 8",
+          "quote": "TC_PERSON,CORR_PREF,CHAR(3),N,,Correspondence preference,PST=Post|DIG=Digital",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Codes PST/DIG on TC_PERSON.CORR_PREF."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "AddressType",
+      "properties": {
+        "values": [
+          "RESIDENTIAL",
+          "CORRESPONDENCE"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 10",
+          "quote": "TC_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,RES=Residential|COR=Correspondence",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Codes RES/COR on TC_ADDRESS.ADDR_TYPE."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "EmploymentStatus",
+      "properties": {
+        "values": [
+          "LIVE",
+          "CEASED",
+          "SUSPENDED"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 20",
+          "quote": "TC_EMPLOYMENT,STATUS,CHAR(3),N,,Employment status,LIV=Live|CEA=Ceased|SUS=Suspended",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Codes LIV/CEA/SUS. CONTRADICTS paye-operations-manual.md line 18 (Live, Ceased only). Proposed as written."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "NiCategory",
+      "properties": {
+        "values": [
+          "A",
+          "B",
+          "C",
+          "H",
+          "J",
+          "M",
+          "Z",
+          "V"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 33",
+          "quote": "TC_NI_CONTRIBUTION,NI_CATEGORY,CHAR(1),N,,NI category,A=A|B=B|C=C|H=H|J=J|M=M|Z=Z|V=V",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "CONTRADICTS national-insurance-procedures.md line 22, which omits V. Proposed as written."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "ChildcareAccountStatus",
+      "properties": {
+        "values": [
+          "OPEN",
+          "SUSPENDED",
+          "CLOSED"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 42",
+          "quote": "TC_CHILDCARE_ACCOUNT,STATUS,CHAR(3),N,,Childcare account status,OPN=Open|SUS=Suspended|CLO=Closed",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.6,
+      "notes": "Codes OPN/SUS/CLO."
+    },
+    {
+      "kind": "taxonomy",
+      "name": "EligibilityOutcome",
+      "properties": {
+        "values": [
+          "ELIGIBLE",
+          "NOT_ELIGIBLE"
+        ]
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 59",
+          "quote": "TC_ELIGIBILITY_CHECK,OUTCOME,CHAR(3),N,,Eligibility outcome,ELG=Eligible|NEL=Not eligible",
+          "support": "value-list"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.5,
+      "notes": "Codes ELG/NEL on TC_ELIGIBILITY_CHECK.OUTCOME."
+    },
+    {
+      "kind": "concept",
+      "name": "Eligibility Check",
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-data-dictionary.csv",
+          "locator": "line 55",
+          "quote": "TC_ELIGIBILITY_CHECK,CHECK_ID,INTEGER,N,PK,Check Id,",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.35,
+      "notes": "Only a table/column name (TC_ELIGIBILITY_CHECK.CHECK_ID); no definition. Entity itself is DA scope."
+    },
+    {
+      "kind": "rule",
+      "name": "Close accounts of deceased persons",
+      "properties": {
+        "statement": "The accounts of deceased persons are closed."
+      },
+      "evidence": [
+        {
+          "file": "spreadsheets/taxcore-batch-jobs.csv",
+          "locator": "line 12",
+          "quote": "J330,Close accounts of deceased,PRC_CLOSE_DECEASED,Record Life Events,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_NI_RECORD,Customer Services,Daily",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.45,
+      "notes": "Job J330 writes TC_CHILDCARE_ACCOUNT and TC_NI_RECORD, so it may affect NI records as well as childcare accounts - the effect on NI records is not stated anywhere. Owned by Customer Services."
+    },
+    {
+      "kind": "concept",
+      "name": "Employer Return",
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 3",
+          "quote": "PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.35,
+      "notes": "Payload of interface PAY-01 (interface is DA/Engineering scope)."
+    },
+    {
+      "kind": "concept",
+      "name": "Parent Payment",
+      "evidence": [
+        {
+          "file": "spreadsheets/interface-catalogue.csv",
+          "locator": "line 5",
+          "quote": "CC-01,Parent payments,ChildcarePortal,TAXCORE,REST API,Real time,Parent payment,Family Support",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Payload of interface CC-01. Not defined in the glossary; Top-up Payment definition refers to 'a parent's payment into a childcare account'."
+    },
+    {
+      "kind": "concept",
+      "name": "Parent Payment",
+      "evidence": [
+        {
+          "file": "diagrams/current-state.mmd",
+          "locator": "line 5",
+          "quote": "CC[\"ChildcarePortal (parent account)\"] -->|CC-01 parent payments| TC",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.35,
+      "notes": "Edge label on CC-01 from ChildcarePortal to TAXCORE."
+    },
+    {
+      "kind": "rule",
+      "name": "No contributions after death (code)",
+      "properties": {
+        "statement": "NI contributions are only calculated for persons with no recorded date of death."
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 12",
+          "quote": "per.DATE_OF_DEATH IS NULL",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.45,
+      "notes": "Implemented in PRC_CALC_NIC. Corroborates national-insurance-procedures.md line 18. Stale example code (2020)."
+    },
+    {
+      "kind": "rule",
+      "name": "Childcare income limit (code)",
+      "properties": {
+        "statement": "A childcare account is not eligible when expected income exceeds 100000."
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 26",
+          "quote": "CASE WHEN SUM(p.GROSS_PAY) * 4 > 100000 THEN 'NEL' ELSE 'ELG' END",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.45,
+      "notes": "PRC_CHECK_ELIGIBILITY. Expected income is derived as SUM(GROSS_PAY) * 4 (calculation, Engineering scope). Stale example code (2020)."
+    },
+    {
+      "kind": "rule",
+      "name": "Top-up is 25% of parent payment",
+      "properties": {
+        "statement": "The government top-up equals 25% of the parent payment."
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 36",
+          "quote": "UPDATE TC_CHILDCARE_PAYMENT SET TOPUP_AMOUNT = PARENT_AMOUNT * 0.25 WHERE PAYMENT_ID = p_payment_id;",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "PRC_CALC_TOPUP; the calculation itself is Engineering scope. No document states the 25% rate. Stale example code (2020)."
+    },
+    {
+      "kind": "rule",
+      "name": "Close childcare account on death (code)",
+      "properties": {
+        "statement": "A childcare account is closed when the account holder has a recorded date of death."
+      },
+      "evidence": [
+        {
+          "file": "code-examples/taxcore_procedures.sql",
+          "locator": "line 43",
+          "quote": "WHERE PERSON_ID IN (SELECT PERSON_ID FROM TC_PERSON WHERE DATE_OF_DEATH IS NOT NULL);",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.45,
+      "notes": "PRC_CLOSE_DECEASED sets STATUS = 'CLO' (line 42). Corroborates childcare-scheme-guide.md line 15."
+    },
+    {
+      "kind": "rule",
+      "name": "Quarterly eligibility reconfirmation (config)",
+      "properties": {
+        "statement": "Quarterly reconfirmation of eligibility is enabled in ChildcarePortal."
+      },
+      "evidence": [
+        {
+          "file": "code-examples/childcare-portal.properties",
+          "locator": "line 5",
+          "quote": "feature.quarterly-reconfirmation.enabled=true",
+          "support": "mention"
+        }
+      ],
+      "origin": "inferred",
+      "confidence": 0.4,
+      "notes": "Feature flag corroborates childcare-scheme-guide.md line 12. The config also references an income-verify-svc (system, EA scope) not shown in the context diagram or interface catalogue."
+    }
+  ]
+}

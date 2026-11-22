@@ -73,6 +73,13 @@ def build_unknowns(paths: LoopPaths, trace: Trace) -> list[dict]:
             add("sme_question", "medium", f"What is '{first['name']}', who owns it, and does it master any data?",
                 f["detail"], f["affects"], "Enterprise Architecture Authority")
 
+    # 2b. Terms used but never defined
+    for e in model["elements"]:
+        if e["kind"] == "concept" and not e["definition"] and e["origin"] != "assumed":
+            add("sme_question", "medium", f"What does '{e['name']}' mean? It is used but never defined.",
+                f"Used in {len({x['file'] for x in e['evidence']})} source(s) without a definition.", [e["id"]],
+                approvals["concept"]["approves"])
+
     # 3. Reference assumptions
     for e in model["elements"]:
         if e["origin"] == "assumed":

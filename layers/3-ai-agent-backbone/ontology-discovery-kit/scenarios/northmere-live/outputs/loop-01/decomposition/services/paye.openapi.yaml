@@ -1,0 +1,125 @@
+openapi: 3.0.3
+info:
+  title: PAYE business services
+  version: 0.1.0
+  description: Ontology-based access layer for the PAYE domain. Generated stub for review.
+paths:
+  /process-employer-returns:
+    post:
+      summary: Process Employer Returns
+      operationId: processEmployerReturns
+      description: Business service. Replaces PRC_LOAD_RETURNS in TAXCORE.
+      responses:
+        '200':
+          description: Done
+  /issue-tax-code:
+    post:
+      summary: Issue Tax Code
+      operationId: issueTaxCode
+      description: Business service. Replaces PRC_ISSUE_TAX_CODE in TAXCORE.
+      responses:
+        '200':
+          description: Done
+  /calculate-paye:
+    post:
+      summary: Calculate PAYE
+      operationId: calculatePaye
+      description: Business service. Replaces PRC_CALC_PAYE in TAXCORE.
+      responses:
+        '200':
+          description: Done
+  /employment/{id}:
+    get:
+      summary: Get Employment
+      operationId: getEmployment
+      description: 'Used by: Childcare, National Insurance'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Employment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employment'
+  /pay-period/{id}:
+    get:
+      summary: Get Pay Period
+      operationId: getPayPeriod
+      description: 'Used by: Childcare, National Insurance'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: PayPeriod
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayPeriod'
+components:
+  schemas:
+    Employer:
+      type: object
+      properties:
+        employerReference:
+          type: string
+        employerName:
+          type: string
+    Employment:
+      type: object
+      properties:
+        employmentId:
+          type: integer
+        personId:
+          type: integer
+        employerReference:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        status:
+          type: string
+        personRef:
+          type: string
+        employerRef:
+          type: string
+    TaxCode:
+      type: object
+      properties:
+        employmentId:
+          type: integer
+        taxCode:
+          type: string
+        effectiveFrom:
+          type: string
+          format: date
+        employmentRef:
+          type: string
+    PayPeriod:
+      type: object
+      properties:
+        employmentId:
+          type: integer
+        taxYear:
+          type: string
+        periodNumber:
+          type: integer
+        grossPay:
+          type: number
+        taxDeducted:
+          type: number
+        niCategory:
+          type: string
+        employmentRef:
+          type: string
