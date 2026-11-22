@@ -1,0 +1,523 @@
+<title>Northmere TAXCORE Breakup</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a boardroom presentation (decomposition story). One 16:9 stage (designed at 1280x720, scaled to fit), a control bar, then the spoken narration at full reading size underneath. Deliberately single dark theme, like a projected deck. */
+:root {
+  color-scheme: dark;
+  --bg: #0B1322; --panel: #121F34; --panel2: #192A45; --line: #273A5A; --ink: #EAF0F7; --muted: #93A6BF;
+  --accent: #39D3C0; --accent-ink: #062521; --warn: #F06E5B;
+  --gA: #4CC38A; --gB: #5AA9E6; --gC: #E3AE4A; --gD: #8E9BB0; --gX: #F06E5B;
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { background: var(--bg); color: var(--ink); }
+body { margin: 0; font: 15px/1.55 var(--body); }
+.shell { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 14px 40px; display: grid; gap: 12px; }
+.top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.top b { font: 600 1rem var(--display); }
+.top .sub { color: var(--muted); font-size: .85rem; }
+.fict { font: 500 .72rem var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--gC); border: 1px solid color-mix(in srgb, var(--gC) 50%, transparent); border-radius: 999px; padding: 2px 10px; }
+.top .sp { margin-left: auto; }
+.btn { font: 500 .88rem var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Stage */
+.stagewrap { position: relative; width: 100%; aspect-ratio: 16 / 9; max-width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--bg); }
+.stage { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; background:
+  radial-gradient(900px 500px at 85% -10%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%), var(--bg); }
+.stagewrap:fullscreen { border-radius: 0; border: 0; display: grid; place-items: center; background: var(--bg); }
+.scene { position: absolute; inset: 0; padding: 52px 64px 48px; display: flex; flex-direction: column; gap: 22px; visibility: hidden; }
+.scene.on { visibility: visible; }
+.chap { font: 500 13px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.scene h2 { font: 700 40px/1.12 var(--display); margin: 0; letter-spacing: -.02em; max-width: 1050px; text-wrap: balance; }
+.scene h2 em { font-style: normal; color: var(--accent); }
+.lead { font-size: 20px; color: var(--muted); max-width: 900px; margin: 0; }
+.mono { font-family: var(--mono); }
+.muted { color: var(--muted); }
+
+/* Animation primitives: elements with .a enter when their scene turns on */
+.scene .a { opacity: 0; }
+.scene.on .a { animation: rise .75s cubic-bezier(.2,.75,.2,1) both; animation-delay: var(--d, 0s); }
+.scene.on .a.fly { animation-name: fly; }
+.scene.on .a.pop { animation-name: pop; }
+.scene.on .a.fade { animation-name: fade; animation-duration: 1s; }
+.scene.on .a.stamp { animation-name: stamp; animation-duration: .5s; }
+.scene.on .a.flip { animation-name: flip; animation-duration: .8s; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes fly { from { opacity: 0; transform: translateX(-160px) rotate(-4deg); } to { opacity: 1; transform: none; } }
+@keyframes pop { 0% { opacity: 0; transform: scale(.6); } 70% { opacity: 1; transform: scale(1.06); } 100% { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes stamp { 0% { opacity: 0; transform: scale(2.4) rotate(-14deg); } 100% { opacity: 1; transform: rotate(-8deg); } }
+@keyframes flip { 0% { opacity: 0; transform: rotateY(90deg); } 100% { opacity: 1; transform: none; } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--warn) 55%, transparent); } 50% { box-shadow: 0 0 0 14px transparent; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* Shared pieces */
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: grid; gap: 8px; align-content: start; }
+.card h3 { margin: 0; font: 600 20px var(--display); }
+.g { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 26px; padding: 0 8px; border-radius: 7px; font: 600 14px var(--mono); color: var(--gc); background: color-mix(in srgb, var(--gc) 16%, transparent); border: 1px solid color-mix(in srgb, var(--gc) 45%, transparent); }
+.g-A { --gc: var(--gA); } .g-B { --gc: var(--gB); } .g-C { --gc: var(--gC); } .g-D { --gc: var(--gD); } .g-X { --gc: var(--gX); } .g-— { --gc: var(--gD); }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; background: var(--panel2); border: 1px solid var(--line); font-size: 15px; white-space: nowrap; }
+.pill.acc { border-color: var(--accent); color: var(--accent); }
+.row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.grid { display: grid; gap: 16px; }
+.big { font: 700 54px/1 var(--display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.lbl { font: 500 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+/* Scene-specific */
+.opco .bar { height: 14px; border-radius: 7px; background: var(--panel2); overflow: hidden; }
+.opco .bar i { display: block; height: 100%; background: var(--gC); width: 0; transition: width 1.4s cubic-bezier(.2,.7,.2,1); }
+.scene.on .opco .bar i { width: var(--w); }
+.total { border-color: var(--warn); }
+.scene.on .total { animation: rise .75s both var(--d), pulse 2s 3 calc(var(--d) + .8s); }
+.quote { font: 600 48px/1.2 var(--display); letter-spacing: -.02em; max-width: 1080px; text-wrap: balance; }
+.quote::before { content: "“"; color: var(--accent); }
+.quote::after { content: "”"; color: var(--accent); }
+.sys4 { grid-template-columns: repeat(4, 1fr); }
+.sys4 .card .term { font: 700 30px var(--display); color: var(--accent); }
+.files { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.fchip { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--pc); border-radius: 10px; padding: 9px 12px; display: grid; gap: 2px; }
+.fchip b { font: 500 13.5px var(--mono); overflow-wrap: anywhere; }
+.fchip span { font-size: 12.5px; color: var(--muted); }
+.fchip.stale { border-style: dashed; border-left-style: solid; }
+.team { grid-template-columns: repeat(3, 1fr); }
+.team .card .who { font: 600 13px var(--mono); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; }
+.team .card p { margin: 0; font-size: 15.5px; color: var(--muted); }
+.lanes { grid-template-columns: repeat(4, 1fr); }
+.lanes .card .big { color: var(--accent); }
+.ticker { position: relative; min-height: 116px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; overflow: hidden; }
+.ticker .q { position: absolute; inset: 18px 22px; display: grid; gap: 8px; align-content: start; opacity: 0; transform: translateY(12px); transition: opacity .5s, transform .5s; }
+.ticker .q.show { opacity: 1; transform: none; }
+.ticker .q code { font: 16px/1.45 var(--mono); color: var(--ink); }
+.rej { grid-template-columns: 1fr auto; align-items: center; position: relative; }
+.rej .claim { font: 500 20px var(--display); }
+.stampx { font: 700 18px var(--mono); letter-spacing: .12em; color: var(--warn); border: 3px solid var(--warn); border-radius: 8px; padding: 6px 12px; }
+.alias { display: grid; grid-template-columns: 220px auto 1fr; align-items: center; gap: 16px; }
+.alias .canon { font: 700 22px var(--display); color: var(--accent); }
+.conf { grid-template-columns: repeat(3, 1fr); }
+.conf .side { background: var(--panel2); border-radius: 10px; padding: 10px 12px; display: grid; gap: 4px; }
+.conf .side b { font: 600 15px var(--body); }
+.conf .vs { text-align: center; font: 600 13px var(--mono); color: var(--muted); }
+.conf .xs { position: absolute; right: 16px; top: 14px; }
+.gbar { display: flex; height: 54px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
+.gbar i { display: block; height: 100%; width: 0; transition: width 1.6s cubic-bezier(.2,.7,.2,1); }
+.scene.on .gbar i { width: var(--w); }
+.glegend { grid-template-columns: repeat(5, 1fr); }
+.glegend .card { padding: 14px 16px; }
+.glegend .big { font-size: 40px; }
+.q2 { grid-template-columns: 1.4fr 1fr; align-items: start; }
+.qcard { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+.qcard .t { font-size: 16.5px; }
+.qcard .o { font: 500 12.5px var(--mono); color: var(--muted); }
+.sent { font: 600 13px var(--mono); color: var(--accent); }
+.loopring { width: 230px; height: 230px; position: relative; }
+.loopring svg { position: absolute; inset: 0; }
+.scene.on .loopring .spin { animation: spin 9s linear infinite; transform-origin: 115px 115px; }
+.loopring .ctr { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+.flipcard { perspective: 800px; }
+.chg { grid-template-columns: repeat(3, 1fr); }
+.model { position: relative; }
+.model svg { width: 1150px; height: 450px; display: block; }
+.model .nd rect { fill: var(--panel); stroke-width: 2; }
+.model .nd .nm { font: 600 15px var(--display); fill: var(--ink); }
+.model .nd .sy { font: 12px var(--mono); fill: var(--muted); }
+.model .ed { fill: none; stroke-width: 2.2; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
+.scene.on .model .ed { animation: draw 1.4s ease forwards; animation-delay: var(--d); }
+.model .ed.weak { stroke-dasharray: 6 6; stroke-dashoffset: 0; opacity: 0; }
+.scene.on .model .ed.weak { animation: fade .8s forwards; animation-delay: var(--d); }
+.model .el { font: 12px var(--body); fill: var(--muted); }
+.model .el.hl { fill: var(--accent); font-weight: 600; }
+.bp { width: 100%; border-collapse: collapse; font-size: 15px; }
+.bp td, .bp th { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+.bp th { font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.st { display: inline-flex; padding: 3px 10px; border-radius: 999px; font: 600 12.5px var(--body); color: var(--sc); border: 1px solid color-mix(in srgb, var(--sc) 55%, transparent); background: color-mix(in srgb, var(--sc) 14%, transparent); white-space: nowrap; }
+.st.ready { --sc: var(--gA); } .st.confirm { --sc: var(--gC); } .st.build { --sc: var(--accent); } .st.blocked, .st.missing { --sc: var(--gX); }
+.plan { grid-template-columns: repeat(3, 1fr); }
+.plan .card .when { font: 500 13px var(--mono); color: var(--accent); }
+.plan .card ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 15.5px; display: grid; gap: 4px; }
+.ask { display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: baseline; }
+.ask b { font: 700 18px var(--display); color: var(--accent); }
+.kpis { grid-template-columns: repeat(5, 1fr); }
+.kpis .card { padding: 14px 16px; }
+.kpis .big { font-size: 42px; }
+
+/* Controls and narration (outside the stage, readable on phones) */
+.bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.segs { display: flex; gap: 3px; flex: 1 1 260px; min-width: 0; }
+.seg { flex: 1; height: 8px; border-radius: 4px; background: var(--panel2); border: 0; padding: 0; cursor: pointer; position: relative; overflow: hidden; }
+.seg i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--accent); }
+.seg.done i { width: 100%; }
+.count { font: 500 .85rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; min-width: 4.5ch; text-align: right; }
+.narr { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; display: grid; gap: 4px; min-height: 92px; }
+.narr .chapter { font: 500 .75rem var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.narr p { margin: 0; font-size: 1.05rem; max-width: 80ch; }
+details.method { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 18px; color: var(--muted); font-size: .92rem; }
+details.method summary { cursor: pointer; color: var(--ink); font-weight: 500; }
+details.method ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+@media (prefers-reduced-motion: reduce) {
+  .scene .a, .scene.on .a { opacity: 1; animation: none !important; }
+  .scene.on .opco .bar i, .scene.on .gbar i { transition: none; }
+  .scene.on .model .ed { animation: none; stroke-dashoffset: 0; }
+  .scene.on .model .ed.weak { opacity: 1; }
+  .scene.on .loopring .spin { animation: none; }
+}
+
+/* Decomposition scenes */
+:root { --dCustomer: #39D3C0; --dPAYE: #5AA9E6; --dNI: #A78BFA; --dChildcare: #F28FB0; }
+.dom-customer { --dc: var(--dCustomer); } .dom-paye { --dc: var(--dPAYE); } .dom-ni { --dc: var(--dNI); } .dom-childcare { --dc: var(--dChildcare); }
+.pains { grid-template-columns: repeat(3, 1fr); }
+.pains .big { color: var(--warn); }
+.mono-block { position: relative; height: 400px; }
+.chip { position: absolute; width: 214px; height: 40px; left: var(--x0); top: var(--y0); display: flex; align-items: center; gap: 8px; padding: 0 12px;
+  border-radius: 9px; background: var(--panel2); border: 1px solid var(--line); font: 500 13px var(--mono); white-space: nowrap; overflow: hidden;
+  transition: left 1.3s cubic-bezier(.3,.7,.2,1), top 1.3s cubic-bezier(.3,.7,.2,1), border-color .6s, background .6s; transition-delay: var(--td, 0s); }
+.chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); flex: none; transition: background .6s; transition-delay: var(--td, 0s); }
+.mono-block.sorted .chip { left: var(--x1); top: var(--y1); border-color: var(--dc); background: color-mix(in srgb, var(--dc) 12%, var(--panel)); }
+.mono-block.sorted .chip i { background: var(--dc); }
+.mono-frame { position: absolute; border: 2px dashed var(--line); border-radius: 18px; transition: opacity .8s; display: grid; place-items: start center; padding-top: 10px; }
+.mono-frame span { font: 700 22px var(--display); color: var(--muted); letter-spacing: .1em; }
+.mono-block.sorted .mono-frame { opacity: 0; }
+.dhead { position: absolute; top: 0; width: 254px; height: 54px; border-radius: 12px; border: 2px solid var(--dc); display: grid; align-content: center; padding: 0 12px;
+  opacity: 0; transform: translateY(-10px); transition: opacity .6s .9s, transform .6s .9s; }
+.dhead b { font: 700 17px var(--display); color: var(--dc); } .dhead span { font-size: 12px; color: var(--muted); }
+.mono-block.sorted .dhead { opacity: 1; transform: none; }
+.mx { border-collapse: separate; border-spacing: 4px; font-size: 14px; }
+.mx th { font: 600 13px var(--display); padding: 4px 8px; }
+.mx td { padding: 0; }
+.mx td.t { font: 500 13px var(--mono); color: var(--muted); padding-right: 10px; white-space: nowrap; }
+.cell { width: 120px; height: 28px; border-radius: 7px; display: grid; place-items: center; font: 700 12px var(--mono); }
+.cell.W { background: var(--dc); color: #0B1322; }
+.cell.R { border: 1.5px solid var(--dc); color: var(--dc); }
+.cell.n { background: var(--panel); }
+.tbl { background: var(--panel); border: 2px solid var(--dc); border-radius: 12px; padding: 12px 14px; display: grid; gap: 5px; align-content: start; }
+.tbl .hd { font: 700 16px var(--display); color: var(--dc); }
+.tbl .r { font: 13px var(--mono); padding: 3px 8px; border-radius: 6px; background: var(--panel2); }
+.tbl .r.hl { outline: 2px solid var(--dNI); }
+.scene.on .tbl .r.gone { animation: fadeout .8s forwards; animation-delay: var(--d); }
+@keyframes fadeout { to { opacity: .25; text-decoration: line-through; } }
+.xw { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; }
+.cross { font: 700 13px var(--mono); color: var(--warn); }
+.evt { border: 2px dashed var(--dCustomer); border-radius: 999px; padding: 6px 16px; font: 600 16px var(--display); color: var(--dCustomer); display: inline-block; }
+.depsvg { width: 1150px; height: 450px; display: block; }
+.depsvg .nd rect { fill: var(--panel); stroke-width: 2.5; }
+.depsvg .nd text { font: 700 18px var(--display); }
+.depsvg .nd .o { font: 12px var(--body); fill: var(--muted); }
+.depsvg .ed { fill: none; stroke-width: 2.2; stroke-dasharray: 1200; stroke-dashoffset: 1200; }
+.scene.on .depsvg .ed { animation: draw 1.4s ease forwards; animation-delay: var(--d); }
+.depsvg .ed.ev { stroke-dasharray: 7 6; stroke-dashoffset: 0; opacity: 0; }
+.scene.on .depsvg .ed.ev { animation: fade .8s forwards; animation-delay: var(--d); }
+.depsvg .lb { font: 600 12.5px var(--body); }
+.arch { display: grid; gap: 10px; }
+.arch .chan { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.arch .chan div { text-align: center; font: 500 13px var(--mono); color: var(--muted); border: 1px solid var(--line); border-radius: 8px; padding: 6px; }
+.arch .layer { text-align: center; border-radius: 10px; padding: 9px; font: 600 15px var(--display); color: var(--accent-ink); background: var(--accent); }
+.arch .cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.arch .col { border: 2px solid var(--dc); border-radius: 12px; padding: 10px 12px; display: grid; gap: 6px; align-content: start; background: var(--panel); }
+.arch .col h4 { margin: 0; font: 700 17px var(--display); color: var(--dc); }
+.arch .col .own { font-size: 12px; color: var(--muted); }
+.svc { font: 500 12.5px var(--body); padding: 4px 8px; border-radius: 7px; }
+.svc.command { background: color-mix(in srgb, var(--dc) 22%, transparent); }
+.svc.query { border: 1px solid var(--dc); }
+.svc.event { border: 1.5px dashed var(--dc); }
+.ent { display: flex; flex-wrap: wrap; gap: 4px; }
+.ent span { font: 11.5px var(--mono); background: var(--panel2); border-radius: 5px; padding: 2px 6px; }
+.ret { font: 600 12px var(--mono); color: var(--muted); text-align: center; }
+.outs { grid-template-columns: repeat(4, 1fr); }
+.code { font: 12.5px/1.5 var(--mono); background: var(--panel2); border-radius: 10px; padding: 12px 14px; white-space: pre; overflow: hidden; color: var(--ink); }
+.carve { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.carve .card { border-top: 4px solid var(--dc); }
+.carve .step { font: 700 34px var(--display); color: var(--dc); }
+</style>
+
+<div class="shell">
+  <div class="top">
+    <b id="brand">Meridale Group</b><span class="sub">Monolith decomposition · AI agent play-through</span>
+    <span class="fict">Fictional scenario</span>
+    <span class="sp"></span>
+    <button class="btn" id="fs" type="button">Full screen</button>
+  </div>
+  <div class="stagewrap" id="wrap"><div class="stage" id="stage"></div></div>
+  <div class="bar">
+    <button class="btn" id="prev" type="button" aria-label="Previous scene">◀</button>
+    <button class="btn primary" id="play" type="button">Pause</button>
+    <button class="btn" id="next" type="button" aria-label="Next scene">▶</button>
+    <div class="segs" id="segs"></div>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="narr" aria-live="polite"><span class="chapter" id="chapter"></span><p id="narration"></p></div>
+  <details class="method">
+    <summary>How this storyboard was produced</summary>
+    <ul>
+      <li>The company, people, systems and amounts are fictional. The documents and example code given to the agents are in <code>scenarios/northmere/inputs/</code>.</li>
+      <li>Every count, quote, conflict, grade and question in scenes 4–14 comes from the agents' actual run over those inputs (<code>python -m ontokit simulate</code>, loop 1, with the decomposition stage).</li>
+      <li>In this run the four specialist agents are rule-based stand-ins. With real material, Claude Code agents take their place, and the same checks, grades and human approval gates apply.</li>
+      <li>Keys: ← → to move between scenes, space to pause or play.</li>
+    </ul>
+  </details>
+</div>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+(() => {
+const D = JSON.parse(document.getElementById('data').textContent);
+const S = D.scenario;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const GR = ['A', 'B', 'C', 'D', 'X'];
+const GC = { A: 'var(--gA)', B: 'var(--gB)', C: 'var(--gC)', D: 'var(--gD)', X: 'var(--gX)' };
+const g = x => `<span class="g g-${x}">${x}</span>`;
+const sum = o => Object.values(o).reduce((a, b) => a + b, 0);
+const val = v => Array.isArray(v) ? v.map(x => x.toLowerCase().replace(/_/g, ' ')).join(', ') : v;
+const PROV = { document: '#5AA9E6', wiki: '#9F8CF0', spreadsheet: '#4CC38A', diagram: '#E3AE4A', 'example-code': '#39D3C0' };
+const DOM = Object.fromEntries(D.domains.map(d => [d.key, d]));
+const KEYS = D.domains.map(d => d.key);
+const dn = k => DOM[k] ? DOM[k].name : 'Unassigned';
+const human = s => s.replace(/([a-z])([A-Z])/g, '$1 $2');
+$('#brand').textContent = S.organisation.name;
+const props = sum(D.proposals);
+const high = D.unknowns.filter(u => u.priority === 'high');
+const svcCount = KEYS.reduce((n, k) => n + D.services[k].length, 0);
+const split = D.splits[0];
+const ev = D.xwrites[0];
+const plainKind = { 'issued by': n => `Who issues the ${n}?`, values: n => `Which ${human(n).toLowerCase()} values are valid?` };
+
+/* ---------- Dependency diagram ---------- */
+function depSVG() {
+  const P = { customer: [575, 70], paye: [190, 225], ni: [960, 225], childcare: [575, 385] };
+  const W = 230, H = 70;
+  const clip = (a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1]; const t = Math.min(Math.abs((W / 2 + 6) / (dx || 1e-6)), Math.abs((H / 2 + 6) / (dy || 1e-6))); return [a[0] + dx * t, a[1] + dy * t]; };
+  const edges = [];
+  let i = 0;
+  D.deps.forEach(d => {
+    const a = P[d.consumer], b = P[d.provider];
+    const off = d.consumer < d.provider ? 14 : -14;
+    const [x1, y1] = clip(a, b), [x2, y2] = clip(b, a);
+    const nx = -(y2 - y1), ny = (x2 - x1), L = Math.hypot(nx, ny) || 1;
+    const ox = nx / L * off, oy = ny / L * off;
+    const label = 'Get ' + d.entities.map(human).join(', ').replace(/National Insurance Number/, 'NI Number');
+    edges.push(`<line class="ed" x1="${x1 + ox}" y1="${y1 + oy}" x2="${x2 + ox}" y2="${y2 + oy}" stroke="var(--d${dn(d.provider) === 'National Insurance' ? 'NI' : dn(d.provider)})" style="--d:${1 + i * .35}s" marker-end="url(#dm-${d.provider})"/>
+      <text class="lb a fade" style="--d:${1.5 + i * .35}s" x="${x1 + (x2 - x1) * .3 + ox * 2.2}" y="${y1 + (y2 - y1) * .3 + oy * 2.2 + 4}" text-anchor="middle" fill="var(--ink)">${esc(label)}</text>`);
+    i++;
+  });
+  D.xwrites.forEach(x => {
+    const a = P[x.writer], b = P[x.owner];
+    const [x1, y1] = clip(a, b), [x2, y2] = clip(b, a);
+    const nx = -(y2 - y1), ny = (x2 - x1), L = Math.hypot(nx, ny) || 1, ox = nx / L * 34, oy = ny / L * 34;
+    edges.push(`<line class="ed ev" x1="${x1 + ox}" y1="${y1 + oy}" x2="${x2 + ox}" y2="${y2 + oy}" stroke="var(--dCustomer)" style="--d:${1 + i * .35}s" marker-end="url(#dm-ev)"/>
+      <text class="lb a fade" style="--d:${1.5 + i * .35}s" x="${x1 + (x2 - x1) * .7 + ox * 1.6}" y="${y1 + (y2 - y1) * .7 + oy * 1.6 + 4}" text-anchor="middle" fill="var(--dCustomer)">${esc(x.event)}</text>`);
+    i++;
+  });
+  const mk = KEYS.map(k => `<marker id="dm-${k}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--d${dn(k) === 'National Insurance' ? 'NI' : dn(k)})"/></marker>`).join('') +
+    `<marker id="dm-ev" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--dCustomer)"/></marker>`;
+  const nodes = KEYS.map((k, j) => { const [x, y] = P[k]; return `<g class="nd dom-${k} a pop" style="--d:${.2 + j * .2}s;transform-box:fill-box;transform-origin:center"><rect x="${x - W / 2}" y="${y - H / 2}" width="${W}" height="${H}" rx="14" stroke="var(--dc)"/><text x="${x}" y="${y - 2}" text-anchor="middle" fill="var(--dc)">${esc(dn(k))}</text><text class="o" x="${x}" y="${y + 20}" text-anchor="middle">${esc(DOM[k].owner)}</text></g>`; }).join('');
+  return `<svg class="depsvg" viewBox="0 0 1150 450" role="img" aria-label="Dependencies between the four domains"><defs>${mk}</defs>${edges.join('')}${nodes}</svg>`;
+}
+
+/* ---------- The monolith breaking apart ---------- */
+function splitScene() {
+  const per = {}; KEYS.forEach(k => per[k] = 0);
+  const chips = D.tables.map((t, i) => {
+    const r = Math.floor(i / 3), c = i % 3;
+    const x0 = 250 + c * 222, y0 = 70 + r * 48;
+    const k = t.domain, ci = KEYS.indexOf(k), j = per[k]++;
+    const x1 = 16 + ci * 284 + 20, y1 = 72 + j * 48;
+    return `<div class="chip dom-${k}" style="--x0:${x0}px;--y0:${y0}px;--x1:${x1}px;--y1:${y1}px;--td:${.15 * i}s"><i></i>${esc(t.table)}</div>`;
+  }).join('');
+  const heads = KEYS.map((k, ci) => `<div class="dhead dom-${k}" style="left:${16 + ci * 284}px"><b>${esc(dn(k))}</b><span>${esc(DOM[k].owner)}</span></div>`).join('');
+  return `<div class="mono-block" id="mb"><div class="mono-frame" style="left:228px;top:20px;width:710px;height:${Math.ceil(D.tables.length / 3) * 48 + 80}px"><span>${esc(D.monolith)}</span></div>${heads}${chips}</div>`;
+}
+
+const legend = `<span class="pill"><span class="cell W" style="width:28px;height:20px;background:var(--muted)">W</span> creates or changes</span><span class="pill"><span class="cell R" style="width:28px;height:20px;border-color:var(--muted);color:var(--muted)">R</span> only reads</span>`;
+const domName = k => k === 'ni' ? 'NI' : dn(k);
+
+const scenes = [
+  { chap: S.organisation.name, dur: 7, narr: `${S.organisation.name} is a fictional agency serving ${S.organisation.customers} customers. One 1990s data store, ${D.monolith}, runs four unrelated parts of its business. This shows how an AI agent team worked out how to break it up.`,
+    html: () => `<div class="chap a" style="--d:.1s">${esc(S.organisation.tagline)} · fictional</div>
+      <h2 class="a" style="--d:.3s;font-size:60px">Breaking up <em>${esc(D.monolith)}</em></h2>
+      <p class="lead a" style="--d:.7s">From one legacy data store to four business-owned domains, each with its own ontology and business services.</p>
+      <div class="row a" style="--d:1.2s;margin-top:20px">${KEYS.map(k => `<span class="pill dom-${k}" style="border-color:var(--dc);color:var(--dc);font-size:18px;padding:8px 18px">${esc(dn(k))}</span>`).join('')}</div>
+      <p class="muted a" style="--d:1.8s;margin-top:auto">${D.files.length} documents → 6 AI agents → ${D.tables.length} tables and ${D.jobs.length} calculations assigned → ${svcCount} business services</p>` },
+
+  { chap: '1 · The problem', dur: 10, narr: S.challenge.detail,
+    html: () => `<div class="chap a" style="--d:.1s">1 · The problem</div><h2 class="a" style="--d:.3s">${esc(S.challenge.headline)}</h2>
+      <div class="grid pains">${S.pains.map((p, i) => `<div class="card a pop" style="--d:${.8 + i * .4}s"><span class="big">${esc(p.figure)}</span><span style="font-size:18px">${esc(p.label)}</span></div>`).join('')}</div>
+      <div class="card a" style="--d:2.4s;border-style:dashed"><span style="font-size:19px">Customer, PAYE, National Insurance and Childcare share tables, batch jobs and calculations. Change one, and you risk all four.</span></div>` },
+
+  { chap: '1 · The goal', dur: 9, narr: S.challenge.goal,
+    html: () => `<div class="chap a" style="--d:.1s">1 · The goal</div><h2 class="a" style="--d:.3s">Four domains, each owned by the business and changeable on its own</h2>
+      <div class="arch a" style="--d:.7s"><div class="layer">Ontology-based data access layer · business services</div>
+      <div class="cols">${KEYS.map((k, i) => `<div class="col dom-${k} a pop" style="--d:${1 + i * .3}s"><h4>${esc(dn(k))}</h4><span class="own">${esc(DOM[k].owner)}</span><span class="muted" style="font-size:13.5px">Its own ontology, its own data, its own services</span></div>`).join('')}</div></div>
+      <p class="lead a" style="--d:2.6s">The hard part is deciding, table by table and column by column, who owns what.</p>` },
+
+  { chap: '2 · The evidence', dur: 9, narr: `The agents were given ${D.files.length} files and no access to TAXCORE itself: business documents, the capability map, TAXCORE's data dictionary and batch-job catalogue, and extracts of its stored procedures. Two of the files are out of date.`,
+    html: () => `<div class="chap a" style="--d:.1s">2 · What we gave the agents</div><h2 class="a" style="--d:.3s">${D.files.length} files. No access to the live system.</h2>
+      <div class="grid files">${D.files.map((f, i) => `<div class="fchip a fly ${f.stale ? 'stale' : ''}" style="--d:${.6 + i * .14}s;--pc:${PROV[f.provenance] || '#888'}"><b>${esc(f.name)}</b><span>${esc(f.provenance)} · ${esc(String(f.date).slice(0, 4))}${f.stale ? ' · out of date' : ''} · ${esc(f.author || '')}</span></div>`).join('')}</div>
+      <p class="lead a" style="--d:2.6s">The batch-job catalogue and stored procedures matter most, because they show who actually changes each table.</p>` },
+
+  { chap: '2 · The rule', dur: 10, narr: 'The split is decided from the business side by one rule: the business capability that creates or changes data owns it. Everyone else uses the owner\'s services. The agents look for the strongest evidence first and fall back only when it is missing.',
+    html: () => `<div class="chap a" style="--d:.1s">2 · How ownership is decided</div>
+      <div class="quote a" style="--d:.4s;font-size:44px;margin-top:20px">Whoever creates or changes the data owns it. Everyone else asks.</div>
+      <div class="grid a" style="--d:1.4s;grid-template-columns:repeat(3,1fr);margin-top:24px">${[['1', 'Who writes it', 'Batch jobs and stored procedures show which capability changes each table and column'], ['2', 'Who owns that capability', 'The capability map names one accountable team'], ['3', 'Business vocabulary', 'Used only when nothing writes the data']].map((x, i) => `<div class="card a" style="--d:${1.6 + i * .3}s"><span class="big" style="color:var(--accent);font-size:40px">${x[0]}</span><h3>${x[1]}</h3><span class="muted">${x[2]}</span></div>`).join('')}</div>` },
+
+  { chap: '3 · Reading', dur: 12, narr: `Four specialist agents read every file in parallel and produced ${props} findings. Each one quotes the exact line it came from, such as the stored procedure that writes the NI Number into the person table.`,
+    html: () => `<div class="chap a" style="--d:.1s">3 · The agents read in parallel</div><h2 class="a" style="--d:.3s">${props} findings, every one with its source quoted</h2>
+      <div class="grid lanes">${[['ba', 'Business Analyst'], ['ea', 'Enterprise Architect'], ['da', 'Data Architect'], ['eng', 'Engineer']].map(([k, n], i) => `<div class="card a" style="--d:${.6 + i * .15}s"><span class="lbl">${n}</span><span class="big" data-count="${D.proposals[k] || 0}" data-delay="${.9 + i * .15}">0</span><span class="muted">findings</span></div>`).join('')}</div>
+      <div class="ticker a" style="--d:1.4s">${D.quotes.map(q => `<div class="q"><span class="lbl">Quoted from ${esc(q.file)} · ${esc(q.provenance)}</span><code>${esc(q.quote)}</code></div>`).join('')}</div>`,
+    enter: el => { const qs = el.querySelectorAll('.ticker .q'); let i = 0; const show = () => { qs.forEach((q, j) => q.classList.toggle('show', j === i)); i = (i + 1) % qs.length; }; setTimeout(show, 1500); return setInterval(show, 1600); } },
+
+  { chap: '3 · Who writes what', dur: 13, narr: `The agents traced ${D.jobs.length} batch calculations to the tables they read and write, and to the team that runs each one. A solid cell means that domain creates or changes the table. An outlined cell means it only reads it.`,
+    html: () => `<div class="chap a" style="--d:.1s">3 · Who writes what inside ${esc(D.monolith)}</div><h2 class="a" style="--d:.3s;font-size:34px">${D.jobs.length} calculations traced to the tables they change</h2>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start">
+      <table class="mx"><thead><tr><th></th>${KEYS.map(k => `<th class="dom-${k}" style="color:var(--dc)">${esc(domName(k))}</th>`).join('')}</tr></thead><tbody>
+      ${D.tables.map((t, i) => `<tr class="a" style="--d:${.6 + i * .18}s"><td class="t">${esc(t.table)}</td>${KEYS.map(k => { const v = (D.matrix[t.table] || {})[k]; return `<td><div class="cell ${v || 'n'} dom-${k}">${v || ''}</div></td>`; }).join('')}</tr>`).join('')}</tbody></table>
+      <div class="grid" style="gap:10px"><div class="row a" style="--d:.8s">${legend}</div>
+        <div class="card a" style="--d:3.2s"><span class="lbl">Notice</span><span style="font-size:16px">${esc(D.monolith)}'s person table is changed by two domains, and Childcare and NI accounts are closed by a Customer job.</span></div>
+        <div class="card a" style="--d:3.8s"><span class="lbl">Notice</span><span style="font-size:16px">National Insurance and Childcare both read PAYE's pay data to do their own calculations.</span></div></div></div>` },
+
+  { chap: '4 · The split', dur: 13, narr: `With ownership decided, every one of ${D.monolith}'s ${D.tables.length} tables moves to exactly one domain. Nothing is left unassigned. Where two domains touch the same table, the one whose capability creates it keeps it.`,
+    html: () => `<div class="chap a" style="--d:.1s">4 · The monolith breaks into four</div>${splitScene()}
+      <div class="row a" style="--d:4.2s;font-size:16px"><span class="pill acc">${D.tables.length} tables · each with exactly one owner</span><span class="pill">${D.splits.length} column moves domain</span><span class="pill">${D.xwrites.length} cross-domain writes → ${new Set(D.xwrites.map(x => x.event)).size} event</span><span class="pill">${D.mapping.columns} columns mapped</span></div>`,
+    enter: el => { const mb = el.querySelector('#mb'); mb.classList.remove('sorted'); if (matchMedia('(prefers-reduced-motion: reduce)').matches) { mb.classList.add('sorted'); return; } return setTimeout(() => mb.classList.add('sorted'), 1500); } },
+
+  { chap: '4 · The tricky cases', dur: 15, narr: split && ev ? `Two findings matter most. First, the NI Number sits in the customer's person table but is created by National Insurance, so it moves to National Insurance and Customer keeps a reference. Second, a Customer job closes Childcare and NI records directly when someone dies. Instead, Customer will publish a ${ev.event} event, and each domain will react in its own way.` : '',
+    html: () => !split || !ev ? '' : `<div class="chap a" style="--d:.1s">4 · The tricky cases</div><h2 class="a" style="--d:.3s;font-size:34px">Some data moves, and some writes become events</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px">
+        <div class="grid" style="gap:10px"><span class="lbl a" style="--d:.6s">1 · A column moves domain</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+            <div class="tbl dom-customer a" style="--d:.8s"><span class="hd">Customer · Person</span>${D.person_cols.map(c => `<span class="r ${c.domain === 'ni' ? 'hl gone' : ''}" style="--d:2.6s">${esc(c.col)}</span>`).join('')}</div>
+            <div class="tbl dom-ni a" style="--d:1.2s"><span class="hd">National Insurance</span><span class="r a fly" style="--d:2.4s">${esc(split.column)}</span><span class="muted" style="font-size:13px">Created by ${esc(split.capability)}. Customer keeps a reference.</span></div></div></div>
+        <div class="grid" style="gap:10px"><span class="lbl a" style="--d:4s">2 · A direct write becomes an event</span>
+          <div class="card a" style="--d:4.2s"><span class="muted">Today: ${esc(ev.capability)} (Customer) runs ${esc(ev.calculation)}</span>
+            ${D.xwrites.map((x, i) => `<div class="xw"><span>writes ${esc(human(x.entity))}</span><span class="cross a stamp" style="--d:${5 + i * .4}s">✕</span><span class="muted">in ${esc(dn(x.owner))}</span></div>`).join('')}</div>
+          <div class="card a" style="--d:6.2s;border-color:var(--dCustomer)"><span class="muted">Target</span><div><span class="evt">${esc(ev.event)}</span></div><span>Published by Customer. ${D.xwrites.map(x => esc(dn(x.owner))).join(' and ')} each react with their own service.</span></div></div></div>
+      <div class="card a" style="--d:8s;border-style:dashed"><span style="font-size:16px"><b>Still to decide:</b> is a Person the same as a Customer? Children on childcare accounts are persons, but they are not customers.</span></div>` },
+
+  { chap: '4 · Conflicts and questions', dur: 12, narr: `The documents disagree in ${D.contradictions.length} places. The agents do not pick winners: they turn each disagreement, and each ownership decision, into a question for the named owner. There are ${D.unknowns.length} questions, ${high.length} of them high priority.`,
+    html: () => `<div class="chap a" style="--d:.1s">4 · Conflicts surfaced, decisions routed</div><h2 class="a" style="--d:.3s;font-size:34px">${D.unknowns.length} questions, each sent to the person who decides</h2>
+      <div class="grid conf">${D.contradictions.map((c, i) => `<div class="card a" style="--d:${.6 + i * .4}s;position:relative"><span class="g g-X xs a stamp" style="--d:${1.2 + i * .4}s">X</span><h3 style="padding-right:40px;font-size:17px">${esc((plainKind[c.property] || (n => c.property + ' of ' + n))(c.name))}</h3>
+        ${c.variants.map((v, j) => `${j ? '<div class="vs">versus</div>' : ''}<div class="side"><b>${esc(val(v.value))}</b><span class="muted" style="font-size:12.5px">${esc(v.authors.join('; '))}${v.stale ? ' · out of date' : ''}</span></div>`).join('')}</div>`).join('')}</div>
+      <div class="grid" style="gap:8px">${high.filter(u => !/disagree/.test(u.question)).slice(0, 4).map((u, i) => `<div class="qcard a fly" style="--d:${2.4 + i * .4}s"><div><div class="t" style="font-size:15px">${esc(u.question.slice(0, 160))}</div><div class="o">→ ${esc(u.owner)}</div></div><span class="sent a fade" style="--d:${2.8 + i * .4}s">SENT ✓</span></div>`).join('')}</div>` },
+
+  { chap: '5 · How the domains talk', dur: 13, narr: `Instead of joining each other's tables, domains now call each other's services. There are ${D.deps.length} dependencies, each turned into a query service, plus one event. Customer and PAYE are the most depended on. Childcare depends on others, but nothing depends on it.`,
+    html: () => `<div class="chap a" style="--d:.1s">5 · From shared tables to services</div>${depSVG()}
+      <div class="row a" style="--d:3.4s;font-size:14px"><span class="pill">→ query service: the consumer asks the owner</span><span class="pill" style="border-color:var(--dCustomer);color:var(--dCustomer)">- - → event: the owner announces, others react</span></div>` },
+
+  { chap: '6 · Final output · Target architecture', dur: 15, narr: `This is the target. Channels talk to one ontology-based access layer. Behind it sit four domains, each with its own ontology, data and ${svcCount} business services in total: commands that change data, queries others can use, and events.`,
+    html: () => `<div class="chap a" style="--d:.1s">6 · Final output · The target architecture</div>
+      <div class="arch"><div class="chan a" style="--d:.3s">${S.channels.map(c => `<div>${esc(c.name)}</div>`).join('')}</div>
+      <div class="layer a" style="--d:.6s">Ontology-based data access layer · ${svcCount} business services</div>
+      <div class="cols">${KEYS.map((k, i) => `<div class="col dom-${k} a" style="--d:${.9 + i * .3}s"><h4>${esc(dn(k))}</h4><span class="own">${esc(DOM[k].owner)}</span>
+        <div class="ent">${(D.summary[k].entities || []).map(e => `<span>${esc(human(e))}</span>`).join('')}</div>
+        ${D.services[k].map((s, j) => `<div class="svc ${s.type} a fade" style="--d:${1.6 + i * .3 + j * .12}s">${s.type === 'event' ? '⟿ ' : s.type === 'query' ? '? ' : '▸ '}${esc(s.name.replace('National Insurance Number', 'NI Number'))}</div>`).join('')}</div>`).join('')}</div>
+      <div class="row a" style="--d:3.6s;font-size:13px;justify-content:center"><span class="svc command dom-customer">▸ command: changes data</span><span class="svc query dom-customer">? query: others can read</span><span class="svc event dom-customer">⟿ event: others react</span></div></div>` },
+
+  { chap: '6 · Final output · What was produced', dur: 12, narr: `The agents produced files the engineering teams can use straight away: an ontology for each domain, an OpenAPI service contract for each domain, and a source-to-target map of all ${D.mapping.columns} TAXCORE columns, showing which ones move.`,
+    html: () => `<div class="chap a" style="--d:.1s">6 · Final output · Ready for engineering</div><h2 class="a" style="--d:.3s;font-size:34px">Four ontologies, four service contracts, one migration map</h2>
+      <div class="grid outs">${KEYS.map((k, i) => { const c = D.summary[k].counts; return `<div class="card dom-${k} a pop" style="--d:${.6 + i * .2}s;border-top:4px solid var(--dc)"><h3 style="color:var(--dc)">${esc(dn(k))}</h3><span class="mono" style="font-size:13px">${k}.yaml · ${k}.openapi.yaml</span><span class="muted">${c.entity || 0} entities · ${c.attribute || 0} attributes · ${c.calculation || 0} calculations · ${D.summary[k].services} services</span></div>`; }).join('')}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="code a" style="--d:1.6s"># services/customer.openapi.yaml (extract)
+paths:
+  /register-customer:
+    post: { summary: Register Customer }
+  /person/{id}:
+    get:
+      summary: Get Person
+      description: Used by: ${esc((D.services.customer.find(s => s.name === 'Get Person') || { consumers: [] }).consumers.map(dn).join(', '))}
+x-events:
+  - name: ${esc(ev ? ev.event : '')}</div>
+        <div class="code a" style="--d:2s"># source-to-target.csv (extract)
+monolith column        → domain · entity.attribute
+TC_PERSON.SURNAME      → Customer · Person.surname
+TC_PERSON.NI_NUMBER    → National Insurance  (moves)
+TC_PAY_PERIOD.GROSS_PAY→ PAYE · PayPeriod.grossPay
+TC_CHILDCARE_PAYMENT.  → Childcare ·
+  TOPUP_AMOUNT           ChildcarePayment.topupAmount
+
+${D.mapping.columns} columns mapped · ${D.mapping.moved} moves domain</div></div>` },
+
+  { chap: '7 · Next', dur: 15, narr: `The split is a well-evidenced proposal, not yet a decision. Most facts rest on a single document, so every phase is provisional. Loop 2 needs a TAXCORE schema export and the owners' answers. The recommended order is to carve out the domain nothing else depends on first, Childcare, and leave the most depended-on, Customer, until last.`,
+    html: () => `<div class="chap a" style="--d:.1s">7 · From proposal to plan</div><h2 class="a" style="--d:.3s;font-size:34px">Carve out the least-coupled domain first</h2>
+      <div class="carve">${D.carve.map((c, i) => `<div class="card dom-${c.key} a pop" style="--d:${.6 + i * .35}s"><span class="step">${i + 1}</span><h3 style="color:var(--dc)">${esc(dn(c.key))}</h3><span class="muted">${c.consumers ? `${c.consumers} other domain${c.consumers > 1 ? 's' : ''} depend on it` : 'nothing else depends on it'}</span></div>`).join('')}</div>
+      <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:16px">
+        <div class="card a" style="--d:2.2s"><span class="lbl">How sure are we after loop 1?</span><div class="gbar" style="height:30px">${GR.map(k => D.grades[k] ? `<i style="--w:${(D.grades[k] / D.total * 100).toFixed(1)}%;background:${GC[k]}"></i>` : '').join('')}</div>
+          <span class="muted" style="font-size:14px">${GR.map(k => `${k} ${D.grades[k]}`).join(' · ')}. Gates: ${D.gates.map(x => x.status).join(', ')}. Documents alone can't confirm the split, so loop 2 needs the real schema.</span></div>
+        <div class="card a" style="--d:2.6s;border-color:var(--accent);gap:6px"><span class="lbl">Decisions we need</span>${S.decisions_asked.map(x => `<div class="ask"><b>${esc(x.who)}</b><span style="font-size:15px">${esc(x.ask)}</span></div>`).join('')}</div></div>` },
+];
+
+/* ---------- Player ---------- */
+const stage = $('#stage'), wrap = $('#wrap');
+stage.innerHTML = scenes.map((s, i) => `<section class="scene" id="sc-${i}" aria-hidden="true">${s.html()}</section>`).join('');
+$('#segs').innerHTML = scenes.map((s, i) => `<button class="seg" type="button" data-i="${i}" aria-label="Scene ${i + 1}: ${esc(s.chap)}"><i></i></button>`).join('');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cur = 0, playing = !reduce, t0 = 0, raf = 0, timers = [], ended = false;
+
+function fit() { const s = wrap.clientWidth / 1280; stage.style.transform = `scale(${s})`; }
+addEventListener('resize', fit); fit();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+function countUp(el) {
+  const target = +el.dataset.count, delay = (+el.dataset.delay || 0) * 1000, dur = 1300;
+  if (reduce) { el.textContent = target; return; }
+  el.textContent = '0';
+  timers.push(setTimeout(() => {
+    const st = performance.now();
+    const step = now => { const p = Math.min(1, (now - st) / dur); el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }, delay));
+}
+function show(i) {
+  timers.forEach(t => { clearTimeout(t); clearInterval(t); }); timers = []; ended = false;
+  cur = (i + scenes.length) % scenes.length;
+  document.querySelectorAll('.scene').forEach((el, j) => { el.classList.remove('on'); el.setAttribute('aria-hidden', 'true'); });
+  const el = $('#sc-' + cur);
+  void el.offsetWidth;
+  el.classList.add('on'); el.setAttribute('aria-hidden', 'false');
+  el.querySelectorAll('[data-count]').forEach(countUp);
+  if (scenes[cur].enter) { const h = scenes[cur].enter(el); if (h) timers.push(h); }
+  $('#chapter').textContent = `${scenes[cur].chap} · scene ${cur + 1} of ${scenes.length}`;
+  $('#narration').textContent = scenes[cur].narr;
+  $('#count').textContent = `${cur + 1} / ${scenes.length}`;
+  document.querySelectorAll('.seg').forEach((s, j) => { s.classList.toggle('done', j < cur); s.querySelector('i').style.width = j < cur ? '100%' : '0'; });
+  t0 = performance.now();
+}
+function tick(now) {
+  if (playing) {
+    const dur = scenes[cur].dur * 1000, p = Math.min(1, (now - t0) / dur);
+    const seg = document.querySelectorAll('.seg')[cur].querySelector('i'); seg.style.width = (p * 100) + '%';
+    if (p >= 1) { if (cur < scenes.length - 1) show(cur + 1); else { ended = true; setPlaying(false); } }
+  }
+  raf = requestAnimationFrame(tick);
+}
+function setPlaying(v) {
+  playing = v; $('#play').textContent = v ? 'Pause' : (ended ? 'Replay' : 'Play');
+  if (v) { const seg = document.querySelectorAll('.seg')[cur].querySelector('i'); const done = parseFloat(seg.style.width) || 0; t0 = performance.now() - done / 100 * scenes[cur].dur * 1000; }
+}
+$('#play').addEventListener('click', () => { if (!playing && ended) { show(0); setPlaying(true); } else setPlaying(!playing); });
+$('#next').addEventListener('click', () => { show(cur + 1); setPlaying(playing); });
+$('#prev').addEventListener('click', () => { show(cur - 1); setPlaying(playing); });
+$('#segs').addEventListener('click', e => { const b = e.target.closest('.seg'); if (b) { show(+b.dataset.i); setPlaying(playing); } });
+addEventListener('keydown', e => {
+  if (e.target.closest('input,textarea,select')) return;
+  if (e.key === 'ArrowRight') { show(cur + 1); setPlaying(playing); }
+  else if (e.key === 'ArrowLeft') { show(cur - 1); setPlaying(playing); }
+  else if (e.key === ' ') { e.preventDefault(); $('#play').click(); }
+});
+$('#fs').addEventListener('click', async () => {
+  try { if (document.fullscreenElement) await document.exitFullscreen(); else await wrap.requestFullscreen(); }
+  catch { $('#fs').textContent = 'Full screen unavailable'; }
+});
+document.addEventListener('fullscreenchange', () => {
+  if (document.fullscreenElement) { const s = Math.min(innerWidth / 1280, innerHeight / 720); stage.style.transform = `scale(${s})`; stage.style.left = ((innerWidth - 1280 * s) / 2) + 'px'; stage.style.top = ((innerHeight - 720 * s) / 2) + 'px'; }
+  else { stage.style.left = stage.style.top = '0'; fit(); }
+});
+show(0); setPlaying(playing); raf = requestAnimationFrame(tick);
+})();
+</script>

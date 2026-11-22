@@ -24,3 +24,18 @@ target: four domain ontologies with business services on the access layer
 
 # Concepts the phase-2 gate expects to find (overrides config/playbook.yaml key_concepts)
 key_concepts: [Customer, Employment, NI Contribution, Childcare Account]
+
+# Executive storyboard framing (fictional figures)
+pains:
+  - {figure: 9 months, label: from change request to release}
+  - {figure: 4 of 4, label: business areas retested for every change}
+  - {figure: 0, label: directors who own the data their service depends on}
+channels:
+  - {name: CitizenPortal, serves: Customer}
+  - {name: EmployerGateway, serves: PAYE}
+  - {name: NumberHub, serves: National Insurance}
+  - {name: ChildcarePortal, serves: Childcare}
+decisions_asked:
+  - {who: COO, ask: Confirm the four domain owners and the ownership rule (whoever creates or changes the data owns it).}
+  - {who: CIO, ask: Release a TAXCORE schema export so loop 2 can confirm the split on real structure.}
+  - {who: COO and CIO, ask: Approve Childcare as the first domain to carve out, behind the new access layer.}

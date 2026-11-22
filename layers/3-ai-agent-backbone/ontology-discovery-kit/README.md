@@ -142,3 +142,9 @@ example stored procedures, which show who really writes each table and column.
 ```bash
 python -m ontokit simulate --root scenarios/northmere --loop loop-01
 ```
+
+Animated storyboard for the Northmere decomposition (14 scenes, built from the run outputs):
+
+```bash
+python tools/build_decomp_storyboard.py      # writes docs/northmere-storyboard.html
+```
