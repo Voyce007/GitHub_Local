@@ -1,0 +1,355 @@
+{
+  "from_loop": "loop-01",
+  "to_loop": "loop-02",
+  "added": [
+    {
+      "id": "ATT-57",
+      "kind": "attribute",
+      "name": "Customer.updatedTimestamp",
+      "grade": "A"
+    },
+    {
+      "id": "ATT-58",
+      "kind": "attribute",
+      "name": "CustomerAddress.line2",
+      "grade": "A"
+    },
+    {
+      "id": "ATT-59",
+      "kind": "attribute",
+      "name": "CustomerAddress.countryCode",
+      "grade": "A"
+    }
+  ],
+  "removed": [],
+  "regraded": [
+    {
+      "id": "ATT-07",
+      "kind": "attribute",
+      "name": "Customer.createdTimestamp",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-06",
+      "kind": "attribute",
+      "name": "Customer.creditLimit",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-05",
+      "kind": "attribute",
+      "name": "Customer.creditStatus",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-01",
+      "kind": "attribute",
+      "name": "Customer.customerNumber",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-02",
+      "kind": "attribute",
+      "name": "Customer.customerType",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-03",
+      "kind": "attribute",
+      "name": "Customer.fullName",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-04",
+      "kind": "attribute",
+      "name": "Customer.regNumber",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-09",
+      "kind": "attribute",
+      "name": "CustomerAddress.addressType",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-08",
+      "kind": "attribute",
+      "name": "CustomerAddress.customerNumber",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-10",
+      "kind": "attribute",
+      "name": "CustomerAddress.line1",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ATT-11",
+      "kind": "attribute",
+      "name": "CustomerAddress.postcode",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "CON-01",
+      "kind": "concept",
+      "name": "Customer",
+      "grade": "B",
+      "from": "C",
+      "to": "B",
+      "direction": "up",
+      "reason": "2 independent current sources"
+    },
+    {
+      "id": "CON-05",
+      "kind": "concept",
+      "name": "Order",
+      "grade": "B",
+      "from": "C",
+      "to": "B",
+      "direction": "up",
+      "reason": "2 independent current sources"
+    },
+    {
+      "id": "ENT-01",
+      "kind": "entity",
+      "name": "Customer",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "ENT-02",
+      "kind": "entity",
+      "name": "CustomerAddress",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "IDN-01",
+      "kind": "identifier",
+      "name": "Customer Number",
+      "grade": "A",
+      "from": "X",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "REL-01",
+      "kind": "relationship",
+      "name": "CustomerAddress → Customer",
+      "grade": "A",
+      "from": "C",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "SYS-08",
+      "kind": "system",
+      "name": "CreditScore",
+      "grade": "B",
+      "from": "C",
+      "to": "B",
+      "direction": "up",
+      "reason": "2 independent current sources"
+    },
+    {
+      "id": "SYS-01",
+      "kind": "system",
+      "name": "TradeDesk",
+      "grade": "A",
+      "from": "B",
+      "to": "A",
+      "direction": "up",
+      "reason": "confirmed by a real system artefact"
+    },
+    {
+      "id": "TAX-03",
+      "kind": "taxonomy",
+      "name": "CreditStatus",
+      "grade": "B",
+      "from": "X",
+      "to": "B",
+      "direction": "up",
+      "reason": "2 independent current sources (contradiction resolved by answers/sme-answers-2026-12-10.md)"
+    },
+    {
+      "id": "TAX-02",
+      "kind": "taxonomy",
+      "name": "OrderStatus",
+      "grade": "B",
+      "from": "X",
+      "to": "B",
+      "direction": "up",
+      "reason": "2 independent current sources (contradiction resolved by answers/sme-answers-2026-12-10.md)"
+    }
+  ],
+  "resolved": [
+    {
+      "id": "TAX-02",
+      "kind": "taxonomy",
+      "name": "OrderStatus",
+      "grade": "B",
+      "resolutions": [
+        {
+          "property": "values",
+          "value": [
+            "BASKET",
+            "PLACED",
+            "PAID",
+            "SHIPPED",
+            "DELIVERED",
+            "CANCELLED"
+          ],
+          "resolved_by": [
+            "answers/sme-answers-2026-12-10.md"
+          ],
+          "superseded": [
+            [
+              "OPEN",
+              "SHIPPED",
+              "CANCELLED"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TAX-03",
+      "kind": "taxonomy",
+      "name": "CreditStatus",
+      "grade": "B",
+      "resolutions": [
+        {
+          "property": "values",
+          "value": [
+            "APPROVED",
+            "PROVISIONAL",
+            "ON_HOLD",
+            "STOPPED"
+          ],
+          "resolved_by": [
+            "answers/sme-answers-2026-12-10.md"
+          ],
+          "superseded": [
+            [
+              "APPROVED",
+              "ON_HOLD",
+              "STOPPED"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "IDN-01",
+      "kind": "identifier",
+      "name": "Customer Number",
+      "grade": "A",
+      "resolutions": [
+        {
+          "property": "issued_by",
+          "value": "FinCore",
+          "resolved_by": [
+            "answers/sme-answers-2026-12-10.md"
+          ],
+          "superseded": [
+            "TradeDesk"
+          ]
+        }
+      ]
+    }
+  ],
+  "unknowns_closed": [
+    {
+      "id": "U-01",
+      "question": "Is 'Account' a synonym of Customer, or a different concept (a role) that shares the name?"
+    },
+    {
+      "id": "U-02",
+      "question": "Is 'Client' a synonym of Customer, or a different concept (a role) that shares the name?"
+    },
+    {
+      "id": "U-08",
+      "question": "Sources disagree on the issued by of identifier 'Customer Number'. Which is correct today?"
+    },
+    {
+      "id": "U-09",
+      "question": "Sources disagree on the values of taxonomy 'CreditStatus'. Which is correct today?"
+    },
+    {
+      "id": "U-10",
+      "question": "Sources disagree on the values of taxonomy 'OrderStatus'. Which is correct today?"
+    },
+    {
+      "id": "U-12",
+      "question": "Are these the same thing? 'OrderRequest' looks like 'Order' with a role suffix."
+    },
+    {
+      "id": "U-14",
+      "question": "What is 'credit-score-svc', who owns it, and does it master any data?"
+    }
+  ],
+  "unknowns_opened": [],
+  "unknowns_still_open": 16,
+  "summary": {
+    "added": 3,
+    "removed": 0,
+    "graded_up": 21,
+    "graded_down": 0,
+    "contradictions_resolved": 3,
+    "unknowns_closed": 7,
+    "unknowns_opened": 0,
+    "unknowns_still_open": 16
+  }
+}

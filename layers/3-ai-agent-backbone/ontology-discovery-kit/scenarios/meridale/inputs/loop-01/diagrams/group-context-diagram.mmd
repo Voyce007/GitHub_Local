@@ -1,0 +1,7 @@
+flowchart LR
+  SF["ShopFront (web store)"] -->|ORD-FIN-02 web orders| FC["FinCore (ERP)"]
+  TD["TradeDesk (Industrial CRM)"] -->|CUST-FIN-01| FC
+  SL["ServiceLink (contracts system)"] -->|CLI-FIN-03 daily file| FC
+  FC -->|MI-01 nightly| IH["InsightHub (MI warehouse)"]
+  TD -->|MI-02 nightly| IH
+  RV["RiskVault (GRC platform)"] -->|RISK-01 weekly| IH

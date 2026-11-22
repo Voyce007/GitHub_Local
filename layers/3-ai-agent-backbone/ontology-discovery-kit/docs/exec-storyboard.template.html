@@ -1,0 +1,427 @@
+<title>Meridale Customer Discovery</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a boardroom presentation. One 16:9 stage (designed at 1280x720, scaled to fit), a control bar, then the spoken narration at full reading size underneath. Deliberately single dark theme, like a projected deck. */
+:root {
+  color-scheme: dark;
+  --bg: #0B1322; --panel: #121F34; --panel2: #192A45; --line: #273A5A; --ink: #EAF0F7; --muted: #93A6BF;
+  --accent: #39D3C0; --accent-ink: #062521; --warn: #F06E5B;
+  --gA: #4CC38A; --gB: #5AA9E6; --gC: #E3AE4A; --gD: #8E9BB0; --gX: #F06E5B;
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { background: var(--bg); color: var(--ink); }
+body { margin: 0; font: 15px/1.55 var(--body); }
+.shell { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 14px 40px; display: grid; gap: 12px; }
+.top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.top b { font: 600 1rem var(--display); }
+.top .sub { color: var(--muted); font-size: .85rem; }
+.fict { font: 500 .72rem var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--gC); border: 1px solid color-mix(in srgb, var(--gC) 50%, transparent); border-radius: 999px; padding: 2px 10px; }
+.top .sp { margin-left: auto; }
+.btn { font: 500 .88rem var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Stage */
+.stagewrap { position: relative; width: 100%; aspect-ratio: 16 / 9; max-width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--bg); }
+.stage { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; background:
+  radial-gradient(900px 500px at 85% -10%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%), var(--bg); }
+.stagewrap:fullscreen { border-radius: 0; border: 0; display: grid; place-items: center; background: var(--bg); }
+.scene { position: absolute; inset: 0; padding: 52px 64px 48px; display: flex; flex-direction: column; gap: 22px; visibility: hidden; }
+.scene.on { visibility: visible; }
+.chap { font: 500 13px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.scene h2 { font: 700 40px/1.12 var(--display); margin: 0; letter-spacing: -.02em; max-width: 1050px; text-wrap: balance; }
+.scene h2 em { font-style: normal; color: var(--accent); }
+.lead { font-size: 20px; color: var(--muted); max-width: 900px; margin: 0; }
+.mono { font-family: var(--mono); }
+.muted { color: var(--muted); }
+
+/* Animation primitives: elements with .a enter when their scene turns on */
+.scene .a { opacity: 0; }
+.scene.on .a { animation: rise .75s cubic-bezier(.2,.75,.2,1) both; animation-delay: var(--d, 0s); }
+.scene.on .a.fly { animation-name: fly; }
+.scene.on .a.pop { animation-name: pop; }
+.scene.on .a.fade { animation-name: fade; animation-duration: 1s; }
+.scene.on .a.stamp { animation-name: stamp; animation-duration: .5s; }
+.scene.on .a.flip { animation-name: flip; animation-duration: .8s; }
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes fly { from { opacity: 0; transform: translateX(-160px) rotate(-4deg); } to { opacity: 1; transform: none; } }
+@keyframes pop { 0% { opacity: 0; transform: scale(.6); } 70% { opacity: 1; transform: scale(1.06); } 100% { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes stamp { 0% { opacity: 0; transform: scale(2.4) rotate(-14deg); } 100% { opacity: 1; transform: rotate(-8deg); } }
+@keyframes flip { 0% { opacity: 0; transform: rotateY(90deg); } 100% { opacity: 1; transform: none; } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--warn) 55%, transparent); } 50% { box-shadow: 0 0 0 14px transparent; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* Shared pieces */
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: grid; gap: 8px; align-content: start; }
+.card h3 { margin: 0; font: 600 20px var(--display); }
+.g { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 26px; padding: 0 8px; border-radius: 7px; font: 600 14px var(--mono); color: var(--gc); background: color-mix(in srgb, var(--gc) 16%, transparent); border: 1px solid color-mix(in srgb, var(--gc) 45%, transparent); }
+.g-A { --gc: var(--gA); } .g-B { --gc: var(--gB); } .g-C { --gc: var(--gC); } .g-D { --gc: var(--gD); } .g-X { --gc: var(--gX); } .g-— { --gc: var(--gD); }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; background: var(--panel2); border: 1px solid var(--line); font-size: 15px; white-space: nowrap; }
+.pill.acc { border-color: var(--accent); color: var(--accent); }
+.row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.grid { display: grid; gap: 16px; }
+.big { font: 700 54px/1 var(--display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.lbl { font: 500 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+/* Scene-specific */
+.opco .bar { height: 14px; border-radius: 7px; background: var(--panel2); overflow: hidden; }
+.opco .bar i { display: block; height: 100%; background: var(--gC); width: 0; transition: width 1.4s cubic-bezier(.2,.7,.2,1); }
+.scene.on .opco .bar i { width: var(--w); }
+.total { border-color: var(--warn); }
+.scene.on .total { animation: rise .75s both var(--d), pulse 2s 3 calc(var(--d) + .8s); }
+.quote { font: 600 48px/1.2 var(--display); letter-spacing: -.02em; max-width: 1080px; text-wrap: balance; }
+.quote::before { content: "“"; color: var(--accent); }
+.quote::after { content: "”"; color: var(--accent); }
+.sys4 { grid-template-columns: repeat(4, 1fr); }
+.sys4 .card .term { font: 700 30px var(--display); color: var(--accent); }
+.files { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.fchip { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--pc); border-radius: 10px; padding: 9px 12px; display: grid; gap: 2px; }
+.fchip b { font: 500 13.5px var(--mono); overflow-wrap: anywhere; }
+.fchip span { font-size: 12.5px; color: var(--muted); }
+.fchip.stale { border-style: dashed; border-left-style: solid; }
+.team { grid-template-columns: repeat(3, 1fr); }
+.team .card .who { font: 600 13px var(--mono); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; }
+.team .card p { margin: 0; font-size: 15.5px; color: var(--muted); }
+.lanes { grid-template-columns: repeat(4, 1fr); }
+.lanes .card .big { color: var(--accent); }
+.ticker { position: relative; min-height: 116px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; overflow: hidden; }
+.ticker .q { position: absolute; inset: 18px 22px; display: grid; gap: 8px; align-content: start; opacity: 0; transform: translateY(12px); transition: opacity .5s, transform .5s; }
+.ticker .q.show { opacity: 1; transform: none; }
+.ticker .q code { font: 16px/1.45 var(--mono); color: var(--ink); }
+.rej { grid-template-columns: 1fr auto; align-items: center; position: relative; }
+.rej .claim { font: 500 20px var(--display); }
+.stampx { font: 700 18px var(--mono); letter-spacing: .12em; color: var(--warn); border: 3px solid var(--warn); border-radius: 8px; padding: 6px 12px; }
+.alias { display: grid; grid-template-columns: 220px auto 1fr; align-items: center; gap: 16px; }
+.alias .canon { font: 700 22px var(--display); color: var(--accent); }
+.conf { grid-template-columns: repeat(3, 1fr); }
+.conf .side { background: var(--panel2); border-radius: 10px; padding: 10px 12px; display: grid; gap: 4px; }
+.conf .side b { font: 600 15px var(--body); }
+.conf .vs { text-align: center; font: 600 13px var(--mono); color: var(--muted); }
+.conf .xs { position: absolute; right: 16px; top: 14px; }
+.gbar { display: flex; height: 54px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
+.gbar i { display: block; height: 100%; width: 0; transition: width 1.6s cubic-bezier(.2,.7,.2,1); }
+.scene.on .gbar i { width: var(--w); }
+.glegend { grid-template-columns: repeat(5, 1fr); }
+.glegend .card { padding: 14px 16px; }
+.glegend .big { font-size: 40px; }
+.q2 { grid-template-columns: 1.4fr 1fr; align-items: start; }
+.qcard { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+.qcard .t { font-size: 16.5px; }
+.qcard .o { font: 500 12.5px var(--mono); color: var(--muted); }
+.sent { font: 600 13px var(--mono); color: var(--accent); }
+.loopring { width: 230px; height: 230px; position: relative; }
+.loopring svg { position: absolute; inset: 0; }
+.scene.on .loopring .spin { animation: spin 9s linear infinite; transform-origin: 115px 115px; }
+.loopring .ctr { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+.flipcard { perspective: 800px; }
+.chg { grid-template-columns: repeat(3, 1fr); }
+.model { position: relative; }
+.model svg { width: 1150px; height: 450px; display: block; }
+.model .nd rect { fill: var(--panel); stroke-width: 2; }
+.model .nd .nm { font: 600 15px var(--display); fill: var(--ink); }
+.model .nd .sy { font: 12px var(--mono); fill: var(--muted); }
+.model .ed { fill: none; stroke-width: 2.2; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
+.scene.on .model .ed { animation: draw 1.4s ease forwards; animation-delay: var(--d); }
+.model .ed.weak { stroke-dasharray: 6 6; stroke-dashoffset: 0; opacity: 0; }
+.scene.on .model .ed.weak { animation: fade .8s forwards; animation-delay: var(--d); }
+.model .el { font: 12px var(--body); fill: var(--muted); }
+.model .el.hl { fill: var(--accent); font-weight: 600; }
+.bp { width: 100%; border-collapse: collapse; font-size: 15px; }
+.bp td, .bp th { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left; }
+.bp th { font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.st { display: inline-flex; padding: 3px 10px; border-radius: 999px; font: 600 12.5px var(--body); color: var(--sc); border: 1px solid color-mix(in srgb, var(--sc) 55%, transparent); background: color-mix(in srgb, var(--sc) 14%, transparent); white-space: nowrap; }
+.st.ready { --sc: var(--gA); } .st.confirm { --sc: var(--gC); } .st.build { --sc: var(--accent); } .st.blocked, .st.missing { --sc: var(--gX); }
+.plan { grid-template-columns: repeat(3, 1fr); }
+.plan .card .when { font: 500 13px var(--mono); color: var(--accent); }
+.plan .card ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 15.5px; display: grid; gap: 4px; }
+.ask { display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: baseline; }
+.ask b { font: 700 18px var(--display); color: var(--accent); }
+.kpis { grid-template-columns: repeat(5, 1fr); }
+.kpis .card { padding: 14px 16px; }
+.kpis .big { font-size: 42px; }
+
+/* Controls and narration (outside the stage, readable on phones) */
+.bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.segs { display: flex; gap: 3px; flex: 1 1 260px; min-width: 0; }
+.seg { flex: 1; height: 8px; border-radius: 4px; background: var(--panel2); border: 0; padding: 0; cursor: pointer; position: relative; overflow: hidden; }
+.seg i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--accent); }
+.seg.done i { width: 100%; }
+.count { font: 500 .85rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; min-width: 4.5ch; text-align: right; }
+.narr { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; display: grid; gap: 4px; min-height: 92px; }
+.narr .chapter { font: 500 .75rem var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.narr p { margin: 0; font-size: 1.05rem; max-width: 80ch; }
+details.method { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 18px; color: var(--muted); font-size: .92rem; }
+details.method summary { cursor: pointer; color: var(--ink); font-weight: 500; }
+details.method ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; }
+@media (prefers-reduced-motion: reduce) {
+  .scene .a, .scene.on .a { opacity: 1; animation: none !important; }
+  .scene.on .opco .bar i, .scene.on .gbar i { transition: none; }
+  .scene.on .model .ed { animation: none; stroke-dashoffset: 0; }
+  .scene.on .model .ed.weak { opacity: 1; }
+  .scene.on .loopring .spin { animation: none; }
+}
+</style>
+
+<div class="shell">
+  <div class="top">
+    <b id="brand">Meridale Group</b><span class="sub">Customer exposure discovery · AI agent play-through</span>
+    <span class="fict">Fictional scenario</span>
+    <span class="sp"></span>
+    <button class="btn" id="fs" type="button">Full screen</button>
+  </div>
+  <div class="stagewrap" id="wrap"><div class="stage" id="stage"></div></div>
+  <div class="bar">
+    <button class="btn" id="prev" type="button" aria-label="Previous scene">◀</button>
+    <button class="btn primary" id="play" type="button">Pause</button>
+    <button class="btn" id="next" type="button" aria-label="Next scene">▶</button>
+    <div class="segs" id="segs"></div>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="narr" aria-live="polite"><span class="chapter" id="chapter"></span><p id="narration"></p></div>
+  <details class="method">
+    <summary>How this storyboard was produced</summary>
+    <ul>
+      <li>The company, people, systems and amounts are fictional. The documents and example code given to the agents are in <code>scenarios/meridale/inputs/</code>.</li>
+      <li>Every count, quote, conflict, grade and question in scenes 5–17 comes from the agents' actual run over those inputs (<code>python -m ontokit simulate</code>, loops 1 and 2).</li>
+      <li>In this run the four specialist agents are rule-based stand-ins. With real material, Claude Code agents take their place, and the same checks, grades and human approval gates apply.</li>
+      <li>Keys: ← → to move between scenes, space to pause or play.</li>
+    </ul>
+  </details>
+</div>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+(() => {
+const D = JSON.parse(document.getElementById('data').textContent);
+const S = D.scenario, L1 = D.loops[0], L2 = D.loops[D.loops.length - 1];
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const GR = ['A', 'B', 'C', 'D', 'X'];
+const GC = { A: 'var(--gA)', B: 'var(--gB)', C: 'var(--gC)', D: 'var(--gD)', X: 'var(--gX)' };
+const g = x => `<span class="g g-${x}">${x}</span>`;
+const d = (s) => `style="--d:${s}s"`;
+const sum = o => Object.values(o).reduce((a, b) => a + b, 0);
+const val = v => Array.isArray(v) ? v.map(x => x.toLowerCase().replace(/_/g, ' ')).join(', ') : v;
+const PROV = { document: '#5AA9E6', wiki: '#9F8CF0', spreadsheet: '#4CC38A', diagram: '#E3AE4A', 'example-code': '#39D3C0', 'sme-answer': '#F28FB0', schema: '#F2F2F2' };
+const plainKind = { 'issued by': n => `Who issues the ${n}?`, values: n => `Which ${n.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase()} values are valid?` };
+$('#brand').textContent = S.company.name;
+
+const props1 = sum(L1.proposals), props2 = sum(L2.proposals);
+const ab = l => l.grades.A + l.grades.B;
+const pct = l => Math.round(ab(l) / l.total * 100);
+const high1 = L1.unknowns.filter(u => u.priority === 'high');
+const naming1 = L1.unknowns.filter(u => /synonym of/.test(u.question));
+const C = L2.changes;
+const newFiles = L2.files.filter(f => !f.carried);
+const bpCount = D.blueprint.reduce((m, b) => (m[b.status] = (m[b.status] || 0) + 1, m), {});
+const unexplained = L1.systems.filter(s => !s.roles.length);
+
+const gradeBar = (l) => `<div class="gbar">${GR.map(k => l.grades[k] ? `<i style="--w:${(l.grades[k] / l.total * 100).toFixed(2)}%;background:${GC[k]}"></i>` : '').join('')}</div>`;
+
+/* ---------- Final model diagram ---------- */
+function modelSVG() {
+  const NW = 168, NH = 58, nodes = Object.fromEntries(D.model.nodes.map(n => [n.name, n]));
+  const clip = (a, b) => {
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const t = Math.min(Math.abs((NW / 2 + 4) / (dx || 1e-6)), Math.abs((NH / 2 + 4) / (dy || 1e-6)));
+    return [a.x + dx * t, a.y + dy * t];
+  };
+  const edges = D.model.edges.map((e, i) => {
+    const a = nodes[e.from], b = nodes[e.to];
+    const [x1, y1] = clip(a, b), [x2, y2] = clip(b, a);
+    const strong = 'AB'.includes(e.grade);
+    const hl = (e.from === 'Client' && e.to === 'Customer');
+    const label = hl ? 'same customer (confirmed)' : e.card === 'many-to-many' ? `trades with · via ${e.via}` : '';
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    return `<line class="ed ${strong ? '' : 'weak'}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${hl ? 'var(--accent)' : GC[e.grade]}" style="--d:${1.2 + i * .18}s" marker-end="url(#mk-${e.grade})"/>`
+      + (label ? `<text class="el ${hl ? 'hl' : ''} a fade" ${d(2.6)} x="${mx}" y="${my - 8}" text-anchor="middle">${esc(label)}</text>` : '');
+  }).join('');
+  const nds = D.model.nodes.map((n, i) => `<g class="nd a pop" style="--d:${.2 + i * .12}s;transform-box:fill-box;transform-origin:center">
+      <rect x="${n.x - NW / 2}" y="${n.y - NH / 2}" width="${NW}" height="${NH}" rx="12" stroke="${GC[n.grade]}"/>
+      <text class="nm" x="${n.x - NW / 2 + 14}" y="${n.y - 4}">${esc(n.name.replace(/([a-z])([A-Z])/g, '$1 $2'))}</text>
+      <text class="sy" x="${n.x - NW / 2 + 14}" y="${n.y + 16}">${esc(n.system)} · ${n.grade}</text></g>`).join('');
+  const mk = GR.map(k => `<marker id="mk-${k}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="${GC[k]}"/></marker>`).join('');
+  return `<svg viewBox="0 0 1150 450" role="img" aria-label="Customer model: entities and relationships coloured by evidence grade"><defs>${mk}</defs><g transform="translate(75,5)">${edges}${nds}</g></svg>`;
+}
+
+/* ---------- Scenes ---------- */
+const scenes = [
+  { chap: 'Meridale Group', dur: 7, narr: `${S.company.name} is a fictional ${S.company.revenue} industrial group with ${S.company.people} people and three operating companies. This is how a team of AI agents built a trusted, evidence-graded view of its customers from the documents the business already had.`,
+    html: () => `<div class="chap a" ${d(.1)}>${esc(S.company.tagline)} · fictional</div>
+      <h2 class="a" style="--d:${.3}s;font-size:58px">One trusted view of <em>every customer</em></h2>
+      <p class="lead a" ${d(.7)}>How six AI agents and a handful of decision-makers turned ${L1.files.length} documents into an evidence-graded customer model, in two loops.</p>
+      <div class="grid a" style="--d:${1.1}s;grid-template-columns:repeat(3,1fr);margin-top:14px">${S.company.opcos.map((o, i) => `<div class="card a" ${d(1.2 + i * .2)}><span class="lbl">Operating company</span><h3>${esc(o.name)}</h3><span class="muted">${esc(o.does)}</span><span class="pill" style="justify-self:start">${esc(o.system)}</span></div>`).join('')}</div>
+      <div class="row a" ${d(2)}>${S.company.group_functions.map(f => `<span class="pill">${esc(f.name)} · <span class="mono">${esc(f.system)}</span></span>`).join('')}</div>` },
+
+  { chap: '1 · The problem', dur: 11, narr: S.trigger.detail,
+    html: () => `<div class="chap a" ${d(.1)}>1 · The problem</div><h2 class="a" ${d(.3)}>${esc(S.trigger.headline)}</h2>
+      <div class="grid" style="grid-template-columns:repeat(3,1fr)">${S.trigger.pieces.map((p, i) => `<div class="card opco a" ${d(.9 + i * .5)}><span class="lbl">${esc(p.opco)}</span><span class="big" style="font-size:44px">£${p.owed.toFixed(1)}m</span><div class="bar"><i style="--w:${(p.owed / 2.3 * 100).toFixed(1)}%"></i></div><span class="muted">${esc(p.label)}</span><span style="color:var(--gA)">${p.owed > 0 ? '✓ within its own credit limit' : '✓ looks like a different customer'}</span></div>`).join('')}</div>
+      <div class="card total a" style="--d:3.2s"><div class="row" style="justify-content:space-between"><div><span class="lbl">Group exposure to one customer</span><div class="big" style="color:var(--warn)">£${S.trigger.pieces.reduce((a, p) => a + p.owed, 0).toFixed(1)}m</div></div><div style="max-width:520px;font-size:19px">No system, report or person could see this number until the customer had already failed.</div></div></div>` },
+
+  { chap: '1 · The question', dur: 8, narr: `The board asked one question, and set a goal: ${S.target}`,
+    html: () => `<div class="chap a" ${d(.1)}>1 · The board's question</div>
+      <div class="quote a" style="--d:${.4}s;margin-top:40px">${esc(S.board_question)}</div>
+      <div class="row a" style="--d:${1.4}s;margin-top:30px"><span class="pill acc">Target · ${esc(S.target)}</span></div>
+      <p class="lead a" ${d(2)}>Today no single system can answer it. Each company sees only its own slice.</p>` },
+
+  { chap: '1 · Why it is hard', dur: 10, narr: 'Each system has its own word for a customer and its own way of identifying one. The documents that describe them were written by different teams in different years, and they do not agree.',
+    html: () => `<div class="chap a" ${d(.1)}>1 · Why it is hard</div><h2 class="a" ${d(.3)}>Four systems, four words for "customer", four different IDs</h2>
+      <div class="grid sys4">${S.why_hard.map((w, i) => `<div class="card a pop" ${d(.8 + i * .35)}><span class="lbl">${esc(w.system)}</span><span class="term">${esc(w.calls_customer)}</span><span class="muted">identified by</span><span class="mono">${esc(w.id)}</span></div>`).join('')}</div>
+      <div class="card a" style="--d:${2.6}s;border-style:dashed"><div class="row"><span class="big" style="font-size:34px;color:var(--gC)">?</span><span style="font-size:19px">Is "Client 004417" in ServiceLink the same company as "Customer 1000234" in TradeDesk? Nobody can say for certain.</span></div></div>` },
+
+  { chap: '2 · The evidence', dur: 10, narr: `The agents got no system access and no source code. They got only what teams could send: ${L1.files.length} documents, spreadsheets, a diagram and code extracts. One document dates from 2019 and is flagged as out of date.`,
+    html: () => `<div class="chap a" ${d(.1)}>2 · What we gave the agents</div><h2 class="a" ${d(.3)}>${L1.files.length} files. No system access. No source code.</h2>
+      <div class="grid files">${L1.files.map((f, i) => `<div class="fchip a fly ${f.stale ? 'stale' : ''}" style="--d:${.7 + i * .14}s;--pc:${PROV[f.provenance] || '#888'}"><b>${esc(f.name)}</b><span>${esc(f.provenance)} · ${esc(String(f.date).slice(0, 4))}${f.stale ? ' · out of date' : ''} · ${esc(f.author || '')}</span></div>`).join('')}</div>
+      <div class="row a" style="--d:${.9 + L1.files.length * .14}s">${Object.entries(L1.files.reduce((m, f) => (m[f.provenance] = (m[f.provenance] || 0) + 1, m), {})).map(([k, v]) => `<span class="pill"><i style="width:10px;height:10px;border-radius:3px;background:${PROV[k]}"></i>${v} ${esc(k)}</span>`).join('')}</div>` },
+
+  { chap: '2 · The team', dur: 10, narr: 'Four specialist agents mirror the roles in the ontology playbook. A coordinator merges their work and a checker grades it. People make every decision: the agents recommend, and named owners approve.',
+    html: () => `<div class="chap a" ${d(.1)}>2 · The agent team</div><h2 class="a" ${d(.3)}>Six agents recommend. <em>People decide.</em></h2>
+      <div class="grid team">${[
+        ['Business Analyst', 'What do our terms and rules mean?'], ['Enterprise Architect', 'Which systems exist, and how do they connect?'],
+        ['Data Architect', 'How is customer data structured and identified?'], ['Engineer', 'How do systems actually exchange data?'],
+        ['Coordinator', 'Merges findings, spots duplicates and conflicts'], ['Quality checker', 'Grades every finding by its evidence']].map((t, i) => `<div class="card a pop" ${d(.7 + i * .3)}><span class="who">${t[0]}</span><p>${t[1]}</p></div>`).join('')}</div>
+      <div class="card a" style="--d:${2.7}s;border-color:var(--accent)"><div class="row"><span class="who" style="color:var(--accent);font:600 13px var(--mono);letter-spacing:.08em">HUMAN DECISION-MAKERS</span><span class="pill">Business domain owners</span><span class="pill">Architecture authority</span><span class="pill">Data authority</span><span class="pill">Engineering lead</span></div></div>` },
+
+  { chap: '3 · Loop 1 · Reading', dur: 13, narr: `The four specialists read every file in parallel and produced ${props1} findings. Every finding quotes the exact line it came from, so anyone can trace it back to the document.`,
+    html: () => `<div class="chap a" ${d(.1)}>3 · Loop 1 · The agents read in parallel</div><h2 class="a" ${d(.3)}>${props1} findings, every one with its source quoted</h2>
+      <div class="grid lanes">${[['ba', 'Business Analyst'], ['ea', 'Enterprise Architect'], ['da', 'Data Architect'], ['eng', 'Engineer']].map(([k, n], i) => `<div class="card a" ${d(.6 + i * .15)}><span class="lbl">${n}</span><span class="big" data-count="${L1.proposals[k] || 0}" data-delay="${.9 + i * .15}">0</span><span class="muted">findings</span></div>`).join('')}</div>
+      <div class="ticker a" ${d(1.4)} id="ticker">${L1.quotes.map(q => `<div class="q"><span class="lbl">Quoted from ${esc(q.file)} · ${esc(q.provenance)}</span><code>${esc(q.quote)}</code></div>`).join('')}</div>`,
+    enter: el => { const qs = el.querySelectorAll('.ticker .q'); let i = 0; const show = () => { qs.forEach((q, j) => q.classList.toggle('show', j === i)); i = (i + 1) % qs.length; }; setTimeout(show, 1500); return setInterval(show, 1700); } },
+
+  { chap: '3 · Loop 1 · Quality gate', dur: 10, narr: 'Before anything is accepted, a checker tests every finding. It rejects any finding whose quote cannot be found word for word, any finding outside the agent\'s remit, and any agent that tries to approve its own work. This is what stops the AI from making things up.',
+    html: () => `<div class="chap a" ${d(.1)}>3 · Loop 1 · The quality gate</div><h2 class="a" ${d(.3)}>Anything that can't be traced to a document is thrown out</h2>
+      <div class="grid">${D.rejections.map((r, i) => `<div class="card rej a fly" ${d(.8 + i * 1.1)}><div><div class="claim">${esc(r.claim)}</div><div class="muted">${esc(r.why)}</div></div><span class="stampx a stamp" ${d(1.4 + i * 1.1)}>REJECTED</span></div>`).join('')}</div>
+      <p class="lead a" ${d(4.2)}>Example claims, real checker messages. In this run, all ${props1} agent findings passed, because each quoted a real line.</p>` },
+
+  { chap: '3 · Loop 1 · Connecting the dots', dur: 10, narr: `The coordinator recognised ${L1.aliases.length} systems that go by several names across the documents, and merged them only where a document says they are the same. A system that appears only in a config file, with no explanation, becomes a question.`,
+    html: () => `<div class="chap a" ${d(.1)}>3 · Loop 1 · Connecting the dots</div><h2 class="a" ${d(.3)}>Same system, many names: merged only where a document says so</h2>
+      <div class="grid" style="gap:12px">${L1.aliases.slice(0, 6).map((a, i) => `<div class="alias a" ${d(.8 + i * .35)}><span class="canon">${esc(a.system)}</span><span class="muted mono">=</span><div class="row">${a.aliases.map((x, j) => `<span class="pill a pop" style="--d:${1 + i * .35 + j * .12}s">${esc(x)}</span>`).join('')}</div></div>`).join('')}
+      ${unexplained.map((s, i) => `<div class="alias a" style="--d:${3.2 + i * .3}s"><span class="canon" style="color:var(--gC)">${esc(s.name)}</span><span class="muted mono">?</span><span class="muted">Found only in a config file. Nobody explains what it is, so this becomes a question.</span></div>`).join('')}</div>` },
+
+  { chap: '3 · Loop 1 · Conflicts', dur: 13, narr: `The agents did not pick winners. They found ${L1.contradictions.length} places where documents contradict each other, and ${naming1.length} words that mean different things to different teams. Each one is flagged for the person who owns that decision.`,
+    html: () => `<div class="chap a" ${d(.1)}>3 · Loop 1 · Conflicts surfaced, not hidden</div><h2 class="a" ${d(.3)}>The documents disagree, and that is where the risk is</h2>
+      <div class="grid conf">${L1.contradictions.map((c, i) => `<div class="card a" style="--d:${.8 + i * .6}s;position:relative"><span class="g g-X xs a stamp" ${d(1.6 + i * .6)}>X</span><h3 style="padding-right:40px">${esc((plainKind[c.property] || (n => c.property + ' of ' + n))(c.name))}</h3>
+        ${c.variants.map((v, j) => `${j ? '<div class="vs">versus</div>' : ''}<div class="side"><b>${esc(val(v.value))}</b><span class="muted" style="font-size:13px">${esc(v.authors.filter(Boolean).join('; ') || v.files.join(', '))}</span></div>`).join('')}</div>`).join('')}</div>
+      <div class="row a" ${d(3.4)}>${naming1.map(u => `<span class="pill" style="border-color:var(--gC)">${esc(u.question.replace(/, or a different concept.*$/, '?'))}</span>`).join('')}</div>` },
+
+  { chap: '3 · Loop 1 · Confidence', dur: 11, narr: `Every finding gets a grade by fixed rules. After loop 1, ${pct(L1)}% of the ${L1.total} elements are corroborated by two or more independent sources (B). None is confirmed by a real system yet (A), because the agents had no system access.`,
+    html: () => `<div class="chap a" ${d(.1)}>3 · Loop 1 · How sure are we?</div><h2 class="a" ${d(.3)}>${L1.total} facts about the customer landscape, each with a confidence grade</h2>
+      <div class="a" ${d(.6)}>${gradeBar(L1)}</div>
+      <div class="grid glegend">${[['A', 'Confirmed by a real system'], ['B', 'Two or more sources agree'], ['C', 'Only one source says so'], ['D', 'An assumption to test'], ['X', 'Sources contradict']].map(([k, t], i) => `<div class="card a" ${d(1 + i * .2)}>${g(k)}<span class="big" style="color:${GC[k]}" data-count="${L1.grades[k]}" data-delay="${1.1 + i * .2}">0</span><span class="muted">${t}</span></div>`).join('')}</div>` },
+
+  { chap: '3 · Loop 1 · Questions to people', dur: 12, narr: `The most valuable output of loop 1 is a short list of precise questions. There are ${L1.unknowns.length} in total, ${high1.length} of them high priority, and each goes to the named owner. Some ask for real evidence, such as a database structure export.`,
+    html: () => `<div class="chap a" ${d(.1)}>3 · Loop 1 · From confusion to precise questions</div><h2 class="a" ${d(.3)}>${L1.unknowns.length} questions, each sent to the person who can answer it</h2>
+      <div class="grid" style="gap:10px">${high1.filter(u => u.type === 'sme_question').concat(high1.filter(u => u.type !== 'sme_question').slice(0, 2)).slice(0, 7).map((u, i) => `<div class="qcard a fly" ${d(.7 + i * .45)}><div><div class="t">${esc(u.question)}</div><div class="o">→ ${esc(u.owner)}</div></div><span class="sent a fade" ${d(1.2 + i * .45)}>SENT ✓</span></div>`).join('')}</div>` },
+
+  { chap: '4 · Loop 2 · Answers come back', dur: 11, narr: `In one two-hour working session, four leaders answered the questions. TradeDesk also supplied its first real database structure export. These ${newFiles.length} new files, plus all ${L1.files.length} earlier ones, start loop 2, and the whole agent team runs again.`,
+    html: () => `<div class="chap a" ${d(.1)}>4 · Loop 2 · The loop goes round again</div><h2 class="a" ${d(.3)}>Answers and real system evidence come back in</h2>
+      <div class="row" style="gap:40px;align-items:center;margin-top:10px">
+        <div class="loopring a pop" ${d(.6)}><svg viewBox="0 0 230 230"><circle cx="115" cy="115" r="96" fill="none" stroke="var(--line)" stroke-width="10"/><g class="spin"><path d="M115 19 A96 96 0 0 1 211 115" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round"/><path d="M205 100 L211 118 L222 102" fill="var(--accent)"/></g></svg><div class="ctr"><div><div class="lbl">Loop</div><div class="big" style="font-size:64px">2</div></div></div></div>
+        <div class="grid" style="flex:1;gap:14px">${newFiles.map((f, i) => `<div class="fchip a fly" style="--d:${1.1 + i * .6}s;--pc:${PROV[f.provenance] || '#888'};padding:14px 16px"><b style="font-size:16px">${esc(f.name)}</b><span style="font-size:14px">${f.provenance === 'sme-answer' ? 'Answers from: ' : 'Real system artefact · '}${esc(f.author || '')}</span></div>`).join('')}
+          <div class="fchip a fly" style="--d:${1.1 + newFiles.length * .6}s;--pc:var(--line);padding:14px 16px"><b style="font-size:16px">+ ${L1.files.length} earlier files carried forward</b><span style="font-size:14px">Nothing from loop 1 is lost</span></div></div></div>
+      <p class="lead a" ${d(3.4)}>A recorded answer from the owner settles a contradiction. A real system export is the only thing that can earn grade A.</p>` },
+
+  { chap: '4 · Loop 2 · What changed', dur: 13, narr: `Every conflict from loop 1 is now settled by the person who owns it, and the losing versions are kept for audit. ${C ? C.summary.graded_up : 0} facts moved up a grade and none moved down. ${C ? C.summary.unknowns_closed : 0} questions closed. Corroborated or confirmed facts rose from ${pct(L1)}% to ${pct(L2)}%.`,
+    html: () => `<div class="chap a" ${d(.1)}>4 · Loop 2 · What changed</div><h2 class="a" ${d(.3)}>Conflicts settled, confidence up, questions closed</h2>
+      <div class="grid chg">${L2.resolved.map((r, i) => `<div class="card flipcard a" ${d(.7 + i * .5)}><div class="row">${g('X')}<span class="muted mono">→</span><span class="a flip" ${d(1.3 + i * .5)}>${g(r.grade)}</span></div><h3>${esc((plainKind[r.property] || (n => r.property + ' of ' + n))(r.name))}</h3><div style="color:var(--accent);font-weight:600">${esc(val(r.value))}</div><div class="muted" style="font-size:13.5px">Replaced: ${esc(r.superseded.map(val).join(' / '))}</div></div>`).join('')}</div>
+      <div class="grid a" style="--d:${2.6}s;grid-template-columns:90px 1fr;gap:8px 14px;align-items:center"><span class="lbl">Loop 1</span>${gradeBar(L1)}<span class="lbl">Loop 2</span>${gradeBar(L2)}</div>
+      <div class="row a" ${d(3.2)}>${GR.map(k => `<span class="pill">${g(k)} ${L1.grades[k]} → <b>${L2.grades[k]}</b></span>`).join('')}<span class="pill acc">${C ? C.summary.unknowns_closed : 0} questions closed</span></div>` },
+
+  { chap: '5 · Final output · The customer model', dur: 15, narr: 'This is the agreed shape of "customer" across the group. Each box is a business object found in a real system, and each line is a link between them. Colours show how well evidenced each one is. The owners have confirmed that ServiceLink\'s "Client" is the same customer, which is the link the group was missing.',
+    html: () => `<div class="chap a" ${d(.1)}>5 · Final output · One model of the customer, across every system</div>
+      <div class="model a fade" ${d(.3)}>${modelSVG()}</div>
+      <div class="row a" style="--d:${3.5}s;font-size:14px">${GR.slice(0, 3).map(k => `<span class="pill">${g(k)} ${k === 'A' ? 'confirmed by real system' : k === 'B' ? 'corroborated' : 'one source, confirm next loop'}</span>`).join('')}<span class="pill acc">— same customer, confirmed by owners</span></div>` },
+
+  { chap: '5 · Final output · Can we answer the board?', dur: 15, narr: `Here is the board's question broken into the ten things it needs. After two loops, ${bpCount.ready || 0} are ready on solid evidence, ${bpCount.confirm || 0} are mapped but rest on a single source, and ${bpCount.build || 0} has to be built: exposure is defined, but no system holds it today.`,
+    html: () => `<div class="chap a" ${d(.1)}>5 · Final output · Can we answer the board's question?</div><h2 class="a" style="--d:${.3}s;font-size:32px">"${esc(S.board_question)}"</h2>
+      <table class="bp a fade" ${d(.6)}><thead><tr><th>What the answer needs</th><th>Where it lives</th><th>Loop 1</th><th>Loop 2</th><th>Status</th></tr></thead><tbody>
+      ${D.blueprint.map((b, i) => `<tr class="a" style="--d:${.8 + i * .28}s"><td>${esc(b.need)}</td><td class="mono" style="font-size:13.5px">${esc(b.system || (b.kind === 'concept' ? 'not held anywhere' : '—'))}</td><td>${g(b.before)}</td><td>${g(b.after)}</td><td><span class="st ${b.status}">${{ ready: 'Ready', confirm: 'Confirm in loop 3', build: 'Build it', blocked: 'Blocked', missing: 'Missing' }[b.status]}</span></td></tr>`).join('')}
+      </tbody></table>` },
+
+  { chap: '6 · Next 90 days', dur: 14, narr: 'The path to the board\'s answer is now concrete. Loop 3 needs database exports from FinCore, ServiceLink and ShopFront to turn the ambers green. After that, the exposure view is built once on the agreed model rather than in every system. Three decisions from the leadership team unblock it.',
+    html: () => `<div class="chap a" ${d(.1)}>6 · What happens next</div><h2 class="a" ${d(.3)}>From discovery to the board's answer in 90 days</h2>
+      <div class="grid kpis">${[[L2.files.length, 'files read'], [props2, 'findings with sources'], [L1.contradictions.length, 'conflicts settled'], [C ? C.summary.unknowns_closed : 0, 'questions closed'], [pct(L2) + '%', 'facts corroborated or confirmed']].map(([n, t], i) => `<div class="card a pop" ${d(.6 + i * .15)}><span class="big" style="color:var(--accent)">${n}</span><span class="muted">${t}</span></div>`).join('')}</div>
+      <div class="grid plan">${[['Weeks 1–4 · Loop 3', ['Schema exports from FinCore, ServiceLink and ShopFront', 'Owners answer the remaining questions', 'Aim: every part of the answer ready']],
+        ['Weeks 5–10 · Build', ['Group customer exposure view on the agreed model', 'Customer Number matching across all systems', 'Exposure defined once, calculated once']],
+        ['Weeks 11–13 · Run', ['Exposure report to the credit committee', 'Alerts when a customer nears its group limit', 'Model kept current through change control']]].map(([w, items], i) => `<div class="card a" ${d(1.4 + i * .3)}><span class="when">${w}</span><ul>${items.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('')}</div>
+      <div class="card a" style="--d:${2.6}s;border-color:var(--accent);gap:6px"><span class="lbl">Decisions we need</span>${S.decisions_asked.map(x => `<div class="ask"><b>${esc(x.who)}</b><span>${esc(x.ask)}</span></div>`).join('')}</div>` },
+];
+
+/* ---------- Player ---------- */
+const stage = $('#stage'), wrap = $('#wrap');
+stage.innerHTML = scenes.map((s, i) => `<section class="scene" id="sc-${i}" aria-hidden="true">${s.html()}</section>`).join('');
+$('#segs').innerHTML = scenes.map((s, i) => `<button class="seg" type="button" data-i="${i}" aria-label="Scene ${i + 1}: ${esc(s.chap)}"><i></i></button>`).join('');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let cur = 0, playing = !reduce, t0 = 0, raf = 0, timers = [], ended = false;
+
+function fit() { const s = wrap.clientWidth / 1280; stage.style.transform = `scale(${s})`; }
+addEventListener('resize', fit); fit();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+function countUp(el) {
+  const target = +el.dataset.count, delay = (+el.dataset.delay || 0) * 1000, dur = 1300;
+  if (reduce) { el.textContent = target; return; }
+  el.textContent = '0';
+  timers.push(setTimeout(() => {
+    const st = performance.now();
+    const step = now => { const p = Math.min(1, (now - st) / dur); el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }, delay));
+}
+function show(i) {
+  timers.forEach(t => { clearTimeout(t); clearInterval(t); }); timers = []; ended = false;
+  cur = (i + scenes.length) % scenes.length;
+  document.querySelectorAll('.scene').forEach((el, j) => { el.classList.remove('on'); el.setAttribute('aria-hidden', 'true'); });
+  const el = $('#sc-' + cur);
+  void el.offsetWidth;
+  el.classList.add('on'); el.setAttribute('aria-hidden', 'false');
+  el.querySelectorAll('[data-count]').forEach(countUp);
+  if (scenes[cur].enter) { const h = scenes[cur].enter(el); if (h) timers.push(h); }
+  $('#chapter').textContent = `${scenes[cur].chap} · scene ${cur + 1} of ${scenes.length}`;
+  $('#narration').textContent = scenes[cur].narr;
+  $('#count').textContent = `${cur + 1} / ${scenes.length}`;
+  document.querySelectorAll('.seg').forEach((s, j) => { s.classList.toggle('done', j < cur); s.querySelector('i').style.width = j < cur ? '100%' : '0'; });
+  t0 = performance.now();
+}
+function tick(now) {
+  if (playing) {
+    const dur = scenes[cur].dur * 1000, p = Math.min(1, (now - t0) / dur);
+    const seg = document.querySelectorAll('.seg')[cur].querySelector('i'); seg.style.width = (p * 100) + '%';
+    if (p >= 1) { if (cur < scenes.length - 1) show(cur + 1); else { ended = true; setPlaying(false); } }
+  }
+  raf = requestAnimationFrame(tick);
+}
+function setPlaying(v) {
+  playing = v; $('#play').textContent = v ? 'Pause' : (ended ? 'Replay' : 'Play');
+  if (v) { const seg = document.querySelectorAll('.seg')[cur].querySelector('i'); const done = parseFloat(seg.style.width) || 0; t0 = performance.now() - done / 100 * scenes[cur].dur * 1000; }
+}
+$('#play').addEventListener('click', () => { if (!playing && ended) { show(0); setPlaying(true); } else setPlaying(!playing); });
+$('#next').addEventListener('click', () => { show(cur + 1); setPlaying(playing); });
+$('#prev').addEventListener('click', () => { show(cur - 1); setPlaying(playing); });
+$('#segs').addEventListener('click', e => { const b = e.target.closest('.seg'); if (b) { show(+b.dataset.i); setPlaying(playing); } });
+addEventListener('keydown', e => {
+  if (e.target.closest('input,textarea,select')) return;
+  if (e.key === 'ArrowRight') { show(cur + 1); setPlaying(playing); }
+  else if (e.key === 'ArrowLeft') { show(cur - 1); setPlaying(playing); }
+  else if (e.key === ' ') { e.preventDefault(); $('#play').click(); }
+});
+$('#fs').addEventListener('click', async () => {
+  try { if (document.fullscreenElement) await document.exitFullscreen(); else await wrap.requestFullscreen(); }
+  catch { $('#fs').textContent = 'Full screen unavailable'; }
+});
+document.addEventListener('fullscreenchange', () => {
+  if (document.fullscreenElement) { const s = Math.min(innerWidth / 1280, innerHeight / 720); stage.style.transform = `scale(${s})`; stage.style.left = ((innerWidth - 1280 * s) / 2) + 'px'; stage.style.top = ((innerHeight - 720 * s) / 2) + 'px'; }
+  else { stage.style.left = stage.style.top = '0'; fit(); }
+});
+show(0); setPlaying(playing); raf = requestAnimationFrame(tick);
+})();
+</script>

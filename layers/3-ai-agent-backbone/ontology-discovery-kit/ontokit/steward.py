@@ -17,7 +17,7 @@ from collections import Counter, defaultdict
 from .common import LoopPaths, Trace, load_config, norm, read_json, tokens, write_json
 
 COMPARABLE = {"values", "issued_by"}            # disagreement here = contradiction
-LIST_PROPS = {"roles"}                           # unioned
+LIST_PROPS = {"roles", "confirmed_synonyms", "not_synonyms"}   # unioned
 SYSTEM_REFS = ("source", "target", "producer", "consumer", "issued_by", "system")
 PREFIX = {"system": "SYS", "flow": "FLW", "concept": "CON", "rule": "RUL", "taxonomy": "TAX",
           "entity": "ENT", "attribute": "ATT", "relationship": "REL", "identifier": "IDN",
@@ -112,11 +112,12 @@ class IdAllocator:
             pre, num = e["id"].rsplit("-", 1)
             self.counters[pre] = max(self.counters[pre], int(num))
 
-    def get(self, key: str, kind: str) -> str:
-        pid = self.prev.get(key)
-        if pid and pid not in self.used:
-            self.used.add(pid)
-            return pid
+    def get(self, key: str, kind: str, alt=()) -> str:
+        for k in (key, *alt):
+            pid = self.prev.get(k)
+            if pid and pid not in self.used:
+                self.used.add(pid)
+                return pid
         pre = PREFIX[kind]
         self.counters[pre] += 1
         nid = f"{pre}-{self.counters[pre]:02d}"
@@ -151,6 +152,11 @@ def reconcile(paths: LoopPaths, trace: Trace, prev_elements: list | None = None)
         if p["kind"] == "flow":
             p["name"] = f"{pr['source']} → {pr['target']}"
 
+    rev: dict[str, set] = defaultdict(set)
+    for k, v in lookup.items():
+        rev[v].add(k)
+    names_of = lambda n: rev.get(n, set()) | {sysnorm(n)}
+
     # Merge
     buckets: dict[str, list[dict]] = defaultdict(list)
     for p in accepted:
@@ -164,7 +170,13 @@ def reconcile(paths: LoopPaths, trace: Trace, prev_elements: list | None = None)
             name = next((p["name"] for p in group if p.get("definition")), names.most_common(1)[0][0])
         else:
             name = names.most_common(1)[0][0]
-        el = {"id": ids.get(key, kind), "kind": kind, "name": name, "aliases": [],
+        alt = []
+        if kind == "system":
+            alt = [f"system:{sysnorm(a)}" for p in group for a in p.get("aliases", [])]
+        elif kind == "flow":
+            pr0 = group[0]["properties"]
+            alt = [f"flow:{a}>{b}" for a in names_of(pr0["source"]) for b in names_of(pr0["target"])]
+        el = {"id": ids.get(key, kind, alt), "kind": kind, "name": name, "aliases": [],
               "definition": "", "properties": {}, "evidence": [], "proposed_by": [], "conflicts": [],
               "resolutions": [], "origin": "inferred", "grade": None, "status": "proposed"}
         variants: dict[str, dict] = defaultdict(dict)
@@ -284,10 +296,37 @@ def _link_and_flag(elements: list[dict], trace: Trace) -> list[dict]:
             ent["properties"]["link_entity"] = True
             ent["properties"]["links"] = [r["properties"]["from"], r["properties"]["to"]]
 
+    # recorded synonym decisions (from sme-answer sources)
+    confirmed_by_concept = {}
+    for c in by_kind["concept"]:
+        no = {norm(x) for x in c["properties"].get("not_synonyms", [])}
+        if no:
+            dropped = [a for a in c["aliases"] if norm(a) in no]
+            c["aliases"] = [a for a in c["aliases"] if norm(a) not in no]
+            for a in dropped:
+                if ent := ents.get(norm(a)):
+                    ent["properties"]["separate_from"] = c["id"]
+                    ent["properties"]["decision"] = f"not the same as {c['name']} (recorded SME answer)"
+                trace.emit("D. Steward reconciles", "Ontology Steward", "synonym decision applied",
+                           f"'{a}' is not a synonym of {c['name']}: removed from its synonyms, separate concept kept")
+        confirmed_by_concept[c["id"]] = {norm(x) for x in c["properties"].get("confirmed_synonyms", [])}
+
+    def confirm_link(ent, c):
+        if "realises" not in ent["properties"]:
+            ent["properties"]["realises"] = c["id"]
+        c["properties"].setdefault("also_realised_by", [])
+        if ent["id"] not in c["properties"]["also_realised_by"]:
+            c["properties"]["also_realised_by"].append(ent["id"])
+        trace.emit("D. Steward reconciles", "Ontology Steward", "synonym decision applied",
+                   f"'{ent['name']}' ({ent['properties'].get('system', '?')}) confirmed as the same concept as {c['name']}")
+
     # homonym risk: a concept synonym that names a different entity
     for c in by_kind["concept"]:
         for alias in c["aliases"]:
             ent = ents.get(norm(alias))
+            if ent and norm(alias) in confirmed_by_concept.get(c["id"], set()):
+                confirm_link(ent, c)
+                continue
             if ent and norm(ent["name"]) != norm(c["name"]):
                 flags.append({"type": "homonym_risk", "affects": [c["id"], ent["id"]], "term": alias, "concept": c["name"],
                               "detail": f"Glossary lists '{alias}' as a synonym of {c['name']}, but "
@@ -300,6 +339,12 @@ def _link_and_flag(elements: list[dict], trace: Trace) -> list[dict]:
         for n2, e2 in pool.items():
             if n1 == n2 or n2 not in n1 or len(n2) < 5:
                 continue
+            if e2["kind"] == "concept" and n1 in confirmed_by_concept.get(e2["id"], set()):
+                if e1["properties"].get("realises") != e2["id"]:
+                    confirm_link(e1, e2)
+                continue
+            if e1["properties"].get("realises"):
+                continue
             if n1.startswith(n2) and n1[len(n2):] in ROLE_SUFFIXES:
                 why = f"'{e1['name']}' looks like '{e2['name']}' with a role suffix"
             elif n1.endswith(n2) and n1[: -len(n2)] in pool and e2["kind"] == "entity":
@@ -309,7 +354,7 @@ def _link_and_flag(elements: list[dict], trace: Trace) -> list[dict]:
             flags.append({"type": "candidate_synonym", "affects": [e1["id"], e2["id"]], "detail": why})
     # concepts with no structural realisation
     for c in by_kind["concept"]:
-        if "realised_by" in c["properties"] or "defines_identifier" in c["properties"]:
+        if any(k in c["properties"] for k in ("realised_by", "also_realised_by", "defines_identifier")):
             continue
         if any(c["id"] in f["affects"] for f in flags):
             continue

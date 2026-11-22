@@ -103,6 +103,32 @@ class LoopTests(unittest.TestCase):
         self.assertIn("decision: pending", text)
         self.assertNotIn("simulated reviewer", text)
 
+class MeridaleScenarioTests(unittest.TestCase):
+    """The executive storyboard scenario: two loops, synonym decisions, stable ids through renames."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        shutil.copytree(KIT / "scenarios" / "meridale" / "inputs", self.tmp / "inputs")
+        self.root = str(self.tmp)
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp)
+
+    def test_two_loops(self):
+        self.assertEqual(main(["simulate", "--root", self.root, "--loop", "loop-01"]), 0)
+        self.assertEqual(main(["simulate", "--root", self.root, "--loop", "loop-02"]), 0)
+        els = {(e["kind"], e["name"]): e for e in json.loads((self.tmp / "outputs/loop-02/elements.json").read_text())}
+        self.assertEqual(els[("identifier", "Customer Number")]["properties"]["issued_by"], "FinCore")
+        self.assertEqual(els[("entity", "Client")]["properties"]["realises"], els[("concept", "Customer")]["id"])
+        self.assertIn("separate_from", els[("entity", "Account")]["properties"])
+        self.assertNotIn("Account", els[("concept", "Customer")]["aliases"])
+        self.assertIn("credit-score-svc", els[("system", "CreditScore")]["aliases"])
+        ch = json.loads((self.tmp / "outputs/loop-02/changes.json").read_text())
+        self.assertEqual(ch["summary"]["contradictions_resolved"], 3)
+        self.assertEqual(ch["removed"], [])
+        gates = json.loads((self.tmp / "work/loop-02/gates.json").read_text())
+        self.assertTrue(all(g["status"] == "provisional" for g in gates))
+
 
 if __name__ == "__main__":
     unittest.main()

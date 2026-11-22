@@ -1,0 +1,8 @@
+interface_id,name,source,target,mechanism,frequency,payload,owner
+CUST-FIN-01,New customer to finance,TD,FinCore,MQ message,Real time,Customer Number; customer type; name,Integration team
+CLI-FIN-03,New client to finance,ServiceLink,FinCore,File (CSV),Daily 01:00,Client Ref; client name,Integration team
+ORD-FIN-02,Web order to finance,ShopFront,FinCore,REST API,Real time,Order request,Commerce team
+INV-EVT-04,Invoice raised,FinCore,InsightHub,Event,Real time,InvoiceRaised,Finance systems
+MI-01,Nightly finance extract,FinCore,InsightHub,File (CSV),Daily 02:00,Invoices; GL balances,Data team
+MI-02,Customer extract,Industrial CRM,InsightHub,File (CSV),Daily 02:30,Customers; credit limits,Data team
+RISK-01,Risk register extract,RiskVault,InsightHub,File (CSV),Weekly,Risks; controls,Group Risk

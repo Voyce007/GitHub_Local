@@ -166,6 +166,8 @@ def ea_agent(index: dict) -> list[dict]:
 # ---------------------------------------------------------------- BA agent
 
 GLOSSARY = re.compile(r"^- \*\*(.+?)\*\*: (.+)$")
+SYN_YES = re.compile(r'^"(.+?)" is a synonym of ([A-Z][\w ]*?)\.$')
+SYN_NO = re.compile(r'^"(.+?)" is not a synonym of ([A-Z][\w ]*?)[;.]')
 VALUES = re.compile(r"^(.+?) values: (.+?)\.$")
 
 
@@ -184,6 +186,11 @@ def ba_agent(index: dict) -> list[dict]:
                 aliases = [s.strip() for s in syn.group(1).split(",")] if syn else []
                 props.append(_prop("concept", term, rel, n, line, "definition", aliases=aliases, definition=definition))
                 terms.append(term)
+            elif m := SYN_YES.match(line.strip()):
+                props.append(_prop("concept", m.group(2), rel, n, line, "definition", aliases=[m.group(1)],
+                                   confirmed_synonyms=[m.group(1)]))
+            elif m := SYN_NO.match(line.strip()):
+                props.append(_prop("concept", m.group(2), rel, n, line, "definition", not_synonyms=[m.group(1)]))
             elif "rule" in heading.lower() and line.startswith("- "):
                 stmt = line[2:].strip()
                 props.append(_prop("rule", stmt, rel, n, line, "definition", statement=stmt))

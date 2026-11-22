@@ -1,0 +1,195 @@
+[
+  {
+    "type": "evidence_request",
+    "priority": "high",
+    "question": "Request a schema export and a masked data sample from FinCore.",
+    "why": "Would let 30 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-04"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-01"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "high",
+    "question": "Request a schema export and a masked data sample from RiskVault.",
+    "why": "Would let 14 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-06"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-02"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "high",
+    "question": "Request a schema export and a masked data sample from ServiceLink.",
+    "why": "Would let 13 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-02"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-03"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "high",
+    "question": "Request a schema export and a masked data sample from ShopFront.",
+    "why": "Would let 8 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-03"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-04"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Are these the same thing? 'Address' may be the unqualified form of 'CustomerAddress'.",
+    "why": "Merging them changes the entity catalogue and the stand-in schema.",
+    "affects": [
+      "ENT-02",
+      "ENT-12"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-05"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "medium",
+    "question": "Request a schema export and a masked data sample from TradeDesk.",
+    "why": "Would let 1 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-01"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-06"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "medium",
+    "question": "What does 'OrderLine' contain, and which system holds it?",
+    "why": "'OrderLine' is referenced by OrderRequest.lines, but its structure is not in the evidence.",
+    "affects": [
+      "ENT-14"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-07"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Where is 'Credit Limit' held, and which system is the source of truth?",
+    "why": "No entity found for 'Credit Limit'. Possible home: CreditScore.",
+    "affects": [
+      "CON-08"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-08"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Where is 'Exposure' held, and which system is the source of truth?",
+    "why": "No entity found for 'Exposure'.",
+    "affects": [
+      "CON-09"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-09"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Where is 'Party' held, and which system is the source of truth?",
+    "why": "No entity found for 'Party'.",
+    "affects": [
+      "CON-02"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-10"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Where is 'Product' held, and which system is the source of truth?",
+    "why": "No entity found for 'Product'.",
+    "affects": [
+      "CON-04"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-11"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Channel'. Does the organisation have it, and where is it recorded?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "ENT-17"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-12"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Customer places Order'. Is this relationship real here, and which system records it?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "REL-16"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-13"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Order contains Product'. Is this relationship real here, and which system records it?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "REL-17"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-14"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Organisation'. Does the organisation have it, and where is it recorded?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "ENT-16"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-15"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Person'. Does the organisation have it, and where is it recorded?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "ENT-15"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-16"
+  }
+]

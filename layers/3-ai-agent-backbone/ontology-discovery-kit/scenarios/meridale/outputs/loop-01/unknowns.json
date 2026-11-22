@@ -1,0 +1,282 @@
+[
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Is 'Account' a synonym of Customer, or a different concept (a role) that shares the name?",
+    "why": "Glossary lists 'Account' as a synonym of Customer, but FinCore has an entity 'Account' with its own structure.",
+    "affects": [
+      "CON-01",
+      "ENT-09"
+    ],
+    "owner": "Business Domain Owner",
+    "status": "open",
+    "id": "U-01"
+  },
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Is 'Client' a synonym of Customer, or a different concept (a role) that shares the name?",
+    "why": "Glossary lists 'Client' as a synonym of Customer, but ServiceLink has an entity 'Client' with its own structure.",
+    "affects": [
+      "CON-01",
+      "ENT-03"
+    ],
+    "owner": "Business Domain Owner",
+    "status": "open",
+    "id": "U-02"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "high",
+    "question": "Request a schema export and a masked data sample from FinCore.",
+    "why": "Would let 30 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-04"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-03"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "high",
+    "question": "Request a schema export and a masked data sample from RiskVault.",
+    "why": "Would let 14 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-06"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-04"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "high",
+    "question": "Request a schema export and a masked data sample from ServiceLink.",
+    "why": "Would let 13 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-02"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-05"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "high",
+    "question": "Request a schema export and a masked data sample from ShopFront.",
+    "why": "Would let 8 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-03"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-06"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "high",
+    "question": "Request a schema export and a masked data sample from TradeDesk.",
+    "why": "Would let 15 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-01"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-07"
+  },
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Sources disagree on the issued by of identifier 'Customer Number'. Which is correct today?",
+    "why": "TradeDesk ← docs/customer-onboarding-standard.md | FinCore ← docs/group-credit-policy.md",
+    "affects": [
+      "IDN-01"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-08"
+  },
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Sources disagree on the values of taxonomy 'CreditStatus'. Which is correct today?",
+    "why": "APPROVED, ON_HOLD, STOPPED ← docs/group-credit-policy.md; spreadsheets/tradedesk-data-dictionary.csv | APPROVED, ON_HOLD, STOPPED, PROVISIONAL ← code-examples/CustomerRecord.java",
+    "affects": [
+      "TAX-03"
+    ],
+    "owner": "Business Domain Owner",
+    "status": "open",
+    "id": "U-09"
+  },
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Sources disagree on the values of taxonomy 'OrderStatus'. Which is correct today?",
+    "why": "OPEN, SHIPPED, CANCELLED ← docs/order-to-cash-overview.md (stale, 7.5 yrs) | BASKET, PLACED, PAID, SHIPPED, DELIVERED, CANCELLED ← code-examples/OrderRequest.java",
+    "affects": [
+      "TAX-02"
+    ],
+    "owner": "Business Domain Owner",
+    "status": "open",
+    "id": "U-10"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Are these the same thing? 'Address' may be the unqualified form of 'CustomerAddress'.",
+    "why": "Merging them changes the entity catalogue and the stand-in schema.",
+    "affects": [
+      "ENT-02",
+      "ENT-12"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-11"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Are these the same thing? 'OrderRequest' looks like 'Order' with a role suffix.",
+    "why": "Merging them changes the entity catalogue and the stand-in schema.",
+    "affects": [
+      "ENT-13",
+      "CON-05"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-12"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "medium",
+    "question": "What does 'OrderLine' contain, and which system holds it?",
+    "why": "'OrderLine' is referenced by OrderRequest.lines, but its structure is not in the evidence.",
+    "affects": [
+      "ENT-14"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-13"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "What is 'credit-score-svc', who owns it, and does it master any data?",
+    "why": "'credit-score-svc' appears in 1 source(s) but nothing says what it does.",
+    "affects": [
+      "SYS-08"
+    ],
+    "owner": "Enterprise Architecture Authority",
+    "status": "open",
+    "id": "U-14"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Where is 'Credit Limit' held, and which system is the source of truth?",
+    "why": "No entity found for 'Credit Limit'. Possible home: credit-score-svc.",
+    "affects": [
+      "CON-08"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-15"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Where is 'Exposure' held, and which system is the source of truth?",
+    "why": "No entity found for 'Exposure'.",
+    "affects": [
+      "CON-09"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-16"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Where is 'Party' held, and which system is the source of truth?",
+    "why": "No entity found for 'Party'.",
+    "affects": [
+      "CON-02"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-17"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Where is 'Product' held, and which system is the source of truth?",
+    "why": "No entity found for 'Product'.",
+    "affects": [
+      "CON-04"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-18"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Channel'. Does the organisation have it, and where is it recorded?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "ENT-17"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-19"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Customer places Order'. Is this relationship real here, and which system records it?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "REL-16"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-20"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Order contains Product'. Is this relationship real here, and which system records it?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "REL-17"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-21"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Organisation'. Does the organisation have it, and where is it recorded?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "ENT-16"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-22"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Person'. Does the organisation have it, and where is it recorded?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "ENT-15"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-23"
+  }
+]

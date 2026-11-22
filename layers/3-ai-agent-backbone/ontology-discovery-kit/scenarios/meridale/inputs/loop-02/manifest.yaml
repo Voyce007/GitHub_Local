@@ -1,0 +1,14 @@
+# Meridale Group (fictional) — discovery loop 2.
+# Answers to the loop-1 questions from a two-hour working session, plus the first
+# real system artefact: a structure-only schema export from TradeDesk.
+
+batch: loop-02
+received: 2026-12-15
+organisation: Meridale Group (fictional)
+description: SME answers to loop-01 questions and a TradeDesk schema export.
+staleness_years: 5
+carry_forward: [loop-01]
+
+files:
+  - {path: answers/sme-answers-2026-12-10.md, provenance: sme-answer, doc_type: sme-answers, date: 2026-12-10, author: Group Financial Controller; Group Credit Controller; Sales Operations lead; Head of Enterprise Architecture}
+  - {path: schemas/tradedesk-schema-export.sql, provenance: schema, doc_type: ddl, date: 2026-12-01, author: TradeDesk DBA team, system_hint: TradeDesk, sensitivity: confidential, notes: Structure only. No data.}

@@ -1,0 +1,68 @@
+# Fictional executive scenario. Every name, number and event here is invented.
+# Used by tools/build_exec_storyboard.py to frame the real ontokit run outputs.
+
+company:
+  name: Meridale Group
+  tagline: A fictional mid-sized industrial group
+  revenue: £1.2bn
+  people: 4,100
+  opcos:
+    - {name: Meridale Industrial, does: Makes and sells packaging machinery, system: TradeDesk}
+    - {name: Meridale Services, does: Maintenance contracts on installed machines, system: ServiceLink}
+    - {name: Meridale Direct, does: Online store for spare parts, system: ShopFront}
+  group_functions:
+    - {name: Group Finance, system: FinCore}
+    - {name: Group Risk, system: RiskVault}
+    - {name: Group IT and data, system: InsightHub}
+
+trigger:
+  headline: A customer collapsed owing us £2.3m, and we only found out the total afterwards.
+  detail: >
+    Halberd Logistics (fictional) went into administration in September. Meridale Industrial
+    was owed £1.4m and Meridale Services £0.9m. Each company stayed within its own credit
+    limit, so no alarm went off. Nobody could see the group total.
+  pieces:
+    - {opco: Meridale Industrial, owed: 1.4, label: £1.4m unpaid invoices}
+    - {opco: Meridale Services, owed: 0.9, label: £0.9m unpaid contracts}
+    - {opco: Meridale Direct, owed: 0.0, label: £0 (different customer number)}
+
+board_question: What is our total exposure to each customer across the group, today?
+target: A trusted group-wide customer exposure view within 90 days.
+
+why_hard:
+  - {system: TradeDesk, calls_customer: Customer, id: Customer Number}
+  - {system: ServiceLink, calls_customer: Client, id: Client Ref}
+  - {system: ShopFront, calls_customer: Shopper, id: email address}
+  - {system: FinCore, calls_customer: Debtor / Account, id: Debtor Number}
+
+# What the board question needs, and which ontology element proves each part.
+# kind + name are looked up in each loop's elements.json.
+exposure_blueprint:
+  - {need: Recognise the same customer in every system, kind: identifier, name: Customer Number}
+  - {need: Link ServiceLink clients to group customers, kind: relationship, name: Client → Customer}
+  - {need: Unpaid invoices per customer, kind: attribute, name: Invoice.amountOutstanding}
+  - {need: Invoices tied to customers, kind: relationship, name: Invoice → Customer}
+  - {need: Which group company is owed, kind: relationship, name: Customer ↔ LegalEntity}
+  - {need: Annual value of service contracts, kind: attribute, name: ServiceContract.annualValue}
+  - {need: Orders accepted but not yet invoiced, kind: attribute, name: OrderRequest.totalAmount}
+  - {need: Credit limit, kind: attribute, name: Customer.creditLimit}
+  - {need: One agreed list of credit statuses, kind: taxonomy, name: CreditStatus}
+  - {need: A definition of "exposure", kind: concept, name: Exposure}
+
+# Layout of the final customer model diagram (x, y on a 1000 x 460 canvas).
+model_layout:
+  Control:         [210, 48]
+  Risk:            [470, 48]
+  Client:          [180, 150]
+  OrderRequest:    [760, 150]
+  Customer:        [470, 235]
+  LegalEntity:     [900, 235]
+  ServiceContract: [180, 330]
+  Invoice:         [760, 330]
+  CustomerAddress: [470, 405]
+  CostCentre:      [900, 405]
+
+decisions_asked:
+  - {who: COO, ask: Name a single owner for the customer master across the three operating companies.}
+  - {who: CIO, ask: Release schema exports for FinCore and ServiceLink so loop 3 can confirm finance and contracts data.}
+  - {who: CFO and COO, ask: Agree the definition of exposure, including accepted orders not yet invoiced.}

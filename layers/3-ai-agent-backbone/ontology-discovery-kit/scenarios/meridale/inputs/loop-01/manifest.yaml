@@ -1,0 +1,29 @@
+# Meridale Group (fictional) — discovery loop 1.
+# The question driving this discovery: "What is our total exposure to each customer, today?"
+# Inputs are document extracts and example code from three operating companies and
+# two group functions. No real source code, schemas or data samples yet.
+
+batch: loop-01
+received: 2026-11-22
+organisation: Meridale Group (fictional)
+description: >
+  First evidence batch for the group customer-exposure use case: sales, finance,
+  credit and risk documents, data dictionaries, an interface catalogue, an
+  architecture diagram and example code from the operating companies.
+staleness_years: 5
+
+files:
+  - {path: docs/customer-onboarding-standard.md, provenance: document, doc_type: process, date: 2023-02-10, author: Group Sales Operations}
+  - {path: docs/order-to-cash-overview.md, provenance: document, doc_type: architecture-overview, date: 2019-05-20, author: Finance Systems, notes: Written before the 2022 web store rebuild.}
+  - {path: docs/group-credit-policy.md, provenance: document, doc_type: policy, date: 2024-03-05, author: Group Finance}
+  - {path: docs/risk-management-policy.md, provenance: document, doc_type: policy, date: 2024-04-18, author: Group Risk}
+  - {path: wiki/group-glossary.md, provenance: wiki, doc_type: glossary, date: 2024-09-02, author: Group Data Office}
+  - {path: spreadsheets/tradedesk-data-dictionary.csv, provenance: spreadsheet, doc_type: data-dictionary, date: 2023-01-20, author: TradeDesk support, system_hint: TradeDesk, sensitivity: confidential}
+  - {path: spreadsheets/servicelink-data-dictionary.csv, provenance: spreadsheet, doc_type: data-dictionary, date: 2024-02-14, author: ServiceLink support, system_hint: ServiceLink, sensitivity: confidential}
+  - {path: spreadsheets/riskvault-data-dictionary.csv, provenance: spreadsheet, doc_type: data-dictionary, date: 2024-06-01, author: Group Risk systems, system_hint: RiskVault, sensitivity: confidential}
+  - {path: spreadsheets/interface-catalogue.csv, provenance: spreadsheet, doc_type: interface-catalogue, date: 2024-05-11, author: Integration team}
+  - {path: diagrams/group-context-diagram.mmd, provenance: diagram, doc_type: context-diagram, date: 2024-02-28, author: Enterprise Architecture, notes: Transcribed from a slide.}
+  - {path: code-examples/CustomerRecord.java, provenance: example-code, doc_type: code, date: 2025-04-02, author: TradeDesk support, system_hint: TradeDesk}
+  - {path: code-examples/OrderRequest.java, provenance: example-code, doc_type: code, date: 2024-10-15, author: ShopFront team, system_hint: ShopFront}
+  - {path: code-examples/fincore_finance.sql, provenance: example-code, doc_type: ddl, date: 2023-08-09, author: FinCore team, system_hint: FinCore, notes: Partial DDL extract.}
+  - {path: code-examples/application.properties, provenance: example-code, doc_type: config, date: 2025-01-30, author: ShopFront backend team, system_hint: ShopFront}

@@ -101,3 +101,18 @@ There are three loops:
 - Python 3.10+ and PyYAML, both open source.
 - Optional: `linkml` to validate the ontology, and `sqlglot` for parsing large SQL extracts in live runs.
 - No hosted services. Live agent runs use Claude Code itself. If inputs must stay local, run first-pass extraction on local models such as Ollama.
+
+## Executive scenario: Meridale Group (fictional)
+
+`scenarios/meridale/` is a worked use case for a COO or CIO audience. A
+fictional industrial group asks: "What is our total exposure to each customer
+across the group, today?" The folder holds the scenario framing
+(`scenario.yaml`), two loops of inputs, and the outputs of a full simulated
+play-through. `docs/meridale-storyboard.html` is the animated 17-scene
+storyboard built from those outputs. Rebuild it with:
+
+```bash
+python -m ontokit simulate --root scenarios/meridale --loop loop-01
+python -m ontokit simulate --root scenarios/meridale --loop loop-02
+python tools/build_exec_storyboard.py
+```

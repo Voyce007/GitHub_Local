@@ -1,0 +1,6283 @@
+[
+  {
+    "id": "SYS-01",
+    "kind": "system",
+    "name": "TradeDesk",
+    "aliases": [
+      "Industrial CRM",
+      "TD"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "system of record (candidate): Customer",
+        "data-holding application (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 11",
+        "quote": "TradeDesk (also called the Industrial CRM or \"TD\") holds the customer record for Meridale Industrial.",
+        "support": "definition",
+        "id": "E-001"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 3",
+        "quote": "TD[\"TradeDesk (Industrial CRM)\"] -->|CUST-FIN-01| FC",
+        "support": "structure",
+        "id": "E-002"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUST-FIN-01,New customer to finance,TD,FinCore,MQ message,Real time,Customer Number; customer type; name,Integration team",
+        "support": "reference",
+        "id": "E-003"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 7",
+        "quote": "MI-02,Customer extract,Industrial CRM,InsightHub,File (CSV),Daily 02:30,Customers; credit limits,Data team",
+        "support": "reference",
+        "id": "E-004"
+      },
+      {
+        "file": "loop-01/code-examples/application.properties",
+        "locator": "line 2",
+        "quote": "tradedesk.api.base-url=https://tradedesk.internal.example/api/v3",
+        "support": "reference",
+        "id": "E-005"
+      },
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 1",
+        "quote": "table,column,data_type,nullable,key,description,codes",
+        "support": "reference",
+        "id": "E-006"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 1",
+        "quote": "// Example extract supplied by TradeDesk support (2025). Simplified; not production source.",
+        "support": "reference",
+        "id": "E-007"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 1",
+        "quote": "-- Schema export from the TradeDesk production database (structure only, no data). 2026-12-01.",
+        "support": "reference",
+        "id": "E-008"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 7",
+        "quote": "The Customer Number is issued by FinCore when the customer is first approved for credit. TradeDesk and ServiceLink store it once FinCore returns it.",
+        "support": "mention",
+        "id": "E-009"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": [
+      "U-06"
+    ]
+  },
+  {
+    "id": "SYS-02",
+    "kind": "system",
+    "name": "ServiceLink",
+    "aliases": [
+      "contracts system",
+      "SL"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "system of record (candidate): Client",
+        "data-holding application (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 12",
+        "quote": "ServiceLink (also called the contracts system) holds the client record for Meridale Services.",
+        "support": "definition",
+        "id": "E-010"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 4",
+        "quote": "SL[\"ServiceLink (contracts system)\"] -->|CLI-FIN-03 daily file| FC",
+        "support": "structure",
+        "id": "E-011"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "CLI-FIN-03,New client to finance,ServiceLink,FinCore,File (CSV),Daily 01:00,Client Ref; client name,Integration team",
+        "support": "reference",
+        "id": "E-012"
+      },
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 1",
+        "quote": "table,column,data_type,nullable,key,description,codes",
+        "support": "reference",
+        "id": "E-013"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 7",
+        "quote": "The Customer Number is issued by FinCore when the customer is first approved for credit. TradeDesk and ServiceLink store it once FinCore returns it.",
+        "support": "mention",
+        "id": "E-009"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "5 independent current sources",
+    "open_unknowns": [
+      "U-03"
+    ]
+  },
+  {
+    "id": "SYS-03",
+    "kind": "system",
+    "name": "ShopFront",
+    "aliases": [
+      "web store",
+      "online order platform",
+      "SF"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "processing: online orders for Meridale Direct",
+        "channel",
+        "processing: web orders",
+        "data-holding application (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 13",
+        "quote": "ShopFront (also called the web store) captures and fulfils online orders for Meridale Direct.",
+        "support": "definition",
+        "id": "E-014"
+      },
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 18",
+        "quote": "1. The customer registers through a Channel (ShopFront or Sales Desk).",
+        "support": "definition",
+        "id": "E-015"
+      },
+      {
+        "file": "loop-01/docs/order-to-cash-overview.md",
+        "locator": "line 7",
+        "quote": "ShopFront (the online order platform) processes all web orders.",
+        "support": "definition",
+        "id": "E-016"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 2",
+        "quote": "SF[\"ShopFront (web store)\"] -->|ORD-FIN-02 web orders| FC[\"FinCore (ERP)\"]",
+        "support": "structure",
+        "id": "E-017"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "ORD-FIN-02,Web order to finance,ShopFront,FinCore,REST API,Real time,Order request,Commerce team",
+        "support": "reference",
+        "id": "E-018"
+      },
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 1",
+        "quote": "// Example extract from the ShopFront team (2024). Illustrative only.",
+        "support": "reference",
+        "id": "E-019"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 23",
+        "quote": "The 2019 order-to-cash overview pre-dates the 2022 web store rebuild and should be archived.",
+        "support": "mention",
+        "id": "E-020"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "5 independent current sources",
+    "open_unknowns": [
+      "U-04"
+    ]
+  },
+  {
+    "id": "SYS-04",
+    "kind": "system",
+    "name": "FinCore",
+    "aliases": [
+      "ERP",
+      "GL",
+      "FC"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "system of record (candidate): Invoice",
+        "system of record (candidate): general ledger",
+        "data-holding application (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 14",
+        "quote": "FinCore (also called the ERP or \"the GL\") raises invoices and maintains the general ledger.",
+        "support": "definition",
+        "id": "E-021"
+      },
+      {
+        "file": "loop-01/docs/order-to-cash-overview.md",
+        "locator": "line 9",
+        "quote": "FinCore (GL) publishes an InvoiceRaised event when an invoice is created.",
+        "support": "definition",
+        "id": "E-022"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 2",
+        "quote": "SF[\"ShopFront (web store)\"] -->|ORD-FIN-02 web orders| FC[\"FinCore (ERP)\"]",
+        "support": "structure",
+        "id": "E-017"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUST-FIN-01,New customer to finance,TD,FinCore,MQ message,Real time,Customer Number; customer type; name,Integration team",
+        "support": "reference",
+        "id": "E-003"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "CLI-FIN-03,New client to finance,ServiceLink,FinCore,File (CSV),Daily 01:00,Client Ref; client name,Integration team",
+        "support": "reference",
+        "id": "E-012"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "ORD-FIN-02,Web order to finance,ShopFront,FinCore,REST API,Real time,Order request,Commerce team",
+        "support": "reference",
+        "id": "E-018"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "INV-EVT-04,Invoice raised,FinCore,InsightHub,Event,Real time,InvoiceRaised,Finance systems",
+        "support": "reference",
+        "id": "E-023"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-01,Nightly finance extract,FinCore,InsightHub,File (CSV),Daily 02:00,Invoices; GL balances,Data team",
+        "support": "reference",
+        "id": "E-024"
+      },
+      {
+        "file": "loop-01/code-examples/application.properties",
+        "locator": "line 3",
+        "quote": "fincore.api.base-url=https://fincore.internal.example/api",
+        "support": "reference",
+        "id": "E-025"
+      },
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 1",
+        "quote": "-- Example DDL extract shared by the FinCore (Group Finance systems) team (2023). Partial.",
+        "support": "reference",
+        "id": "E-026"
+      },
+      {
+        "file": "loop-01/docs/order-to-cash-overview.md",
+        "locator": "line 8",
+        "quote": "ShopFront sends each order to FinCore over the ORD-FIN-02 interface for invoicing.",
+        "support": "mention",
+        "id": "E-027"
+      },
+      {
+        "file": "loop-01/docs/group-credit-policy.md",
+        "locator": "line 22",
+        "quote": "The Customer Number is issued by FinCore when the customer is first approved for credit.",
+        "support": "mention",
+        "id": "E-028"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 7",
+        "quote": "The Customer Number is issued by FinCore when the customer is first approved for credit. TradeDesk and ServiceLink store it once FinCore returns it.",
+        "support": "mention",
+        "id": "E-009"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "7 independent current sources",
+    "open_unknowns": [
+      "U-01"
+    ]
+  },
+  {
+    "id": "SYS-05",
+    "kind": "system",
+    "name": "Sales Desk",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "channel"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 18",
+        "quote": "1. The customer registers through a Channel (ShopFront or Sales Desk).",
+        "support": "definition",
+        "id": "E-015"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-06",
+    "kind": "system",
+    "name": "RiskVault",
+    "aliases": [
+      "GRC platform",
+      "RV"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "system of record (candidate): Risk",
+        "data-holding application (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/risk-management-policy.md",
+        "locator": "line 8",
+        "quote": "RiskVault (also called the GRC platform) holds the risk register.",
+        "support": "definition",
+        "id": "E-029"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 7",
+        "quote": "RV[\"RiskVault (GRC platform)\"] -->|RISK-01 weekly| IH",
+        "support": "structure",
+        "id": "E-030"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 8",
+        "quote": "RISK-01,Risk register extract,RiskVault,InsightHub,File (CSV),Weekly,Risks; controls,Group Risk",
+        "support": "reference",
+        "id": "E-031"
+      },
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 1",
+        "quote": "table,column,data_type,nullable,key,description,codes",
+        "support": "reference",
+        "id": "E-032"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "4 independent current sources",
+    "open_unknowns": [
+      "U-02"
+    ]
+  },
+  {
+    "id": "SYS-08",
+    "kind": "system",
+    "name": "CreditScore",
+    "aliases": [
+      "credit-score-svc"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "calculation: an external credit score for every new customer"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 27",
+        "quote": "CreditScore (also called credit-score-svc) calculates an external credit score for every new customer.",
+        "support": "definition",
+        "id": "E-033"
+      },
+      {
+        "file": "loop-01/code-examples/application.properties",
+        "locator": "line 4",
+        "quote": "credit-score-svc.api.base-url=https://credit-score.internal.example/api",
+        "support": "reference",
+        "id": "E-034"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-07",
+    "kind": "system",
+    "name": "InsightHub",
+    "aliases": [
+      "MI warehouse",
+      "IH"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "reporting / analytics (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 5",
+        "quote": "FC -->|MI-01 nightly| IH[\"InsightHub (MI warehouse)\"]",
+        "support": "structure",
+        "id": "E-035"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "INV-EVT-04,Invoice raised,FinCore,InsightHub,Event,Real time,InvoiceRaised,Finance systems",
+        "support": "reference",
+        "id": "E-023"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-01,Nightly finance extract,FinCore,InsightHub,File (CSV),Daily 02:00,Invoices; GL balances,Data team",
+        "support": "reference",
+        "id": "E-024"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 7",
+        "quote": "MI-02,Customer extract,Industrial CRM,InsightHub,File (CSV),Daily 02:30,Customers; credit limits,Data team",
+        "support": "reference",
+        "id": "E-004"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 8",
+        "quote": "RISK-01,Risk register extract,RiskVault,InsightHub,File (CSV),Weekly,Risks; controls,Group Risk",
+        "support": "reference",
+        "id": "E-031"
+      },
+      {
+        "file": "loop-01/docs/order-to-cash-overview.md",
+        "locator": "line 10",
+        "quote": "Reporting extracts are sent nightly to the MI warehouse.",
+        "support": "mention",
+        "id": "E-036"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-01",
+    "kind": "flow",
+    "name": "ShopFront → FinCore",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "ShopFront",
+      "target": "FinCore",
+      "label": "ORD-FIN-02 web orders"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 2",
+        "quote": "SF[\"ShopFront (web store)\"] -->|ORD-FIN-02 web orders| FC[\"FinCore (ERP)\"]",
+        "support": "structure",
+        "id": "E-017"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "ORD-FIN-02,Web order to finance,ShopFront,FinCore,REST API,Real time,Order request,Commerce team",
+        "support": "structure",
+        "id": "E-018"
+      },
+      {
+        "file": "loop-01/code-examples/application.properties",
+        "locator": "line 3",
+        "quote": "fincore.api.base-url=https://fincore.internal.example/api",
+        "support": "reference",
+        "id": "E-025"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-02",
+    "kind": "flow",
+    "name": "TradeDesk → FinCore",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "TradeDesk",
+      "target": "FinCore",
+      "label": "CUST-FIN-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 3",
+        "quote": "TD[\"TradeDesk (Industrial CRM)\"] -->|CUST-FIN-01| FC",
+        "support": "structure",
+        "id": "E-002"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUST-FIN-01,New customer to finance,TD,FinCore,MQ message,Real time,Customer Number; customer type; name,Integration team",
+        "support": "structure",
+        "id": "E-003"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-03",
+    "kind": "flow",
+    "name": "ServiceLink → FinCore",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "ServiceLink",
+      "target": "FinCore",
+      "label": "CLI-FIN-03 daily file"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 4",
+        "quote": "SL[\"ServiceLink (contracts system)\"] -->|CLI-FIN-03 daily file| FC",
+        "support": "structure",
+        "id": "E-011"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "CLI-FIN-03,New client to finance,ServiceLink,FinCore,File (CSV),Daily 01:00,Client Ref; client name,Integration team",
+        "support": "structure",
+        "id": "E-012"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-04",
+    "kind": "flow",
+    "name": "FinCore → InsightHub",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "FinCore",
+      "target": "InsightHub",
+      "label": "MI-01 nightly"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 5",
+        "quote": "FC -->|MI-01 nightly| IH[\"InsightHub (MI warehouse)\"]",
+        "support": "structure",
+        "id": "E-035"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "INV-EVT-04,Invoice raised,FinCore,InsightHub,Event,Real time,InvoiceRaised,Finance systems",
+        "support": "structure",
+        "id": "E-023"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-01,Nightly finance extract,FinCore,InsightHub,File (CSV),Daily 02:00,Invoices; GL balances,Data team",
+        "support": "structure",
+        "id": "E-024"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-05",
+    "kind": "flow",
+    "name": "TradeDesk → InsightHub",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "TradeDesk",
+      "target": "InsightHub",
+      "label": "MI-02 nightly"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 6",
+        "quote": "TD -->|MI-02 nightly| IH",
+        "support": "structure",
+        "id": "E-037"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 7",
+        "quote": "MI-02,Customer extract,Industrial CRM,InsightHub,File (CSV),Daily 02:30,Customers; credit limits,Data team",
+        "support": "structure",
+        "id": "E-004"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-06",
+    "kind": "flow",
+    "name": "RiskVault → InsightHub",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "RiskVault",
+      "target": "InsightHub",
+      "label": "RISK-01 weekly"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 7",
+        "quote": "RV[\"RiskVault (GRC platform)\"] -->|RISK-01 weekly| IH",
+        "support": "structure",
+        "id": "E-030"
+      },
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 8",
+        "quote": "RISK-01,Risk register extract,RiskVault,InsightHub,File (CSV),Weekly,Risks; controls,Group Risk",
+        "support": "structure",
+        "id": "E-031"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-07",
+    "kind": "flow",
+    "name": "ShopFront → TradeDesk",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "ShopFront",
+      "target": "TradeDesk",
+      "label": "runtime dependency (config)"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/application.properties",
+        "locator": "line 2",
+        "quote": "tradedesk.api.base-url=https://tradedesk.internal.example/api/v3",
+        "support": "reference",
+        "id": "E-005"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-08",
+    "kind": "flow",
+    "name": "ShopFront → CreditScore",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "ShopFront",
+      "target": "CreditScore",
+      "label": "runtime dependency (config)"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/application.properties",
+        "locator": "line 4",
+        "quote": "credit-score-svc.api.base-url=https://credit-score.internal.example/api",
+        "support": "reference",
+        "id": "E-034"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-01",
+    "kind": "rule",
+    "name": "A customer must have an approved credit status before their first order is accepted.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A customer must have an approved credit status before their first order is accepted."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 26",
+        "quote": "- A customer must have an approved credit status before their first order is accepted.",
+        "support": "definition",
+        "id": "E-038"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-02",
+    "kind": "rule",
+    "name": "Every invoice must be raised by exactly one legal entity.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Every invoice must be raised by exactly one legal entity."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 27",
+        "quote": "- Every invoice must be raised by exactly one legal entity.",
+        "support": "definition",
+        "id": "E-039"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-03",
+    "kind": "rule",
+    "name": "A customer cannot be deleted while they have unpaid invoices.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A customer cannot be deleted while they have unpaid invoices."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 28",
+        "quote": "- A customer cannot be deleted while they have unpaid invoices.",
+        "support": "definition",
+        "id": "E-040"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-01",
+    "kind": "taxonomy",
+    "name": "CustomerType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "IND": "Individual",
+        "SOL": "Sole Trader",
+        "COM": "Company",
+        "PUB": "Public Body"
+      },
+      "values": [
+        "INDIVIDUAL",
+        "SOLE_TRADER",
+        "COMPANY",
+        "PUBLIC_BODY"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 32",
+        "quote": "Customer type values: Individual, Sole Trader, Company, Public Body.",
+        "support": "value-list",
+        "id": "E-041"
+      },
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 3",
+        "quote": "CUSTOMER,CUST_TYPE,CHAR(3),N,,Customer type,IND=Individual|SOL=Sole Trader|COM=Company|PUB=Public Body",
+        "support": "value-list",
+        "id": "E-042"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 23",
+        "quote": "enum CustomerType { INDIVIDUAL, SOLE_TRADER, COMPANY, PUBLIC_BODY }",
+        "support": "value-list",
+        "id": "E-043"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "da",
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-02",
+    "kind": "taxonomy",
+    "name": "OrderStatus",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "values": [
+        "BASKET",
+        "PLACED",
+        "PAID",
+        "SHIPPED",
+        "DELIVERED",
+        "CANCELLED"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/order-to-cash-overview.md",
+        "locator": "line 14",
+        "quote": "Order status values: Open, Shipped, Cancelled.",
+        "support": "value-list",
+        "id": "E-044"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 21",
+        "quote": "Order status values: Basket, Placed, Paid, Shipped, Delivered, Cancelled.",
+        "support": "value-list",
+        "id": "E-045"
+      },
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 4",
+        "quote": "public enum OrderStatus { BASKET, PLACED, PAID, SHIPPED, DELIVERED, CANCELLED }",
+        "support": "value-list",
+        "id": "E-046"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [
+      {
+        "property": "values",
+        "value": [
+          "BASKET",
+          "PLACED",
+          "PAID",
+          "SHIPPED",
+          "DELIVERED",
+          "CANCELLED"
+        ],
+        "supported_by": [
+          "answers/sme-answers-2026-12-10.md",
+          "loop-01/code-examples/OrderRequest.java"
+        ],
+        "resolved_by": [
+          "answers/sme-answers-2026-12-10.md"
+        ],
+        "superseded": [
+          {
+            "value": [
+              "OPEN",
+              "SHIPPED",
+              "CANCELLED"
+            ],
+            "files": [
+              "loop-01/docs/order-to-cash-overview.md"
+            ],
+            "stale": [
+              "loop-01/docs/order-to-cash-overview.md"
+            ],
+            "authority": 1
+          }
+        ]
+      }
+    ],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources (contradiction resolved by answers/sme-answers-2026-12-10.md)",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-04",
+    "kind": "rule",
+    "name": "An order must reference exactly one customer.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "An order must reference exactly one customer."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/order-to-cash-overview.md",
+        "locator": "line 18",
+        "quote": "- An order must reference exactly one customer.",
+        "support": "definition",
+        "id": "E-047"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-05",
+    "kind": "rule",
+    "name": "An order must not exceed the customer's credit limit.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "An order must not exceed the customer's credit limit."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/order-to-cash-overview.md",
+        "locator": "line 19",
+        "quote": "- An order must not exceed the customer's credit limit.",
+        "support": "definition",
+        "id": "E-048"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-06",
+    "kind": "rule",
+    "name": "Total exposure to a customer must be measured across all legal entities in the group.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Total exposure to a customer must be measured across all legal entities in the group."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/group-credit-policy.md",
+        "locator": "line 12",
+        "quote": "- Total exposure to a customer must be measured across all legal entities in the group.",
+        "support": "definition",
+        "id": "E-049"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-07",
+    "kind": "rule",
+    "name": "A customer whose credit status is Stopped cannot place new orders in any operating company.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A customer whose credit status is Stopped cannot place new orders in any operating company."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/group-credit-policy.md",
+        "locator": "line 13",
+        "quote": "- A customer whose credit status is Stopped cannot place new orders in any operating company.",
+        "support": "definition",
+        "id": "E-050"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-08",
+    "kind": "rule",
+    "name": "Credit limits above 250,000 GBP must be approved by the Group Credit Controller.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Credit limits above 250,000 GBP must be approved by the Group Credit Controller."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/group-credit-policy.md",
+        "locator": "line 14",
+        "quote": "- Credit limits above 250,000 GBP must be approved by the Group Credit Controller.",
+        "support": "definition",
+        "id": "E-051"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-03",
+    "kind": "taxonomy",
+    "name": "CreditStatus",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "APP": "Approved",
+        "HLD": "On Hold",
+        "STP": "Stopped"
+      },
+      "values": [
+        "APPROVED",
+        "PROVISIONAL",
+        "ON_HOLD",
+        "STOPPED"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/group-credit-policy.md",
+        "locator": "line 18",
+        "quote": "Credit status values: Approved, On Hold, Stopped.",
+        "support": "value-list",
+        "id": "E-052"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 17",
+        "quote": "Credit status values: Approved, Provisional, On Hold, Stopped.",
+        "support": "value-list",
+        "id": "E-053"
+      },
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 6",
+        "quote": "CUSTOMER,CREDIT_STATUS,CHAR(3),N,,Credit status,APP=Approved|HLD=On Hold|STP=Stopped",
+        "support": "value-list",
+        "id": "E-054"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 25",
+        "quote": "enum CreditStatus { APPROVED, ON_HOLD, STOPPED, PROVISIONAL }",
+        "support": "value-list",
+        "id": "E-055"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "da",
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [
+      {
+        "property": "values",
+        "value": [
+          "APPROVED",
+          "PROVISIONAL",
+          "ON_HOLD",
+          "STOPPED"
+        ],
+        "supported_by": [
+          "answers/sme-answers-2026-12-10.md",
+          "loop-01/code-examples/CustomerRecord.java"
+        ],
+        "resolved_by": [
+          "answers/sme-answers-2026-12-10.md"
+        ],
+        "superseded": [
+          {
+            "value": [
+              "APPROVED",
+              "ON_HOLD",
+              "STOPPED"
+            ],
+            "files": [
+              "loop-01/docs/group-credit-policy.md",
+              "loop-01/spreadsheets/tradedesk-data-dictionary.csv"
+            ],
+            "stale": [],
+            "authority": 1
+          }
+        ]
+      }
+    ],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources (contradiction resolved by answers/sme-answers-2026-12-10.md)",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-09",
+    "kind": "rule",
+    "name": "Every risk must have an owning cost centre.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Every risk must have an owning cost centre."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/risk-management-policy.md",
+        "locator": "line 13",
+        "quote": "- Every risk must have an owning cost centre.",
+        "support": "definition",
+        "id": "E-056"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-10",
+    "kind": "rule",
+    "name": "Customer concentration risk must be reviewed every month.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Customer concentration risk must be reviewed every month."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/risk-management-policy.md",
+        "locator": "line 14",
+        "quote": "- Customer concentration risk must be reviewed every month.",
+        "support": "definition",
+        "id": "E-057"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-11",
+    "kind": "rule",
+    "name": "Every risk rated High must have at least one preventive control.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Every risk rated High must have at least one preventive control."
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/risk-management-policy.md",
+        "locator": "line 15",
+        "quote": "- Every risk rated High must have at least one preventive control.",
+        "support": "definition",
+        "id": "E-058"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-04",
+    "kind": "taxonomy",
+    "name": "RiskRating",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "L": "Low",
+        "M": "Medium",
+        "H": "High"
+      },
+      "values": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/risk-management-policy.md",
+        "locator": "line 19",
+        "quote": "Risk rating values: Low, Medium, High.",
+        "support": "value-list",
+        "id": "E-059"
+      },
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 4",
+        "quote": "RISK,RATING,CHAR(1),N,,Risk rating,L=Low|M=Medium|H=High",
+        "support": "value-list",
+        "id": "E-060"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-05",
+    "kind": "taxonomy",
+    "name": "ControlType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "PRE": "Preventive",
+        "DET": "Detective"
+      },
+      "values": [
+        "PREVENTIVE",
+        "DETECTIVE"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/docs/risk-management-policy.md",
+        "locator": "line 21",
+        "quote": "Control type values: Preventive, Detective.",
+        "support": "value-list",
+        "id": "E-061"
+      },
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 10",
+        "quote": "CONTROL,CONTROL_TYPE,CHAR(3),N,,Control type,PRE=Preventive|DET=Detective",
+        "support": "value-list",
+        "id": "E-062"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-01",
+    "kind": "concept",
+    "name": "Customer",
+    "aliases": [
+      "Client",
+      "Debtor"
+    ],
+    "definition": "A person or organisation that buys, or has applied to buy, from any company in the group.",
+    "properties": {
+      "confirmed_synonyms": [
+        "Client"
+      ],
+      "not_synonyms": [
+        "Account"
+      ],
+      "realised_by": "ENT-01",
+      "also_realised_by": [
+        "ENT-03"
+      ],
+      "reference_match": "Customer",
+      "domain": "Party"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 5",
+        "quote": "- **Customer**: A person or organisation that buys, or has applied to buy, from any company in the group. Synonyms: Client, Account, Debtor.",
+        "support": "definition",
+        "id": "E-063"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 9",
+        "quote": "\"Client\" is a synonym of Customer.",
+        "support": "definition",
+        "id": "E-064"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 11",
+        "quote": "\"Account\" is not a synonym of Customer; in FinCore it means a general ledger account.",
+        "support": "definition",
+        "id": "E-065"
+      },
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 1",
+        "quote": "# Customer Onboarding Standard",
+        "support": "mention",
+        "id": "E-066"
+      },
+      {
+        "file": "loop-01/docs/group-credit-policy.md",
+        "locator": "line 22",
+        "quote": "The Customer Number is issued by FinCore when the customer is first approved for credit.",
+        "support": "mention",
+        "id": "E-028"
+      },
+      {
+        "file": "loop-01/docs/risk-management-policy.md",
+        "locator": "line 14",
+        "quote": "- Customer concentration risk must be reviewed every month.",
+        "support": "mention",
+        "id": "E-057"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 5",
+        "quote": "## Customer identity",
+        "support": "mention",
+        "id": "E-067"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-02",
+    "kind": "concept",
+    "name": "Party",
+    "aliases": [],
+    "definition": "A person or organisation the group has a relationship with.",
+    "properties": {
+      "reference_match": "Party",
+      "domain": "Party"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 6",
+        "quote": "- **Party**: A person or organisation the group has a relationship with.",
+        "support": "definition",
+        "id": "E-068"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-10"
+    ]
+  },
+  {
+    "id": "CON-03",
+    "kind": "concept",
+    "name": "Customer Number",
+    "aliases": [
+      "Customer ID",
+      "Debtor Number"
+    ],
+    "definition": "The group-wide identifier for a customer, used on every invoice.",
+    "properties": {
+      "defines_identifier": "IDN-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 7",
+        "quote": "- **Customer Number**: The group-wide identifier for a customer, used on every invoice. Synonyms: Customer ID, Debtor Number.",
+        "support": "definition",
+        "id": "E-069"
+      },
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 20",
+        "quote": "3. The Customer Number is issued by TradeDesk when the record is created.",
+        "support": "mention",
+        "id": "E-070"
+      },
+      {
+        "file": "loop-01/docs/group-credit-policy.md",
+        "locator": "line 22",
+        "quote": "The Customer Number is issued by FinCore when the customer is first approved for credit.",
+        "support": "mention",
+        "id": "E-028"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 7",
+        "quote": "The Customer Number is issued by FinCore when the customer is first approved for credit. TradeDesk and ServiceLink store it once FinCore returns it.",
+        "support": "mention",
+        "id": "E-009"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-04",
+    "kind": "concept",
+    "name": "Product",
+    "aliases": [],
+    "definition": "Something the group offers for sale, whether goods or services.",
+    "properties": {
+      "reference_match": "Product",
+      "domain": "Product"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 8",
+        "quote": "- **Product**: Something the group offers for sale, whether goods or services.",
+        "support": "definition",
+        "id": "E-071"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-11"
+    ]
+  },
+  {
+    "id": "CON-05",
+    "kind": "concept",
+    "name": "Order",
+    "aliases": [
+      "OrderRequest"
+    ],
+    "definition": "A customer's request to buy one or more products.",
+    "properties": {
+      "confirmed_synonyms": [
+        "OrderRequest"
+      ],
+      "also_realised_by": [
+        "ENT-13"
+      ],
+      "reference_match": "Order",
+      "domain": "Commercial"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 9",
+        "quote": "- **Order**: A customer's request to buy one or more products.",
+        "support": "definition",
+        "id": "E-072"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 13",
+        "quote": "\"OrderRequest\" is a synonym of Order.",
+        "support": "definition",
+        "id": "E-073"
+      },
+      {
+        "file": "loop-01/docs/order-to-cash-overview.md",
+        "locator": "line 1",
+        "quote": "# Order-to-Cash Overview",
+        "support": "mention",
+        "id": "E-074"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-06",
+    "kind": "concept",
+    "name": "Service Contract",
+    "aliases": [],
+    "definition": "An agreement to maintain a customer's machines for a period.",
+    "properties": {
+      "realised_by": "ENT-04"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 10",
+        "quote": "- **Service Contract**: An agreement to maintain a customer's machines for a period.",
+        "support": "definition",
+        "id": "E-075"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-07",
+    "kind": "concept",
+    "name": "Invoice",
+    "aliases": [],
+    "definition": "A request for payment issued by a legal entity to a customer.",
+    "properties": {
+      "realised_by": "ENT-10",
+      "reference_match": "Invoice",
+      "domain": "Commercial"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 11",
+        "quote": "- **Invoice**: A request for payment issued by a legal entity to a customer.",
+        "support": "definition",
+        "id": "E-076"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-08",
+    "kind": "concept",
+    "name": "Credit Limit",
+    "aliases": [],
+    "definition": "The most the group will let a customer owe across all group companies.",
+    "properties": {},
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 12",
+        "quote": "- **Credit Limit**: The most the group will let a customer owe across all group companies.",
+        "support": "definition",
+        "id": "E-077"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-08"
+    ]
+  },
+  {
+    "id": "CON-09",
+    "kind": "concept",
+    "name": "Exposure",
+    "aliases": [],
+    "definition": "The total a customer owes the group, plus accepted orders not yet invoiced.",
+    "properties": {},
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 13",
+        "quote": "- **Exposure**: The total a customer owes the group, plus accepted orders not yet invoiced.",
+        "support": "definition",
+        "id": "E-078"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 31",
+        "quote": "Exposure is not held in any system today. Finance and Sales still need to agree how accepted orders that are not yet invoiced should count.",
+        "support": "mention",
+        "id": "E-079"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-09"
+    ]
+  },
+  {
+    "id": "CON-10",
+    "kind": "concept",
+    "name": "Legal Entity",
+    "aliases": [],
+    "definition": "A registered company within the group that can trade and raise invoices.",
+    "properties": {
+      "realised_by": "ENT-07",
+      "reference_match": "Legal Entity",
+      "domain": "Finance"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 14",
+        "quote": "- **Legal Entity**: A registered company within the group that can trade and raise invoices.",
+        "support": "definition",
+        "id": "E-080"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-11",
+    "kind": "concept",
+    "name": "Cost Centre",
+    "aliases": [],
+    "definition": "A unit of the organisation to which costs are assigned for management reporting.",
+    "properties": {
+      "realised_by": "ENT-08",
+      "reference_match": "Cost Centre",
+      "domain": "Finance"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 15",
+        "quote": "- **Cost Centre**: A unit of the organisation to which costs are assigned for management reporting.",
+        "support": "definition",
+        "id": "E-081"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-12",
+    "kind": "concept",
+    "name": "Risk",
+    "aliases": [],
+    "definition": "An uncertain event that could affect the group's objectives.",
+    "properties": {
+      "realised_by": "ENT-05",
+      "reference_match": "Risk",
+      "domain": "Risk"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 16",
+        "quote": "- **Risk**: An uncertain event that could affect the group's objectives.",
+        "support": "definition",
+        "id": "E-082"
+      },
+      {
+        "file": "loop-01/docs/risk-management-policy.md",
+        "locator": "line 1",
+        "quote": "# Group Risk Management Policy (extract)",
+        "support": "mention",
+        "id": "E-083"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-13",
+    "kind": "concept",
+    "name": "Control",
+    "aliases": [],
+    "definition": "An activity that reduces the likelihood or impact of a risk.",
+    "properties": {
+      "realised_by": "ENT-06",
+      "reference_match": "Control",
+      "domain": "Risk"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/wiki/group-glossary.md",
+        "locator": "line 17",
+        "quote": "- **Control**: An activity that reduces the likelihood or impact of a risk.",
+        "support": "definition",
+        "id": "E-084"
+      },
+      {
+        "file": "loop-01/docs/risk-management-policy.md",
+        "locator": "line 21",
+        "quote": "Control type values: Preventive, Detective.",
+        "support": "mention",
+        "id": "E-061"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-01",
+    "kind": "entity",
+    "name": "Customer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TradeDesk",
+      "physical": "CUSTOMER",
+      "attribute_ids": [
+        "ATT-01",
+        "ATT-02",
+        "ATT-03",
+        "ATT-04",
+        "ATT-05",
+        "ATT-06",
+        "ATT-07",
+        "ATT-57"
+      ],
+      "realises": "CON-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "CUSTOMER,CUSTOMER_NO,CHAR(10),N,PK,Customer Number,",
+        "support": "structure",
+        "id": "E-085"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 2",
+        "quote": "CREATE TABLE customer (",
+        "support": "structure",
+        "id": "E-086"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 4",
+        "quote": "public class CustomerRecord {",
+        "support": "structure",
+        "id": "E-087"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-01",
+    "kind": "attribute",
+    "name": "Customer.customerNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "customerNumber",
+      "physical": "CUSTOMER_NO",
+      "data_type": "CHAR(10)",
+      "nullable": false,
+      "description": "Customer Number",
+      "comment": "10 chars, issued on creation",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "CUSTOMER,CUSTOMER_NO,CHAR(10),N,PK,Customer Number,",
+        "support": "structure",
+        "id": "E-085"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 3",
+        "quote": "customer_no      CHAR(10)       PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-088"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 5",
+        "quote": "private String customerNumber;      // 10 chars, issued on creation",
+        "support": "structure",
+        "id": "E-089"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-01",
+    "kind": "identifier",
+    "name": "Customer Number",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "customerNumber",
+      "key": "primary",
+      "note": "10 chars, issued on creation",
+      "seen_in": "Client.customerNumber",
+      "issued_by": "FinCore",
+      "entity_id": "ENT-01",
+      "defined_by": "CON-03"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "CUSTOMER,CUSTOMER_NO,CHAR(10),N,PK,Customer Number,",
+        "support": "structure",
+        "id": "E-085"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 3",
+        "quote": "customer_no      CHAR(10)       PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-088"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 5",
+        "quote": "private String customerNumber;      // 10 chars, issued on creation",
+        "support": "structure",
+        "id": "E-089"
+      },
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 20",
+        "quote": "3. The Customer Number is issued by TradeDesk when the record is created.",
+        "support": "definition",
+        "id": "E-070"
+      },
+      {
+        "file": "loop-01/docs/group-credit-policy.md",
+        "locator": "line 22",
+        "quote": "The Customer Number is issued by FinCore when the customer is first approved for credit.",
+        "support": "definition",
+        "id": "E-028"
+      },
+      {
+        "file": "answers/sme-answers-2026-12-10.md",
+        "locator": "line 7",
+        "quote": "The Customer Number is issued by FinCore when the customer is first approved for credit. TradeDesk and ServiceLink store it once FinCore returns it.",
+        "support": "definition",
+        "id": "E-009"
+      },
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 3",
+        "quote": "CLIENT,CUSTOMER_NO,CHAR(10),Y,,Group customer number (if known),",
+        "support": "reference",
+        "id": "E-090"
+      },
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 6",
+        "quote": "RISK,CUSTOMER_NO,CHAR(10),Y,,Customer concerned (concentration risk),",
+        "support": "reference",
+        "id": "E-091"
+      },
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 23",
+        "quote": "customer_no         CHAR(10)       NOT NULL,",
+        "support": "reference",
+        "id": "E-092"
+      },
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 33",
+        "quote": "customer_no         CHAR(10)       NOT NULL,",
+        "support": "reference",
+        "id": "E-093"
+      },
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 36",
+        "quote": "PRIMARY KEY (customer_no, legal_entity_code)",
+        "support": "reference",
+        "id": "E-094"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 20",
+        "quote": "PRIMARY KEY (customer_no, addr_type)",
+        "support": "reference",
+        "id": "E-095"
+      },
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 8",
+        "quote": "private String customerNumber;",
+        "support": "reference",
+        "id": "E-096"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [
+      {
+        "property": "issued_by",
+        "value": "FinCore",
+        "supported_by": [
+          "loop-01/docs/group-credit-policy.md",
+          "answers/sme-answers-2026-12-10.md"
+        ],
+        "resolved_by": [
+          "answers/sme-answers-2026-12-10.md"
+        ],
+        "superseded": [
+          {
+            "value": "TradeDesk",
+            "files": [
+              "loop-01/docs/customer-onboarding-standard.md"
+            ],
+            "stale": [],
+            "authority": 1
+          }
+        ]
+      }
+    ],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-02",
+    "kind": "attribute",
+    "name": "Customer.customerType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "customerType",
+      "physical": "CUST_TYPE",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Customer type",
+      "range": "CustomerType",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 3",
+        "quote": "CUSTOMER,CUST_TYPE,CHAR(3),N,,Customer type,IND=Individual|SOL=Sole Trader|COM=Company|PUB=Public Body",
+        "support": "structure",
+        "id": "E-042"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 4",
+        "quote": "cust_type        CHAR(3)        NOT NULL,",
+        "support": "structure",
+        "id": "E-097"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 6",
+        "quote": "private CustomerType customerType;",
+        "support": "structure",
+        "id": "E-098"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-03",
+    "kind": "attribute",
+    "name": "Customer.fullName",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "fullName",
+      "physical": "FULL_NAME",
+      "data_type": "VARCHAR(200)",
+      "nullable": false,
+      "description": "Customer name",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 4",
+        "quote": "CUSTOMER,FULL_NAME,VARCHAR(200),N,,Customer name,",
+        "support": "structure",
+        "id": "E-099"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 5",
+        "quote": "full_name        VARCHAR(200)   NOT NULL,",
+        "support": "structure",
+        "id": "E-100"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 7",
+        "quote": "private String fullName;",
+        "support": "structure",
+        "id": "E-101"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-04",
+    "kind": "attribute",
+    "name": "Customer.regNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "regNumber",
+      "physical": "REG_NUMBER",
+      "data_type": "VARCHAR(20)",
+      "nullable": true,
+      "description": "Company registration number",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 5",
+        "quote": "CUSTOMER,REG_NUMBER,VARCHAR(20),Y,,Company registration number,",
+        "support": "structure",
+        "id": "E-102"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 6",
+        "quote": "reg_number       VARCHAR(20),",
+        "support": "structure",
+        "id": "E-103"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 8",
+        "quote": "private String regNumber;",
+        "support": "structure",
+        "id": "E-104"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-05",
+    "kind": "attribute",
+    "name": "Customer.creditStatus",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "creditStatus",
+      "physical": "CREDIT_STATUS",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Credit status",
+      "range": "CreditStatus",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 6",
+        "quote": "CUSTOMER,CREDIT_STATUS,CHAR(3),N,,Credit status,APP=Approved|HLD=On Hold|STP=Stopped",
+        "support": "structure",
+        "id": "E-054"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 7",
+        "quote": "credit_status    CHAR(3)        NOT NULL,",
+        "support": "structure",
+        "id": "E-105"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 9",
+        "quote": "private CreditStatus creditStatus;",
+        "support": "structure",
+        "id": "E-106"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-06",
+    "kind": "attribute",
+    "name": "Customer.creditLimit",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "creditLimit",
+      "physical": "CREDIT_LIMIT",
+      "data_type": "NUMERIC(18,2)",
+      "nullable": true,
+      "description": "Credit limit",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 7",
+        "quote": "CUSTOMER,CREDIT_LIMIT,\"NUMERIC(18,2)\",Y,,Credit limit,",
+        "support": "structure",
+        "id": "E-107"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 8",
+        "quote": "credit_limit     NUMERIC(18,2),",
+        "support": "structure",
+        "id": "E-108"
+      },
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 10",
+        "quote": "private BigDecimal creditLimit;",
+        "support": "structure",
+        "id": "E-109"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-07",
+    "kind": "attribute",
+    "name": "Customer.createdTimestamp",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "createdTimestamp",
+      "physical": "CREATED_TS",
+      "data_type": "TIMESTAMP",
+      "nullable": false,
+      "description": "Record created",
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 8",
+        "quote": "CUSTOMER,CREATED_TS,TIMESTAMP,N,,Record created,",
+        "support": "structure",
+        "id": "E-110"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 9",
+        "quote": "created_ts       TIMESTAMP      NOT NULL,",
+        "support": "structure",
+        "id": "E-111"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-02",
+    "kind": "entity",
+    "name": "CustomerAddress",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TradeDesk",
+      "physical": "CUSTOMER_ADDRESS",
+      "attribute_ids": [
+        "ATT-08",
+        "ATT-09",
+        "ATT-10",
+        "ATT-11",
+        "ATT-58",
+        "ATT-59"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "CUSTOMER_ADDRESS,CUSTOMER_NO,CHAR(10),N,FK:CUSTOMER.CUSTOMER_NO,Customer Number,",
+        "support": "structure",
+        "id": "E-112"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 13",
+        "quote": "CREATE TABLE customer_address (",
+        "support": "structure",
+        "id": "E-113"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": [
+      "U-05"
+    ]
+  },
+  {
+    "id": "ATT-08",
+    "kind": "attribute",
+    "name": "CustomerAddress.customerNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerAddress",
+      "attribute": "customerNumber",
+      "physical": "CUSTOMER_NO",
+      "data_type": "CHAR(10)",
+      "nullable": false,
+      "description": "Customer Number",
+      "entity_id": "ENT-02"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "CUSTOMER_ADDRESS,CUSTOMER_NO,CHAR(10),N,FK:CUSTOMER.CUSTOMER_NO,Customer Number,",
+        "support": "structure",
+        "id": "E-112"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 14",
+        "quote": "customer_no      CHAR(10)       NOT NULL REFERENCES customer(customer_no),",
+        "support": "structure",
+        "id": "E-114"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-01",
+    "kind": "relationship",
+    "name": "CustomerAddress → Customer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "CustomerAddress",
+      "to": "Customer",
+      "via": "customerNumber",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "CUSTOMER_ADDRESS,CUSTOMER_NO,CHAR(10),N,FK:CUSTOMER.CUSTOMER_NO,Customer Number,",
+        "support": "structure",
+        "id": "E-112"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 14",
+        "quote": "customer_no      CHAR(10)       NOT NULL REFERENCES customer(customer_no),",
+        "support": "structure",
+        "id": "E-114"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 20",
+        "quote": "PRIMARY KEY (customer_no, addr_type)",
+        "support": "reference",
+        "id": "E-095"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-09",
+    "kind": "attribute",
+    "name": "CustomerAddress.addressType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerAddress",
+      "attribute": "addressType",
+      "physical": "ADDR_TYPE",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Address type",
+      "range": "AddressType",
+      "entity_id": "ENT-02"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 10",
+        "quote": "CUSTOMER_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,BIL=Billing|DEL=Delivery",
+        "support": "structure",
+        "id": "E-115"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 15",
+        "quote": "addr_type        CHAR(3)        NOT NULL,",
+        "support": "structure",
+        "id": "E-116"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-06",
+    "kind": "taxonomy",
+    "name": "AddressType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "BIL": "Billing",
+        "DEL": "Delivery"
+      },
+      "values": [
+        "BILLING",
+        "DELIVERY"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 10",
+        "quote": "CUSTOMER_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,BIL=Billing|DEL=Delivery",
+        "support": "value-list",
+        "id": "E-115"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-10",
+    "kind": "attribute",
+    "name": "CustomerAddress.line1",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerAddress",
+      "attribute": "line1",
+      "physical": "LINE_1",
+      "data_type": "VARCHAR(100)",
+      "nullable": false,
+      "description": "Address line 1",
+      "entity_id": "ENT-02"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 11",
+        "quote": "CUSTOMER_ADDRESS,LINE_1,VARCHAR(100),N,,Address line 1,",
+        "support": "structure",
+        "id": "E-117"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 16",
+        "quote": "line_1           VARCHAR(100)   NOT NULL,",
+        "support": "structure",
+        "id": "E-118"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-11",
+    "kind": "attribute",
+    "name": "CustomerAddress.postcode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerAddress",
+      "attribute": "postcode",
+      "physical": "POSTCODE",
+      "data_type": "VARCHAR(10)",
+      "nullable": false,
+      "description": "Postcode",
+      "entity_id": "ENT-02"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/tradedesk-data-dictionary.csv",
+        "locator": "line 12",
+        "quote": "CUSTOMER_ADDRESS,POSTCODE,VARCHAR(10),N,,Postcode,",
+        "support": "structure",
+        "id": "E-119"
+      },
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 18",
+        "quote": "postcode         VARCHAR(10)    NOT NULL,",
+        "support": "structure",
+        "id": "E-120"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-03",
+    "kind": "entity",
+    "name": "Client",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "ServiceLink",
+      "physical": "CLIENT",
+      "attribute_ids": [
+        "ATT-12",
+        "ATT-13",
+        "ATT-14",
+        "ATT-15"
+      ],
+      "realises": "CON-01"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "CLIENT,CLIENT_REF,VARCHAR(12),N,PK,Client Ref,",
+        "support": "structure",
+        "id": "E-121"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-12",
+    "kind": "attribute",
+    "name": "Client.clientRef",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Client",
+      "attribute": "clientRef",
+      "physical": "CLIENT_REF",
+      "data_type": "VARCHAR(12)",
+      "nullable": false,
+      "description": "Client Ref",
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "CLIENT,CLIENT_REF,VARCHAR(12),N,PK,Client Ref,",
+        "support": "structure",
+        "id": "E-121"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-02",
+    "kind": "identifier",
+    "name": "Client Ref",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Client",
+      "attribute": "clientRef",
+      "key": "primary",
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "CLIENT,CLIENT_REF,VARCHAR(12),N,PK,Client Ref,",
+        "support": "structure",
+        "id": "E-121"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-13",
+    "kind": "attribute",
+    "name": "Client.customerNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Client",
+      "attribute": "customerNumber",
+      "physical": "CUSTOMER_NO",
+      "data_type": "CHAR(10)",
+      "nullable": true,
+      "description": "Group customer number (if known)",
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 3",
+        "quote": "CLIENT,CUSTOMER_NO,CHAR(10),Y,,Group customer number (if known),",
+        "support": "structure",
+        "id": "E-090"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-14",
+    "kind": "attribute",
+    "name": "Client.clientName",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Client",
+      "attribute": "clientName",
+      "physical": "CLIENT_NAME",
+      "data_type": "VARCHAR(200)",
+      "nullable": false,
+      "description": "Client name",
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 4",
+        "quote": "CLIENT,CLIENT_NAME,VARCHAR(200),N,,Client name,",
+        "support": "structure",
+        "id": "E-122"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-15",
+    "kind": "attribute",
+    "name": "Client.creditLimit",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Client",
+      "attribute": "creditLimit",
+      "physical": "CREDIT_LIMIT",
+      "data_type": "NUMERIC(18,2)",
+      "nullable": true,
+      "description": "Credit limit",
+      "entity_id": "ENT-03"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 5",
+        "quote": "CLIENT,CREDIT_LIMIT,\"NUMERIC(18,2)\",Y,,Credit limit,",
+        "support": "structure",
+        "id": "E-123"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-04",
+    "kind": "entity",
+    "name": "ServiceContract",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "ServiceLink",
+      "physical": "SERVICE_CONTRACT",
+      "attribute_ids": [
+        "ATT-16",
+        "ATT-17",
+        "ATT-18",
+        "ATT-19",
+        "ATT-20"
+      ],
+      "realises": "CON-06"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 6",
+        "quote": "SERVICE_CONTRACT,CONTRACT_ID,VARCHAR(12),N,PK,Contract Id,",
+        "support": "structure",
+        "id": "E-124"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-16",
+    "kind": "attribute",
+    "name": "ServiceContract.contractId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ServiceContract",
+      "attribute": "contractId",
+      "physical": "CONTRACT_ID",
+      "data_type": "VARCHAR(12)",
+      "nullable": false,
+      "description": "Contract Id",
+      "entity_id": "ENT-04"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 6",
+        "quote": "SERVICE_CONTRACT,CONTRACT_ID,VARCHAR(12),N,PK,Contract Id,",
+        "support": "structure",
+        "id": "E-124"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-03",
+    "kind": "identifier",
+    "name": "Contract Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ServiceContract",
+      "attribute": "contractId",
+      "key": "primary",
+      "entity_id": "ENT-04"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 6",
+        "quote": "SERVICE_CONTRACT,CONTRACT_ID,VARCHAR(12),N,PK,Contract Id,",
+        "support": "structure",
+        "id": "E-124"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-17",
+    "kind": "attribute",
+    "name": "ServiceContract.clientRef",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ServiceContract",
+      "attribute": "clientRef",
+      "physical": "CLIENT_REF",
+      "data_type": "VARCHAR(12)",
+      "nullable": false,
+      "description": "Client Ref",
+      "entity_id": "ENT-04"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 7",
+        "quote": "SERVICE_CONTRACT,CLIENT_REF,VARCHAR(12),N,FK:CLIENT.CLIENT_REF,Client Ref,",
+        "support": "structure",
+        "id": "E-125"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-02",
+    "kind": "relationship",
+    "name": "ServiceContract → Client",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "ServiceContract",
+      "to": "Client",
+      "via": "clientRef",
+      "cardinality": "many-to-one"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 7",
+        "quote": "SERVICE_CONTRACT,CLIENT_REF,VARCHAR(12),N,FK:CLIENT.CLIENT_REF,Client Ref,",
+        "support": "structure",
+        "id": "E-125"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-18",
+    "kind": "attribute",
+    "name": "ServiceContract.startDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ServiceContract",
+      "attribute": "startDate",
+      "physical": "START_DATE",
+      "data_type": "DATE",
+      "nullable": false,
+      "description": "Contract start",
+      "entity_id": "ENT-04"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 8",
+        "quote": "SERVICE_CONTRACT,START_DATE,DATE,N,,Contract start,",
+        "support": "structure",
+        "id": "E-126"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-19",
+    "kind": "attribute",
+    "name": "ServiceContract.endDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ServiceContract",
+      "attribute": "endDate",
+      "physical": "END_DATE",
+      "data_type": "DATE",
+      "nullable": true,
+      "description": "Contract end",
+      "entity_id": "ENT-04"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "SERVICE_CONTRACT,END_DATE,DATE,Y,,Contract end,",
+        "support": "structure",
+        "id": "E-127"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-20",
+    "kind": "attribute",
+    "name": "ServiceContract.annualValue",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ServiceContract",
+      "attribute": "annualValue",
+      "physical": "ANNUAL_VALUE",
+      "data_type": "NUMERIC(18,2)",
+      "nullable": false,
+      "description": "Annual contract value",
+      "entity_id": "ENT-04"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 10",
+        "quote": "SERVICE_CONTRACT,ANNUAL_VALUE,\"NUMERIC(18,2)\",N,,Annual contract value,",
+        "support": "structure",
+        "id": "E-128"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-05",
+    "kind": "entity",
+    "name": "Risk",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "RiskVault",
+      "physical": "RISK",
+      "attribute_ids": [
+        "ATT-21",
+        "ATT-22",
+        "ATT-23",
+        "ATT-24",
+        "ATT-25",
+        "ATT-26"
+      ],
+      "realises": "CON-12"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "RISK,RISK_ID,VARCHAR(12),N,PK,Risk Id,",
+        "support": "structure",
+        "id": "E-129"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-21",
+    "kind": "attribute",
+    "name": "Risk.riskId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Risk",
+      "attribute": "riskId",
+      "physical": "RISK_ID",
+      "data_type": "VARCHAR(12)",
+      "nullable": false,
+      "description": "Risk Id",
+      "entity_id": "ENT-05"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "RISK,RISK_ID,VARCHAR(12),N,PK,Risk Id,",
+        "support": "structure",
+        "id": "E-129"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-04",
+    "kind": "identifier",
+    "name": "Risk Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Risk",
+      "attribute": "riskId",
+      "key": "primary",
+      "entity_id": "ENT-05"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "RISK,RISK_ID,VARCHAR(12),N,PK,Risk Id,",
+        "support": "structure",
+        "id": "E-129"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-22",
+    "kind": "attribute",
+    "name": "Risk.title",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Risk",
+      "attribute": "title",
+      "physical": "TITLE",
+      "data_type": "VARCHAR(200)",
+      "nullable": false,
+      "description": "Risk title",
+      "entity_id": "ENT-05"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 3",
+        "quote": "RISK,TITLE,VARCHAR(200),N,,Risk title,",
+        "support": "structure",
+        "id": "E-130"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-23",
+    "kind": "attribute",
+    "name": "Risk.rating",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Risk",
+      "attribute": "rating",
+      "physical": "RATING",
+      "data_type": "CHAR(1)",
+      "nullable": false,
+      "description": "Risk rating",
+      "range": "RiskRating",
+      "entity_id": "ENT-05"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 4",
+        "quote": "RISK,RATING,CHAR(1),N,,Risk rating,L=Low|M=Medium|H=High",
+        "support": "structure",
+        "id": "E-060"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-24",
+    "kind": "attribute",
+    "name": "Risk.costCentreCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Risk",
+      "attribute": "costCentreCode",
+      "physical": "COST_CENTRE_CODE",
+      "data_type": "VARCHAR(10)",
+      "nullable": false,
+      "description": "Owning cost centre",
+      "entity_id": "ENT-05"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 5",
+        "quote": "RISK,COST_CENTRE_CODE,VARCHAR(10),N,,Owning cost centre,",
+        "support": "structure",
+        "id": "E-131"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-25",
+    "kind": "attribute",
+    "name": "Risk.customerNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Risk",
+      "attribute": "customerNumber",
+      "physical": "CUSTOMER_NO",
+      "data_type": "CHAR(10)",
+      "nullable": true,
+      "description": "Customer concerned (concentration risk)",
+      "entity_id": "ENT-05"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 6",
+        "quote": "RISK,CUSTOMER_NO,CHAR(10),Y,,Customer concerned (concentration risk),",
+        "support": "structure",
+        "id": "E-091"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-26",
+    "kind": "attribute",
+    "name": "Risk.reviewDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Risk",
+      "attribute": "reviewDate",
+      "physical": "REVIEW_DATE",
+      "data_type": "DATE",
+      "nullable": true,
+      "description": "Next review date",
+      "entity_id": "ENT-05"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 7",
+        "quote": "RISK,REVIEW_DATE,DATE,Y,,Next review date,",
+        "support": "structure",
+        "id": "E-132"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-06",
+    "kind": "entity",
+    "name": "Control",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "RiskVault",
+      "physical": "CONTROL",
+      "attribute_ids": [
+        "ATT-27",
+        "ATT-28",
+        "ATT-29",
+        "ATT-30"
+      ],
+      "realises": "CON-13"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 8",
+        "quote": "CONTROL,CONTROL_ID,VARCHAR(12),N,PK,Control Id,",
+        "support": "structure",
+        "id": "E-133"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-27",
+    "kind": "attribute",
+    "name": "Control.controlId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Control",
+      "attribute": "controlId",
+      "physical": "CONTROL_ID",
+      "data_type": "VARCHAR(12)",
+      "nullable": false,
+      "description": "Control Id",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 8",
+        "quote": "CONTROL,CONTROL_ID,VARCHAR(12),N,PK,Control Id,",
+        "support": "structure",
+        "id": "E-133"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-05",
+    "kind": "identifier",
+    "name": "Control Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Control",
+      "attribute": "controlId",
+      "key": "primary",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 8",
+        "quote": "CONTROL,CONTROL_ID,VARCHAR(12),N,PK,Control Id,",
+        "support": "structure",
+        "id": "E-133"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-28",
+    "kind": "attribute",
+    "name": "Control.riskId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Control",
+      "attribute": "riskId",
+      "physical": "RISK_ID",
+      "data_type": "VARCHAR(12)",
+      "nullable": false,
+      "description": "Risk Id",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "CONTROL,RISK_ID,VARCHAR(12),N,FK:RISK.RISK_ID,Risk Id,",
+        "support": "structure",
+        "id": "E-134"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-03",
+    "kind": "relationship",
+    "name": "Control → Risk",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Control",
+      "to": "Risk",
+      "via": "riskId",
+      "cardinality": "many-to-one",
+      "reference_match": "Control mitigates Risk"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "CONTROL,RISK_ID,VARCHAR(12),N,FK:RISK.RISK_ID,Risk Id,",
+        "support": "structure",
+        "id": "E-134"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-29",
+    "kind": "attribute",
+    "name": "Control.controlType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Control",
+      "attribute": "controlType",
+      "physical": "CONTROL_TYPE",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Control type",
+      "range": "ControlType",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 10",
+        "quote": "CONTROL,CONTROL_TYPE,CHAR(3),N,,Control type,PRE=Preventive|DET=Detective",
+        "support": "structure",
+        "id": "E-062"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-30",
+    "kind": "attribute",
+    "name": "Control.lastTested",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Control",
+      "attribute": "lastTested",
+      "physical": "LAST_TESTED",
+      "data_type": "DATE",
+      "nullable": true,
+      "description": "Date control last tested",
+      "entity_id": "ENT-06"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 11",
+        "quote": "CONTROL,LAST_TESTED,DATE,Y,,Date control last tested,",
+        "support": "structure",
+        "id": "E-135"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-07",
+    "kind": "entity",
+    "name": "LegalEntity",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "FinCore",
+      "physical": "legal_entity",
+      "attribute_ids": [
+        "ATT-31",
+        "ATT-32",
+        "ATT-33",
+        "ATT-34"
+      ],
+      "realises": "CON-10"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 2",
+        "quote": "CREATE TABLE legal_entity (",
+        "support": "structure",
+        "id": "E-136"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-31",
+    "kind": "attribute",
+    "name": "LegalEntity.legalEntityCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "LegalEntity",
+      "attribute": "legalEntityCode",
+      "physical": "legal_entity_code",
+      "data_type": "CHAR(6)",
+      "nullable": true,
+      "entity_id": "ENT-07"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 3",
+        "quote": "legal_entity_code   CHAR(6)        PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-137"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-06",
+    "kind": "identifier",
+    "name": "Legal Entity Code",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "LegalEntity",
+      "attribute": "legalEntityCode",
+      "key": "primary",
+      "seen_in": "CustomerEntity.legalEntityCode",
+      "entity_id": "ENT-07"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 3",
+        "quote": "legal_entity_code   CHAR(6)        PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-137"
+      },
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 36",
+        "quote": "PRIMARY KEY (customer_no, legal_entity_code)",
+        "support": "reference",
+        "id": "E-094"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-32",
+    "kind": "attribute",
+    "name": "LegalEntity.registeredName",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "LegalEntity",
+      "attribute": "registeredName",
+      "physical": "registered_name",
+      "data_type": "VARCHAR(200)",
+      "nullable": false,
+      "entity_id": "ENT-07"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 4",
+        "quote": "registered_name     VARCHAR(200)   NOT NULL,",
+        "support": "structure",
+        "id": "E-138"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-33",
+    "kind": "attribute",
+    "name": "LegalEntity.countryCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "LegalEntity",
+      "attribute": "countryCode",
+      "physical": "country_code",
+      "data_type": "CHAR(2)",
+      "nullable": false,
+      "entity_id": "ENT-07"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 5",
+        "quote": "country_code        CHAR(2)        NOT NULL,",
+        "support": "structure",
+        "id": "E-139"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-34",
+    "kind": "attribute",
+    "name": "LegalEntity.functionalCurrency",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "LegalEntity",
+      "attribute": "functionalCurrency",
+      "physical": "functional_currency",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "entity_id": "ENT-07"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 6",
+        "quote": "functional_currency CHAR(3)        NOT NULL",
+        "support": "structure",
+        "id": "E-140"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-08",
+    "kind": "entity",
+    "name": "CostCentre",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "FinCore",
+      "physical": "cost_centre",
+      "attribute_ids": [
+        "ATT-35",
+        "ATT-36",
+        "ATT-37"
+      ],
+      "realises": "CON-11"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 9",
+        "quote": "CREATE TABLE cost_centre (",
+        "support": "structure",
+        "id": "E-141"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-35",
+    "kind": "attribute",
+    "name": "CostCentre.costCentreCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CostCentre",
+      "attribute": "costCentreCode",
+      "physical": "cost_centre_code",
+      "data_type": "VARCHAR(10)",
+      "nullable": true,
+      "entity_id": "ENT-08"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 10",
+        "quote": "cost_centre_code    VARCHAR(10)    PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-142"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-07",
+    "kind": "identifier",
+    "name": "Cost Centre Code",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CostCentre",
+      "attribute": "costCentreCode",
+      "key": "primary",
+      "seen_in": "Risk.costCentreCode",
+      "entity_id": "ENT-08"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 10",
+        "quote": "cost_centre_code    VARCHAR(10)    PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-142"
+      },
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 5",
+        "quote": "RISK,COST_CENTRE_CODE,VARCHAR(10),N,,Owning cost centre,",
+        "support": "reference",
+        "id": "E-131"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-36",
+    "kind": "attribute",
+    "name": "CostCentre.name",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CostCentre",
+      "attribute": "name",
+      "physical": "name",
+      "data_type": "VARCHAR(100)",
+      "nullable": false,
+      "entity_id": "ENT-08"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 11",
+        "quote": "name                VARCHAR(100)   NOT NULL,",
+        "support": "structure",
+        "id": "E-143"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-37",
+    "kind": "attribute",
+    "name": "CostCentre.legalEntityCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CostCentre",
+      "attribute": "legalEntityCode",
+      "physical": "legal_entity_code",
+      "data_type": "CHAR(6)",
+      "nullable": false,
+      "entity_id": "ENT-08"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 12",
+        "quote": "legal_entity_code   CHAR(6)        NOT NULL REFERENCES legal_entity(legal_entity_code)",
+        "support": "structure",
+        "id": "E-144"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-04",
+    "kind": "relationship",
+    "name": "CostCentre → LegalEntity",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "CostCentre",
+      "to": "LegalEntity",
+      "via": "legalEntityCode",
+      "cardinality": "many-to-one"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 12",
+        "quote": "legal_entity_code   CHAR(6)        NOT NULL REFERENCES legal_entity(legal_entity_code)",
+        "support": "structure",
+        "id": "E-144"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-09",
+    "kind": "entity",
+    "name": "Account",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "FinCore",
+      "physical": "account",
+      "attribute_ids": [
+        "ATT-38",
+        "ATT-39",
+        "ATT-40"
+      ],
+      "separate_from": "CON-01",
+      "decision": "not the same as Customer (recorded SME answer)"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 15",
+        "quote": "CREATE TABLE account (",
+        "support": "structure",
+        "id": "E-145"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-38",
+    "kind": "attribute",
+    "name": "Account.accountCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "accountCode",
+      "physical": "account_code",
+      "data_type": "VARCHAR(10)",
+      "nullable": true,
+      "entity_id": "ENT-09"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 16",
+        "quote": "account_code        VARCHAR(10)    PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-146"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-08",
+    "kind": "identifier",
+    "name": "Account Code",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "accountCode",
+      "key": "primary",
+      "entity_id": "ENT-09"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 16",
+        "quote": "account_code        VARCHAR(10)    PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-146"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-39",
+    "kind": "attribute",
+    "name": "Account.accountName",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "accountName",
+      "physical": "account_name",
+      "data_type": "VARCHAR(100)",
+      "nullable": false,
+      "entity_id": "ENT-09"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 17",
+        "quote": "account_name        VARCHAR(100)   NOT NULL,",
+        "support": "structure",
+        "id": "E-147"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-40",
+    "kind": "attribute",
+    "name": "Account.accountType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Account",
+      "attribute": "accountType",
+      "physical": "account_type",
+      "data_type": "VARCHAR(10)",
+      "nullable": false,
+      "entity_id": "ENT-09"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 18",
+        "quote": "account_type        VARCHAR(10)    NOT NULL",
+        "support": "structure",
+        "id": "E-148"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-10",
+    "kind": "entity",
+    "name": "Invoice",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "FinCore",
+      "physical": "invoice",
+      "attribute_ids": [
+        "ATT-41",
+        "ATT-42",
+        "ATT-43",
+        "ATT-44",
+        "ATT-45",
+        "ATT-46",
+        "ATT-47",
+        "ATT-48"
+      ],
+      "realises": "CON-07"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 21",
+        "quote": "CREATE TABLE invoice (",
+        "support": "structure",
+        "id": "E-149"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-41",
+    "kind": "attribute",
+    "name": "Invoice.invoiceNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Invoice",
+      "attribute": "invoiceNumber",
+      "physical": "invoice_number",
+      "data_type": "VARCHAR(12)",
+      "nullable": true,
+      "entity_id": "ENT-10"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 22",
+        "quote": "invoice_number      VARCHAR(12)    PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-150"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-09",
+    "kind": "identifier",
+    "name": "Invoice Number",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Invoice",
+      "attribute": "invoiceNumber",
+      "key": "primary",
+      "entity_id": "ENT-10"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 22",
+        "quote": "invoice_number      VARCHAR(12)    PRIMARY KEY,",
+        "support": "structure",
+        "id": "E-150"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-42",
+    "kind": "attribute",
+    "name": "Invoice.customerNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Invoice",
+      "attribute": "customerNumber",
+      "physical": "customer_no",
+      "data_type": "CHAR(10)",
+      "nullable": false,
+      "entity_id": "ENT-10"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 23",
+        "quote": "customer_no         CHAR(10)       NOT NULL,",
+        "support": "structure",
+        "id": "E-092"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-43",
+    "kind": "attribute",
+    "name": "Invoice.legalEntityCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Invoice",
+      "attribute": "legalEntityCode",
+      "physical": "legal_entity_code",
+      "data_type": "CHAR(6)",
+      "nullable": false,
+      "entity_id": "ENT-10"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 24",
+        "quote": "legal_entity_code   CHAR(6)        NOT NULL REFERENCES legal_entity(legal_entity_code),",
+        "support": "structure",
+        "id": "E-151"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-05",
+    "kind": "relationship",
+    "name": "Invoice → LegalEntity",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Invoice",
+      "to": "LegalEntity",
+      "via": "legalEntityCode",
+      "cardinality": "many-to-one",
+      "reference_match": "Invoice is issued by Legal Entity"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 24",
+        "quote": "legal_entity_code   CHAR(6)        NOT NULL REFERENCES legal_entity(legal_entity_code),",
+        "support": "structure",
+        "id": "E-151"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-44",
+    "kind": "attribute",
+    "name": "Invoice.invoiceDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Invoice",
+      "attribute": "invoiceDate",
+      "physical": "invoice_date",
+      "data_type": "DATE",
+      "nullable": false,
+      "entity_id": "ENT-10"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 25",
+        "quote": "invoice_date        DATE           NOT NULL,",
+        "support": "structure",
+        "id": "E-152"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-45",
+    "kind": "attribute",
+    "name": "Invoice.dueDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Invoice",
+      "attribute": "dueDate",
+      "physical": "due_date",
+      "data_type": "DATE",
+      "nullable": false,
+      "entity_id": "ENT-10"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 26",
+        "quote": "due_date            DATE           NOT NULL,",
+        "support": "structure",
+        "id": "E-153"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-46",
+    "kind": "attribute",
+    "name": "Invoice.totalAmount",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Invoice",
+      "attribute": "totalAmount",
+      "physical": "total_amount",
+      "data_type": "NUMERIC(18,2)",
+      "nullable": false,
+      "entity_id": "ENT-10"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 27",
+        "quote": "total_amount        NUMERIC(18,2)  NOT NULL,",
+        "support": "structure",
+        "id": "E-154"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-47",
+    "kind": "attribute",
+    "name": "Invoice.amountOutstanding",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Invoice",
+      "attribute": "amountOutstanding",
+      "physical": "amount_outstanding",
+      "data_type": "NUMERIC(18,2)",
+      "nullable": false,
+      "entity_id": "ENT-10"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 28",
+        "quote": "amount_outstanding  NUMERIC(18,2)  NOT NULL,",
+        "support": "structure",
+        "id": "E-155"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-48",
+    "kind": "attribute",
+    "name": "Invoice.currency",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Invoice",
+      "attribute": "currency",
+      "physical": "currency",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "entity_id": "ENT-10"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 29",
+        "quote": "currency            CHAR(3)        NOT NULL",
+        "support": "structure",
+        "id": "E-156"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-11",
+    "kind": "entity",
+    "name": "CustomerEntity",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "FinCore",
+      "physical": "customer_entity",
+      "attribute_ids": [
+        "ATT-49",
+        "ATT-50",
+        "ATT-51"
+      ],
+      "link_entity": true,
+      "links": [
+        "Customer",
+        "LegalEntity"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 32",
+        "quote": "CREATE TABLE customer_entity (",
+        "support": "structure",
+        "id": "E-157"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-49",
+    "kind": "attribute",
+    "name": "CustomerEntity.customerNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerEntity",
+      "attribute": "customerNumber",
+      "physical": "customer_no",
+      "data_type": "CHAR(10)",
+      "nullable": false,
+      "entity_id": "ENT-11"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 33",
+        "quote": "customer_no         CHAR(10)       NOT NULL,",
+        "support": "structure",
+        "id": "E-093"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-50",
+    "kind": "attribute",
+    "name": "CustomerEntity.legalEntityCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerEntity",
+      "attribute": "legalEntityCode",
+      "physical": "legal_entity_code",
+      "data_type": "CHAR(6)",
+      "nullable": false,
+      "entity_id": "ENT-11"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 34",
+        "quote": "legal_entity_code   CHAR(6)        NOT NULL REFERENCES legal_entity(legal_entity_code),",
+        "support": "structure",
+        "id": "E-158"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-06",
+    "kind": "relationship",
+    "name": "CustomerEntity → LegalEntity",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "CustomerEntity",
+      "to": "LegalEntity",
+      "via": "legalEntityCode",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 34",
+        "quote": "legal_entity_code   CHAR(6)        NOT NULL REFERENCES legal_entity(legal_entity_code),",
+        "support": "structure",
+        "id": "E-158"
+      },
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 36",
+        "quote": "PRIMARY KEY (customer_no, legal_entity_code)",
+        "support": "reference",
+        "id": "E-094"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-51",
+    "kind": "attribute",
+    "name": "CustomerEntity.creditLimit",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerEntity",
+      "attribute": "creditLimit",
+      "physical": "credit_limit",
+      "data_type": "NUMERIC(18,2)",
+      "nullable": true,
+      "entity_id": "ENT-11"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 35",
+        "quote": "credit_limit        NUMERIC(18,2),",
+        "support": "structure",
+        "id": "E-159"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-57",
+    "kind": "attribute",
+    "name": "Customer.updatedTimestamp",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Customer",
+      "attribute": "updatedTimestamp",
+      "physical": "updated_ts",
+      "data_type": "TIMESTAMP",
+      "nullable": false,
+      "entity_id": "ENT-01"
+    },
+    "evidence": [
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 10",
+        "quote": "updated_ts       TIMESTAMP      NOT NULL",
+        "support": "structure",
+        "id": "E-160"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-58",
+    "kind": "attribute",
+    "name": "CustomerAddress.line2",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerAddress",
+      "attribute": "line2",
+      "physical": "line_2",
+      "data_type": "VARCHAR(100)",
+      "nullable": true,
+      "entity_id": "ENT-02"
+    },
+    "evidence": [
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 17",
+        "quote": "line_2           VARCHAR(100),",
+        "support": "structure",
+        "id": "E-161"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-59",
+    "kind": "attribute",
+    "name": "CustomerAddress.countryCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "CustomerAddress",
+      "attribute": "countryCode",
+      "physical": "country_code",
+      "data_type": "CHAR(2)",
+      "nullable": false,
+      "entity_id": "ENT-02"
+    },
+    "evidence": [
+      {
+        "file": "schemas/tradedesk-schema-export.sql",
+        "locator": "line 19",
+        "quote": "country_code     CHAR(2)        NOT NULL,",
+        "support": "structure",
+        "id": "E-162"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "A",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "confirmed by a real system artefact",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-12",
+    "kind": "entity",
+    "name": "Address",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TradeDesk",
+      "implied_by": "Customer.addresses"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 11",
+        "quote": "private List<Address> addresses;",
+        "support": "reference",
+        "id": "E-163"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-05"
+    ]
+  },
+  {
+    "id": "REL-07",
+    "kind": "relationship",
+    "name": "Customer → Address",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Customer",
+      "to": "Address",
+      "via": "addresses",
+      "cardinality": "one-to-many"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 11",
+        "quote": "private List<Address> addresses;",
+        "support": "structure",
+        "id": "E-163"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-13",
+    "kind": "entity",
+    "name": "OrderRequest",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "ShopFront",
+      "physical": "OrderRequest",
+      "attribute_ids": [
+        "ATT-52",
+        "ATT-53",
+        "ATT-54",
+        "ATT-55",
+        "ATT-56"
+      ],
+      "realises": "CON-05"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 6",
+        "quote": "public class OrderRequest {",
+        "support": "structure",
+        "id": "E-164"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-52",
+    "kind": "attribute",
+    "name": "OrderRequest.orderId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "OrderRequest",
+      "attribute": "orderId",
+      "data_type": "String",
+      "entity_id": "ENT-13"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 7",
+        "quote": "private String orderId;",
+        "support": "structure",
+        "id": "E-165"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-10",
+    "kind": "identifier",
+    "name": "Order Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "OrderRequest",
+      "attribute": "orderId",
+      "key": "business",
+      "entity_id": "ENT-13"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 7",
+        "quote": "private String orderId;",
+        "support": "structure",
+        "id": "E-165"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-53",
+    "kind": "attribute",
+    "name": "OrderRequest.customerNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "OrderRequest",
+      "attribute": "customerNumber",
+      "data_type": "String",
+      "entity_id": "ENT-13"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 8",
+        "quote": "private String customerNumber;",
+        "support": "structure",
+        "id": "E-096"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-54",
+    "kind": "attribute",
+    "name": "OrderRequest.currency",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "OrderRequest",
+      "attribute": "currency",
+      "data_type": "String",
+      "entity_id": "ENT-13"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 9",
+        "quote": "private String currency;",
+        "support": "structure",
+        "id": "E-166"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-55",
+    "kind": "attribute",
+    "name": "OrderRequest.totalAmount",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "OrderRequest",
+      "attribute": "totalAmount",
+      "data_type": "BigDecimal",
+      "entity_id": "ENT-13"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 10",
+        "quote": "private BigDecimal totalAmount;",
+        "support": "structure",
+        "id": "E-167"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-56",
+    "kind": "attribute",
+    "name": "OrderRequest.status",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "OrderRequest",
+      "attribute": "status",
+      "data_type": "OrderStatus",
+      "range": "OrderStatus",
+      "entity_id": "ENT-13"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 11",
+        "quote": "private OrderStatus status;",
+        "support": "structure",
+        "id": "E-168"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-14",
+    "kind": "entity",
+    "name": "OrderLine",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "ShopFront",
+      "implied_by": "OrderRequest.lines"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 12",
+        "quote": "private List<OrderLine> lines;",
+        "support": "reference",
+        "id": "E-169"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-07"
+    ]
+  },
+  {
+    "id": "REL-08",
+    "kind": "relationship",
+    "name": "OrderRequest → OrderLine",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "OrderRequest",
+      "to": "OrderLine",
+      "via": "lines",
+      "cardinality": "one-to-many"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 12",
+        "quote": "private List<OrderLine> lines;",
+        "support": "structure",
+        "id": "E-169"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-09",
+    "kind": "relationship",
+    "name": "Client → Customer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Client",
+      "to": "Customer",
+      "via": "customerNumber",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/servicelink-data-dictionary.csv",
+        "locator": "line 3",
+        "quote": "CLIENT,CUSTOMER_NO,CHAR(10),Y,,Group customer number (if known),",
+        "support": "reference",
+        "id": "E-090"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-10",
+    "kind": "relationship",
+    "name": "Risk → CostCentre",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Risk",
+      "to": "CostCentre",
+      "via": "costCentreCode",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source",
+      "reference_match": "Risk is owned by Cost Centre"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 5",
+        "quote": "RISK,COST_CENTRE_CODE,VARCHAR(10),N,,Owning cost centre,",
+        "support": "reference",
+        "id": "E-131"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-11",
+    "kind": "relationship",
+    "name": "Risk → Customer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Risk",
+      "to": "Customer",
+      "via": "customerNumber",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/riskvault-data-dictionary.csv",
+        "locator": "line 6",
+        "quote": "RISK,CUSTOMER_NO,CHAR(10),Y,,Customer concerned (concentration risk),",
+        "support": "reference",
+        "id": "E-091"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-12",
+    "kind": "relationship",
+    "name": "Invoice → Customer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Invoice",
+      "to": "Customer",
+      "via": "customerNumber",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source",
+      "reference_match": "Invoice is issued to Customer"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 23",
+        "quote": "customer_no         CHAR(10)       NOT NULL,",
+        "support": "reference",
+        "id": "E-092"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-13",
+    "kind": "relationship",
+    "name": "CustomerEntity → Customer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "CustomerEntity",
+      "to": "Customer",
+      "via": "customerNumber",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 33",
+        "quote": "customer_no         CHAR(10)       NOT NULL,",
+        "support": "reference",
+        "id": "E-093"
+      },
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 36",
+        "quote": "PRIMARY KEY (customer_no, legal_entity_code)",
+        "support": "reference",
+        "id": "E-094"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-14",
+    "kind": "relationship",
+    "name": "OrderRequest → Customer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "OrderRequest",
+      "to": "Customer",
+      "via": "customerNumber",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 8",
+        "quote": "private String customerNumber;",
+        "support": "reference",
+        "id": "E-096"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-15",
+    "kind": "relationship",
+    "name": "Customer ↔ LegalEntity",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Customer",
+      "to": "LegalEntity",
+      "via": "CustomerEntity",
+      "cardinality": "many-to-many",
+      "reference_match": "Customer trades with Legal Entity"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/fincore_finance.sql",
+        "locator": "line 36",
+        "quote": "PRIMARY KEY (customer_no, legal_entity_code)",
+        "support": "structure",
+        "id": "E-094"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-01",
+    "kind": "interface",
+    "name": "CUST-FIN-01",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "New customer to finance",
+      "source": "TradeDesk",
+      "target": "FinCore",
+      "mechanism": "MQ message",
+      "frequency": "Real time",
+      "payload": "Customer Number; customer type; name",
+      "owner": "Integration team"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUST-FIN-01,New customer to finance,TD,FinCore,MQ message,Real time,Customer Number; customer type; name,Integration team",
+        "support": "definition",
+        "id": "E-003"
+      },
+      {
+        "file": "loop-01/docs/customer-onboarding-standard.md",
+        "locator": "line 21",
+        "quote": "4. TradeDesk sends the new customer to FinCore through the CUST-FIN-01 interface.",
+        "support": "mention",
+        "id": "E-170"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 3",
+        "quote": "TD[\"TradeDesk (Industrial CRM)\"] -->|CUST-FIN-01| FC",
+        "support": "mention",
+        "id": "E-002"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-02",
+    "kind": "interface",
+    "name": "CLI-FIN-03",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "New client to finance",
+      "source": "ServiceLink",
+      "target": "FinCore",
+      "mechanism": "File (CSV)",
+      "frequency": "Daily 01:00",
+      "payload": "Client Ref; client name",
+      "owner": "Integration team"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "CLI-FIN-03,New client to finance,ServiceLink,FinCore,File (CSV),Daily 01:00,Client Ref; client name,Integration team",
+        "support": "definition",
+        "id": "E-012"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 4",
+        "quote": "SL[\"ServiceLink (contracts system)\"] -->|CLI-FIN-03 daily file| FC",
+        "support": "mention",
+        "id": "E-011"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-03",
+    "kind": "interface",
+    "name": "ORD-FIN-02",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Web order to finance",
+      "source": "ShopFront",
+      "target": "FinCore",
+      "mechanism": "REST API",
+      "frequency": "Real time",
+      "payload": "Order request",
+      "owner": "Commerce team"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "ORD-FIN-02,Web order to finance,ShopFront,FinCore,REST API,Real time,Order request,Commerce team",
+        "support": "definition",
+        "id": "E-018"
+      },
+      {
+        "file": "loop-01/docs/order-to-cash-overview.md",
+        "locator": "line 8",
+        "quote": "ShopFront sends each order to FinCore over the ORD-FIN-02 interface for invoicing.",
+        "support": "mention",
+        "id": "E-027"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 2",
+        "quote": "SF[\"ShopFront (web store)\"] -->|ORD-FIN-02 web orders| FC[\"FinCore (ERP)\"]",
+        "support": "mention",
+        "id": "E-017"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-04",
+    "kind": "interface",
+    "name": "INV-EVT-04",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Invoice raised",
+      "source": "FinCore",
+      "target": "InsightHub",
+      "mechanism": "Event",
+      "frequency": "Real time",
+      "payload": "InvoiceRaised",
+      "owner": "Finance systems"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "INV-EVT-04,Invoice raised,FinCore,InsightHub,Event,Real time,InvoiceRaised,Finance systems",
+        "support": "definition",
+        "id": "E-023"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "EVT-01",
+    "kind": "event",
+    "name": "InvoiceRaised",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "producer": "FinCore",
+      "consumer": "InsightHub",
+      "interface": "INV-EVT-04"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "INV-EVT-04,Invoice raised,FinCore,InsightHub,Event,Real time,InvoiceRaised,Finance systems",
+        "support": "definition",
+        "id": "E-023"
+      },
+      {
+        "file": "loop-01/docs/order-to-cash-overview.md",
+        "locator": "line 9",
+        "quote": "FinCore (GL) publishes an InvoiceRaised event when an invoice is created.",
+        "support": "definition",
+        "id": "E-022"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "only one current source (others stale)",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-05",
+    "kind": "interface",
+    "name": "MI-01",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Nightly finance extract",
+      "source": "FinCore",
+      "target": "InsightHub",
+      "mechanism": "File (CSV)",
+      "frequency": "Daily 02:00",
+      "payload": "Invoices; GL balances",
+      "owner": "Data team"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-01,Nightly finance extract,FinCore,InsightHub,File (CSV),Daily 02:00,Invoices; GL balances,Data team",
+        "support": "definition",
+        "id": "E-024"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 5",
+        "quote": "FC -->|MI-01 nightly| IH[\"InsightHub (MI warehouse)\"]",
+        "support": "mention",
+        "id": "E-035"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-06",
+    "kind": "interface",
+    "name": "MI-02",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Customer extract",
+      "source": "TradeDesk",
+      "target": "InsightHub",
+      "mechanism": "File (CSV)",
+      "frequency": "Daily 02:30",
+      "payload": "Customers; credit limits",
+      "owner": "Data team"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 7",
+        "quote": "MI-02,Customer extract,Industrial CRM,InsightHub,File (CSV),Daily 02:30,Customers; credit limits,Data team",
+        "support": "definition",
+        "id": "E-004"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 6",
+        "quote": "TD -->|MI-02 nightly| IH",
+        "support": "mention",
+        "id": "E-037"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-07",
+    "kind": "interface",
+    "name": "RISK-01",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Risk register extract",
+      "source": "RiskVault",
+      "target": "InsightHub",
+      "mechanism": "File (CSV)",
+      "frequency": "Weekly",
+      "payload": "Risks; controls",
+      "owner": "Group Risk"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/spreadsheets/interface-catalogue.csv",
+        "locator": "line 8",
+        "quote": "RISK-01,Risk register extract,RiskVault,InsightHub,File (CSV),Weekly,Risks; controls,Group Risk",
+        "support": "definition",
+        "id": "E-031"
+      },
+      {
+        "file": "loop-01/diagrams/group-context-diagram.mmd",
+        "locator": "line 7",
+        "quote": "RV[\"RiskVault (GRC platform)\"] -->|RISK-01 weekly| IH",
+        "support": "mention",
+        "id": "E-030"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-12",
+    "kind": "rule",
+    "name": "customerNumber must be 10 characters",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "customerNumber must be 10 characters",
+      "enforced_in": "loop-01/code-examples/CustomerRecord.java"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 15",
+        "quote": "throw new ValidationException(\"customerNumber must be 10 characters\");",
+        "support": "structure",
+        "id": "E-171"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-13",
+    "kind": "rule",
+    "name": "regNumber is required for companies",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "regNumber is required for companies",
+      "enforced_in": "loop-01/code-examples/CustomerRecord.java"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/CustomerRecord.java",
+        "locator": "line 18",
+        "quote": "throw new ValidationException(\"regNumber is required for companies\");",
+        "support": "structure",
+        "id": "E-172"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-14",
+    "kind": "rule",
+    "name": "an order must have at least one line",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "an order must have at least one line",
+      "enforced_in": "loop-01/code-examples/OrderRequest.java"
+    },
+    "evidence": [
+      {
+        "file": "loop-01/code-examples/OrderRequest.java",
+        "locator": "line 16",
+        "quote": "throw new ValidationException(\"an order must have at least one line\");",
+        "support": "structure",
+        "id": "E-173"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-15",
+    "kind": "entity",
+    "name": "Person",
+    "aliases": [],
+    "definition": "",
+    "resolutions": [],
+    "properties": {
+      "domain": "Party",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-16"
+    ]
+  },
+  {
+    "id": "ENT-16",
+    "kind": "entity",
+    "name": "Organisation",
+    "aliases": [],
+    "definition": "",
+    "resolutions": [],
+    "properties": {
+      "domain": "Party",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-15"
+    ]
+  },
+  {
+    "id": "ENT-17",
+    "kind": "entity",
+    "name": "Channel",
+    "aliases": [],
+    "definition": "",
+    "resolutions": [],
+    "properties": {
+      "domain": "Channel",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-12"
+    ]
+  },
+  {
+    "id": "REL-16",
+    "kind": "relationship",
+    "name": "Customer places Order",
+    "aliases": [],
+    "definition": "",
+    "resolutions": [],
+    "properties": {
+      "from": "Customer",
+      "to": "Order",
+      "verb": "places",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-13"
+    ]
+  },
+  {
+    "id": "REL-17",
+    "kind": "relationship",
+    "name": "Order contains Product",
+    "aliases": [],
+    "definition": "",
+    "resolutions": [],
+    "properties": {
+      "from": "Order",
+      "to": "Product",
+      "verb": "contains",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-14"
+    ]
+  }
+]

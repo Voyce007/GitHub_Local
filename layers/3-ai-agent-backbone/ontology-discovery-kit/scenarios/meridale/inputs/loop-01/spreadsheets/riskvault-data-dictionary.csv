@@ -1,0 +1,11 @@
+table,column,data_type,nullable,key,description,codes
+RISK,RISK_ID,VARCHAR(12),N,PK,Risk Id,
+RISK,TITLE,VARCHAR(200),N,,Risk title,
+RISK,RATING,CHAR(1),N,,Risk rating,L=Low|M=Medium|H=High
+RISK,COST_CENTRE_CODE,VARCHAR(10),N,,Owning cost centre,
+RISK,CUSTOMER_NO,CHAR(10),Y,,Customer concerned (concentration risk),
+RISK,REVIEW_DATE,DATE,Y,,Next review date,
+CONTROL,CONTROL_ID,VARCHAR(12),N,PK,Control Id,
+CONTROL,RISK_ID,VARCHAR(12),N,FK:RISK.RISK_ID,Risk Id,
+CONTROL,CONTROL_TYPE,CHAR(3),N,,Control type,PRE=Preventive|DET=Detective
+CONTROL,LAST_TESTED,DATE,Y,,Date control last tested,

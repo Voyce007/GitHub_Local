@@ -1,0 +1,12 @@
+table,column,data_type,nullable,key,description,codes
+CUSTOMER,CUSTOMER_NO,CHAR(10),N,PK,Customer Number,
+CUSTOMER,CUST_TYPE,CHAR(3),N,,Customer type,IND=Individual|SOL=Sole Trader|COM=Company|PUB=Public Body
+CUSTOMER,FULL_NAME,VARCHAR(200),N,,Customer name,
+CUSTOMER,REG_NUMBER,VARCHAR(20),Y,,Company registration number,
+CUSTOMER,CREDIT_STATUS,CHAR(3),N,,Credit status,APP=Approved|HLD=On Hold|STP=Stopped
+CUSTOMER,CREDIT_LIMIT,"NUMERIC(18,2)",Y,,Credit limit,
+CUSTOMER,CREATED_TS,TIMESTAMP,N,,Record created,
+CUSTOMER_ADDRESS,CUSTOMER_NO,CHAR(10),N,FK:CUSTOMER.CUSTOMER_NO,Customer Number,
+CUSTOMER_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,BIL=Billing|DEL=Delivery
+CUSTOMER_ADDRESS,LINE_1,VARCHAR(100),N,,Address line 1,
+CUSTOMER_ADDRESS,POSTCODE,VARCHAR(10),N,,Postcode,
