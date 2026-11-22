@@ -14,7 +14,7 @@ from __future__ import annotations
 import re
 from collections import Counter, defaultdict
 
-from .common import LoopPaths, Trace, load_config, norm, read_json, tokens, write_json
+from .common import LoopPaths, Trace, const, load_config, norm, read_json, tokens, write_json
 
 COMPARABLE = {"values", "issued_by"}            # disagreement here = contradiction
 LIST_PROPS = {"roles", "confirmed_synonyms", "not_synonyms", "reads", "writes", "writes_columns"}   # unioned
@@ -188,6 +188,8 @@ def reconcile(paths: LoopPaths, trace: Trace, prev_elements: list | None = None)
                 el["definition"] = p["definition"]
             for k, v in p.get("properties", {}).items():
                 if k in COMPARABLE:
+                    if k == "values" and isinstance(v, list):
+                        v = [const(str(x)) for x in v]          # "On Hold" / "ON_HOLD" / "on hold" compare equal
                     vkey = repr(sorted(v)) if isinstance(v, list) else repr(v)
                     slot = variants[k].setdefault(vkey, {"value": v, "files": []})
                     for e in p["evidence"]:
