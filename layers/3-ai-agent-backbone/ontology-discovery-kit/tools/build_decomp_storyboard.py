@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -93,7 +94,18 @@ def main() -> None:
         consumers_of[d["provider"]] += 1
     carve = sorted([d["key"] for d in dec["domains"]], key=lambda k: (consumers_of[k], k != "childcare"))
 
+    real = []
+    for grp in sc.get("real_inputs", []):
+        items = []
+        for it in grp["items"]:
+            hits = [{"id": u["id"], "question": u["question"]} for u in unknowns
+                    if it.get("settles") and re.search(it["settles"], u["question"], re.I)]
+            items.append({**{k: v for k, v in it.items() if k != "settles"}, "closes": hits})
+        real.append({"group": grp["group"], "why": grp.get("why", ""), "items": items})
+    closable = sorted({h["id"] for g in real for i in g["items"] for h in i["closes"]})
+
     data = {
+        "real_inputs": real, "closable": closable,
         "scenario": sc, "loop": loop, "monolith": dec["monolith"], "domains": td["domains"],
         "files": files, "proposals": proposals, "quotes": quotes,
         "tables": tables, "matrix": matrix, "jobs": jobs, "person_cols": person_cols,

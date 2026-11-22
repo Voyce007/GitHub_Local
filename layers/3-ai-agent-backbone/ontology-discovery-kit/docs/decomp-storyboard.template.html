@@ -235,6 +235,22 @@ details.method ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px
 .carve { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .carve .card { border-top: 4px solid var(--dc); }
 .carve .step { font: 700 34px var(--display); color: var(--dc); }
+
+.inpack { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.inpack .card { padding: 12px 14px; gap: 6px; }
+.inpack h3 { font-size: 16px; color: var(--accent); }
+.inpack .why { font-size: 12.5px; color: var(--muted); }
+.inrow { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: start; border-top: 1px solid var(--line); padding-top: 6px; }
+.inrow b { font: 600 13.5px var(--body); }
+.inrow .src { font: 11.5px var(--mono); color: var(--muted); }
+.inrow .pv { font: 11.5px var(--body); color: var(--muted); grid-column: 1 / -1; }
+.closes { display: grid; grid-template-columns: 300px 1fr; gap: 4px 14px; align-items: center; }
+.closes .qs { flex-wrap: nowrap !important; overflow: hidden; }
+.closes .qs span { white-space: nowrap; }
+.closes .in { font: 600 14px var(--body); }
+.closes .qs { display: flex; flex-wrap: wrap; gap: 5px; }
+.closes .qs span { font: 12px var(--body); background: var(--panel2); border: 1px solid var(--line); border-radius: 6px; padding: 3px 7px; }
+.closes .qs span b { color: var(--accent); font-family: var(--mono); margin-right: 4px; }
 </style>
 
 <div class="shell">
@@ -257,7 +273,7 @@ details.method ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px
     <summary>How this storyboard was produced</summary>
     <ul>
       <li>The company, people, systems and amounts are fictional. The documents and example code given to the agents are in <code>scenarios/northmere/inputs/</code>.</li>
-      <li>Every count, quote, conflict, grade and question in scenes 4–14 comes from the agents' actual run over those inputs (<code>python -m ontokit simulate</code>, loop 1, with the decomposition stage).</li>
+      <li>Every count, quote, conflict, grade and question in scenes 4–16 comes from the agents' actual run over those inputs (<code>python -m ontokit simulate</code>, loop 1, with the decomposition stage).</li>
       <li>In this run the four specialist agents are rule-based stand-ins. With real material, Claude Code agents take their place, and the same checks, grades and human approval gates apply.</li>
       <li>Keys: ← → to move between scenes, space to pause or play.</li>
     </ul>
@@ -450,6 +466,19 @@ ${D.mapping.columns} columns mapped · ${D.mapping.moved} moves domain</div></di
         <div class="card a" style="--d:2.2s"><span class="lbl">How sure are we after loop 1?</span><div class="gbar" style="height:30px">${GR.map(k => D.grades[k] ? `<i style="--w:${(D.grades[k] / D.total * 100).toFixed(1)}%;background:${GC[k]}"></i>` : '').join('')}</div>
           <span class="muted" style="font-size:14px">${GR.map(k => `${k} ${D.grades[k]}`).join(' · ')}. Gates: ${D.gates.map(x => x.status).join(', ')}. Documents alone can't confirm the split, so loop 2 needs the real schema.</span></div>
         <div class="card a" style="--d:2.6s;border-color:var(--accent);gap:6px"><span class="lbl">Decisions we need</span>${S.decisions_asked.map(x => `<div class="ask"><b>${esc(x.who)}</b><span style="font-size:15px">${esc(x.ask)}</span></div>`).join('')}</div></div>` },
+  { chap: '7 · Next · What a real run needs', dur: 16, narr: 'This run worked from documents and extracts only, so most findings rest on a single source. A real decomposition needs four kinds of input. The most important show who really writes the data, because that decides ownership. Real system artefacts are the only inputs that can earn grade A.',
+    html: () => `<div class="chap a" style="--d:.1s">7 · What next · Inputs for a real decomposition</div><h2 class="a" style="--d:.3s;font-size:34px">Four kinds of input turn this proposal into a decision</h2>
+      <div class="inpack">${D.real_inputs.map((grp, i) => `<div class="card a pop" style="--d:${.6 + i * .35}s"><h3>${esc(grp.group)}</h3><span class="why">${esc(grp.why)}</span>
+        ${grp.items.map((it, j) => `<div class="inrow a fade" style="--d:${1 + i * .35 + j * .2}s"><div><b>${esc(it.input)}</b><div class="src">${esc(it.from)}</div></div>${g(it.grade)}<span class="pv">${esc(it.proves)}</span></div>`).join('')}</div>`).join('')}</div>
+      <p class="muted a" style="--d:3.6s;font-size:14px">${g('A')} real system artefacts can confirm a finding. ${g('B')} documents and owners' answers corroborate it, and owners' answers settle conflicts.</p>` },
+
+  { chap: '7 · Next · What each input settles', dur: 16, narr: `Each real input closes specific open questions from this run. With these inputs, ${D.closable.length} of the ${D.unknowns.length} questions can be closed. The starter pack and one session with the owners cover the most important ones. The exports are structure-only and the samples are masked, so no live personal data needs to leave the data team.`,
+    html: () => `<div class="chap a" style="--d:.1s">7 · What next · What each input settles</div><h2 class="a" style="--d:.3s;font-size:32px">${D.closable.length} of ${D.unknowns.length} open questions close with the right inputs</h2>
+      <div class="closes">${D.real_inputs.flatMap(gp => gp.items).filter(it => it.closes.length).map((it, i) => `<span class="in a fly" style="--d:${.6 + i * .3}s">${esc(it.input)}</span><div class="qs a fade" style="--d:${.9 + i * .3}s">${it.closes.slice(0, 2).map(q => { const t = q.question.replace(/^(Request a |Should this data move domains\? |Agree the event that replaces a cross-domain write: |Sources disagree on the )/, ''); return `<span><b>${esc(q.id)}</b>${esc(t.slice(0, 46))}${t.length > 46 ? '…' : ''}</span>`; }).join('')}${it.closes.length > 2 ? `<span>+${it.closes.length - 2}</span>` : ''}</div>`).join('')}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+        <div class="card a" style="--d:3.4s;border-color:var(--accent);padding:12px 14px;gap:4px"><span class="lbl">Minimum starter pack</span>${S.starter_pack.map(x => `<span style="font-size:13px">▸ ${esc(x)}</span>`).join('')}</div>
+        <div class="card a" style="--d:3.8s;padding:12px 14px;gap:4px"><span class="lbl">Safeguards</span>${S.safeguards.map(x => `<span style="font-size:13px">▸ ${esc(x)}</span>`).join('')}</div>
+        <div class="card a" style="--d:4.2s;padding:12px 14px;gap:4px"><span class="lbl">Then</span><span style="font-size:13px">▸ Loop 2 re-runs the same agents on the new inputs</span><span style="font-size:13px">▸ Ownership graded A or B, not C</span><span style="font-size:13px">▸ Gates pass, and owners sign the split</span><span style="font-size:13px">▸ Childcare carve-out starts behind the access layer</span></div></div>` },
 ];
 
 /* ---------- Player ---------- */

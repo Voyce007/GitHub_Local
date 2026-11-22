@@ -39,3 +39,41 @@ decisions_asked:
   - {who: COO, ask: Confirm the four domain owners and the ownership rule (whoever creates or changes the data owns it).}
   - {who: CIO, ask: Release a TAXCORE schema export so loop 2 can confirm the split on real structure.}
   - {who: COO and CIO, ask: Approve Childcare as the first domain to carve out, behind the new access layer.}
+
+# Inputs that support a REAL decomposition (storyboard "What a real run needs").
+# provenance = how the kit grades it; settles = regex matched against this run's open questions.
+real_inputs:
+  - group: Who really writes the data
+    why: Decides ownership. This is the strongest evidence for the split.
+    items:
+      - {input: Schema export (structure only), from: DBA team, provenance: schema, grade: A, proves: "Every table, column, key and foreign key as it is today", settles: "schema export|Party|Top-up Payment"}
+      - {input: Stored procedure and batch program source, from: Core Systems, provenance: real-code, grade: A, proves: "Which program inserts or updates each table and column", settles: "move domains|cross-domain write"}
+      - {input: Batch scheduler export, from: Operations, provenance: real-code, grade: A, proves: "Every job, its program, its schedule and its owning team", settles: "cross-domain write"}
+      - {input: Database access statistics, from: DBA team, provenance: data-sample, grade: A, proves: "Which applications write which tables, including writes nobody documented", settles: "income-verify-svc"}
+  - group: Who owns it in the business
+    why: Turns technical ownership into accountable business ownership.
+    items:
+      - {input: Capability map with accountable owners, from: Enterprise Architecture, provenance: document, grade: B, proves: "Which team is accountable for each capability"}
+      - {input: Named domain owners and decision rights, from: COO office, provenance: sme-answer, grade: B, proves: "Who may approve each domain's ontology and services", settles: "synonym of Customer|move domains"}
+      - {input: Interface and service catalogue, from: Integration team, provenance: document, grade: B, proves: "Every feed in and out of the monolith, and its consumers", settles: "income-verify-svc"}
+  - group: What it means and how it is calculated
+    why: Keeps business meaning intact when calculations move.
+    items:
+      - {input: Calculation specifications and rate tables, from: Policy teams, provenance: document, grade: B, proves: "PAYE, NI and top-up rules, independent of the code"}
+      - {input: Reference data tables, from: Data team, provenance: data-sample, grade: A, proves: "The real list of codes in use (NI categories, statuses)", settles: "values of taxonomy"}
+      - {input: Answers from the named owners, from: Domain owners, provenance: sme-answer, grade: B, proves: "Decisions on conflicts and definitions; they outrank documents", settles: "Sources disagree|synonym of Customer|Childcare Provider"}
+  - group: What the data really looks like
+    why: Tests the assumptions before anything moves.
+    items:
+      - {input: Masked data samples and profiling, from: Data team, provenance: data-sample, grade: A, proves: "How complete and consistent each column really is, such as how many children have a person record", settles: "synonym of Customer|schema export"}
+      - {input: Legal basis for sharing data between domains, from: Legal and data protection, provenance: document, grade: B, proves: "Which cross-domain services are allowed, such as Childcare reading PAYE income"}
+
+starter_pack:
+  - Schema export of TAXCORE (structure only)
+  - Source of the 40 most-run stored procedures
+  - Batch scheduler export
+  - One two-hour session with the four domain owners
+safeguards:
+  - Structure-only exports and masked samples; no live personal data leaves the data team
+  - Inputs stay inside the organisation; agents can run on local models
+  - Every finding cites its source, and only named owners approve
