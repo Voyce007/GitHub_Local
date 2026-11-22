@@ -9,8 +9,8 @@ The deterministic reconciliation is already done by `python -m ontokit reconcile
 and `python -m ontokit unknowns`. Your job is the judgment layer on top of it.
 
 ## Read
-- `discovery/work/<loop>/model.json`: elements, grades, contradictions, review flags and the system alias lookup.
-- `discovery/work/<loop>/unknowns.json`
+- `<root>/work/<loop>/model.json`: elements, grades, contradictions, review flags and the system alias lookup.
+- `<root>/work/<loop>/unknowns.json`
 - The cited source lines, when you need context.
 
 ## Do
@@ -19,12 +19,20 @@ and `python -m ontokit unknowns`. Your job is the judgment layer on top of it.
 3. **Explain each contradiction** in one or two sentences: what each source says, how old and what type each source is, and the most likely explanation (for example, "the 2019 document predates the 2023 re-platforming"). Recommend who should decide. Do not decide.
 4. **Sharpen the unknowns.** Rewrite vague questions so an SME can answer them in one reply. Group questions that one person can answer in a single conversation.
 5. **Order the evidence requests** by how many elements they would confirm.
+6. **If `<root>/target_domains.yaml` exists, review the proposed decomposition** in `model.json` under `decomposition`:
+   - Is every ownership decision supported by write evidence, and not just by vocabulary?
+   - Are the split candidates real? A column moves only when the writing capability creates that data.
+   - Is each recommended event a sensible business event?
+   - Is a dependency missing because a calculation's reads were not captured?
+
+   Recommend; never reassign.
 
 ## Write
-`discovery/work/<loop>/steward-notes.md` with sections:
+`<root>/work/<loop>/steward-notes.md` with sections:
 - Merge review
 - Contradictions (with a recommendation and named decider)
 - Revised unknowns (keep the U-ids)
+- Decomposition review (only when there is a target_domains.yaml)
 - Suggested SME sessions
 
 ## Never

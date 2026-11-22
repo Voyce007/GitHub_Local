@@ -19,6 +19,13 @@ Loops iterate. Loop n+1 carries loop n's evidence forward, adds the answers and
 new code context, resolves contradictions by authority, and publishes a change
 register against loop n.
 
+## Discovery roots and scenarios
+Every `ontokit` command takes `--root`. The default root is `discovery/`. The folders under `scenarios/` are self-contained roots:
+- `meridale`: customer exposure, run over two loops
+- `northmere`: monolith decomposition.
+
+A root with a `target_domains.yaml` also gets the decomposition stage, which splits a monolith into business-owned domains with a business-service catalogue.
+
 ## Start here
 - To run a loop, follow `.claude/skills/ontology-discovery-loop/SKILL.md`.
 - For a demo with no LLM, run `python -m ontokit simulate --loop loop-01`, then `--loop loop-02`.

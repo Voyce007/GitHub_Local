@@ -32,6 +32,11 @@ def validate_file(agent: str, data: dict, index: dict, scopes: dict) -> tuple[li
             problems.append(f"origin must be one of {sorted(ORIGINS)}")
         if p.get("origin") == "confirmed":
             problems.append("agents cannot mark elements 'confirmed'; only grade-A evidence or a human can")
+        pr = p.get("properties") or {}
+        if p.get("kind") == "calculation" and not (pr.get("reads") or pr.get("writes")):
+            problems.append("calculation has no reads or writes; list the tables it reads and changes")
+        if p.get("kind") == "capability" and not pr.get("owner_team"):
+            problems.append("capability has no owner_team; copy the accountable team from the source")
         ev = p.get("evidence") or []
         if not ev and p.get("origin") != "assumed":
             problems.append("no evidence; inferred proposals must cite a source")
