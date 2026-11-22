@@ -2,8 +2,8 @@
   {
     "type": "sme_question",
     "priority": "high",
-    "question": "Agree the event that replaces a cross-domain write: PersonChanged?",
-    "why": "Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes PersonChanged; Childcare, National Insurance react with their own services.",
+    "question": "Agree the event that replaces a cross-domain write: LifeEventRecorded?",
+    "why": "Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes LifeEventRecorded; Childcare, National Insurance react with their own services.",
     "affects": [
       "CAL-11",
       "ENT-08",

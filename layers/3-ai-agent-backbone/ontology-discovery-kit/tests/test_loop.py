@@ -152,7 +152,7 @@ class NorthmereDecompositionTests(unittest.TestCase):
         self.assertEqual(owner["NiRecord"], "ni")
         self.assertEqual(owner["ChildcareAccount"], "childcare")
         self.assertEqual([(s["column"], s["to"]) for s in dec["splits"]], [("NI_NUMBER", "ni")])
-        self.assertEqual({x["event"] for x in dec["cross_domain_writes"]}, {"PersonChanged"})
+        self.assertEqual({x["event"] for x in dec["cross_domain_writes"]}, {"LifeEventRecorded"})
         self.assertIn({"consumer": "childcare", "provider": "paye"}, [{k: d[k] for k in ("consumer", "provider")} for d in dec["dependencies"]])
         self.assertEqual(dec["unassigned"], [])
         for k in ("customer", "paye", "ni", "childcare"):

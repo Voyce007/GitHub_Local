@@ -123,6 +123,20 @@ classes:
         annotations:
           reference_to: customer:Person
 enums:
+  NiCategory:
+    permissible_values:
+      A: {}
+      B: {}
+      C: {}
+      H: {}
+      J: {}
+      M: {}
+      V: {}
+      Z: {}
+    annotations:
+      grade: X
+      domain_basis: used by PayPeriod.niCategory, NiContribution.niCategory (shared; the domain named in it wins)
+      evidence: E-083,E-084
   QualifyingYear:
     permissible_values:
       'YES': {}

@@ -4,10 +4,10 @@ Rule: the domain whose business capability creates or changes data owns it. Othe
 
 | Domain | Owner | Entities | Attributes | Calculations | Capabilities | Services | Grades |
 |---|---|---|---|---|---|---|---|
-| **Customer** | Director of Customer Services | 2 | 10 | 2 | 2 | 4 | A:0 B:4 C:18 D:0 X:0 |
-| **PAYE** | Director of Employer Taxes | 4 | 17 | 3 | 3 | 5 | A:0 B:10 C:30 D:1 X:2 |
-| **National Insurance** | Director of National Insurance | 2 | 11 | 3 | 3 | 4 | A:0 B:5 C:30 D:1 X:1 |
-| **Childcare** | Director of Family Support | 4 | 20 | 3 | 3 | 3 | A:0 B:12 C:45 D:1 X:0 |
+| **Customer** | Director of Customer Services | 2 | 10 | 2 | 2 | 4 | A:0 B:4 C:17 D:0 X:0 |
+| **PAYE** | Director of Employer Taxes | 4 | 17 | 3 | 3 | 5 | A:0 B:10 C:30 D:1 X:1 |
+| **National Insurance** | Director of National Insurance | 2 | 11 | 3 | 3 | 4 | A:0 B:5 C:31 D:1 X:2 |
+| **Childcare** | Director of Family Support | 4 | 20 | 3 | 3 | 3 | A:0 B:12 C:46 D:1 X:0 |
 
 ## Target picture
 
@@ -17,7 +17,7 @@ flowchart LR
     customer_0["Register Customer"]
     customer_1["Record Life Events"]
     customer_2(["Get Person"])
-    customer_3[["PersonChanged"]]
+    customer_3[["LifeEventRecorded"]]
   end
   subgraph paye["PAYE"]
     paye_0["Process Employer Returns"]
@@ -72,8 +72,8 @@ flowchart LR
 
 ## Cross-domain writes → events
 
-- **PersonChanged** published by Customer, consumed by National Insurance: replaces PRC_CLOSE_DECEASED (Record Life Events) changing NiRecord directly.
-- **PersonChanged** published by Customer, consumed by Childcare: replaces PRC_CLOSE_DECEASED (Record Life Events) changing ChildcareAccount directly.
+- **LifeEventRecorded** published by Customer, consumed by National Insurance: replaces PRC_CLOSE_DECEASED (Record Life Events) changing NiRecord directly.
+- **LifeEventRecorded** published by Customer, consumed by Childcare: replaces PRC_CLOSE_DECEASED (Record Life Events) changing ChildcareAccount directly.
 
 ## Cross-domain dependencies → query services
 
@@ -95,7 +95,7 @@ flowchart LR
 | Register Customer | command | — | PRC_REGISTER_PERSON |
 | Record Life Events | command | — | PRC_CLOSE_DECEASED |
 | Get Person | query | Childcare, National Insurance, PAYE | — |
-| PersonChanged | event | National Insurance, Childcare | PRC_CLOSE_DECEASED writing NiRecord, PRC_CLOSE_DECEASED writing ChildcareAccount |
+| LifeEventRecorded | event | National Insurance, Childcare | PRC_CLOSE_DECEASED writing NiRecord, PRC_CLOSE_DECEASED writing ChildcareAccount |
 
 ### PAYE
 

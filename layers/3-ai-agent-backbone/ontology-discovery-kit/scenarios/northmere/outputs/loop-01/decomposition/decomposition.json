@@ -28,7 +28,6 @@
       "owner": "Director of Customer Services",
       "counts": {
         "capability": 2,
-        "rule": 1,
         "entity": 2,
         "attribute": 10,
         "identifier": 1,
@@ -37,7 +36,7 @@
         "calculation": 2
       },
       "grades": {
-        "C": 21
+        "C": 20
       },
       "entities": [
         "Address",
@@ -76,7 +75,7 @@
       "owner": "Director of National Insurance",
       "counts": {
         "capability": 3,
-        "rule": 2,
+        "rule": 3,
         "taxonomy": 2,
         "concept": 3,
         "attribute": 11,
@@ -86,7 +85,7 @@
         "calculation": 3
       },
       "grades": {
-        "C": 27,
+        "C": 28,
         "X": 2
       },
       "entities": [
@@ -100,7 +99,7 @@
       "owner": "Director of Family Support",
       "counts": {
         "capability": 3,
-        "rule": 3,
+        "rule": 4,
         "taxonomy": 2,
         "concept": 4,
         "entity": 4,
@@ -110,7 +109,7 @@
         "calculation": 3
       },
       "grades": {
-        "C": 47,
+        "C": 48,
         "B": 1
       },
       "entities": [
@@ -144,7 +143,7 @@
       "calculation": "PRC_CLOSE_DECEASED",
       "capability": "Record Life Events",
       "columns": [],
-      "event": "PersonChanged",
+      "event": "LifeEventRecorded",
       "calc_id": "CAL-11"
     },
     {
@@ -157,7 +156,7 @@
       "columns": [
         "STATUS"
       ],
-      "event": "PersonChanged",
+      "event": "LifeEventRecorded",
       "calc_id": "CAL-11"
     }
   ],
@@ -269,7 +268,7 @@
         ]
       },
       {
-        "name": "PersonChanged",
+        "name": "LifeEventRecorded",
         "type": "event",
         "replaces": [
           "PRC_CLOSE_DECEASED writing NiRecord",

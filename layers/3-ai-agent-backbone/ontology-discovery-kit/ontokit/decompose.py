@@ -51,6 +51,20 @@ def _kw_score(text: str, keywords: list[str]) -> int:
     return score
 
 
+PAST = {"record": "Recorded", "register": "Registered", "close": "Closed", "open": "Opened", "allocate": "Allocated",
+        "issue": "Issued", "calculate": "Calculated", "update": "Updated", "check": "Checked", "process": "Processed",
+        "maintain": "Updated", "create": "Created", "change": "Changed", "end": "Ended", "start": "Started"}
+
+
+def _event_name(capability: str, fallback: str) -> str:
+    """A business event in past tense, named after the capability that causes it: Record Life Events -> LifeEventRecorded."""
+    toks = tokens(capability)
+    if len(toks) >= 2 and toks[0] in PAST:
+        noun = [t[:-1] if t.endswith("s") and not t.endswith("ss") else t for t in toks[1:]]
+        return "".join(t.capitalize() for t in noun) + PAST[toks[0]]
+    return pascal(capability or fallback) + "Occurred"
+
+
 def _group(xwrites: list[dict]) -> dict:
     out = defaultdict(list)
     for x in xwrites:
@@ -177,8 +191,7 @@ def decompose(paths: LoopPaths, trace: Trace) -> dict | None:
                         trace.emit(ST, "Ontology Steward", "split candidate",
                                    f"{e['name']}.{col}: created by {cap_name} → move to {dname(wdom)}; {dname(owner)} keeps a reference")
                 else:
-                    trig = next((by_table[t.upper()] for t in calc["properties"].get("reads", []) if t.upper() in by_table), None)
-                    event = (pascal(trig["name"]) if trig else pascal(cap_name)) + "Changed"
+                    event = _event_name(cap_name, calc["name"])
                     xwrites.append({"entity": e["name"], "entity_id": e["id"], "owner": owner, "writer": wdom,
                                     "calculation": calc["name"], "capability": cap_name, "columns": cols, "event": event,
                                     "calc_id": cid})
@@ -216,9 +229,14 @@ def decompose(paths: LoopPaths, trace: Trace) -> dict | None:
             dom, _ = by_keywords(i["name"])
             assign(i, dom, "business vocabulary")
     for t in by_kind["taxonomy"]:
-        a = next((a for a in by_kind["attribute"] if a["properties"].get("range") == t["name"] and a["properties"].get("domain")), None)
-        if a:
-            assign(t, a["properties"]["domain"], f"used by {a['name']}")
+        users = [a for a in by_kind["attribute"] if norm(str(a["properties"].get("range", ""))) == norm(t["name"]) and a["properties"].get("domain")]
+        kw_dom, _ = by_keywords(human(t["name"]))
+        votes = Counter(a["properties"]["domain"] for a in users)
+        if votes:
+            top = max(votes.values())
+            leaders = [k for k, v in votes.items() if v == top]
+            dom = kw_dom if kw_dom in leaders else leaders[0]
+            assign(t, dom, f"used by {', '.join(a['name'] for a in users)}" + (" (shared; the domain named in it wins)" if len(votes) > 1 else ""))
         else:
             dom, _ = by_keywords(human(t["name"]))
             assign(t, dom, "business vocabulary")
@@ -229,9 +247,16 @@ def decompose(paths: LoopPaths, trace: Trace) -> dict | None:
         else:
             dom, _ = by_keywords(c["name"] + " " + c.get("definition", ""))
             assign(c, dom, "business vocabulary")
+    sources = read_json(paths.work / "sources.json")["sources"] if (paths.work / "sources.json").exists() else {}
     for r in by_kind["rule"]:
-        dom, _ = by_keywords(r["name"])
-        assign(r, dom, "business vocabulary")
+        teams = Counter(team2dom[norm(sources[e["file"]].get("author", ""))] for e in r["evidence"]
+                        if e["file"] in sources and norm(sources[e["file"]].get("author", "")) in team2dom)
+        if teams:
+            dom = teams.most_common(1)[0][0]
+            assign(r, dom, f"stated in {dname(dom)}'s own documents")
+        else:
+            dom, _ = by_keywords(r["name"])
+            assign(r, dom, "business vocabulary")
 
     deps = defaultdict(lambda: {"entities": set(), "via": set()})   # (consumer, provider) -> detail
     for r in by_kind["relationship"]:

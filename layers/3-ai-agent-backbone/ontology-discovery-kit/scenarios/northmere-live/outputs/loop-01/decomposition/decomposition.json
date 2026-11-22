@@ -28,8 +28,8 @@
       "owner": "Director of Customer Services",
       "counts": {
         "capability": 2,
-        "rule": 2,
         "taxonomy": 2,
+        "rule": 1,
         "entity": 2,
         "attribute": 10,
         "identifier": 1,
@@ -38,7 +38,7 @@
       },
       "grades": {
         "B": 4,
-        "C": 18
+        "C": 17
       },
       "entities": [
         "Address",
@@ -53,7 +53,7 @@
         "capability": 3,
         "concept": 5,
         "rule": 3,
-        "taxonomy": 2,
+        "taxonomy": 1,
         "entity": 4,
         "attribute": 17,
         "identifier": 2,
@@ -64,7 +64,7 @@
         "B": 10,
         "C": 30,
         "D": 1,
-        "X": 2
+        "X": 1
       },
       "entities": [
         "Employer",
@@ -80,19 +80,19 @@
       "counts": {
         "capability": 3,
         "concept": 5,
-        "rule": 6,
+        "rule": 7,
+        "taxonomy": 3,
         "attribute": 11,
         "identifier": 1,
         "entity": 2,
         "relationship": 4,
-        "taxonomy": 2,
         "calculation": 3
       },
       "grades": {
         "B": 5,
-        "C": 30,
+        "C": 31,
         "D": 1,
-        "X": 1
+        "X": 2
       },
       "entities": [
         "NiContribution",
@@ -106,7 +106,7 @@
       "counts": {
         "capability": 3,
         "concept": 5,
-        "rule": 10,
+        "rule": 11,
         "taxonomy": 2,
         "entity": 4,
         "attribute": 20,
@@ -116,7 +116,7 @@
       },
       "grades": {
         "B": 12,
-        "C": 45,
+        "C": 46,
         "D": 1
       },
       "entities": [
@@ -150,7 +150,7 @@
       "calculation": "PRC_CLOSE_DECEASED",
       "capability": "Record Life Events",
       "columns": [],
-      "event": "PersonChanged",
+      "event": "LifeEventRecorded",
       "calc_id": "CAL-11"
     },
     {
@@ -163,7 +163,7 @@
       "columns": [
         "STATUS"
       ],
-      "event": "PersonChanged",
+      "event": "LifeEventRecorded",
       "calc_id": "CAL-11"
     }
   ],
@@ -275,7 +275,7 @@
         ]
       },
       {
-        "name": "PersonChanged",
+        "name": "LifeEventRecorded",
         "type": "event",
         "replaces": [
           "PRC_CLOSE_DECEASED writing NiRecord",

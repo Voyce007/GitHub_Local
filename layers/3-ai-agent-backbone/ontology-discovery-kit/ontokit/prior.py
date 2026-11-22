@@ -32,12 +32,12 @@ def apply_prior(paths: LoopPaths, trace: Trace) -> dict:
         hit = names.get(norm(r["name"]))
         if hit:
             hit["properties"]["reference_match"] = r["name"]
-            hit["properties"]["domain"] = r["domain"]
+            hit["properties"]["reference_domain"] = r["domain"]
             matched.append(r["name"])
         else:
             el = {"id": ids.get(_key({"kind": "entity", "name": r["name"]}), "entity"), "kind": "entity",
                   "name": r["name"], "aliases": [], "definition": "", "resolutions": [],
-                  "properties": {"domain": r["domain"], "reference": True}, "evidence": [], "proposed_by": ["reference"],
+                  "properties": {"reference_domain": r["domain"], "reference": True}, "evidence": [], "proposed_by": ["reference"],
                   "conflicts": [], "origin": "assumed", "grade": "D", "grade_reason": "assumed from reference ontology",
                   "status": "proposed"}
             els.append(el)

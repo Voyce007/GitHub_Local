@@ -1,7 +1,7 @@
 [
   {
-    "summary": "[U-01] Agree the event that replaces a cross-domain write: PersonChanged?",
-    "description": "Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes PersonChanged; Childcare, National Insurance react with their own services.\n\nOwner: Domain owners with the Enterprise Architecture Authority\nAffects: CAL-11, ENT-08, ENT-09\nPriority: high\nRaised by ontology discovery loop-01.",
+    "summary": "[U-01] Agree the event that replaces a cross-domain write: LifeEventRecorded?",
+    "description": "Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes LifeEventRecorded; Childcare, National Insurance react with their own services.\n\nOwner: Domain owners with the Enterprise Architecture Authority\nAffects: CAL-11, ENT-08, ENT-09\nPriority: high\nRaised by ontology discovery loop-01.",
     "issue_type": "Task",
     "labels": [
       "ontology",

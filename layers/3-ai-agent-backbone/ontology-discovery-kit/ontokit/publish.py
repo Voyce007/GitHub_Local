@@ -126,7 +126,7 @@ def publish(paths: LoopPaths, trace: Trace) -> None:
                 attrs.setdefault(re.sub(r"^.", lambda m: m.group().lower(), tgt) + ("s" if "many" in r["properties"].get("cardinality", "").split("-")[-1] else ""),
                                  {"range": tgt, "annotations": {**ann(r), "cardinality": r["properties"].get("cardinality", "")}})
         cls = {"annotations": {**ann(e), **({"system": e["properties"]["system"]} if e["properties"].get("system") else {}),
-                               **({"reference_domain": e["properties"]["domain"]} if e["properties"].get("domain") else {})}}
+                               **({"reference_domain": e["properties"]["reference_domain"]} if e["properties"].get("reference_domain") else {})}}
         if concept and concept["definition"]:
             cls["description"] = concept["definition"]
         if attrs:

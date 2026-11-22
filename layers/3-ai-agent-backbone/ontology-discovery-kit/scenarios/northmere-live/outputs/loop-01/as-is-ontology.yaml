@@ -17,7 +17,6 @@ classes:
       evidence: E-008,E-101,E-035
       open_unknowns: U-02,U-03
       system: TAXCORE
-      reference_domain: customer
     attributes:
       personId:
         annotations:
@@ -79,7 +78,7 @@ classes:
       origin: inferred
       evidence: E-108,E-035
       system: TAXCORE
-      reference_domain: customer
+      reference_domain: Customer
     attributes:
       personId:
         annotations:
@@ -125,7 +124,6 @@ classes:
       origin: inferred
       evidence: E-111,E-040
       system: TAXCORE
-      reference_domain: paye
     description: An organisation that pays employees and files PAYE returns.
     attributes:
       employerReference:
@@ -150,7 +148,6 @@ classes:
       origin: inferred
       evidence: E-113,E-114,E-040
       system: TAXCORE
-      reference_domain: paye
     description: A period during which a person is paid by an employer.
     attributes:
       employmentId:
@@ -220,7 +217,6 @@ classes:
       origin: inferred
       evidence: E-120,E-044
       system: TAXCORE
-      reference_domain: paye
     description: A code that tells the employer how much tax-free pay to allow for an employment.
     attributes:
       employmentId:
@@ -259,7 +255,6 @@ classes:
       origin: inferred
       evidence: E-123,E-124,E-040
       system: TAXCORE
-      reference_domain: paye
     description: One period of pay, such as a week or month, reported in an employer return.
     attributes:
       employmentId:
@@ -320,7 +315,6 @@ classes:
       origin: inferred
       evidence: E-131,E-132,E-049
       system: TAXCORE
-      reference_domain: ni
     description: An amount of National Insurance due for a pay period.
     attributes:
       employmentId:
@@ -390,7 +384,6 @@ classes:
       evidence: E-137,E-052
       open_unknowns: U-01
       system: TAXCORE
-      reference_domain: ni
     description: A person's yearly contribution history, including qualifying years.
     attributes:
       personId:
@@ -446,7 +439,6 @@ classes:
       evidence: E-009,E-141,E-054
       open_unknowns: U-01
       system: TAXCORE
-      reference_domain: childcare
     description: An account a parent uses to pay a registered childcare provider.
     attributes:
       childcareAccountId:
@@ -494,7 +486,6 @@ classes:
       origin: inferred
       evidence: E-144,E-054
       system: TAXCORE
-      reference_domain: childcare
     description: A child named on a childcare account.
     attributes:
       childId:
@@ -556,7 +547,7 @@ classes:
       origin: inferred
       evidence: E-149,E-099,E-059
       system: TAXCORE
-      reference_domain: childcare
+      reference_domain: Childcare
     attributes:
       paymentId:
         annotations:
@@ -624,7 +615,6 @@ classes:
       origin: inferred
       evidence: E-097,E-155,E-056
       system: TAXCORE
-      reference_domain: childcare
     attributes:
       checkId:
         annotations:

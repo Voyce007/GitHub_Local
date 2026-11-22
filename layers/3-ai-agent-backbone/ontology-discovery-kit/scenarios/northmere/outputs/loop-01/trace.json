@@ -1201,14 +1201,14 @@
     "stage": "F2. Decompose",
     "actor": "Ontology Steward",
     "action": "cross-domain write",
-    "detail": "Customer changes NiRecord (National Insurance) via PRC_CLOSE_DECEASED → event PersonChanged"
+    "detail": "Customer changes NiRecord (National Insurance) via PRC_CLOSE_DECEASED → event LifeEventRecorded"
   },
   {
     "seq": 110,
     "stage": "F2. Decompose",
     "actor": "Ontology Steward",
     "action": "cross-domain write",
-    "detail": "Customer changes ChildcareAccount (Childcare) via PRC_CLOSE_DECEASED → event PersonChanged"
+    "detail": "Customer changes ChildcareAccount (Childcare) via PRC_CLOSE_DECEASED → event LifeEventRecorded"
   },
   {
     "seq": 111,
@@ -1222,7 +1222,6 @@
       "owner": "Director of Customer Services",
       "counts": {
         "capability": 2,
-        "rule": 1,
         "entity": 2,
         "attribute": 10,
         "identifier": 1,
@@ -1231,7 +1230,7 @@
         "calculation": 2
       },
       "grades": {
-        "C": 21
+        "C": 20
       },
       "entities": [
         "Address",
@@ -1286,7 +1285,7 @@
       "owner": "Director of National Insurance",
       "counts": {
         "capability": 3,
-        "rule": 2,
+        "rule": 3,
         "taxonomy": 2,
         "concept": 3,
         "attribute": 11,
@@ -1296,7 +1295,7 @@
         "calculation": 3
       },
       "grades": {
-        "C": 27,
+        "C": 28,
         "X": 2
       },
       "entities": [
@@ -1318,7 +1317,7 @@
       "owner": "Director of Family Support",
       "counts": {
         "capability": 3,
-        "rule": 3,
+        "rule": 4,
         "taxonomy": 2,
         "concept": 4,
         "entity": 4,
@@ -1328,7 +1327,7 @@
         "calculation": 3
       },
       "grades": {
-        "C": 47,
+        "C": 48,
         "B": 1
       },
       "entities": [
@@ -1372,7 +1371,7 @@
     "stage": "G. Unknowns",
     "actor": "Ontology Steward",
     "action": "U-01",
-    "detail": "Agree the event that replaces a cross-domain write: PersonChanged?",
+    "detail": "Agree the event that replaces a cross-domain write: LifeEventRecorded?",
     "data": {
       "owner": "Domain owners with the Enterprise Architecture Authority"
     }

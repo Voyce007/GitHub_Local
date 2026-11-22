@@ -173,17 +173,3 @@ enums:
       grade: X
       domain_basis: used by Employment.status
       evidence: E-078,E-079
-  NiCategory:
-    permissible_values:
-      A: {}
-      B: {}
-      C: {}
-      H: {}
-      J: {}
-      M: {}
-      V: {}
-      Z: {}
-    annotations:
-      grade: X
-      domain_basis: used by PayPeriod.niCategory
-      evidence: E-083,E-084

@@ -73,7 +73,7 @@ components:
         personRef:
           type: string
 x-events:
-- name: PersonChanged
+- name: LifeEventRecorded
   consumers:
   - National Insurance
   - Childcare

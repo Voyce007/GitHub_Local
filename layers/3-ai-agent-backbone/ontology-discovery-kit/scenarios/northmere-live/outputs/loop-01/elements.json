@@ -1480,6 +1480,7 @@
     "definition": "A person who has a tax, National Insurance or childcare relationship with the agency.",
     "properties": {
       "reference_match": "Customer",
+      "reference_domain": "Customer",
       "domain": null,
       "domain_basis": "business vocabulary"
     },
@@ -1568,6 +1569,7 @@
     "properties": {
       "realised_by": "ENT-03",
       "reference_match": "Employer",
+      "reference_domain": "PAYE",
       "domain": "paye",
       "domain_basis": "realised by Employer"
     },
@@ -1600,6 +1602,7 @@
     "properties": {
       "realised_by": "ENT-04",
       "reference_match": "Employment",
+      "reference_domain": "PAYE",
       "domain": "paye",
       "domain_basis": "realised by Employment"
     },
@@ -1632,6 +1635,7 @@
     "properties": {
       "realised_by": "ENT-06",
       "reference_match": "Pay Period",
+      "reference_domain": "PAYE",
       "domain": "paye",
       "domain_basis": "realised by PayPeriod"
     },
@@ -1664,6 +1668,7 @@
     "properties": {
       "realised_by": "ENT-05",
       "reference_match": "Tax Code",
+      "reference_domain": "PAYE",
       "domain": "paye",
       "domain_basis": "realised by TaxCode"
     },
@@ -1696,6 +1701,7 @@
     "properties": {
       "realised_by": "ENT-07",
       "reference_match": "NI Contribution",
+      "reference_domain": "National Insurance",
       "domain": "ni",
       "domain_basis": "realised by NiContribution"
     },
@@ -1728,6 +1734,7 @@
     "properties": {
       "realised_by": "ENT-08",
       "reference_match": "NI Record",
+      "reference_domain": "National Insurance",
       "domain": "ni",
       "domain_basis": "realised by NiRecord"
     },
@@ -1760,6 +1767,7 @@
     "properties": {
       "realised_by": "ENT-09",
       "reference_match": "Childcare Account",
+      "reference_domain": "Childcare",
       "domain": "childcare",
       "domain_basis": "realised by ChildcareAccount"
     },
@@ -1791,6 +1799,7 @@
     "definition": "A registered nursery, childminder or club that is paid from a childcare account.",
     "properties": {
       "reference_match": "Childcare Provider",
+      "reference_domain": "Childcare",
       "domain": "childcare",
       "domain_basis": "business vocabulary"
     },
@@ -1825,6 +1834,7 @@
     "properties": {
       "realised_by": "ENT-10",
       "reference_match": "Child",
+      "reference_domain": "Childcare",
       "domain": "childcare",
       "domain_basis": "realised by Child"
     },
@@ -2059,7 +2069,7 @@
     "properties": {
       "statement": "Every employment must be linked to exactly one employer and one person.",
       "domain": "paye",
-      "domain_basis": "business vocabulary"
+      "domain_basis": "stated in PAYE's own documents"
     },
     "evidence": [
       {
@@ -2090,7 +2100,7 @@
     "properties": {
       "statement": "A tax code must be issued before PAYE can be calculated for an employment.",
       "domain": "paye",
-      "domain_basis": "business vocabulary"
+      "domain_basis": "stated in PAYE's own documents"
     },
     "evidence": [
       {
@@ -2121,7 +2131,7 @@
     "properties": {
       "statement": "Employer returns received after the filing deadline are flagged for penalty review.",
       "domain": "paye",
-      "domain_basis": "business vocabulary"
+      "domain_basis": "stated in PAYE's own documents"
     },
     "evidence": [
       {
@@ -2231,7 +2241,7 @@
     "properties": {
       "statement": "The National Insurance Number is issued by NumberHub when a person reaches 16.",
       "domain": "ni",
-      "domain_basis": "business vocabulary"
+      "domain_basis": "stated in National Insurance's own documents"
     },
     "evidence": [
       {
@@ -2262,7 +2272,7 @@
     "properties": {
       "statement": "A person must have exactly one National Insurance Number for life.",
       "domain": "ni",
-      "domain_basis": "business vocabulary"
+      "domain_basis": "stated in National Insurance's own documents"
     },
     "evidence": [
       {
@@ -2293,7 +2303,7 @@
     "properties": {
       "statement": "A tax year counts as a qualifying year when contributions reach the lower earnings limit.",
       "domain": "ni",
-      "domain_basis": "business vocabulary"
+      "domain_basis": "stated in National Insurance's own documents"
     },
     "evidence": [
       {
@@ -2387,8 +2397,8 @@
     "definition": "",
     "properties": {
       "statement": "Contributions must not be calculated for a person after their recorded date of death.",
-      "domain": "customer",
-      "domain_basis": "business vocabulary"
+      "domain": "ni",
+      "domain_basis": "stated in National Insurance's own documents"
     },
     "evidence": [
       {
@@ -2463,8 +2473,8 @@
       "physical": "TC_NI_CONTRIBUTION.NI_CATEGORY",
       "column": "TC_NI_CONTRIBUTION.NI_CATEGORY",
       "system": "TAXCORE",
-      "domain": "paye",
-      "domain_basis": "used by PayPeriod.niCategory"
+      "domain": "ni",
+      "domain_basis": "used by PayPeriod.niCategory, NiContribution.niCategory (shared; the domain named in it wins)"
     },
     "evidence": [
       {
@@ -2545,7 +2555,7 @@
     "properties": {
       "statement": "Eligibility depends on each parent's expected income, which is taken from their PAYE employment records.",
       "domain": "childcare",
-      "domain_basis": "business vocabulary"
+      "domain_basis": "stated in Childcare's own documents"
     },
     "evidence": [
       {
@@ -2641,7 +2651,7 @@
       "statement": "A parent must reconfirm eligibility every three months.",
       "enforced_in": "ChildcarePortal",
       "domain": "childcare",
-      "domain_basis": "business vocabulary"
+      "domain_basis": "stated in Childcare's own documents"
     },
     "evidence": [
       {
@@ -2681,7 +2691,7 @@
       "statement": "A parent whose expected income exceeds 100,000 is not eligible.",
       "enforced_in": "PRC_CHECK_ELIGIBILITY",
       "domain": "childcare",
-      "domain_basis": "business vocabulary"
+      "domain_basis": "stated in Childcare's own documents"
     },
     "evidence": [
       {
@@ -2720,7 +2730,7 @@
     "properties": {
       "statement": "The top-up must be paid within one working day of the parent payment.",
       "domain": "childcare",
-      "domain_basis": "business vocabulary"
+      "domain_basis": "stated in Childcare's own documents"
     },
     "evidence": [
       {
@@ -2750,8 +2760,8 @@
     "definition": "",
     "properties": {
       "statement": "A childcare account must be closed when the account holder dies.",
-      "domain": null,
-      "domain_basis": "business vocabulary"
+      "domain": "childcare",
+      "domain_basis": "stated in Childcare's own documents"
     },
     "evidence": [
       {
@@ -3728,6 +3738,7 @@
         "ATT-11"
       ],
       "reference_match": "Address",
+      "reference_domain": "Customer",
       "domain": "customer",
       "domain_basis": "only Customer capabilities change it"
     },
@@ -6252,6 +6263,7 @@
         "ATT-53"
       ],
       "reference_match": "Childcare Payment",
+      "reference_domain": "Childcare",
       "domain": "childcare",
       "domain_basis": "only Childcare capabilities change it"
     },
@@ -8249,7 +8261,7 @@
     "definition": "",
     "resolutions": [],
     "properties": {
-      "domain": "Customer",
+      "reference_domain": "Customer",
       "reference": true
     },
     "evidence": [],
