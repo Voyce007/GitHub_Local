@@ -1,0 +1,34 @@
+# Target decomposition for the TAXCORE monolith. Read by ontokit/decompose.py.
+#
+# Ownership rule (business perspective): the domain whose business capability creates
+# or changes data owns it. Other domains read it through the owner's business services,
+# or react to the owner's events. They never join the owner's tables.
+#
+# Evidence used, strongest first:
+#   1. who WRITES a table or column (batch-job catalogue, stored procedures)
+#   2. which capability a calculation implements (capability map, procedure comments)
+#   3. business vocabulary (keywords below), only when there is no write evidence
+
+monolith: TAXCORE
+
+domains:
+  - key: customer
+    name: Customer
+    owner: Director of Customer Services
+    owning_teams: [Customer Services]
+    keywords: [customer, person, address, contact, correspondence, death]
+  - key: paye
+    name: PAYE
+    owner: Director of Employer Taxes
+    owning_teams: [PAYE Operations]
+    keywords: [paye, employer, employment, tax code, pay period, payroll, gross pay]
+  - key: ni
+    name: National Insurance
+    owner: Director of National Insurance
+    owning_teams: [NI Operations]
+    keywords: [national insurance, ni, contribution, ni category, qualifying year]
+  - key: childcare
+    name: Childcare
+    owner: Director of Family Support
+    owning_teams: [Family Support]
+    keywords: [childcare, child, top-up, topup, eligibility, provider]

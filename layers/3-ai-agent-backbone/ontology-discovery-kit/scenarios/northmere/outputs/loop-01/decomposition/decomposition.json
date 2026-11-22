@@ -1,0 +1,438 @@
+{
+  "monolith": "TAXCORE",
+  "domains": [
+    {
+      "key": "customer",
+      "name": "Customer",
+      "owner": "Director of Customer Services"
+    },
+    {
+      "key": "paye",
+      "name": "PAYE",
+      "owner": "Director of Employer Taxes"
+    },
+    {
+      "key": "ni",
+      "name": "National Insurance",
+      "owner": "Director of National Insurance"
+    },
+    {
+      "key": "childcare",
+      "name": "Childcare",
+      "owner": "Director of Family Support"
+    }
+  ],
+  "summary": {
+    "customer": {
+      "name": "Customer",
+      "owner": "Director of Customer Services",
+      "counts": {
+        "capability": 2,
+        "rule": 1,
+        "entity": 2,
+        "attribute": 10,
+        "identifier": 1,
+        "taxonomy": 2,
+        "relationship": 1,
+        "calculation": 2
+      },
+      "grades": {
+        "C": 21
+      },
+      "entities": [
+        "Address",
+        "Person"
+      ],
+      "services": 4
+    },
+    "paye": {
+      "name": "PAYE",
+      "owner": "Director of Employer Taxes",
+      "counts": {
+        "capability": 3,
+        "rule": 3,
+        "taxonomy": 1,
+        "concept": 4,
+        "entity": 4,
+        "attribute": 17,
+        "identifier": 2,
+        "relationship": 4,
+        "calculation": 3
+      },
+      "grades": {
+        "C": 40,
+        "X": 1
+      },
+      "entities": [
+        "Employer",
+        "Employment",
+        "PayPeriod",
+        "TaxCode"
+      ],
+      "services": 5
+    },
+    "ni": {
+      "name": "National Insurance",
+      "owner": "Director of National Insurance",
+      "counts": {
+        "capability": 3,
+        "rule": 2,
+        "taxonomy": 2,
+        "concept": 3,
+        "attribute": 11,
+        "entity": 2,
+        "relationship": 2,
+        "identifier": 1,
+        "calculation": 3
+      },
+      "grades": {
+        "C": 27,
+        "X": 2
+      },
+      "entities": [
+        "NiContribution",
+        "NiRecord"
+      ],
+      "services": 4
+    },
+    "childcare": {
+      "name": "Childcare",
+      "owner": "Director of Family Support",
+      "counts": {
+        "capability": 3,
+        "rule": 3,
+        "taxonomy": 2,
+        "concept": 4,
+        "entity": 4,
+        "attribute": 20,
+        "identifier": 4,
+        "relationship": 5,
+        "calculation": 3
+      },
+      "grades": {
+        "C": 47,
+        "B": 1
+      },
+      "entities": [
+        "Child",
+        "ChildcareAccount",
+        "ChildcarePayment",
+        "EligibilityCheck"
+      ],
+      "services": 3
+    }
+  },
+  "splits": [
+    {
+      "entity": "Person",
+      "entity_id": "ENT-01",
+      "column": "NI_NUMBER",
+      "attribute": "National Insurance Number",
+      "attribute_id": "ATT-02",
+      "from": "customer",
+      "to": "ni",
+      "calculation": "PRC_ALLOCATE_NINO",
+      "capability": "Allocate NI Number"
+    }
+  ],
+  "cross_domain_writes": [
+    {
+      "entity": "NiRecord",
+      "entity_id": "ENT-08",
+      "owner": "ni",
+      "writer": "customer",
+      "calculation": "PRC_CLOSE_DECEASED",
+      "capability": "Record Life Events",
+      "columns": [],
+      "event": "PersonChanged",
+      "calc_id": "CAL-11"
+    },
+    {
+      "entity": "ChildcareAccount",
+      "entity_id": "ENT-09",
+      "owner": "childcare",
+      "writer": "customer",
+      "calculation": "PRC_CLOSE_DECEASED",
+      "capability": "Record Life Events",
+      "columns": [
+        "STATUS"
+      ],
+      "event": "PersonChanged",
+      "calc_id": "CAL-11"
+    }
+  ],
+  "dependencies": [
+    {
+      "consumer": "childcare",
+      "provider": "customer",
+      "entities": [
+        "Person"
+      ],
+      "via": [
+        "Child → Person (reference)",
+        "ChildcareAccount → Person (reference)",
+        "PRC_OPEN_CC_ACCOUNT"
+      ]
+    },
+    {
+      "consumer": "childcare",
+      "provider": "paye",
+      "entities": [
+        "Employment",
+        "PayPeriod"
+      ],
+      "via": [
+        "PRC_CHECK_ELIGIBILITY"
+      ]
+    },
+    {
+      "consumer": "customer",
+      "provider": "ni",
+      "entities": [
+        "National Insurance Number"
+      ],
+      "via": [
+        "Person.NI_NUMBER (moved)"
+      ]
+    },
+    {
+      "consumer": "ni",
+      "provider": "customer",
+      "entities": [
+        "Person"
+      ],
+      "via": [
+        "NiRecord → Person (reference)",
+        "PRC_ALLOCATE_NINO",
+        "PRC_CALC_NIC"
+      ]
+    },
+    {
+      "consumer": "ni",
+      "provider": "paye",
+      "entities": [
+        "Employment",
+        "PayPeriod"
+      ],
+      "via": [
+        "NiContribution → Employment (reference)",
+        "PRC_CALC_NIC"
+      ]
+    },
+    {
+      "consumer": "paye",
+      "provider": "customer",
+      "entities": [
+        "Person"
+      ],
+      "via": [
+        "Employment → Person (reference)"
+      ]
+    }
+  ],
+  "services": {
+    "customer": [
+      {
+        "name": "Register Customer",
+        "type": "command",
+        "capability": "CAP-01",
+        "grade": "C",
+        "calculations": [
+          "PRC_REGISTER_PERSON"
+        ],
+        "changes": [
+          "Address",
+          "Person"
+        ],
+        "consumers": []
+      },
+      {
+        "name": "Record Life Events",
+        "type": "command",
+        "capability": "CAP-02",
+        "grade": "C",
+        "calculations": [
+          "PRC_CLOSE_DECEASED"
+        ],
+        "changes": [],
+        "consumers": []
+      },
+      {
+        "name": "Get Person",
+        "type": "query",
+        "returns": "Person",
+        "grade": null,
+        "consumers": [
+          "childcare",
+          "ni",
+          "paye"
+        ]
+      },
+      {
+        "name": "PersonChanged",
+        "type": "event",
+        "replaces": [
+          "PRC_CLOSE_DECEASED writing NiRecord",
+          "PRC_CLOSE_DECEASED writing ChildcareAccount"
+        ],
+        "consumers": [
+          "ni",
+          "childcare"
+        ]
+      }
+    ],
+    "paye": [
+      {
+        "name": "Process Employer Returns",
+        "type": "command",
+        "capability": "CAP-03",
+        "grade": "C",
+        "calculations": [
+          "PRC_LOAD_RETURNS"
+        ],
+        "changes": [
+          "Employment",
+          "PayPeriod"
+        ],
+        "consumers": []
+      },
+      {
+        "name": "Issue Tax Code",
+        "type": "command",
+        "capability": "CAP-04",
+        "grade": "C",
+        "calculations": [
+          "PRC_ISSUE_TAX_CODE"
+        ],
+        "changes": [
+          "TaxCode"
+        ],
+        "consumers": []
+      },
+      {
+        "name": "Calculate PAYE",
+        "type": "command",
+        "capability": "CAP-05",
+        "grade": "C",
+        "calculations": [
+          "PRC_CALC_PAYE"
+        ],
+        "changes": [
+          "PayPeriod"
+        ],
+        "consumers": []
+      },
+      {
+        "name": "Get Employment",
+        "type": "query",
+        "returns": "Employment",
+        "grade": null,
+        "consumers": [
+          "childcare",
+          "ni"
+        ]
+      },
+      {
+        "name": "Get Pay Period",
+        "type": "query",
+        "returns": "PayPeriod",
+        "grade": null,
+        "consumers": [
+          "childcare",
+          "ni"
+        ]
+      }
+    ],
+    "ni": [
+      {
+        "name": "Allocate NI Number",
+        "type": "command",
+        "capability": "CAP-06",
+        "grade": "C",
+        "calculations": [
+          "PRC_ALLOCATE_NINO"
+        ],
+        "changes": [],
+        "consumers": []
+      },
+      {
+        "name": "Calculate NI Contributions",
+        "type": "command",
+        "capability": "CAP-07",
+        "grade": "C",
+        "calculations": [
+          "PRC_CALC_NIC"
+        ],
+        "changes": [
+          "NiContribution"
+        ],
+        "consumers": []
+      },
+      {
+        "name": "Maintain NI Record",
+        "type": "command",
+        "capability": "CAP-08",
+        "grade": "C",
+        "calculations": [
+          "PRC_UPDATE_NI_RECORD"
+        ],
+        "changes": [
+          "NiRecord"
+        ],
+        "consumers": []
+      },
+      {
+        "name": "Get National Insurance Number",
+        "type": "query",
+        "returns": "National Insurance Number",
+        "grade": null,
+        "consumers": [
+          "customer"
+        ]
+      }
+    ],
+    "childcare": [
+      {
+        "name": "Open Childcare Account",
+        "type": "command",
+        "capability": "CAP-09",
+        "grade": "C",
+        "calculations": [
+          "PRC_OPEN_CC_ACCOUNT"
+        ],
+        "changes": [
+          "Child",
+          "ChildcareAccount"
+        ],
+        "consumers": []
+      },
+      {
+        "name": "Check Childcare Eligibility",
+        "type": "command",
+        "capability": "CAP-10",
+        "grade": "C",
+        "calculations": [
+          "PRC_CHECK_ELIGIBILITY"
+        ],
+        "changes": [
+          "EligibilityCheck"
+        ],
+        "consumers": []
+      },
+      {
+        "name": "Calculate Childcare Top-up",
+        "type": "command",
+        "capability": "CAP-11",
+        "grade": "C",
+        "calculations": [
+          "PRC_CALC_TOPUP"
+        ],
+        "changes": [
+          "ChildcarePayment"
+        ],
+        "consumers": []
+      }
+    ]
+  },
+  "unassigned": []
+}

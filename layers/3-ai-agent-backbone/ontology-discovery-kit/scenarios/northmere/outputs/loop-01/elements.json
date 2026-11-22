@@ -1,0 +1,6303 @@
+[
+  {
+    "id": "SYS-01",
+    "kind": "system",
+    "name": "TAXCORE",
+    "aliases": [
+      "Core",
+      "TC"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "system of record (candidate): Customer",
+        "database: db2",
+        "data-holding application (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/taxcore-system-overview.md",
+        "locator": "line 7",
+        "quote": "TAXCORE (also called \"the Core\" or \"TC\") holds the customer record and every PAYE, National Insurance and childcare record in one DB2 database.",
+        "support": "definition",
+        "id": "E-001"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 2",
+        "quote": "CP[\"CitizenPortal (online account)\"] -->|CUS-01| TC[\"TAXCORE (the Core)\"]",
+        "support": "structure",
+        "id": "E-002"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUS-01,Customer self-service,CitizenPortal,TC,REST API,Real time,Customer details; addresses,Customer Services",
+        "support": "reference",
+        "id": "E-003"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations",
+        "support": "reference",
+        "id": "E-004"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations",
+        "support": "reference",
+        "id": "E-005"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "CC-01,Parent payments,ChildcarePortal,TAXCORE,REST API,Real time,Parent payment,Family Support",
+        "support": "reference",
+        "id": "E-006"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-01,Nightly extract,TAXCORE,RevenueWarehouse,File (CSV),Daily 02:00,All modules,Data team",
+        "support": "reference",
+        "id": "E-007"
+      },
+      {
+        "file": "code-examples/childcare-portal.properties",
+        "locator": "line 2",
+        "quote": "taxcore.jdbc.url=jdbc:db2://taxcore-db.internal.example:50000/TAXCORE",
+        "support": "reference",
+        "id": "E-008"
+      },
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 1",
+        "quote": "table,column,data_type,nullable,key,description,codes",
+        "support": "reference",
+        "id": "E-009"
+      },
+      {
+        "file": "docs/taxcore-system-overview.md",
+        "locator": "line 1",
+        "quote": "# TAXCORE System Overview",
+        "support": "mention",
+        "id": "E-010"
+      },
+      {
+        "file": "docs/paye-operations-manual.md",
+        "locator": "line 8",
+        "quote": "Returns are loaded into TAXCORE overnight, where PAYE is calculated for each employment.",
+        "support": "mention",
+        "id": "E-011"
+      },
+      {
+        "file": "docs/national-insurance-procedures.md",
+        "locator": "line 7",
+        "quote": "NumberHub (also called NI allocation) allocates National Insurance numbers. It replaced the TAXCORE allocation module in 2022.",
+        "support": "mention",
+        "id": "E-012"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "6 independent current sources",
+    "open_unknowns": [
+      "U-04"
+    ]
+  },
+  {
+    "id": "SYS-02",
+    "kind": "system",
+    "name": "CitizenPortal",
+    "aliases": [
+      "online account",
+      "CP"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "processing: customer self-service requests"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/taxcore-system-overview.md",
+        "locator": "line 9",
+        "quote": "CitizenPortal (also called the online account) captures and fulfils customer self-service requests.",
+        "support": "definition",
+        "id": "E-013"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 2",
+        "quote": "CP[\"CitizenPortal (online account)\"] -->|CUS-01| TC[\"TAXCORE (the Core)\"]",
+        "support": "structure",
+        "id": "E-002"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUS-01,Customer self-service,CitizenPortal,TC,REST API,Real time,Customer details; addresses,Customer Services",
+        "support": "reference",
+        "id": "E-003"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-03",
+    "kind": "system",
+    "name": "RevenueWarehouse",
+    "aliases": [
+      "MI warehouse",
+      "RW"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "reporting / analytics (candidate)"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/taxcore-system-overview.md",
+        "locator": "line 10",
+        "quote": "RevenueWarehouse (also called the MI warehouse) receives nightly extracts for reporting.",
+        "support": "definition",
+        "id": "E-014"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 6",
+        "quote": "TC -->|MI-01 nightly| RW[\"RevenueWarehouse (MI warehouse)\"]",
+        "support": "structure",
+        "id": "E-015"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-01,Nightly extract,TAXCORE,RevenueWarehouse,File (CSV),Daily 02:00,All modules,Data team",
+        "support": "reference",
+        "id": "E-007"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-04",
+    "kind": "system",
+    "name": "EmployerGateway",
+    "aliases": [
+      "employer filing",
+      "EG"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "processing: employer returns for every pay period"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/paye-operations-manual.md",
+        "locator": "line 7",
+        "quote": "EmployerGateway (also called employer filing) captures and fulfils employer returns for every pay period.",
+        "support": "definition",
+        "id": "E-016"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 3",
+        "quote": "EG[\"EmployerGateway (employer filing)\"] -->|PAY-01 employer returns| TC",
+        "support": "structure",
+        "id": "E-017"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations",
+        "support": "reference",
+        "id": "E-004"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-05",
+    "kind": "system",
+    "name": "NumberHub",
+    "aliases": [
+      "NI allocation",
+      "NH"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "system of record (candidate): National Insurance numbers"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/national-insurance-procedures.md",
+        "locator": "line 7",
+        "quote": "NumberHub (also called NI allocation) allocates National Insurance numbers. It replaced the TAXCORE allocation module in 2022.",
+        "support": "definition",
+        "id": "E-012"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 4",
+        "quote": "NH[\"NumberHub (NI allocation)\"] -->|NIN-02| TC",
+        "support": "structure",
+        "id": "E-018"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations",
+        "support": "reference",
+        "id": "E-005"
+      },
+      {
+        "file": "code-examples/childcare-portal.properties",
+        "locator": "line 3",
+        "quote": "numberhub.api.base-url=https://numberhub.internal.example/api",
+        "support": "reference",
+        "id": "E-019"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "4 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-06",
+    "kind": "system",
+    "name": "ChildcarePortal",
+    "aliases": [
+      "parent account",
+      "CC"
+    ],
+    "definition": "",
+    "properties": {
+      "roles": [
+        "processing: parent payments to childcare providers"
+      ]
+    },
+    "evidence": [
+      {
+        "file": "docs/childcare-scheme-guide.md",
+        "locator": "line 7",
+        "quote": "ChildcarePortal (also called the parent account) captures and fulfils parent payments to childcare providers.",
+        "support": "definition",
+        "id": "E-020"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 5",
+        "quote": "CC[\"ChildcarePortal (parent account)\"] -->|CC-01 parent payments| TC",
+        "support": "structure",
+        "id": "E-021"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "CC-01,Parent payments,ChildcarePortal,TAXCORE,REST API,Real time,Parent payment,Family Support",
+        "support": "reference",
+        "id": "E-006"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-01",
+    "kind": "capability",
+    "name": "Register Customer",
+    "aliases": [],
+    "definition": "Create and maintain a customer's identity, addresses and contact preferences.",
+    "properties": {
+      "owner_team": "Customer Services",
+      "domain": "customer",
+      "domain_basis": "capability map: owned by Customer Services"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 9",
+        "quote": "- **Register Customer**: Create and maintain a customer's identity, addresses and contact preferences. Owner: Customer Services.",
+        "support": "definition",
+        "id": "E-022"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-02",
+    "kind": "capability",
+    "name": "Record Life Events",
+    "aliases": [],
+    "definition": "Record births, deaths and changes of circumstance for a person.",
+    "properties": {
+      "owner_team": "Customer Services",
+      "domain": "customer",
+      "domain_basis": "capability map: owned by Customer Services"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 10",
+        "quote": "- **Record Life Events**: Record births, deaths and changes of circumstance for a person. Owner: Customer Services.",
+        "support": "definition",
+        "id": "E-023"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-03",
+    "kind": "capability",
+    "name": "Process Employer Returns",
+    "aliases": [],
+    "definition": "Receive each employer's pay and deductions return for every pay period.",
+    "properties": {
+      "owner_team": "PAYE Operations",
+      "domain": "paye",
+      "domain_basis": "capability map: owned by PAYE Operations"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 11",
+        "quote": "- **Process Employer Returns**: Receive each employer's pay and deductions return for every pay period. Owner: PAYE Operations.",
+        "support": "definition",
+        "id": "E-024"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-04",
+    "kind": "capability",
+    "name": "Issue Tax Code",
+    "aliases": [],
+    "definition": "Decide and issue a tax code for each employment.",
+    "properties": {
+      "owner_team": "PAYE Operations",
+      "domain": "paye",
+      "domain_basis": "capability map: owned by PAYE Operations"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 12",
+        "quote": "- **Issue Tax Code**: Decide and issue a tax code for each employment. Owner: PAYE Operations.",
+        "support": "definition",
+        "id": "E-025"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-05",
+    "kind": "capability",
+    "name": "Calculate PAYE",
+    "aliases": [],
+    "definition": "Calculate the income tax due for an employment and pay period.",
+    "properties": {
+      "owner_team": "PAYE Operations",
+      "domain": "paye",
+      "domain_basis": "capability map: owned by PAYE Operations"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 13",
+        "quote": "- **Calculate PAYE**: Calculate the income tax due for an employment and pay period. Owner: PAYE Operations.",
+        "support": "definition",
+        "id": "E-026"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-06",
+    "kind": "capability",
+    "name": "Allocate NI Number",
+    "aliases": [],
+    "definition": "Allocate a National Insurance number to a person.",
+    "properties": {
+      "owner_team": "NI Operations",
+      "domain": "ni",
+      "domain_basis": "capability map: owned by NI Operations"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 14",
+        "quote": "- **Allocate NI Number**: Allocate a National Insurance number to a person. Owner: NI Operations.",
+        "support": "definition",
+        "id": "E-027"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-07",
+    "kind": "capability",
+    "name": "Calculate NI Contributions",
+    "aliases": [],
+    "definition": "Calculate Class 1 contributions from the earnings in each employer return.",
+    "properties": {
+      "owner_team": "NI Operations",
+      "domain": "ni",
+      "domain_basis": "capability map: owned by NI Operations"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 15",
+        "quote": "- **Calculate NI Contributions**: Calculate Class 1 contributions from the earnings in each employer return. Owner: NI Operations.",
+        "support": "definition",
+        "id": "E-028"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-08",
+    "kind": "capability",
+    "name": "Maintain NI Record",
+    "aliases": [],
+    "definition": "Keep each person's contribution record and qualifying years.",
+    "properties": {
+      "owner_team": "NI Operations",
+      "domain": "ni",
+      "domain_basis": "capability map: owned by NI Operations"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 16",
+        "quote": "- **Maintain NI Record**: Keep each person's contribution record and qualifying years. Owner: NI Operations.",
+        "support": "definition",
+        "id": "E-029"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-09",
+    "kind": "capability",
+    "name": "Open Childcare Account",
+    "aliases": [],
+    "definition": "Open an account for a parent to pay a childcare provider.",
+    "properties": {
+      "owner_team": "Family Support",
+      "domain": "childcare",
+      "domain_basis": "capability map: owned by Family Support"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 17",
+        "quote": "- **Open Childcare Account**: Open an account for a parent to pay a childcare provider. Owner: Family Support.",
+        "support": "definition",
+        "id": "E-030"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-10",
+    "kind": "capability",
+    "name": "Check Childcare Eligibility",
+    "aliases": [],
+    "definition": "Check a parent's eligibility, including income limits, every three months.",
+    "properties": {
+      "owner_team": "Family Support",
+      "domain": "childcare",
+      "domain_basis": "capability map: owned by Family Support"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 18",
+        "quote": "- **Check Childcare Eligibility**: Check a parent's eligibility, including income limits, every three months. Owner: Family Support.",
+        "support": "definition",
+        "id": "E-031"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAP-11",
+    "kind": "capability",
+    "name": "Calculate Childcare Top-up",
+    "aliases": [],
+    "definition": "Add the government top-up to each parent payment.",
+    "properties": {
+      "owner_team": "Family Support",
+      "domain": "childcare",
+      "domain_basis": "capability map: owned by Family Support"
+    },
+    "evidence": [
+      {
+        "file": "docs/business-capability-map.md",
+        "locator": "line 19",
+        "quote": "- **Calculate Childcare Top-up**: Add the government top-up to each parent payment. Owner: Family Support.",
+        "support": "definition",
+        "id": "E-032"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-01",
+    "kind": "flow",
+    "name": "CitizenPortal → TAXCORE",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "CitizenPortal",
+      "target": "TAXCORE",
+      "label": "CUS-01"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 2",
+        "quote": "CP[\"CitizenPortal (online account)\"] -->|CUS-01| TC[\"TAXCORE (the Core)\"]",
+        "support": "structure",
+        "id": "E-002"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUS-01,Customer self-service,CitizenPortal,TC,REST API,Real time,Customer details; addresses,Customer Services",
+        "support": "structure",
+        "id": "E-003"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-02",
+    "kind": "flow",
+    "name": "EmployerGateway → TAXCORE",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "EmployerGateway",
+      "target": "TAXCORE",
+      "label": "PAY-01 employer returns"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 3",
+        "quote": "EG[\"EmployerGateway (employer filing)\"] -->|PAY-01 employer returns| TC",
+        "support": "structure",
+        "id": "E-017"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations",
+        "support": "structure",
+        "id": "E-004"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-03",
+    "kind": "flow",
+    "name": "NumberHub → TAXCORE",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "NumberHub",
+      "target": "TAXCORE",
+      "label": "NIN-02"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 4",
+        "quote": "NH[\"NumberHub (NI allocation)\"] -->|NIN-02| TC",
+        "support": "structure",
+        "id": "E-018"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations",
+        "support": "structure",
+        "id": "E-005"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-04",
+    "kind": "flow",
+    "name": "ChildcarePortal → TAXCORE",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "ChildcarePortal",
+      "target": "TAXCORE",
+      "label": "CC-01 parent payments"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 5",
+        "quote": "CC[\"ChildcarePortal (parent account)\"] -->|CC-01 parent payments| TC",
+        "support": "structure",
+        "id": "E-021"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "CC-01,Parent payments,ChildcarePortal,TAXCORE,REST API,Real time,Parent payment,Family Support",
+        "support": "structure",
+        "id": "E-006"
+      },
+      {
+        "file": "code-examples/childcare-portal.properties",
+        "locator": "line 2",
+        "quote": "taxcore.jdbc.url=jdbc:db2://taxcore-db.internal.example:50000/TAXCORE",
+        "support": "reference",
+        "id": "E-008"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "3 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-05",
+    "kind": "flow",
+    "name": "TAXCORE → RevenueWarehouse",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "TAXCORE",
+      "target": "RevenueWarehouse",
+      "label": "MI-01 nightly"
+    },
+    "evidence": [
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 6",
+        "quote": "TC -->|MI-01 nightly| RW[\"RevenueWarehouse (MI warehouse)\"]",
+        "support": "structure",
+        "id": "E-015"
+      },
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-01,Nightly extract,TAXCORE,RevenueWarehouse,File (CSV),Daily 02:00,All modules,Data team",
+        "support": "structure",
+        "id": "E-007"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "FLW-06",
+    "kind": "flow",
+    "name": "ChildcarePortal → NumberHub",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "ChildcarePortal",
+      "target": "NumberHub",
+      "label": "runtime dependency (config)"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/childcare-portal.properties",
+        "locator": "line 3",
+        "quote": "numberhub.api.base-url=https://numberhub.internal.example/api",
+        "support": "reference",
+        "id": "E-019"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "SYS-07",
+    "kind": "system",
+    "name": "income-verify-svc",
+    "aliases": [],
+    "definition": "",
+    "properties": {},
+    "evidence": [
+      {
+        "file": "code-examples/childcare-portal.properties",
+        "locator": "line 4",
+        "quote": "income-verify-svc.api.base-url=https://income-verify.internal.example/api",
+        "support": "reference",
+        "id": "E-033"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-08"
+    ]
+  },
+  {
+    "id": "FLW-07",
+    "kind": "flow",
+    "name": "ChildcarePortal → income-verify-svc",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "source": "ChildcarePortal",
+      "target": "income-verify-svc",
+      "label": "runtime dependency (config)"
+    },
+    "evidence": [
+      {
+        "file": "code-examples/childcare-portal.properties",
+        "locator": "line 4",
+        "quote": "income-verify-svc.api.base-url=https://income-verify.internal.example/api",
+        "support": "reference",
+        "id": "E-033"
+      }
+    ],
+    "proposed_by": [
+      "ea"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-01",
+    "kind": "rule",
+    "name": "No module may change another module's tables without a Core Systems change request.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "No module may change another module's tables without a Core Systems change request.",
+      "domain": null,
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/taxcore-system-overview.md",
+        "locator": "line 19",
+        "quote": "- No module may change another module's tables without a Core Systems change request.",
+        "support": "definition",
+        "id": "E-034"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-02",
+    "kind": "rule",
+    "name": "Every release of TAXCORE requires a full regression test of all modules.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Every release of TAXCORE requires a full regression test of all modules.",
+      "domain": null,
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/taxcore-system-overview.md",
+        "locator": "line 20",
+        "quote": "- Every release of TAXCORE requires a full regression test of all modules.",
+        "support": "definition",
+        "id": "E-035"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-03",
+    "kind": "rule",
+    "name": "Every employment must be linked to exactly one employer and one person.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Every employment must be linked to exactly one employer and one person.",
+      "domain": "paye",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/paye-operations-manual.md",
+        "locator": "line 12",
+        "quote": "- Every employment must be linked to exactly one employer and one person.",
+        "support": "definition",
+        "id": "E-036"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-04",
+    "kind": "rule",
+    "name": "A tax code must be issued before PAYE can be calculated for an employment.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A tax code must be issued before PAYE can be calculated for an employment.",
+      "domain": "paye",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/paye-operations-manual.md",
+        "locator": "line 13",
+        "quote": "- A tax code must be issued before PAYE can be calculated for an employment.",
+        "support": "definition",
+        "id": "E-037"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-05",
+    "kind": "rule",
+    "name": "Employer returns received after the filing deadline are flagged for penalty review.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Employer returns received after the filing deadline are flagged for penalty review.",
+      "domain": "paye",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/paye-operations-manual.md",
+        "locator": "line 14",
+        "quote": "- Employer returns received after the filing deadline are flagged for penalty review.",
+        "support": "definition",
+        "id": "E-038"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-01",
+    "kind": "taxonomy",
+    "name": "EmploymentStatus",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "LIV": "Live",
+        "CEA": "Ceased",
+        "SUS": "Suspended"
+      },
+      "domain": "paye",
+      "domain_basis": "used by Employment.status"
+    },
+    "evidence": [
+      {
+        "file": "docs/paye-operations-manual.md",
+        "locator": "line 18",
+        "quote": "Employment status values: Live, Ceased.",
+        "support": "value-list",
+        "id": "E-039"
+      },
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 20",
+        "quote": "TC_EMPLOYMENT,STATUS,CHAR(3),N,,Employment status,LIV=Live|CEA=Ceased|SUS=Suspended",
+        "support": "value-list",
+        "id": "E-040"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "da"
+    ],
+    "conflicts": [
+      {
+        "property": "values",
+        "variants": [
+          {
+            "value": [
+              "LIVE",
+              "CEASED"
+            ],
+            "files": [
+              "docs/paye-operations-manual.md"
+            ],
+            "stale": [],
+            "authority": 1
+          },
+          {
+            "value": [
+              "LIVE",
+              "CEASED",
+              "SUSPENDED"
+            ],
+            "files": [
+              "spreadsheets/taxcore-data-dictionary.csv"
+            ],
+            "stale": [],
+            "authority": 1
+          }
+        ]
+      }
+    ],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "X",
+    "status": "deferred — simulated",
+    "grade_reason": "sources contradict on values",
+    "open_unknowns": [
+      "U-06"
+    ]
+  },
+  {
+    "id": "RUL-06",
+    "kind": "rule",
+    "name": "A person must have exactly one National Insurance Number for life.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A person must have exactly one National Insurance Number for life.",
+      "domain": "ni",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/national-insurance-procedures.md",
+        "locator": "line 16",
+        "quote": "- A person must have exactly one National Insurance Number for life.",
+        "support": "definition",
+        "id": "E-041"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-07",
+    "kind": "rule",
+    "name": "A tax year counts as a qualifying year when contributions reach the lower earnings limit.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A tax year counts as a qualifying year when contributions reach the lower earnings limit.",
+      "domain": "ni",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/national-insurance-procedures.md",
+        "locator": "line 17",
+        "quote": "- A tax year counts as a qualifying year when contributions reach the lower earnings limit.",
+        "support": "definition",
+        "id": "E-042"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-08",
+    "kind": "rule",
+    "name": "Contributions must not be calculated for a person after their recorded date of death.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "Contributions must not be calculated for a person after their recorded date of death.",
+      "domain": "customer",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/national-insurance-procedures.md",
+        "locator": "line 18",
+        "quote": "- Contributions must not be calculated for a person after their recorded date of death.",
+        "support": "definition",
+        "id": "E-043"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-02",
+    "kind": "taxonomy",
+    "name": "NiCategory",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "A": "A",
+        "B": "B",
+        "C": "C",
+        "H": "H",
+        "J": "J",
+        "M": "M",
+        "Z": "Z",
+        "V": "V"
+      },
+      "domain": "ni",
+      "domain_basis": "used by NiContribution.niCategory"
+    },
+    "evidence": [
+      {
+        "file": "docs/national-insurance-procedures.md",
+        "locator": "line 22",
+        "quote": "NI category values: A, B, C, H, J, M, Z.",
+        "support": "value-list",
+        "id": "E-044"
+      },
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 33",
+        "quote": "TC_NI_CONTRIBUTION,NI_CATEGORY,CHAR(1),N,,NI category,A=A|B=B|C=C|H=H|J=J|M=M|Z=Z|V=V",
+        "support": "value-list",
+        "id": "E-045"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "da"
+    ],
+    "conflicts": [
+      {
+        "property": "values",
+        "variants": [
+          {
+            "value": [
+              "A",
+              "B",
+              "C",
+              "H",
+              "J",
+              "M",
+              "Z"
+            ],
+            "files": [
+              "docs/national-insurance-procedures.md"
+            ],
+            "stale": [],
+            "authority": 1
+          },
+          {
+            "value": [
+              "A",
+              "B",
+              "C",
+              "H",
+              "J",
+              "M",
+              "Z",
+              "V"
+            ],
+            "files": [
+              "spreadsheets/taxcore-data-dictionary.csv"
+            ],
+            "stale": [],
+            "authority": 1
+          }
+        ]
+      }
+    ],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "X",
+    "status": "deferred — simulated",
+    "grade_reason": "sources contradict on values",
+    "open_unknowns": [
+      "U-07"
+    ]
+  },
+  {
+    "id": "RUL-09",
+    "kind": "rule",
+    "name": "A parent must reconfirm eligibility every three months.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A parent must reconfirm eligibility every three months.",
+      "domain": "childcare",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/childcare-scheme-guide.md",
+        "locator": "line 12",
+        "quote": "- A parent must reconfirm eligibility every three months.",
+        "support": "definition",
+        "id": "E-046"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-10",
+    "kind": "rule",
+    "name": "A parent whose expected income exceeds 100,000 is not eligible.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A parent whose expected income exceeds 100,000 is not eligible.",
+      "domain": null,
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/childcare-scheme-guide.md",
+        "locator": "line 13",
+        "quote": "- A parent whose expected income exceeds 100,000 is not eligible.",
+        "support": "definition",
+        "id": "E-047"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-11",
+    "kind": "rule",
+    "name": "The top-up must be paid within one working day of the parent payment.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "The top-up must be paid within one working day of the parent payment.",
+      "domain": "childcare",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/childcare-scheme-guide.md",
+        "locator": "line 14",
+        "quote": "- The top-up must be paid within one working day of the parent payment.",
+        "support": "definition",
+        "id": "E-048"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "RUL-12",
+    "kind": "rule",
+    "name": "A childcare account must be closed when the account holder dies.",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "statement": "A childcare account must be closed when the account holder dies.",
+      "domain": "childcare",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "docs/childcare-scheme-guide.md",
+        "locator": "line 15",
+        "quote": "- A childcare account must be closed when the account holder dies.",
+        "support": "definition",
+        "id": "E-049"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-03",
+    "kind": "taxonomy",
+    "name": "ChildcareAccountStatus",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "OPN": "Open",
+        "SUS": "Suspended",
+        "CLO": "Closed"
+      },
+      "values": [
+        "OPEN",
+        "SUSPENDED",
+        "CLOSED"
+      ],
+      "domain": "childcare",
+      "domain_basis": "used by ChildcareAccount.status"
+    },
+    "evidence": [
+      {
+        "file": "docs/childcare-scheme-guide.md",
+        "locator": "line 19",
+        "quote": "Childcare account status values: Open, Suspended, Closed.",
+        "support": "value-list",
+        "id": "E-050"
+      },
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 42",
+        "quote": "TC_CHILDCARE_ACCOUNT,STATUS,CHAR(3),N,,Childcare account status,OPN=Open|SUS=Suspended|CLO=Closed",
+        "support": "value-list",
+        "id": "E-051"
+      }
+    ],
+    "proposed_by": [
+      "ba",
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-01",
+    "kind": "concept",
+    "name": "Customer",
+    "aliases": [
+      "Taxpayer",
+      "Citizen",
+      "Person"
+    ],
+    "definition": "A person who has a tax, National Insurance or childcare relationship with the agency.",
+    "properties": {
+      "reference_match": "Customer",
+      "domain": null,
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 5",
+        "quote": "- **Customer**: A person who has a tax, National Insurance or childcare relationship with the agency. Synonyms: Taxpayer, Citizen, Person.",
+        "support": "definition",
+        "id": "E-052"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-02"
+    ]
+  },
+  {
+    "id": "CON-02",
+    "kind": "concept",
+    "name": "National Insurance Number",
+    "aliases": [
+      "NINO"
+    ],
+    "definition": "The lifelong reference that identifies a person for National Insurance.",
+    "properties": {
+      "defines_identifier": "IDN-08",
+      "domain": "ni",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 6",
+        "quote": "- **National Insurance Number**: The lifelong reference that identifies a person for National Insurance. Synonyms: NINO.",
+        "support": "definition",
+        "id": "E-053"
+      },
+      {
+        "file": "docs/taxcore-system-overview.md",
+        "locator": "line 14",
+        "quote": "The National Insurance Number is issued by TAXCORE when a person is first registered.",
+        "support": "mention",
+        "id": "E-054"
+      },
+      {
+        "file": "docs/national-insurance-procedures.md",
+        "locator": "line 12",
+        "quote": "The National Insurance Number is issued by NumberHub when a person reaches 16.",
+        "support": "mention",
+        "id": "E-055"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-03",
+    "kind": "concept",
+    "name": "Employer",
+    "aliases": [],
+    "definition": "An organisation that pays employees and files PAYE returns.",
+    "properties": {
+      "realised_by": "ENT-03",
+      "reference_match": "Employer",
+      "domain": "paye",
+      "domain_basis": "realised by Employer"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 7",
+        "quote": "- **Employer**: An organisation that pays employees and files PAYE returns.",
+        "support": "definition",
+        "id": "E-056"
+      },
+      {
+        "file": "docs/paye-operations-manual.md",
+        "locator": "line 14",
+        "quote": "- Employer returns received after the filing deadline are flagged for penalty review.",
+        "support": "mention",
+        "id": "E-038"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-04",
+    "kind": "concept",
+    "name": "Employment",
+    "aliases": [],
+    "definition": "A period during which a person is paid by an employer.",
+    "properties": {
+      "realised_by": "ENT-04",
+      "reference_match": "Employment",
+      "domain": "paye",
+      "domain_basis": "realised by Employment"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 8",
+        "quote": "- **Employment**: A period during which a person is paid by an employer.",
+        "support": "definition",
+        "id": "E-057"
+      },
+      {
+        "file": "docs/paye-operations-manual.md",
+        "locator": "line 18",
+        "quote": "Employment status values: Live, Ceased.",
+        "support": "mention",
+        "id": "E-039"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-05",
+    "kind": "concept",
+    "name": "Pay Period",
+    "aliases": [],
+    "definition": "One period of pay, such as a week or month, reported in an employer return.",
+    "properties": {
+      "realised_by": "ENT-06",
+      "reference_match": "Pay Period",
+      "domain": "paye",
+      "domain_basis": "realised by PayPeriod"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 9",
+        "quote": "- **Pay Period**: One period of pay, such as a week or month, reported in an employer return.",
+        "support": "definition",
+        "id": "E-058"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-06",
+    "kind": "concept",
+    "name": "Tax Code",
+    "aliases": [],
+    "definition": "A code that tells the employer how much tax-free pay to allow for an employment.",
+    "properties": {
+      "realised_by": "ENT-05",
+      "reference_match": "Tax Code",
+      "domain": "paye",
+      "domain_basis": "realised by TaxCode"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 10",
+        "quote": "- **Tax Code**: A code that tells the employer how much tax-free pay to allow for an employment.",
+        "support": "definition",
+        "id": "E-059"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-07",
+    "kind": "concept",
+    "name": "NI Contribution",
+    "aliases": [],
+    "definition": "An amount of National Insurance due for a pay period.",
+    "properties": {
+      "realised_by": "ENT-07",
+      "reference_match": "NI Contribution",
+      "domain": "ni",
+      "domain_basis": "realised by NiContribution"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 11",
+        "quote": "- **NI Contribution**: An amount of National Insurance due for a pay period.",
+        "support": "definition",
+        "id": "E-060"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-08",
+    "kind": "concept",
+    "name": "NI Record",
+    "aliases": [],
+    "definition": "A person's yearly contribution history, including qualifying years.",
+    "properties": {
+      "realised_by": "ENT-08",
+      "reference_match": "NI Record",
+      "domain": "ni",
+      "domain_basis": "realised by NiRecord"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 12",
+        "quote": "- **NI Record**: A person's yearly contribution history, including qualifying years.",
+        "support": "definition",
+        "id": "E-061"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-09",
+    "kind": "concept",
+    "name": "Childcare Account",
+    "aliases": [],
+    "definition": "An account a parent uses to pay a registered childcare provider.",
+    "properties": {
+      "realised_by": "ENT-09",
+      "reference_match": "Childcare Account",
+      "domain": "childcare",
+      "domain_basis": "realised by ChildcareAccount"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 13",
+        "quote": "- **Childcare Account**: An account a parent uses to pay a registered childcare provider.",
+        "support": "definition",
+        "id": "E-062"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-10",
+    "kind": "concept",
+    "name": "Childcare Provider",
+    "aliases": [],
+    "definition": "A registered nursery, childminder or club that is paid from a childcare account.",
+    "properties": {
+      "reference_match": "Childcare Provider",
+      "domain": "childcare",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 14",
+        "quote": "- **Childcare Provider**: A registered nursery, childminder or club that is paid from a childcare account.",
+        "support": "definition",
+        "id": "E-063"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-09"
+    ]
+  },
+  {
+    "id": "CON-11",
+    "kind": "concept",
+    "name": "Child",
+    "aliases": [],
+    "definition": "A child named on a childcare account.",
+    "properties": {
+      "realised_by": "ENT-10",
+      "reference_match": "Child",
+      "domain": "childcare",
+      "domain_basis": "realised by Child"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 15",
+        "quote": "- **Child**: A child named on a childcare account.",
+        "support": "definition",
+        "id": "E-064"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CON-12",
+    "kind": "concept",
+    "name": "Top-up Payment",
+    "aliases": [],
+    "definition": "The government contribution added to a parent's payment into a childcare account.",
+    "properties": {
+      "domain": "childcare",
+      "domain_basis": "business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "wiki/data-glossary.md",
+        "locator": "line 16",
+        "quote": "- **Top-up Payment**: The government contribution added to a parent's payment into a childcare account.",
+        "support": "definition",
+        "id": "E-065"
+      }
+    ],
+    "proposed_by": [
+      "ba"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-10"
+    ]
+  },
+  {
+    "id": "ENT-01",
+    "kind": "entity",
+    "name": "Person",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_PERSON",
+      "attribute_ids": [
+        "ATT-01",
+        "ATT-02",
+        "ATT-03",
+        "ATT-04",
+        "ATT-05",
+        "ATT-06",
+        "ATT-07"
+      ],
+      "domain": "customer",
+      "domain_basis": "changed by Customer, National Insurance; Customer creates it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "TC_PERSON,PERSON_ID,INTEGER,N,PK,Person Id,",
+        "support": "structure",
+        "id": "E-066"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-02",
+      "U-03"
+    ]
+  },
+  {
+    "id": "ATT-01",
+    "kind": "attribute",
+    "name": "Person.personId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Person",
+      "attribute": "personId",
+      "physical": "PERSON_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Person Id",
+      "entity_id": "ENT-01",
+      "domain": "customer",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "TC_PERSON,PERSON_ID,INTEGER,N,PK,Person Id,",
+        "support": "structure",
+        "id": "E-066"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-01",
+    "kind": "identifier",
+    "name": "Person Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Person",
+      "attribute": "personId",
+      "key": "primary",
+      "seen_in": "Child.personId",
+      "entity_id": "ENT-01",
+      "domain": "customer",
+      "domain_basis": "identifies Person"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 2",
+        "quote": "TC_PERSON,PERSON_ID,INTEGER,N,PK,Person Id,",
+        "support": "structure",
+        "id": "E-066"
+      },
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 46",
+        "quote": "TC_CHILD,PERSON_ID,INTEGER,Y,,Child's person id (if registered),",
+        "support": "reference",
+        "id": "E-067"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-02",
+    "kind": "attribute",
+    "name": "Person.niNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Person",
+      "attribute": "niNumber",
+      "physical": "NI_NUMBER",
+      "data_type": "CHAR(9)",
+      "nullable": true,
+      "description": "National Insurance Number",
+      "entity_id": "ENT-01",
+      "domain": "ni",
+      "domain_basis": "created by Allocate NI Number (National Insurance); stored in Person today",
+      "split_from": "customer"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 3",
+        "quote": "TC_PERSON,NI_NUMBER,CHAR(9),Y,,National Insurance Number,",
+        "support": "structure",
+        "id": "E-068"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-03"
+    ]
+  },
+  {
+    "id": "ATT-03",
+    "kind": "attribute",
+    "name": "Person.forename",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Person",
+      "attribute": "forename",
+      "physical": "FORENAME",
+      "data_type": "VARCHAR(60)",
+      "nullable": false,
+      "description": "Forename",
+      "entity_id": "ENT-01",
+      "domain": "customer",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 4",
+        "quote": "TC_PERSON,FORENAME,VARCHAR(60),N,,Forename,",
+        "support": "structure",
+        "id": "E-069"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-04",
+    "kind": "attribute",
+    "name": "Person.surname",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Person",
+      "attribute": "surname",
+      "physical": "SURNAME",
+      "data_type": "VARCHAR(60)",
+      "nullable": false,
+      "description": "Surname",
+      "entity_id": "ENT-01",
+      "domain": "customer",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 5",
+        "quote": "TC_PERSON,SURNAME,VARCHAR(60),N,,Surname,",
+        "support": "structure",
+        "id": "E-070"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-05",
+    "kind": "attribute",
+    "name": "Person.dateOfBirth",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Person",
+      "attribute": "dateOfBirth",
+      "physical": "DATE_OF_BIRTH",
+      "data_type": "DATE",
+      "nullable": false,
+      "description": "Date of birth",
+      "entity_id": "ENT-01",
+      "domain": "customer",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 6",
+        "quote": "TC_PERSON,DATE_OF_BIRTH,DATE,N,,Date of birth,",
+        "support": "structure",
+        "id": "E-071"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-06",
+    "kind": "attribute",
+    "name": "Person.dateOfDeath",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Person",
+      "attribute": "dateOfDeath",
+      "physical": "DATE_OF_DEATH",
+      "data_type": "DATE",
+      "nullable": true,
+      "description": "Date of death",
+      "entity_id": "ENT-01",
+      "domain": "customer",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 7",
+        "quote": "TC_PERSON,DATE_OF_DEATH,DATE,Y,,Date of death,",
+        "support": "structure",
+        "id": "E-072"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-07",
+    "kind": "attribute",
+    "name": "Person.corrPref",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Person",
+      "attribute": "corrPref",
+      "physical": "CORR_PREF",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Correspondence preference",
+      "range": "CorrespondencePreference",
+      "entity_id": "ENT-01",
+      "domain": "customer",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 8",
+        "quote": "TC_PERSON,CORR_PREF,CHAR(3),N,,Correspondence preference,PST=Post|DIG=Digital",
+        "support": "structure",
+        "id": "E-073"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-04",
+    "kind": "taxonomy",
+    "name": "CorrespondencePreference",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "PST": "Post",
+        "DIG": "Digital"
+      },
+      "values": [
+        "POST",
+        "DIGITAL"
+      ],
+      "domain": "customer",
+      "domain_basis": "used by Person.corrPref"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 8",
+        "quote": "TC_PERSON,CORR_PREF,CHAR(3),N,,Correspondence preference,PST=Post|DIG=Digital",
+        "support": "value-list",
+        "id": "E-073"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-02",
+    "kind": "entity",
+    "name": "Address",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_ADDRESS",
+      "attribute_ids": [
+        "ATT-08",
+        "ATT-09",
+        "ATT-10",
+        "ATT-11"
+      ],
+      "reference_match": "Address",
+      "domain": "customer",
+      "domain_basis": "only Customer capabilities change it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "TC_ADDRESS,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+        "support": "structure",
+        "id": "E-074"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-08",
+    "kind": "attribute",
+    "name": "Address.personId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Address",
+      "attribute": "personId",
+      "physical": "PERSON_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Person Id",
+      "entity_id": "ENT-02",
+      "domain": "customer",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "TC_ADDRESS,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+        "support": "structure",
+        "id": "E-074"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-01",
+    "kind": "relationship",
+    "name": "Address → Person",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Address",
+      "to": "Person",
+      "via": "personId",
+      "cardinality": "many-to-one",
+      "domain": "customer",
+      "domain_basis": "belongs to its source entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 9",
+        "quote": "TC_ADDRESS,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+        "support": "structure",
+        "id": "E-074"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-09",
+    "kind": "attribute",
+    "name": "Address.addressType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Address",
+      "attribute": "addressType",
+      "physical": "ADDR_TYPE",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Address type",
+      "range": "AddressType",
+      "entity_id": "ENT-02",
+      "domain": "customer",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 10",
+        "quote": "TC_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,RES=Residential|COR=Correspondence",
+        "support": "structure",
+        "id": "E-075"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-05",
+    "kind": "taxonomy",
+    "name": "AddressType",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "RES": "Residential",
+        "COR": "Correspondence"
+      },
+      "values": [
+        "RESIDENTIAL",
+        "CORRESPONDENCE"
+      ],
+      "domain": "customer",
+      "domain_basis": "used by Address.addressType"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 10",
+        "quote": "TC_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,RES=Residential|COR=Correspondence",
+        "support": "value-list",
+        "id": "E-075"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-10",
+    "kind": "attribute",
+    "name": "Address.line1",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Address",
+      "attribute": "line1",
+      "physical": "LINE_1",
+      "data_type": "VARCHAR(100)",
+      "nullable": false,
+      "description": "Address line 1",
+      "entity_id": "ENT-02",
+      "domain": "customer",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 11",
+        "quote": "TC_ADDRESS,LINE_1,VARCHAR(100),N,,Address line 1,",
+        "support": "structure",
+        "id": "E-076"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-11",
+    "kind": "attribute",
+    "name": "Address.postcode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Address",
+      "attribute": "postcode",
+      "physical": "POSTCODE",
+      "data_type": "VARCHAR(10)",
+      "nullable": false,
+      "description": "Postcode",
+      "entity_id": "ENT-02",
+      "domain": "customer",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 12",
+        "quote": "TC_ADDRESS,POSTCODE,VARCHAR(10),N,,Postcode,",
+        "support": "structure",
+        "id": "E-077"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-03",
+    "kind": "entity",
+    "name": "Employer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_EMPLOYER",
+      "attribute_ids": [
+        "ATT-12",
+        "ATT-13"
+      ],
+      "realises": "CON-03",
+      "domain": "paye",
+      "domain_basis": "no capability writes it; assigned by business vocabulary"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 13",
+        "quote": "TC_EMPLOYER,EMPLOYER_REF,VARCHAR(12),N,PK,Employer Reference,",
+        "support": "structure",
+        "id": "E-078"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-12",
+    "kind": "attribute",
+    "name": "Employer.employerRef",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Employer",
+      "attribute": "employerRef",
+      "physical": "EMPLOYER_REF",
+      "data_type": "VARCHAR(12)",
+      "nullable": false,
+      "description": "Employer Reference",
+      "entity_id": "ENT-03",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 13",
+        "quote": "TC_EMPLOYER,EMPLOYER_REF,VARCHAR(12),N,PK,Employer Reference,",
+        "support": "structure",
+        "id": "E-078"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-02",
+    "kind": "identifier",
+    "name": "Employer Reference",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Employer",
+      "attribute": "employerRef",
+      "key": "primary",
+      "entity_id": "ENT-03",
+      "domain": "paye",
+      "domain_basis": "identifies Employer"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 13",
+        "quote": "TC_EMPLOYER,EMPLOYER_REF,VARCHAR(12),N,PK,Employer Reference,",
+        "support": "structure",
+        "id": "E-078"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-13",
+    "kind": "attribute",
+    "name": "Employer.employerName",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Employer",
+      "attribute": "employerName",
+      "physical": "EMPLOYER_NAME",
+      "data_type": "VARCHAR(200)",
+      "nullable": false,
+      "description": "Employer name",
+      "entity_id": "ENT-03",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 14",
+        "quote": "TC_EMPLOYER,EMPLOYER_NAME,VARCHAR(200),N,,Employer name,",
+        "support": "structure",
+        "id": "E-079"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-04",
+    "kind": "entity",
+    "name": "Employment",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_EMPLOYMENT",
+      "attribute_ids": [
+        "ATT-14",
+        "ATT-15",
+        "ATT-16",
+        "ATT-17",
+        "ATT-18",
+        "ATT-19"
+      ],
+      "realises": "CON-04",
+      "domain": "paye",
+      "domain_basis": "only PAYE capabilities change it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 15",
+        "quote": "TC_EMPLOYMENT,EMPLOYMENT_ID,INTEGER,N,PK,Employment Id,",
+        "support": "structure",
+        "id": "E-080"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-14",
+    "kind": "attribute",
+    "name": "Employment.employmentId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Employment",
+      "attribute": "employmentId",
+      "physical": "EMPLOYMENT_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Employment Id",
+      "entity_id": "ENT-04",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 15",
+        "quote": "TC_EMPLOYMENT,EMPLOYMENT_ID,INTEGER,N,PK,Employment Id,",
+        "support": "structure",
+        "id": "E-080"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-03",
+    "kind": "identifier",
+    "name": "Employment Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Employment",
+      "attribute": "employmentId",
+      "key": "primary",
+      "entity_id": "ENT-04",
+      "domain": "paye",
+      "domain_basis": "identifies Employment"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 15",
+        "quote": "TC_EMPLOYMENT,EMPLOYMENT_ID,INTEGER,N,PK,Employment Id,",
+        "support": "structure",
+        "id": "E-080"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-15",
+    "kind": "attribute",
+    "name": "Employment.personId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Employment",
+      "attribute": "personId",
+      "physical": "PERSON_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Person Id",
+      "entity_id": "ENT-04",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 16",
+        "quote": "TC_EMPLOYMENT,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+        "support": "structure",
+        "id": "E-081"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-02",
+    "kind": "relationship",
+    "name": "Employment → Person",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Employment",
+      "to": "Person",
+      "via": "personId",
+      "cardinality": "many-to-one",
+      "reference_match": "Employment is held by Person",
+      "domain": "paye",
+      "domain_basis": "belongs to its source entity",
+      "cross_domain": true
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 16",
+        "quote": "TC_EMPLOYMENT,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+        "support": "structure",
+        "id": "E-081"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-16",
+    "kind": "attribute",
+    "name": "Employment.employerRef",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Employment",
+      "attribute": "employerRef",
+      "physical": "EMPLOYER_REF",
+      "data_type": "VARCHAR(12)",
+      "nullable": false,
+      "description": "Employer Reference",
+      "entity_id": "ENT-04",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 17",
+        "quote": "TC_EMPLOYMENT,EMPLOYER_REF,VARCHAR(12),N,FK:TC_EMPLOYER.EMPLOYER_REF,Employer Reference,",
+        "support": "structure",
+        "id": "E-082"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-03",
+    "kind": "relationship",
+    "name": "Employment → Employer",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Employment",
+      "to": "Employer",
+      "via": "employerRef",
+      "cardinality": "many-to-one",
+      "reference_match": "Employment is with Employer",
+      "domain": "paye",
+      "domain_basis": "belongs to its source entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 17",
+        "quote": "TC_EMPLOYMENT,EMPLOYER_REF,VARCHAR(12),N,FK:TC_EMPLOYER.EMPLOYER_REF,Employer Reference,",
+        "support": "structure",
+        "id": "E-082"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-17",
+    "kind": "attribute",
+    "name": "Employment.startDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Employment",
+      "attribute": "startDate",
+      "physical": "START_DATE",
+      "data_type": "DATE",
+      "nullable": false,
+      "description": "Employment start",
+      "entity_id": "ENT-04",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 18",
+        "quote": "TC_EMPLOYMENT,START_DATE,DATE,N,,Employment start,",
+        "support": "structure",
+        "id": "E-083"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-18",
+    "kind": "attribute",
+    "name": "Employment.endDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Employment",
+      "attribute": "endDate",
+      "physical": "END_DATE",
+      "data_type": "DATE",
+      "nullable": true,
+      "description": "Employment end",
+      "entity_id": "ENT-04",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 19",
+        "quote": "TC_EMPLOYMENT,END_DATE,DATE,Y,,Employment end,",
+        "support": "structure",
+        "id": "E-084"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-19",
+    "kind": "attribute",
+    "name": "Employment.status",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Employment",
+      "attribute": "status",
+      "physical": "STATUS",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Employment status",
+      "range": "EmploymentStatus",
+      "entity_id": "ENT-04",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 20",
+        "quote": "TC_EMPLOYMENT,STATUS,CHAR(3),N,,Employment status,LIV=Live|CEA=Ceased|SUS=Suspended",
+        "support": "structure",
+        "id": "E-040"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-05",
+    "kind": "entity",
+    "name": "TaxCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_TAX_CODE",
+      "attribute_ids": [
+        "ATT-20",
+        "ATT-21",
+        "ATT-22"
+      ],
+      "realises": "CON-06",
+      "domain": "paye",
+      "domain_basis": "only PAYE capabilities change it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 21",
+        "quote": "TC_TAX_CODE,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+        "support": "structure",
+        "id": "E-085"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-20",
+    "kind": "attribute",
+    "name": "TaxCode.employmentId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "TaxCode",
+      "attribute": "employmentId",
+      "physical": "EMPLOYMENT_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Employment Id",
+      "entity_id": "ENT-05",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 21",
+        "quote": "TC_TAX_CODE,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+        "support": "structure",
+        "id": "E-085"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-04",
+    "kind": "relationship",
+    "name": "TaxCode → Employment",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "TaxCode",
+      "to": "Employment",
+      "via": "employmentId",
+      "cardinality": "many-to-one",
+      "domain": "paye",
+      "domain_basis": "belongs to its source entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 21",
+        "quote": "TC_TAX_CODE,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+        "support": "structure",
+        "id": "E-085"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-21",
+    "kind": "attribute",
+    "name": "TaxCode.taxCode",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "TaxCode",
+      "attribute": "taxCode",
+      "physical": "TAX_CODE",
+      "data_type": "VARCHAR(8)",
+      "nullable": false,
+      "description": "Tax code",
+      "entity_id": "ENT-05",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 22",
+        "quote": "TC_TAX_CODE,TAX_CODE,VARCHAR(8),N,,Tax code,",
+        "support": "structure",
+        "id": "E-086"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-22",
+    "kind": "attribute",
+    "name": "TaxCode.effectiveFrom",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "TaxCode",
+      "attribute": "effectiveFrom",
+      "physical": "EFFECTIVE_FROM",
+      "data_type": "DATE",
+      "nullable": false,
+      "description": "Effective from",
+      "entity_id": "ENT-05",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 23",
+        "quote": "TC_TAX_CODE,EFFECTIVE_FROM,DATE,N,,Effective from,",
+        "support": "structure",
+        "id": "E-087"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-06",
+    "kind": "entity",
+    "name": "PayPeriod",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_PAY_PERIOD",
+      "attribute_ids": [
+        "ATT-23",
+        "ATT-24",
+        "ATT-25",
+        "ATT-26",
+        "ATT-27",
+        "ATT-28"
+      ],
+      "realises": "CON-05",
+      "domain": "paye",
+      "domain_basis": "only PAYE capabilities change it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 24",
+        "quote": "TC_PAY_PERIOD,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+        "support": "structure",
+        "id": "E-088"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-23",
+    "kind": "attribute",
+    "name": "PayPeriod.employmentId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PayPeriod",
+      "attribute": "employmentId",
+      "physical": "EMPLOYMENT_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Employment Id",
+      "entity_id": "ENT-06",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 24",
+        "quote": "TC_PAY_PERIOD,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+        "support": "structure",
+        "id": "E-088"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-05",
+    "kind": "relationship",
+    "name": "PayPeriod → Employment",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "PayPeriod",
+      "to": "Employment",
+      "via": "employmentId",
+      "cardinality": "many-to-one",
+      "domain": "paye",
+      "domain_basis": "belongs to its source entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 24",
+        "quote": "TC_PAY_PERIOD,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+        "support": "structure",
+        "id": "E-088"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-24",
+    "kind": "attribute",
+    "name": "PayPeriod.taxYear",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PayPeriod",
+      "attribute": "taxYear",
+      "physical": "TAX_YEAR",
+      "data_type": "CHAR(7)",
+      "nullable": false,
+      "description": "Tax year",
+      "entity_id": "ENT-06",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 25",
+        "quote": "TC_PAY_PERIOD,TAX_YEAR,CHAR(7),N,,Tax year,",
+        "support": "structure",
+        "id": "E-089"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-25",
+    "kind": "attribute",
+    "name": "PayPeriod.periodNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PayPeriod",
+      "attribute": "periodNumber",
+      "physical": "PERIOD_NO",
+      "data_type": "SMALLINT",
+      "nullable": false,
+      "description": "Period number",
+      "entity_id": "ENT-06",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 26",
+        "quote": "TC_PAY_PERIOD,PERIOD_NO,SMALLINT,N,,Period number,",
+        "support": "structure",
+        "id": "E-090"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-26",
+    "kind": "attribute",
+    "name": "PayPeriod.grossPay",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PayPeriod",
+      "attribute": "grossPay",
+      "physical": "GROSS_PAY",
+      "data_type": "DECIMAL(11,2)",
+      "nullable": false,
+      "description": "Gross pay",
+      "entity_id": "ENT-06",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 27",
+        "quote": "TC_PAY_PERIOD,GROSS_PAY,\"DECIMAL(11,2)\",N,,Gross pay,",
+        "support": "structure",
+        "id": "E-091"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-27",
+    "kind": "attribute",
+    "name": "PayPeriod.taxDeducted",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PayPeriod",
+      "attribute": "taxDeducted",
+      "physical": "TAX_DEDUCTED",
+      "data_type": "DECIMAL(11,2)",
+      "nullable": false,
+      "description": "Tax deducted",
+      "entity_id": "ENT-06",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 28",
+        "quote": "TC_PAY_PERIOD,TAX_DEDUCTED,\"DECIMAL(11,2)\",N,,Tax deducted,",
+        "support": "structure",
+        "id": "E-092"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-28",
+    "kind": "attribute",
+    "name": "PayPeriod.niCategory",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "PayPeriod",
+      "attribute": "niCategory",
+      "physical": "NI_CATEGORY",
+      "data_type": "CHAR(1)",
+      "nullable": false,
+      "description": "NI category letter",
+      "entity_id": "ENT-06",
+      "domain": "paye",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 29",
+        "quote": "TC_PAY_PERIOD,NI_CATEGORY,CHAR(1),N,,NI category letter,",
+        "support": "structure",
+        "id": "E-093"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-07",
+    "kind": "entity",
+    "name": "NiContribution",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_NI_CONTRIBUTION",
+      "attribute_ids": [
+        "ATT-29",
+        "ATT-30",
+        "ATT-31",
+        "ATT-32",
+        "ATT-33",
+        "ATT-34"
+      ],
+      "realises": "CON-07",
+      "domain": "ni",
+      "domain_basis": "only National Insurance capabilities change it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 30",
+        "quote": "TC_NI_CONTRIBUTION,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+        "support": "structure",
+        "id": "E-094"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-29",
+    "kind": "attribute",
+    "name": "NiContribution.employmentId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "NiContribution",
+      "attribute": "employmentId",
+      "physical": "EMPLOYMENT_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Employment Id",
+      "entity_id": "ENT-07",
+      "domain": "ni",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 30",
+        "quote": "TC_NI_CONTRIBUTION,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+        "support": "structure",
+        "id": "E-094"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-06",
+    "kind": "relationship",
+    "name": "NiContribution → Employment",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "NiContribution",
+      "to": "Employment",
+      "via": "employmentId",
+      "cardinality": "many-to-one",
+      "reference_match": "NI Contribution is due on Employment",
+      "domain": "ni",
+      "domain_basis": "belongs to its source entity",
+      "cross_domain": true
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 30",
+        "quote": "TC_NI_CONTRIBUTION,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+        "support": "structure",
+        "id": "E-094"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-30",
+    "kind": "attribute",
+    "name": "NiContribution.taxYear",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "NiContribution",
+      "attribute": "taxYear",
+      "physical": "TAX_YEAR",
+      "data_type": "CHAR(7)",
+      "nullable": false,
+      "description": "Tax year",
+      "entity_id": "ENT-07",
+      "domain": "ni",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 31",
+        "quote": "TC_NI_CONTRIBUTION,TAX_YEAR,CHAR(7),N,,Tax year,",
+        "support": "structure",
+        "id": "E-095"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-31",
+    "kind": "attribute",
+    "name": "NiContribution.periodNumber",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "NiContribution",
+      "attribute": "periodNumber",
+      "physical": "PERIOD_NO",
+      "data_type": "SMALLINT",
+      "nullable": false,
+      "description": "Period number",
+      "entity_id": "ENT-07",
+      "domain": "ni",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 32",
+        "quote": "TC_NI_CONTRIBUTION,PERIOD_NO,SMALLINT,N,,Period number,",
+        "support": "structure",
+        "id": "E-096"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-32",
+    "kind": "attribute",
+    "name": "NiContribution.niCategory",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "NiContribution",
+      "attribute": "niCategory",
+      "physical": "NI_CATEGORY",
+      "data_type": "CHAR(1)",
+      "nullable": false,
+      "description": "NI category",
+      "range": "NiCategory",
+      "entity_id": "ENT-07",
+      "domain": "ni",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 33",
+        "quote": "TC_NI_CONTRIBUTION,NI_CATEGORY,CHAR(1),N,,NI category,A=A|B=B|C=C|H=H|J=J|M=M|Z=Z|V=V",
+        "support": "structure",
+        "id": "E-045"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-33",
+    "kind": "attribute",
+    "name": "NiContribution.employeeNic",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "NiContribution",
+      "attribute": "employeeNic",
+      "physical": "EMPLOYEE_NIC",
+      "data_type": "DECIMAL(11,2)",
+      "nullable": false,
+      "description": "Employee contribution",
+      "entity_id": "ENT-07",
+      "domain": "ni",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 34",
+        "quote": "TC_NI_CONTRIBUTION,EMPLOYEE_NIC,\"DECIMAL(11,2)\",N,,Employee contribution,",
+        "support": "structure",
+        "id": "E-097"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-34",
+    "kind": "attribute",
+    "name": "NiContribution.employerNic",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "NiContribution",
+      "attribute": "employerNic",
+      "physical": "EMPLOYER_NIC",
+      "data_type": "DECIMAL(11,2)",
+      "nullable": false,
+      "description": "Employer contribution",
+      "entity_id": "ENT-07",
+      "domain": "ni",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 35",
+        "quote": "TC_NI_CONTRIBUTION,EMPLOYER_NIC,\"DECIMAL(11,2)\",N,,Employer contribution,",
+        "support": "structure",
+        "id": "E-098"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-08",
+    "kind": "entity",
+    "name": "NiRecord",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_NI_RECORD",
+      "attribute_ids": [
+        "ATT-35",
+        "ATT-36",
+        "ATT-37",
+        "ATT-38"
+      ],
+      "realises": "CON-08",
+      "domain": "ni",
+      "domain_basis": "changed by National Insurance, Customer; National Insurance creates it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 36",
+        "quote": "TC_NI_RECORD,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+        "support": "structure",
+        "id": "E-099"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-01"
+    ]
+  },
+  {
+    "id": "ATT-35",
+    "kind": "attribute",
+    "name": "NiRecord.personId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "NiRecord",
+      "attribute": "personId",
+      "physical": "PERSON_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Person Id",
+      "entity_id": "ENT-08",
+      "domain": "ni",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 36",
+        "quote": "TC_NI_RECORD,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+        "support": "structure",
+        "id": "E-099"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-07",
+    "kind": "relationship",
+    "name": "NiRecord → Person",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "NiRecord",
+      "to": "Person",
+      "via": "personId",
+      "cardinality": "many-to-one",
+      "reference_match": "NI Record belongs to Person",
+      "domain": "ni",
+      "domain_basis": "belongs to its source entity",
+      "cross_domain": true
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 36",
+        "quote": "TC_NI_RECORD,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+        "support": "structure",
+        "id": "E-099"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-36",
+    "kind": "attribute",
+    "name": "NiRecord.taxYear",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "NiRecord",
+      "attribute": "taxYear",
+      "physical": "TAX_YEAR",
+      "data_type": "CHAR(7)",
+      "nullable": false,
+      "description": "Tax year",
+      "entity_id": "ENT-08",
+      "domain": "ni",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 37",
+        "quote": "TC_NI_RECORD,TAX_YEAR,CHAR(7),N,,Tax year,",
+        "support": "structure",
+        "id": "E-100"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-37",
+    "kind": "attribute",
+    "name": "NiRecord.qualifying",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "NiRecord",
+      "attribute": "qualifying",
+      "physical": "QUALIFYING",
+      "data_type": "CHAR(1)",
+      "nullable": false,
+      "description": "Qualifying year",
+      "range": "QualifyingYear",
+      "entity_id": "ENT-08",
+      "domain": "ni",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 38",
+        "quote": "TC_NI_RECORD,QUALIFYING,CHAR(1),N,,Qualifying year,Y=Yes|N=No",
+        "support": "structure",
+        "id": "E-101"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-06",
+    "kind": "taxonomy",
+    "name": "QualifyingYear",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "Y": "Yes",
+        "N": "No"
+      },
+      "values": [
+        "YES",
+        "NO"
+      ],
+      "domain": "ni",
+      "domain_basis": "used by NiRecord.qualifying"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 38",
+        "quote": "TC_NI_RECORD,QUALIFYING,CHAR(1),N,,Qualifying year,Y=Yes|N=No",
+        "support": "value-list",
+        "id": "E-101"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-38",
+    "kind": "attribute",
+    "name": "NiRecord.class1Total",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "NiRecord",
+      "attribute": "class1Total",
+      "physical": "CLASS1_TOTAL",
+      "data_type": "DECIMAL(11,2)",
+      "nullable": false,
+      "description": "Class 1 total for year",
+      "entity_id": "ENT-08",
+      "domain": "ni",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 39",
+        "quote": "TC_NI_RECORD,CLASS1_TOTAL,\"DECIMAL(11,2)\",N,,Class 1 total for year,",
+        "support": "structure",
+        "id": "E-102"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-09",
+    "kind": "entity",
+    "name": "ChildcareAccount",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_CHILDCARE_ACCOUNT",
+      "attribute_ids": [
+        "ATT-39",
+        "ATT-40",
+        "ATT-41",
+        "ATT-42"
+      ],
+      "realises": "CON-09",
+      "domain": "childcare",
+      "domain_basis": "changed by Childcare, Customer; Childcare creates it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 40",
+        "quote": "TC_CHILDCARE_ACCOUNT,CC_ACCOUNT_ID,INTEGER,N,PK,Childcare Account Id,",
+        "support": "structure",
+        "id": "E-103"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": [
+      "U-01"
+    ]
+  },
+  {
+    "id": "ATT-39",
+    "kind": "attribute",
+    "name": "ChildcareAccount.ccAccountId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcareAccount",
+      "attribute": "ccAccountId",
+      "physical": "CC_ACCOUNT_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Childcare Account Id",
+      "entity_id": "ENT-09",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 40",
+        "quote": "TC_CHILDCARE_ACCOUNT,CC_ACCOUNT_ID,INTEGER,N,PK,Childcare Account Id,",
+        "support": "structure",
+        "id": "E-103"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-04",
+    "kind": "identifier",
+    "name": "Childcare Account Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcareAccount",
+      "attribute": "ccAccountId",
+      "key": "primary",
+      "entity_id": "ENT-09",
+      "domain": "childcare",
+      "domain_basis": "identifies ChildcareAccount"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 40",
+        "quote": "TC_CHILDCARE_ACCOUNT,CC_ACCOUNT_ID,INTEGER,N,PK,Childcare Account Id,",
+        "support": "structure",
+        "id": "E-103"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-40",
+    "kind": "attribute",
+    "name": "ChildcareAccount.personId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcareAccount",
+      "attribute": "personId",
+      "physical": "PERSON_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Person Id",
+      "entity_id": "ENT-09",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 41",
+        "quote": "TC_CHILDCARE_ACCOUNT,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+        "support": "structure",
+        "id": "E-104"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-08",
+    "kind": "relationship",
+    "name": "ChildcareAccount → Person",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "ChildcareAccount",
+      "to": "Person",
+      "via": "personId",
+      "cardinality": "many-to-one",
+      "reference_match": "Childcare Account is held by Person",
+      "domain": "childcare",
+      "domain_basis": "belongs to its source entity",
+      "cross_domain": true
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 41",
+        "quote": "TC_CHILDCARE_ACCOUNT,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+        "support": "structure",
+        "id": "E-104"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-41",
+    "kind": "attribute",
+    "name": "ChildcareAccount.status",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcareAccount",
+      "attribute": "status",
+      "physical": "STATUS",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Childcare account status",
+      "range": "ChildcareAccountStatus",
+      "entity_id": "ENT-09",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 42",
+        "quote": "TC_CHILDCARE_ACCOUNT,STATUS,CHAR(3),N,,Childcare account status,OPN=Open|SUS=Suspended|CLO=Closed",
+        "support": "structure",
+        "id": "E-051"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-42",
+    "kind": "attribute",
+    "name": "ChildcareAccount.openedDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcareAccount",
+      "attribute": "openedDate",
+      "physical": "OPENED_DATE",
+      "data_type": "DATE",
+      "nullable": false,
+      "description": "Opened date",
+      "entity_id": "ENT-09",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 43",
+        "quote": "TC_CHILDCARE_ACCOUNT,OPENED_DATE,DATE,N,,Opened date,",
+        "support": "structure",
+        "id": "E-105"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-10",
+    "kind": "entity",
+    "name": "Child",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_CHILD",
+      "attribute_ids": [
+        "ATT-43",
+        "ATT-44",
+        "ATT-45",
+        "ATT-46",
+        "ATT-47"
+      ],
+      "realises": "CON-11",
+      "domain": "childcare",
+      "domain_basis": "only Childcare capabilities change it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 44",
+        "quote": "TC_CHILD,CHILD_ID,INTEGER,N,PK,Child Id,",
+        "support": "structure",
+        "id": "E-106"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-43",
+    "kind": "attribute",
+    "name": "Child.childId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Child",
+      "attribute": "childId",
+      "physical": "CHILD_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Child Id",
+      "entity_id": "ENT-10",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 44",
+        "quote": "TC_CHILD,CHILD_ID,INTEGER,N,PK,Child Id,",
+        "support": "structure",
+        "id": "E-106"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-05",
+    "kind": "identifier",
+    "name": "Child Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Child",
+      "attribute": "childId",
+      "key": "primary",
+      "entity_id": "ENT-10",
+      "domain": "childcare",
+      "domain_basis": "identifies Child"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 44",
+        "quote": "TC_CHILD,CHILD_ID,INTEGER,N,PK,Child Id,",
+        "support": "structure",
+        "id": "E-106"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-44",
+    "kind": "attribute",
+    "name": "Child.ccAccountId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Child",
+      "attribute": "ccAccountId",
+      "physical": "CC_ACCOUNT_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Childcare Account Id",
+      "entity_id": "ENT-10",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 45",
+        "quote": "TC_CHILD,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+        "support": "structure",
+        "id": "E-107"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-09",
+    "kind": "relationship",
+    "name": "Child → ChildcareAccount",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Child",
+      "to": "ChildcareAccount",
+      "via": "ccAccountId",
+      "cardinality": "many-to-one",
+      "domain": "childcare",
+      "domain_basis": "belongs to its source entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 45",
+        "quote": "TC_CHILD,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+        "support": "structure",
+        "id": "E-107"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-45",
+    "kind": "attribute",
+    "name": "Child.personId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Child",
+      "attribute": "personId",
+      "physical": "PERSON_ID",
+      "data_type": "INTEGER",
+      "nullable": true,
+      "description": "Child's person id (if registered)",
+      "entity_id": "ENT-10",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 46",
+        "quote": "TC_CHILD,PERSON_ID,INTEGER,Y,,Child's person id (if registered),",
+        "support": "structure",
+        "id": "E-067"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-46",
+    "kind": "attribute",
+    "name": "Child.forename",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Child",
+      "attribute": "forename",
+      "physical": "FORENAME",
+      "data_type": "VARCHAR(60)",
+      "nullable": false,
+      "description": "Child forename",
+      "entity_id": "ENT-10",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 47",
+        "quote": "TC_CHILD,FORENAME,VARCHAR(60),N,,Child forename,",
+        "support": "structure",
+        "id": "E-108"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-47",
+    "kind": "attribute",
+    "name": "Child.dateOfBirth",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "Child",
+      "attribute": "dateOfBirth",
+      "physical": "DATE_OF_BIRTH",
+      "data_type": "DATE",
+      "nullable": false,
+      "description": "Child date of birth",
+      "entity_id": "ENT-10",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 48",
+        "quote": "TC_CHILD,DATE_OF_BIRTH,DATE,N,,Child date of birth,",
+        "support": "structure",
+        "id": "E-109"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-11",
+    "kind": "entity",
+    "name": "ChildcarePayment",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_CHILDCARE_PAYMENT",
+      "attribute_ids": [
+        "ATT-48",
+        "ATT-49",
+        "ATT-50",
+        "ATT-51",
+        "ATT-52",
+        "ATT-53"
+      ],
+      "reference_match": "Childcare Payment",
+      "domain": "childcare",
+      "domain_basis": "only Childcare capabilities change it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 49",
+        "quote": "TC_CHILDCARE_PAYMENT,PAYMENT_ID,INTEGER,N,PK,Payment Id,",
+        "support": "structure",
+        "id": "E-110"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-48",
+    "kind": "attribute",
+    "name": "ChildcarePayment.paymentId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcarePayment",
+      "attribute": "paymentId",
+      "physical": "PAYMENT_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Payment Id",
+      "entity_id": "ENT-11",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 49",
+        "quote": "TC_CHILDCARE_PAYMENT,PAYMENT_ID,INTEGER,N,PK,Payment Id,",
+        "support": "structure",
+        "id": "E-110"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-06",
+    "kind": "identifier",
+    "name": "Payment Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcarePayment",
+      "attribute": "paymentId",
+      "key": "primary",
+      "entity_id": "ENT-11",
+      "domain": "childcare",
+      "domain_basis": "identifies ChildcarePayment"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 49",
+        "quote": "TC_CHILDCARE_PAYMENT,PAYMENT_ID,INTEGER,N,PK,Payment Id,",
+        "support": "structure",
+        "id": "E-110"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-49",
+    "kind": "attribute",
+    "name": "ChildcarePayment.ccAccountId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcarePayment",
+      "attribute": "ccAccountId",
+      "physical": "CC_ACCOUNT_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Childcare Account Id",
+      "entity_id": "ENT-11",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 50",
+        "quote": "TC_CHILDCARE_PAYMENT,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+        "support": "structure",
+        "id": "E-111"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-10",
+    "kind": "relationship",
+    "name": "ChildcarePayment → ChildcareAccount",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "ChildcarePayment",
+      "to": "ChildcareAccount",
+      "via": "ccAccountId",
+      "cardinality": "many-to-one",
+      "domain": "childcare",
+      "domain_basis": "belongs to its source entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 50",
+        "quote": "TC_CHILDCARE_PAYMENT,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+        "support": "structure",
+        "id": "E-111"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-50",
+    "kind": "attribute",
+    "name": "ChildcarePayment.providerRef",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcarePayment",
+      "attribute": "providerRef",
+      "physical": "PROVIDER_REF",
+      "data_type": "VARCHAR(12)",
+      "nullable": false,
+      "description": "Childcare provider reference",
+      "entity_id": "ENT-11",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 51",
+        "quote": "TC_CHILDCARE_PAYMENT,PROVIDER_REF,VARCHAR(12),N,,Childcare provider reference,",
+        "support": "structure",
+        "id": "E-112"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-51",
+    "kind": "attribute",
+    "name": "ChildcarePayment.parentAmount",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcarePayment",
+      "attribute": "parentAmount",
+      "physical": "PARENT_AMOUNT",
+      "data_type": "DECIMAL(9,2)",
+      "nullable": false,
+      "description": "Parent payment",
+      "entity_id": "ENT-11",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 52",
+        "quote": "TC_CHILDCARE_PAYMENT,PARENT_AMOUNT,\"DECIMAL(9,2)\",N,,Parent payment,",
+        "support": "structure",
+        "id": "E-113"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-52",
+    "kind": "attribute",
+    "name": "ChildcarePayment.topupAmount",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcarePayment",
+      "attribute": "topupAmount",
+      "physical": "TOPUP_AMOUNT",
+      "data_type": "DECIMAL(9,2)",
+      "nullable": true,
+      "description": "Government top-up",
+      "entity_id": "ENT-11",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 53",
+        "quote": "TC_CHILDCARE_PAYMENT,TOPUP_AMOUNT,\"DECIMAL(9,2)\",Y,,Government top-up,",
+        "support": "structure",
+        "id": "E-114"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-53",
+    "kind": "attribute",
+    "name": "ChildcarePayment.paidDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "ChildcarePayment",
+      "attribute": "paidDate",
+      "physical": "PAID_DATE",
+      "data_type": "DATE",
+      "nullable": false,
+      "description": "Paid date",
+      "entity_id": "ENT-11",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 54",
+        "quote": "TC_CHILDCARE_PAYMENT,PAID_DATE,DATE,N,,Paid date,",
+        "support": "structure",
+        "id": "E-115"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ENT-12",
+    "kind": "entity",
+    "name": "EligibilityCheck",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "system": "TAXCORE",
+      "physical": "TC_ELIGIBILITY_CHECK",
+      "attribute_ids": [
+        "ATT-54",
+        "ATT-55",
+        "ATT-56",
+        "ATT-57",
+        "ATT-58"
+      ],
+      "domain": "childcare",
+      "domain_basis": "only Childcare capabilities change it"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 55",
+        "quote": "TC_ELIGIBILITY_CHECK,CHECK_ID,INTEGER,N,PK,Check Id,",
+        "support": "structure",
+        "id": "E-116"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-54",
+    "kind": "attribute",
+    "name": "EligibilityCheck.checkId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "EligibilityCheck",
+      "attribute": "checkId",
+      "physical": "CHECK_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Check Id",
+      "entity_id": "ENT-12",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 55",
+        "quote": "TC_ELIGIBILITY_CHECK,CHECK_ID,INTEGER,N,PK,Check Id,",
+        "support": "structure",
+        "id": "E-116"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-07",
+    "kind": "identifier",
+    "name": "Check Id",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "EligibilityCheck",
+      "attribute": "checkId",
+      "key": "primary",
+      "entity_id": "ENT-12",
+      "domain": "childcare",
+      "domain_basis": "identifies EligibilityCheck"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 55",
+        "quote": "TC_ELIGIBILITY_CHECK,CHECK_ID,INTEGER,N,PK,Check Id,",
+        "support": "structure",
+        "id": "E-116"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-55",
+    "kind": "attribute",
+    "name": "EligibilityCheck.ccAccountId",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "EligibilityCheck",
+      "attribute": "ccAccountId",
+      "physical": "CC_ACCOUNT_ID",
+      "data_type": "INTEGER",
+      "nullable": false,
+      "description": "Childcare Account Id",
+      "entity_id": "ENT-12",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 56",
+        "quote": "TC_ELIGIBILITY_CHECK,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+        "support": "structure",
+        "id": "E-117"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "REL-11",
+    "kind": "relationship",
+    "name": "EligibilityCheck → ChildcareAccount",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "EligibilityCheck",
+      "to": "ChildcareAccount",
+      "via": "ccAccountId",
+      "cardinality": "many-to-one",
+      "domain": "childcare",
+      "domain_basis": "belongs to its source entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 56",
+        "quote": "TC_ELIGIBILITY_CHECK,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+        "support": "structure",
+        "id": "E-117"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-56",
+    "kind": "attribute",
+    "name": "EligibilityCheck.checkDate",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "EligibilityCheck",
+      "attribute": "checkDate",
+      "physical": "CHECK_DATE",
+      "data_type": "DATE",
+      "nullable": false,
+      "description": "Check date",
+      "entity_id": "ENT-12",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 57",
+        "quote": "TC_ELIGIBILITY_CHECK,CHECK_DATE,DATE,N,,Check date,",
+        "support": "structure",
+        "id": "E-118"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-57",
+    "kind": "attribute",
+    "name": "EligibilityCheck.expectedIncome",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "EligibilityCheck",
+      "attribute": "expectedIncome",
+      "physical": "EXPECTED_INCOME",
+      "data_type": "DECIMAL(11,2)",
+      "nullable": false,
+      "description": "Expected annual income",
+      "entity_id": "ENT-12",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 58",
+        "quote": "TC_ELIGIBILITY_CHECK,EXPECTED_INCOME,\"DECIMAL(11,2)\",N,,Expected annual income,",
+        "support": "structure",
+        "id": "E-119"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "ATT-58",
+    "kind": "attribute",
+    "name": "EligibilityCheck.outcome",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "entity": "EligibilityCheck",
+      "attribute": "outcome",
+      "physical": "OUTCOME",
+      "data_type": "CHAR(3)",
+      "nullable": false,
+      "description": "Eligibility outcome",
+      "range": "EligibilityOutcome",
+      "entity_id": "ENT-12",
+      "domain": "childcare",
+      "domain_basis": "belongs to its entity"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 59",
+        "quote": "TC_ELIGIBILITY_CHECK,OUTCOME,CHAR(3),N,,Eligibility outcome,ELG=Eligible|NEL=Not eligible",
+        "support": "structure",
+        "id": "E-120"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "TAX-07",
+    "kind": "taxonomy",
+    "name": "EligibilityOutcome",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "codes": {
+        "ELG": "Eligible",
+        "NEL": "Not eligible"
+      },
+      "values": [
+        "ELIGIBLE",
+        "NOT_ELIGIBLE"
+      ],
+      "domain": "childcare",
+      "domain_basis": "used by EligibilityCheck.outcome"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 59",
+        "quote": "TC_ELIGIBILITY_CHECK,OUTCOME,CHAR(3),N,,Eligibility outcome,ELG=Eligible|NEL=Not eligible",
+        "support": "value-list",
+        "id": "E-120"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "IDN-08",
+    "kind": "identifier",
+    "name": "National Insurance Number",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "defined_by": "CON-02",
+      "domain": "ni",
+      "domain_basis": "its attribute moves to National Insurance"
+    },
+    "evidence": [
+      {
+        "file": "docs/taxcore-system-overview.md",
+        "locator": "line 14",
+        "quote": "The National Insurance Number is issued by TAXCORE when a person is first registered.",
+        "support": "definition",
+        "id": "E-054"
+      },
+      {
+        "file": "docs/national-insurance-procedures.md",
+        "locator": "line 12",
+        "quote": "The National Insurance Number is issued by NumberHub when a person reaches 16.",
+        "support": "definition",
+        "id": "E-055"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [
+      {
+        "property": "issued_by",
+        "variants": [
+          {
+            "value": "TAXCORE",
+            "files": [
+              "docs/taxcore-system-overview.md"
+            ],
+            "stale": [
+              "docs/taxcore-system-overview.md"
+            ],
+            "authority": 1
+          },
+          {
+            "value": "NumberHub",
+            "files": [
+              "docs/national-insurance-procedures.md"
+            ],
+            "stale": [],
+            "authority": 1
+          }
+        ]
+      }
+    ],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "X",
+    "status": "deferred — simulated",
+    "grade_reason": "sources contradict on issued_by",
+    "open_unknowns": [
+      "U-05"
+    ]
+  },
+  {
+    "id": "REL-12",
+    "kind": "relationship",
+    "name": "Child → Person",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "from": "Child",
+      "to": "Person",
+      "via": "personId",
+      "cardinality": "many-to-one",
+      "note": "reference by identifier value; no foreign key in this source",
+      "domain": "childcare",
+      "domain_basis": "belongs to its source entity",
+      "cross_domain": true
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-data-dictionary.csv",
+        "locator": "line 46",
+        "quote": "TC_CHILD,PERSON_ID,INTEGER,Y,,Child's person id (if registered),",
+        "support": "reference",
+        "id": "E-067"
+      }
+    ],
+    "proposed_by": [
+      "da"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-01",
+    "kind": "interface",
+    "name": "CUS-01",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Customer self-service",
+      "source": "CitizenPortal",
+      "target": "TAXCORE",
+      "mechanism": "REST API",
+      "frequency": "Real time",
+      "payload": "Customer details; addresses",
+      "owner": "Customer Services"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 2",
+        "quote": "CUS-01,Customer self-service,CitizenPortal,TC,REST API,Real time,Customer details; addresses,Customer Services",
+        "support": "definition",
+        "id": "E-003"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 2",
+        "quote": "CP[\"CitizenPortal (online account)\"] -->|CUS-01| TC[\"TAXCORE (the Core)\"]",
+        "support": "mention",
+        "id": "E-002"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-02",
+    "kind": "interface",
+    "name": "PAY-01",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Employer returns",
+      "source": "EmployerGateway",
+      "target": "TAXCORE",
+      "mechanism": "File (XML)",
+      "frequency": "Daily",
+      "payload": "Employer return",
+      "owner": "PAYE Operations"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 3",
+        "quote": "PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations",
+        "support": "definition",
+        "id": "E-004"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 3",
+        "quote": "EG[\"EmployerGateway (employer filing)\"] -->|PAY-01 employer returns| TC",
+        "support": "mention",
+        "id": "E-017"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-03",
+    "kind": "interface",
+    "name": "NIN-02",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "NI number allocated",
+      "source": "NumberHub",
+      "target": "TAXCORE",
+      "mechanism": "MQ message",
+      "frequency": "Real time",
+      "payload": "National Insurance Number",
+      "owner": "NI Operations"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 4",
+        "quote": "NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations",
+        "support": "definition",
+        "id": "E-005"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 4",
+        "quote": "NH[\"NumberHub (NI allocation)\"] -->|NIN-02| TC",
+        "support": "mention",
+        "id": "E-018"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-04",
+    "kind": "interface",
+    "name": "CC-01",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Parent payments",
+      "source": "ChildcarePortal",
+      "target": "TAXCORE",
+      "mechanism": "REST API",
+      "frequency": "Real time",
+      "payload": "Parent payment",
+      "owner": "Family Support"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 5",
+        "quote": "CC-01,Parent payments,ChildcarePortal,TAXCORE,REST API,Real time,Parent payment,Family Support",
+        "support": "definition",
+        "id": "E-006"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 5",
+        "quote": "CC[\"ChildcarePortal (parent account)\"] -->|CC-01 parent payments| TC",
+        "support": "mention",
+        "id": "E-021"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "INT-05",
+    "kind": "interface",
+    "name": "MI-01",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Nightly extract",
+      "source": "TAXCORE",
+      "target": "RevenueWarehouse",
+      "mechanism": "File (CSV)",
+      "frequency": "Daily 02:00",
+      "payload": "All modules",
+      "owner": "Data team"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/interface-catalogue.csv",
+        "locator": "line 6",
+        "quote": "MI-01,Nightly extract,TAXCORE,RevenueWarehouse,File (CSV),Daily 02:00,All modules,Data team",
+        "support": "definition",
+        "id": "E-007"
+      },
+      {
+        "file": "diagrams/current-state.mmd",
+        "locator": "line 6",
+        "quote": "TC -->|MI-01 nightly| RW[\"RevenueWarehouse (MI warehouse)\"]",
+        "support": "mention",
+        "id": "E-015"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "B",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "2 independent current sources",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-01",
+    "kind": "calculation",
+    "name": "PRC_REGISTER_PERSON",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Register person",
+      "program": "PRC_REGISTER_PERSON",
+      "capability": "Register Customer",
+      "reads": [],
+      "writes": [
+        "TC_PERSON",
+        "TC_ADDRESS"
+      ],
+      "owner_team": "Customer Services",
+      "frequency": "On demand",
+      "job_id": "J010",
+      "domain": "customer",
+      "domain_basis": "run by Customer Services; implements Register Customer",
+      "capability_id": "CAP-01"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 2",
+        "quote": "J010,Register person,PRC_REGISTER_PERSON,Register Customer,,TC_PERSON;TC_ADDRESS,Customer Services,On demand",
+        "support": "structure",
+        "id": "E-121"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-02",
+    "kind": "calculation",
+    "name": "PRC_ALLOCATE_NINO",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Allocate NI number",
+      "program": "PRC_ALLOCATE_NINO",
+      "capability": "Allocate NI Number",
+      "reads": [
+        "TC_PERSON"
+      ],
+      "writes": [
+        "TC_PERSON"
+      ],
+      "owner_team": "NI Operations",
+      "frequency": "Daily",
+      "job_id": "J020",
+      "writes_columns": [
+        "TC_PERSON.NI_NUMBER"
+      ],
+      "domain": "ni",
+      "domain_basis": "run by NI Operations; implements Allocate NI Number",
+      "capability_id": "CAP-06"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 3",
+        "quote": "J020,Allocate NI number,PRC_ALLOCATE_NINO,Allocate NI Number,TC_PERSON,TC_PERSON,NI Operations,Daily",
+        "support": "structure",
+        "id": "E-122"
+      },
+      {
+        "file": "code-examples/taxcore_procedures.sql",
+        "locator": "line 15",
+        "quote": "CREATE PROCEDURE PRC_ALLOCATE_NINO (IN p_person_id INTEGER)",
+        "support": "structure",
+        "id": "E-123"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "only one current source (others stale)",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-03",
+    "kind": "calculation",
+    "name": "PRC_LOAD_RETURNS",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Load employer returns",
+      "program": "PRC_LOAD_RETURNS",
+      "capability": "Process Employer Returns",
+      "reads": [
+        "TC_EMPLOYER"
+      ],
+      "writes": [
+        "TC_EMPLOYMENT",
+        "TC_PAY_PERIOD"
+      ],
+      "owner_team": "PAYE Operations",
+      "frequency": "Daily",
+      "job_id": "J110",
+      "domain": "paye",
+      "domain_basis": "run by PAYE Operations; implements Process Employer Returns",
+      "capability_id": "CAP-03"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 4",
+        "quote": "J110,Load employer returns,PRC_LOAD_RETURNS,Process Employer Returns,TC_EMPLOYER,TC_EMPLOYMENT;TC_PAY_PERIOD,PAYE Operations,Daily",
+        "support": "structure",
+        "id": "E-124"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-04",
+    "kind": "calculation",
+    "name": "PRC_CALC_PAYE",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Calculate PAYE",
+      "program": "PRC_CALC_PAYE",
+      "capability": "Calculate PAYE",
+      "reads": [
+        "TC_PAY_PERIOD",
+        "TC_TAX_CODE"
+      ],
+      "writes": [
+        "TC_PAY_PERIOD"
+      ],
+      "owner_team": "PAYE Operations",
+      "frequency": "Daily",
+      "job_id": "J120",
+      "domain": "paye",
+      "domain_basis": "run by PAYE Operations; implements Calculate PAYE",
+      "capability_id": "CAP-05"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 5",
+        "quote": "J120,Calculate PAYE,PRC_CALC_PAYE,Calculate PAYE,TC_PAY_PERIOD;TC_TAX_CODE,TC_PAY_PERIOD,PAYE Operations,Daily",
+        "support": "structure",
+        "id": "E-125"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-05",
+    "kind": "calculation",
+    "name": "PRC_ISSUE_TAX_CODE",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Issue tax codes",
+      "program": "PRC_ISSUE_TAX_CODE",
+      "capability": "Issue Tax Code",
+      "reads": [
+        "TC_EMPLOYMENT"
+      ],
+      "writes": [
+        "TC_TAX_CODE"
+      ],
+      "owner_team": "PAYE Operations",
+      "frequency": "Weekly",
+      "job_id": "J130",
+      "domain": "paye",
+      "domain_basis": "run by PAYE Operations; implements Issue Tax Code",
+      "capability_id": "CAP-04"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 6",
+        "quote": "J130,Issue tax codes,PRC_ISSUE_TAX_CODE,Issue Tax Code,TC_EMPLOYMENT,TC_TAX_CODE,PAYE Operations,Weekly",
+        "support": "structure",
+        "id": "E-126"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-06",
+    "kind": "calculation",
+    "name": "PRC_CALC_NIC",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Calculate NI contributions",
+      "program": "PRC_CALC_NIC",
+      "capability": "Calculate NI Contributions",
+      "reads": [
+        "TC_PAY_PERIOD",
+        "TC_EMPLOYMENT",
+        "TC_PERSON"
+      ],
+      "writes": [
+        "TC_NI_CONTRIBUTION"
+      ],
+      "owner_team": "NI Operations",
+      "frequency": "Daily",
+      "job_id": "J210",
+      "writes_columns": [],
+      "domain": "ni",
+      "domain_basis": "run by NI Operations; implements Calculate NI Contributions",
+      "capability_id": "CAP-07"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 7",
+        "quote": "J210,Calculate NI contributions,PRC_CALC_NIC,Calculate NI Contributions,TC_PAY_PERIOD;TC_EMPLOYMENT;TC_PERSON,TC_NI_CONTRIBUTION,NI Operations,Daily",
+        "support": "structure",
+        "id": "E-127"
+      },
+      {
+        "file": "code-examples/taxcore_procedures.sql",
+        "locator": "line 3",
+        "quote": "CREATE PROCEDURE PRC_CALC_NIC (IN p_tax_year CHAR(7))",
+        "support": "structure",
+        "id": "E-128"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "only one current source (others stale)",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-07",
+    "kind": "calculation",
+    "name": "PRC_UPDATE_NI_RECORD",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Update NI record",
+      "program": "PRC_UPDATE_NI_RECORD",
+      "capability": "Maintain NI Record",
+      "reads": [
+        "TC_NI_CONTRIBUTION"
+      ],
+      "writes": [
+        "TC_NI_RECORD"
+      ],
+      "owner_team": "NI Operations",
+      "frequency": "Year end",
+      "job_id": "J220",
+      "domain": "ni",
+      "domain_basis": "run by NI Operations; implements Maintain NI Record",
+      "capability_id": "CAP-08"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 8",
+        "quote": "J220,Update NI record,PRC_UPDATE_NI_RECORD,Maintain NI Record,TC_NI_CONTRIBUTION,TC_NI_RECORD,NI Operations,Year end",
+        "support": "structure",
+        "id": "E-129"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-08",
+    "kind": "calculation",
+    "name": "PRC_OPEN_CC_ACCOUNT",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Open childcare account",
+      "program": "PRC_OPEN_CC_ACCOUNT",
+      "capability": "Open Childcare Account",
+      "reads": [
+        "TC_PERSON"
+      ],
+      "writes": [
+        "TC_CHILDCARE_ACCOUNT",
+        "TC_CHILD"
+      ],
+      "owner_team": "Family Support",
+      "frequency": "On demand",
+      "job_id": "J300",
+      "domain": "childcare",
+      "domain_basis": "run by Family Support; implements Open Childcare Account",
+      "capability_id": "CAP-09"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 9",
+        "quote": "J300,Open childcare account,PRC_OPEN_CC_ACCOUNT,Open Childcare Account,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_CHILD,Family Support,On demand",
+        "support": "structure",
+        "id": "E-130"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "single source",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-09",
+    "kind": "calculation",
+    "name": "PRC_CHECK_ELIGIBILITY",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Check childcare eligibility",
+      "program": "PRC_CHECK_ELIGIBILITY",
+      "capability": "Check Childcare Eligibility",
+      "reads": [
+        "TC_CHILDCARE_ACCOUNT",
+        "TC_EMPLOYMENT",
+        "TC_PAY_PERIOD"
+      ],
+      "writes": [
+        "TC_ELIGIBILITY_CHECK"
+      ],
+      "owner_team": "Family Support",
+      "frequency": "Daily",
+      "job_id": "J310",
+      "writes_columns": [],
+      "domain": "childcare",
+      "domain_basis": "run by Family Support; implements Check Childcare Eligibility",
+      "capability_id": "CAP-10"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 10",
+        "quote": "J310,Check childcare eligibility,PRC_CHECK_ELIGIBILITY,Check Childcare Eligibility,TC_CHILDCARE_ACCOUNT;TC_EMPLOYMENT;TC_PAY_PERIOD,TC_ELIGIBILITY_CHECK,Family Support,Daily",
+        "support": "structure",
+        "id": "E-131"
+      },
+      {
+        "file": "code-examples/taxcore_procedures.sql",
+        "locator": "line 21",
+        "quote": "CREATE PROCEDURE PRC_CHECK_ELIGIBILITY (IN p_account_id INTEGER)",
+        "support": "structure",
+        "id": "E-132"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "only one current source (others stale)",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-10",
+    "kind": "calculation",
+    "name": "PRC_CALC_TOPUP",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Calculate childcare top-up",
+      "program": "PRC_CALC_TOPUP",
+      "capability": "Calculate Childcare Top-up",
+      "reads": [
+        "TC_CHILDCARE_PAYMENT"
+      ],
+      "writes": [
+        "TC_CHILDCARE_PAYMENT"
+      ],
+      "owner_team": "Family Support",
+      "frequency": "Real time",
+      "job_id": "J320",
+      "writes_columns": [
+        "TC_CHILDCARE_PAYMENT.TOPUP_AMOUNT"
+      ],
+      "domain": "childcare",
+      "domain_basis": "run by Family Support; implements Calculate Childcare Top-up",
+      "capability_id": "CAP-11"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 11",
+        "quote": "J320,Calculate childcare top-up,PRC_CALC_TOPUP,Calculate Childcare Top-up,TC_CHILDCARE_PAYMENT,TC_CHILDCARE_PAYMENT,Family Support,Real time",
+        "support": "structure",
+        "id": "E-133"
+      },
+      {
+        "file": "code-examples/taxcore_procedures.sql",
+        "locator": "line 33",
+        "quote": "CREATE PROCEDURE PRC_CALC_TOPUP (IN p_payment_id INTEGER)",
+        "support": "structure",
+        "id": "E-134"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "only one current source (others stale)",
+    "open_unknowns": []
+  },
+  {
+    "id": "CAL-11",
+    "kind": "calculation",
+    "name": "PRC_CLOSE_DECEASED",
+    "aliases": [],
+    "definition": "",
+    "properties": {
+      "title": "Close accounts of deceased",
+      "program": "PRC_CLOSE_DECEASED",
+      "capability": "Record Life Events",
+      "reads": [
+        "TC_PERSON"
+      ],
+      "writes": [
+        "TC_CHILDCARE_ACCOUNT",
+        "TC_NI_RECORD"
+      ],
+      "owner_team": "Customer Services",
+      "frequency": "Daily",
+      "job_id": "J330",
+      "writes_columns": [
+        "TC_CHILDCARE_ACCOUNT.STATUS"
+      ],
+      "domain": "customer",
+      "domain_basis": "run by Customer Services; implements Record Life Events",
+      "capability_id": "CAP-02"
+    },
+    "evidence": [
+      {
+        "file": "spreadsheets/taxcore-batch-jobs.csv",
+        "locator": "line 12",
+        "quote": "J330,Close accounts of deceased,PRC_CLOSE_DECEASED,Record Life Events,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_NI_RECORD,Customer Services,Daily",
+        "support": "structure",
+        "id": "E-135"
+      },
+      {
+        "file": "code-examples/taxcore_procedures.sql",
+        "locator": "line 39",
+        "quote": "CREATE PROCEDURE PRC_CLOSE_DECEASED ()",
+        "support": "structure",
+        "id": "E-136"
+      }
+    ],
+    "proposed_by": [
+      "eng"
+    ],
+    "conflicts": [],
+    "resolutions": [],
+    "origin": "inferred",
+    "grade": "C",
+    "status": "approved (provisional) — simulated",
+    "grade_reason": "only one current source (others stale)",
+    "open_unknowns": [
+      "U-01"
+    ]
+  },
+  {
+    "id": "ENT-13",
+    "kind": "entity",
+    "name": "Party",
+    "aliases": [],
+    "definition": "",
+    "resolutions": [],
+    "properties": {
+      "domain": "Customer",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-12"
+    ]
+  },
+  {
+    "id": "REL-13",
+    "kind": "relationship",
+    "name": "Childcare Payment is paid to Childcare Provider",
+    "aliases": [],
+    "definition": "",
+    "resolutions": [],
+    "properties": {
+      "from": "Childcare Payment",
+      "to": "Childcare Provider",
+      "verb": "is paid to",
+      "reference": true
+    },
+    "evidence": [],
+    "proposed_by": [
+      "reference"
+    ],
+    "conflicts": [],
+    "origin": "assumed",
+    "grade": "D",
+    "grade_reason": "assumed from reference ontology",
+    "status": "assumption (noted) — simulated",
+    "open_unknowns": [
+      "U-11"
+    ]
+  }
+]

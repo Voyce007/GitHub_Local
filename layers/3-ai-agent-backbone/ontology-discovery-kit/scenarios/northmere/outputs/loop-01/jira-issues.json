@@ -1,0 +1,122 @@
+[
+  {
+    "summary": "[U-01] Agree the event that replaces a cross-domain write: PersonChanged?",
+    "description": "Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes PersonChanged; Childcare, National Insurance react with their own services.\n\nOwner: Domain owners with the Enterprise Architecture Authority\nAffects: CAL-11, ENT-08, ENT-09\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-02] Is 'Person' a synonym of Customer, or a different concept (a role) that shares the name?",
+    "description": "Glossary lists 'Person' as a synonym of Customer, but TAXCORE has an entity 'Person' with its own structure.\n\nOwner: Business Domain Owner\nAffects: CON-01, ENT-01\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-03] Should this data move domains? NI_NUMBER in TC_PERSON is created by Allocate NI Number (National Insurance), but the table belongs to Customer.",
+    "description": "Splitting it lets each domain change on its own; the old owner keeps only a reference.\n\nOwner: Domain owners with the Enterprise Architecture Authority\nAffects: ENT-01, ATT-02\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-04] Request a schema export and a masked data sample from TAXCORE.",
+    "description": "Would let 77 entity/attribute/identifier elements move to grade A.\n\nOwner: Engineering Lead (with the system owner)\nAffects: SYS-01\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "evidence_request"
+    ]
+  },
+  {
+    "summary": "[U-05] Sources disagree on the issued by of identifier 'National Insurance Number'. Which is correct today?",
+    "description": "TAXCORE ← docs/taxcore-system-overview.md (stale, 10.2 yrs) | NumberHub ← docs/national-insurance-procedures.md\n\nOwner: Data Architecture Authority\nAffects: IDN-08\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-06] Sources disagree on the values of taxonomy 'EmploymentStatus'. Which is correct today?",
+    "description": "LIVE, CEASED ← docs/paye-operations-manual.md | LIVE, CEASED, SUSPENDED ← spreadsheets/taxcore-data-dictionary.csv\n\nOwner: Business Domain Owner\nAffects: TAX-01\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-07] Sources disagree on the values of taxonomy 'NiCategory'. Which is correct today?",
+    "description": "A, B, C, H, J, M, Z ← docs/national-insurance-procedures.md | A, B, C, H, J, M, Z, V ← spreadsheets/taxcore-data-dictionary.csv\n\nOwner: Business Domain Owner\nAffects: TAX-02\nPriority: high\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-08] What is 'income-verify-svc', who owns it, and does it master any data?",
+    "description": "'income-verify-svc' appears in 1 source(s) but nothing says what it does.\n\nOwner: Enterprise Architecture Authority\nAffects: SYS-07\nPriority: medium\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-09] Where is 'Childcare Provider' held, and which system is the source of truth?",
+    "description": "No entity found for 'Childcare Provider'. Possible home: ChildcarePortal.\n\nOwner: Data Architecture Authority\nAffects: CON-10\nPriority: medium\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-10] Where is 'Top-up Payment' held, and which system is the source of truth?",
+    "description": "No entity found for 'Top-up Payment'.\n\nOwner: Data Architecture Authority\nAffects: CON-12\nPriority: medium\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-11] The reference model expects 'Childcare Payment is paid to Childcare Provider'. Is this relationship real here, and which system records it?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: REL-13\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  },
+  {
+    "summary": "[U-12] The reference model expects 'Party'. Does the organisation have it, and where is it recorded?",
+    "description": "Added at grade D from the playbook's reference ontology; no evidence yet.\n\nOwner: Domain Owner and Data Architecture Authority\nAffects: ENT-13\nPriority: low\nRaised by ontology discovery loop-01.",
+    "issue_type": "Task",
+    "labels": [
+      "ontology",
+      "loop-01",
+      "sme_question"
+    ]
+  }
+]

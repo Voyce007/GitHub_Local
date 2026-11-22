@@ -1,0 +1,25 @@
+# Northmere Revenue Service (fictional) — discovery loop 1 for the TAXCORE decomposition.
+# Evidence: business documents, a capability map, TAXCORE's data dictionary and batch-job
+# catalogue, example stored procedures, an architecture diagram and a portal config extract.
+
+batch: loop-01
+received: 2026-11-22
+organisation: Northmere Revenue Service (fictional)
+description: >
+  First evidence batch for splitting the TAXCORE monolith into Customer, PAYE,
+  National Insurance and Childcare domains.
+staleness_years: 5
+
+files:
+  - {path: docs/taxcore-system-overview.md, provenance: document, doc_type: architecture-overview, date: 2016-09-12, author: Core Systems, notes: Pre-dates the 2022 NumberHub carve-out.}
+  - {path: docs/business-capability-map.md, provenance: document, doc_type: capability-map, date: 2025-06-30, author: Enterprise Architecture}
+  - {path: docs/paye-operations-manual.md, provenance: document, doc_type: process, date: 2023-04-03, author: PAYE Operations}
+  - {path: docs/national-insurance-procedures.md, provenance: document, doc_type: process, date: 2023-10-16, author: NI Operations}
+  - {path: docs/childcare-scheme-guide.md, provenance: document, doc_type: process, date: 2024-05-20, author: Family Support}
+  - {path: wiki/data-glossary.md, provenance: wiki, doc_type: glossary, date: 2024-11-04, author: Data Office}
+  - {path: spreadsheets/taxcore-data-dictionary.csv, provenance: spreadsheet, doc_type: data-dictionary, date: 2022-02-14, author: Core Systems, system_hint: TAXCORE, table_prefix: TC_, sensitivity: confidential}
+  - {path: spreadsheets/taxcore-batch-jobs.csv, provenance: spreadsheet, doc_type: job-catalogue, date: 2024-08-01, author: Core Systems Operations, system_hint: TAXCORE}
+  - {path: spreadsheets/interface-catalogue.csv, provenance: spreadsheet, doc_type: interface-catalogue, date: 2024-03-11, author: Integration team}
+  - {path: diagrams/current-state.mmd, provenance: diagram, doc_type: context-diagram, date: 2025-01-15, author: Enterprise Architecture, notes: Transcribed from a slide.}
+  - {path: code-examples/taxcore_procedures.sql, provenance: example-code, doc_type: procedures, date: 2020-07-01, author: Core Systems, system_hint: TAXCORE, table_prefix: TC_, notes: Simplified extract of five stored procedures.}
+  - {path: code-examples/childcare-portal.properties, provenance: example-code, doc_type: config, date: 2025-02-10, author: ChildcarePortal team, system_hint: ChildcarePortal}

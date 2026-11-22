@@ -1,0 +1,150 @@
+[
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Agree the event that replaces a cross-domain write: PersonChanged?",
+    "why": "Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes PersonChanged; Childcare, National Insurance react with their own services.",
+    "affects": [
+      "CAL-11",
+      "ENT-08",
+      "ENT-09"
+    ],
+    "owner": "Domain owners with the Enterprise Architecture Authority",
+    "status": "open",
+    "id": "U-01"
+  },
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Is 'Person' a synonym of Customer, or a different concept (a role) that shares the name?",
+    "why": "Glossary lists 'Person' as a synonym of Customer, but TAXCORE has an entity 'Person' with its own structure.",
+    "affects": [
+      "CON-01",
+      "ENT-01"
+    ],
+    "owner": "Business Domain Owner",
+    "status": "open",
+    "id": "U-02"
+  },
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Should this data move domains? NI_NUMBER in TC_PERSON is created by Allocate NI Number (National Insurance), but the table belongs to Customer.",
+    "why": "Splitting it lets each domain change on its own; the old owner keeps only a reference.",
+    "affects": [
+      "ENT-01",
+      "ATT-02"
+    ],
+    "owner": "Domain owners with the Enterprise Architecture Authority",
+    "status": "open",
+    "id": "U-03"
+  },
+  {
+    "type": "evidence_request",
+    "priority": "high",
+    "question": "Request a schema export and a masked data sample from TAXCORE.",
+    "why": "Would let 77 entity/attribute/identifier elements move to grade A.",
+    "affects": [
+      "SYS-01"
+    ],
+    "owner": "Engineering Lead (with the system owner)",
+    "status": "open",
+    "id": "U-04"
+  },
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Sources disagree on the issued by of identifier 'National Insurance Number'. Which is correct today?",
+    "why": "TAXCORE ← docs/taxcore-system-overview.md (stale, 10.2 yrs) | NumberHub ← docs/national-insurance-procedures.md",
+    "affects": [
+      "IDN-08"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-05"
+  },
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Sources disagree on the values of taxonomy 'EmploymentStatus'. Which is correct today?",
+    "why": "LIVE, CEASED ← docs/paye-operations-manual.md | LIVE, CEASED, SUSPENDED ← spreadsheets/taxcore-data-dictionary.csv",
+    "affects": [
+      "TAX-01"
+    ],
+    "owner": "Business Domain Owner",
+    "status": "open",
+    "id": "U-06"
+  },
+  {
+    "type": "sme_question",
+    "priority": "high",
+    "question": "Sources disagree on the values of taxonomy 'NiCategory'. Which is correct today?",
+    "why": "A, B, C, H, J, M, Z ← docs/national-insurance-procedures.md | A, B, C, H, J, M, Z, V ← spreadsheets/taxcore-data-dictionary.csv",
+    "affects": [
+      "TAX-02"
+    ],
+    "owner": "Business Domain Owner",
+    "status": "open",
+    "id": "U-07"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "What is 'income-verify-svc', who owns it, and does it master any data?",
+    "why": "'income-verify-svc' appears in 1 source(s) but nothing says what it does.",
+    "affects": [
+      "SYS-07"
+    ],
+    "owner": "Enterprise Architecture Authority",
+    "status": "open",
+    "id": "U-08"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Where is 'Childcare Provider' held, and which system is the source of truth?",
+    "why": "No entity found for 'Childcare Provider'. Possible home: ChildcarePortal.",
+    "affects": [
+      "CON-10"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-09"
+  },
+  {
+    "type": "sme_question",
+    "priority": "medium",
+    "question": "Where is 'Top-up Payment' held, and which system is the source of truth?",
+    "why": "No entity found for 'Top-up Payment'.",
+    "affects": [
+      "CON-12"
+    ],
+    "owner": "Data Architecture Authority",
+    "status": "open",
+    "id": "U-10"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Childcare Payment is paid to Childcare Provider'. Is this relationship real here, and which system records it?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "REL-13"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-11"
+  },
+  {
+    "type": "sme_question",
+    "priority": "low",
+    "question": "The reference model expects 'Party'. Does the organisation have it, and where is it recorded?",
+    "why": "Added at grade D from the playbook's reference ontology; no evidence yet.",
+    "affects": [
+      "ENT-13"
+    ],
+    "owner": "Domain Owner and Data Architecture Authority",
+    "status": "open",
+    "id": "U-12"
+  }
+]

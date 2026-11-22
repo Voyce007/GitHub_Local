@@ -17,11 +17,11 @@ from collections import Counter, defaultdict
 from .common import LoopPaths, Trace, load_config, norm, read_json, tokens, write_json
 
 COMPARABLE = {"values", "issued_by"}            # disagreement here = contradiction
-LIST_PROPS = {"roles", "confirmed_synonyms", "not_synonyms"}   # unioned
+LIST_PROPS = {"roles", "confirmed_synonyms", "not_synonyms", "reads", "writes", "writes_columns"}   # unioned
 SYSTEM_REFS = ("source", "target", "producer", "consumer", "issued_by", "system")
 PREFIX = {"system": "SYS", "flow": "FLW", "concept": "CON", "rule": "RUL", "taxonomy": "TAX",
           "entity": "ENT", "attribute": "ATT", "relationship": "REL", "identifier": "IDN",
-          "interface": "INT", "event": "EVT", "domain": "DOM"}
+          "interface": "INT", "event": "EVT", "domain": "DOM", "capability": "CAP", "calculation": "CAL"}
 ROLE_SUFFIXES = {"instruction", "request", "record", "detail", "details", "info", "master", "data"}
 
 

@@ -116,3 +116,29 @@ python -m ontokit simulate --root scenarios/meridale --loop loop-01
 python -m ontokit simulate --root scenarios/meridale --loop loop-02
 python tools/build_exec_storyboard.py
 ```
+
+## Monolith decomposition scenario: Northmere Revenue Service (fictional)
+
+`scenarios/northmere/` splits a legacy monolith, TAXCORE, into four
+business-owned domain ontologies: Customer, PAYE, National Insurance and
+Childcare. Each domain is exposed through business services on the access
+layer. The split is driven by a `target_domains.yaml` file next to the
+scenario's inputs, and the decomposition stage (`ontokit/decompose.py`) runs
+whenever that file is present.
+
+**The rule:** the domain whose business capability creates or changes data
+owns it. Other domains use the owner's services or react to its events.
+
+**The evidence:** the business capability map, the batch-job catalogue and
+example stored procedures, which show who really writes each table and column.
+
+**The outputs** go to `outputs/<loop>/decomposition/`:
+- a LinkML ontology per domain
+- an OpenAPI service contract per domain
+- a monolith-to-domain source-to-target mapping
+- split candidates and cross-domain events
+- a report with a target-state diagram.
+
+```bash
+python -m ontokit simulate --root scenarios/northmere --loop loop-01
+```

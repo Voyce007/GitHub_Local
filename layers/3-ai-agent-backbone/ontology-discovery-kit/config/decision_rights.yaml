@@ -9,7 +9,7 @@ agents:
   ea:
     title: Enterprise Architect agent
     persona: Enterprise Architect (EA)
-    may_propose: [system, flow, domain]
+    may_propose: [system, flow, domain, capability]
   da:
     title: Data Architect agent
     persona: Data Architect (DA)
@@ -17,7 +17,7 @@ agents:
   eng:
     title: Engineering agent
     persona: Engineering Teams
-    may_propose: [interface, event, rule, taxonomy]
+    may_propose: [interface, event, rule, taxonomy, calculation]
   steward:
     title: Ontology Steward
     persona: Ontology Working Group / Ontology Steward
@@ -41,3 +41,5 @@ approvals:
   identifier:   {recommends: DA,              approves: Data Architecture Authority}
   interface:    {recommends: DA / Engineering, approves: Design Authority}
   event:        {recommends: DA / Engineering, approves: Design Authority}
+  capability:   {recommends: EA,              approves: Enterprise Architecture Authority}
+  calculation:  {recommends: Engineering / DA, approves: Business Domain Owner}

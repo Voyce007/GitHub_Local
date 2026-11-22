@@ -10,6 +10,8 @@ not all grade A/B can at best be provisional.
 """
 from __future__ import annotations
 
+import yaml
+
 from .common import LoopPaths, Trace, load_config, norm, read_json, write_json
 
 SCOPE = {1: {"system", "flow"}, 2: {"concept", "taxonomy", "rule"},
@@ -35,7 +37,8 @@ def _checks(model, unknowns, index, cfg):
         "entities_have_attributes": lambda: [e["id"] for e in real("entity") if not e["properties"].get("attribute_ids")],
         "entities_traced_to_concepts": lambda: [e["id"] for e in real("entity") if "realises" not in e["properties"]
                                                 and not e["properties"].get("link_entity")
-                                                and not e["properties"].get("separate_from")],
+                                                and not e["properties"].get("separate_from")
+                                                and not str(e["properties"].get("domain_basis", "")).startswith(("only ", "changed by"))],
     }
 
 
@@ -44,6 +47,15 @@ def run_gates(paths: LoopPaths, trace: Trace) -> list[dict]:
     unknowns = read_json(paths.work / "unknowns.json")
     index = read_json(paths.work / "sources.json")
     cfg = load_config("playbook.yaml")
+    sc = paths.root / "scenario.yaml"
+    if sc.exists():
+        over = yaml.safe_load(sc.read_text(encoding="utf-8")) or {}
+        if over.get("key_concepts"):
+            cfg["key_concepts"] = over["key_concepts"]
+            for ph in cfg["phases"]:
+                for c in ph.get("loop1_criteria", []):
+                    if c["check"] == "key_concepts_present":
+                        c["text"] = "Key concepts present: " + ", ".join(over["key_concepts"])
     covered, checks = _checks(model, unknowns, index, cfg)
     results = []
     for ph in cfg["phases"]:

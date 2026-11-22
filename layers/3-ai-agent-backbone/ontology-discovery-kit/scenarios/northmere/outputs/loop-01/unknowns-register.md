@@ -1,0 +1,18 @@
+# Unknowns register — loop-01
+
+Questions for subject-matter experts and requests for evidence. Answering these is what moves grades up.
+
+| ID | Priority | Type | Question | Why | Owner | Affects |
+|---|---|---|---|---|---|---|
+| U-01 | high | sme question | Agree the event that replaces a cross-domain write: PersonChanged? | Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes PersonChanged; Childcare, National Insurance react with their own services. | Domain owners with the Enterprise Architecture Authority | CAL-11 PRC_CLOSE_DECEASED, ENT-08 NiRecord, ENT-09 ChildcareAccount |
+| U-02 | high | sme question | Is 'Person' a synonym of Customer, or a different concept (a role) that shares the name? | Glossary lists 'Person' as a synonym of Customer, but TAXCORE has an entity 'Person' with its own structure. | Business Domain Owner | CON-01 Customer, ENT-01 Person |
+| U-03 | high | sme question | Should this data move domains? NI_NUMBER in TC_PERSON is created by Allocate NI Number (National Insurance), but the table belongs to Customer. | Splitting it lets each domain change on its own; the old owner keeps only a reference. | Domain owners with the Enterprise Architecture Authority | ENT-01 Person, ATT-02 Person.niNumber |
+| U-04 | high | evidence request | Request a schema export and a masked data sample from TAXCORE. | Would let 77 entity/attribute/identifier elements move to grade A. | Engineering Lead (with the system owner) | SYS-01 TAXCORE |
+| U-05 | high | sme question | Sources disagree on the issued by of identifier 'National Insurance Number'. Which is correct today? | TAXCORE ← docs/taxcore-system-overview.md (stale, 10.2 yrs) | NumberHub ← docs/national-insurance-procedures.md | Data Architecture Authority | IDN-08 National Insurance Number |
+| U-06 | high | sme question | Sources disagree on the values of taxonomy 'EmploymentStatus'. Which is correct today? | LIVE, CEASED ← docs/paye-operations-manual.md | LIVE, CEASED, SUSPENDED ← spreadsheets/taxcore-data-dictionary.csv | Business Domain Owner | TAX-01 EmploymentStatus |
+| U-07 | high | sme question | Sources disagree on the values of taxonomy 'NiCategory'. Which is correct today? | A, B, C, H, J, M, Z ← docs/national-insurance-procedures.md | A, B, C, H, J, M, Z, V ← spreadsheets/taxcore-data-dictionary.csv | Business Domain Owner | TAX-02 NiCategory |
+| U-08 | medium | sme question | What is 'income-verify-svc', who owns it, and does it master any data? | 'income-verify-svc' appears in 1 source(s) but nothing says what it does. | Enterprise Architecture Authority | SYS-07 income-verify-svc |
+| U-09 | medium | sme question | Where is 'Childcare Provider' held, and which system is the source of truth? | No entity found for 'Childcare Provider'. Possible home: ChildcarePortal. | Data Architecture Authority | CON-10 Childcare Provider |
+| U-10 | medium | sme question | Where is 'Top-up Payment' held, and which system is the source of truth? | No entity found for 'Top-up Payment'. | Data Architecture Authority | CON-12 Top-up Payment |
+| U-11 | low | sme question | The reference model expects 'Childcare Payment is paid to Childcare Provider'. Is this relationship real here, and which system records it? | Added at grade D from the playbook's reference ontology; no evidence yet. | Domain Owner and Data Architecture Authority | REL-13 Childcare Payment is paid to Childcare Provider |
+| U-12 | low | sme question | The reference model expects 'Party'. Does the organisation have it, and where is it recorded? | Added at grade D from the playbook's reference ontology; no evidence yet. | Domain Owner and Data Architecture Authority | ENT-13 Party |

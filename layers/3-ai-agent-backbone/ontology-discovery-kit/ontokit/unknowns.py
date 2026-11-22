@@ -53,6 +53,19 @@ def build_unknowns(paths: LoopPaths, trace: Trace) -> list[dict]:
         elif f["type"] == "unrealised_concept":
             add("sme_question", "medium", f"Where is '{first['name']}' held, and which system is the source of truth?",
                 f["detail"], f["affects"], "Data Architecture Authority")
+        elif f["type"] == "column_split":
+            add("sme_question", "high", f"Should this data move domains? {f['detail']}",
+                "Splitting it lets each domain change on its own; the old owner keeps only a reference.",
+                f["affects"], "Domain owners with the Enterprise Architecture Authority")
+        elif f["type"] == "cross_domain_write":
+            add("sme_question", "high", f"Agree the event that replaces a cross-domain write: {f['event']}?", f["detail"],
+                f["affects"], "Domain owners with the Enterprise Architecture Authority")
+        elif f["type"] == "contested_ownership":
+            add("sme_question", "high", f"Which domain owns '{first['name']}'?", f["detail"], f["affects"],
+                "Domain owners with the Enterprise Architecture Authority")
+        elif f["type"] == "unassigned_domain":
+            add("sme_question", "medium", f"Which business capability creates '{first['name']}'?", f["detail"], f["affects"],
+                "Enterprise Architecture Authority")
         elif f["type"] == "implied_entity":
             add("evidence_request", "medium", f"What does '{first['name']}' contain, and which system holds it?",
                 f["detail"], f["affects"], "Data Architecture Authority")

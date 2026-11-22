@@ -1,0 +1,26 @@
+# Scenario-specific reference prior (overrides config/reference_ontology.yaml for this root).
+# Anything expected here but missing from the evidence becomes a grade-D assumption and a question.
+
+entities:
+  - {name: Party,              domain: Customer}
+  - {name: Person,             domain: Customer}
+  - {name: Customer,           domain: Customer}
+  - {name: Address,            domain: Customer}
+  - {name: Employer,           domain: PAYE}
+  - {name: Employment,         domain: PAYE}
+  - {name: Pay Period,         domain: PAYE}
+  - {name: Tax Code,           domain: PAYE}
+  - {name: NI Record,          domain: National Insurance}
+  - {name: NI Contribution,    domain: National Insurance}
+  - {name: Childcare Account,  domain: Childcare}
+  - {name: Child,              domain: Childcare}
+  - {name: Childcare Provider, domain: Childcare}
+  - {name: Childcare Payment,  domain: Childcare}
+
+relationships:
+  - {from: Employment,        verb: is held by,     to: Person}
+  - {from: Employment,        verb: is with,        to: Employer}
+  - {from: NI Contribution,   verb: is due on,      to: Employment}
+  - {from: NI Record,         verb: belongs to,     to: Person}
+  - {from: Childcare Account, verb: is held by,     to: Person}
+  - {from: Childcare Payment, verb: is paid to,     to: Childcare Provider}

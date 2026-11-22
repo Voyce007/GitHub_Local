@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: National Insurance business services
+  version: 0.1.0
+  description: Ontology-based access layer for the National Insurance domain. Generated stub for review.
+paths:
+  /allocate-ni-number:
+    post:
+      summary: Allocate NI Number
+      operationId: allocateNiNumber
+      description: Business service. Replaces PRC_ALLOCATE_NINO in TAXCORE.
+      responses:
+        '200':
+          description: Done
+  /calculate-ni-contributions:
+    post:
+      summary: Calculate NI Contributions
+      operationId: calculateNiContributions
+      description: Business service. Replaces PRC_CALC_NIC in TAXCORE.
+      responses:
+        '200':
+          description: Done
+  /maintain-ni-record:
+    post:
+      summary: Maintain NI Record
+      operationId: maintainNiRecord
+      description: Business service. Replaces PRC_UPDATE_NI_RECORD in TAXCORE.
+      responses:
+        '200':
+          description: Done
+  /national-insurance-number/{id}:
+    get:
+      summary: Get National Insurance Number
+      operationId: getNationalInsuranceNumber
+      description: 'Used by: Customer'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: National Insurance Number
+components:
+  schemas:
+    NiContribution:
+      type: object
+      properties:
+        employmentId:
+          type: integer
+        taxYear:
+          type: string
+        periodNumber:
+          type: integer
+        niCategory:
+          type: string
+        employeeNic:
+          type: number
+        employerNic:
+          type: number
+        employmentRef:
+          type: string
+    NiRecord:
+      type: object
+      properties:
+        personId:
+          type: integer
+        taxYear:
+          type: string
+        qualifying:
+          type: string
+        class1Total:
+          type: number
+        personRef:
+          type: string
+    NationalInsuranceNumberAssignment:
+      type: object
+      properties:
+        niNumber:
+          type: string
+        personRef:
+          type: string

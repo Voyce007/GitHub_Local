@@ -15,7 +15,7 @@
         "required": ["kind", "name", "evidence", "origin"],
         "properties": {
           "kind": {"enum": ["concept", "rule", "taxonomy", "system", "flow", "domain", "entity", "attribute",
-                             "relationship", "identifier", "interface", "event"]},
+                             "relationship", "identifier", "interface", "event", "capability", "calculation"]},
           "name": {"type": "string", "minLength": 1},
           "aliases": {"type": "array", "items": {"type": "string"}},
           "definition": {"type": "string"},

@@ -1,0 +1,1571 @@
+[
+  {
+    "id": "E-001",
+    "file": "docs/taxcore-system-overview.md",
+    "locator": "line 7",
+    "quote": "TAXCORE (also called \"the Core\" or \"TC\") holds the customer record and every PAYE, National Insurance and childcare record in one DB2 database.",
+    "provenance": "document",
+    "stale": true,
+    "supports": [
+      "SYS-01"
+    ]
+  },
+  {
+    "id": "E-002",
+    "file": "diagrams/current-state.mmd",
+    "locator": "line 2",
+    "quote": "CP[\"CitizenPortal (online account)\"] -->|CUS-01| TC[\"TAXCORE (the Core)\"]",
+    "provenance": "diagram",
+    "stale": false,
+    "supports": [
+      "SYS-01",
+      "SYS-02",
+      "FLW-01",
+      "INT-01"
+    ]
+  },
+  {
+    "id": "E-003",
+    "file": "spreadsheets/interface-catalogue.csv",
+    "locator": "line 2",
+    "quote": "CUS-01,Customer self-service,CitizenPortal,TC,REST API,Real time,Customer details; addresses,Customer Services",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "SYS-01",
+      "SYS-02",
+      "FLW-01",
+      "INT-01"
+    ]
+  },
+  {
+    "id": "E-004",
+    "file": "spreadsheets/interface-catalogue.csv",
+    "locator": "line 3",
+    "quote": "PAY-01,Employer returns,EmployerGateway,TAXCORE,File (XML),Daily,Employer return,PAYE Operations",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "SYS-01",
+      "SYS-04",
+      "FLW-02",
+      "INT-02"
+    ]
+  },
+  {
+    "id": "E-005",
+    "file": "spreadsheets/interface-catalogue.csv",
+    "locator": "line 4",
+    "quote": "NIN-02,NI number allocated,NumberHub,TAXCORE,MQ message,Real time,National Insurance Number,NI Operations",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "SYS-01",
+      "SYS-05",
+      "FLW-03",
+      "INT-03"
+    ]
+  },
+  {
+    "id": "E-006",
+    "file": "spreadsheets/interface-catalogue.csv",
+    "locator": "line 5",
+    "quote": "CC-01,Parent payments,ChildcarePortal,TAXCORE,REST API,Real time,Parent payment,Family Support",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "SYS-01",
+      "SYS-06",
+      "FLW-04",
+      "INT-04"
+    ]
+  },
+  {
+    "id": "E-007",
+    "file": "spreadsheets/interface-catalogue.csv",
+    "locator": "line 6",
+    "quote": "MI-01,Nightly extract,TAXCORE,RevenueWarehouse,File (CSV),Daily 02:00,All modules,Data team",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "SYS-01",
+      "SYS-03",
+      "FLW-05",
+      "INT-05"
+    ]
+  },
+  {
+    "id": "E-008",
+    "file": "code-examples/childcare-portal.properties",
+    "locator": "line 2",
+    "quote": "taxcore.jdbc.url=jdbc:db2://taxcore-db.internal.example:50000/TAXCORE",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "SYS-01",
+      "FLW-04"
+    ]
+  },
+  {
+    "id": "E-009",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 1",
+    "quote": "table,column,data_type,nullable,key,description,codes",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "SYS-01"
+    ]
+  },
+  {
+    "id": "E-010",
+    "file": "docs/taxcore-system-overview.md",
+    "locator": "line 1",
+    "quote": "# TAXCORE System Overview",
+    "provenance": "document",
+    "stale": true,
+    "supports": [
+      "SYS-01"
+    ]
+  },
+  {
+    "id": "E-011",
+    "file": "docs/paye-operations-manual.md",
+    "locator": "line 8",
+    "quote": "Returns are loaded into TAXCORE overnight, where PAYE is calculated for each employment.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "SYS-01"
+    ]
+  },
+  {
+    "id": "E-012",
+    "file": "docs/national-insurance-procedures.md",
+    "locator": "line 7",
+    "quote": "NumberHub (also called NI allocation) allocates National Insurance numbers. It replaced the TAXCORE allocation module in 2022.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "SYS-01",
+      "SYS-05"
+    ]
+  },
+  {
+    "id": "E-013",
+    "file": "docs/taxcore-system-overview.md",
+    "locator": "line 9",
+    "quote": "CitizenPortal (also called the online account) captures and fulfils customer self-service requests.",
+    "provenance": "document",
+    "stale": true,
+    "supports": [
+      "SYS-02"
+    ]
+  },
+  {
+    "id": "E-014",
+    "file": "docs/taxcore-system-overview.md",
+    "locator": "line 10",
+    "quote": "RevenueWarehouse (also called the MI warehouse) receives nightly extracts for reporting.",
+    "provenance": "document",
+    "stale": true,
+    "supports": [
+      "SYS-03"
+    ]
+  },
+  {
+    "id": "E-015",
+    "file": "diagrams/current-state.mmd",
+    "locator": "line 6",
+    "quote": "TC -->|MI-01 nightly| RW[\"RevenueWarehouse (MI warehouse)\"]",
+    "provenance": "diagram",
+    "stale": false,
+    "supports": [
+      "SYS-03",
+      "FLW-05",
+      "INT-05"
+    ]
+  },
+  {
+    "id": "E-016",
+    "file": "docs/paye-operations-manual.md",
+    "locator": "line 7",
+    "quote": "EmployerGateway (also called employer filing) captures and fulfils employer returns for every pay period.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "SYS-04"
+    ]
+  },
+  {
+    "id": "E-017",
+    "file": "diagrams/current-state.mmd",
+    "locator": "line 3",
+    "quote": "EG[\"EmployerGateway (employer filing)\"] -->|PAY-01 employer returns| TC",
+    "provenance": "diagram",
+    "stale": false,
+    "supports": [
+      "SYS-04",
+      "FLW-02",
+      "INT-02"
+    ]
+  },
+  {
+    "id": "E-018",
+    "file": "diagrams/current-state.mmd",
+    "locator": "line 4",
+    "quote": "NH[\"NumberHub (NI allocation)\"] -->|NIN-02| TC",
+    "provenance": "diagram",
+    "stale": false,
+    "supports": [
+      "SYS-05",
+      "FLW-03",
+      "INT-03"
+    ]
+  },
+  {
+    "id": "E-019",
+    "file": "code-examples/childcare-portal.properties",
+    "locator": "line 3",
+    "quote": "numberhub.api.base-url=https://numberhub.internal.example/api",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "SYS-05",
+      "FLW-06"
+    ]
+  },
+  {
+    "id": "E-020",
+    "file": "docs/childcare-scheme-guide.md",
+    "locator": "line 7",
+    "quote": "ChildcarePortal (also called the parent account) captures and fulfils parent payments to childcare providers.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "SYS-06"
+    ]
+  },
+  {
+    "id": "E-021",
+    "file": "diagrams/current-state.mmd",
+    "locator": "line 5",
+    "quote": "CC[\"ChildcarePortal (parent account)\"] -->|CC-01 parent payments| TC",
+    "provenance": "diagram",
+    "stale": false,
+    "supports": [
+      "SYS-06",
+      "FLW-04",
+      "INT-04"
+    ]
+  },
+  {
+    "id": "E-022",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 9",
+    "quote": "- **Register Customer**: Create and maintain a customer's identity, addresses and contact preferences. Owner: Customer Services.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-01"
+    ]
+  },
+  {
+    "id": "E-023",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 10",
+    "quote": "- **Record Life Events**: Record births, deaths and changes of circumstance for a person. Owner: Customer Services.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-02"
+    ]
+  },
+  {
+    "id": "E-024",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 11",
+    "quote": "- **Process Employer Returns**: Receive each employer's pay and deductions return for every pay period. Owner: PAYE Operations.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-03"
+    ]
+  },
+  {
+    "id": "E-025",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 12",
+    "quote": "- **Issue Tax Code**: Decide and issue a tax code for each employment. Owner: PAYE Operations.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-04"
+    ]
+  },
+  {
+    "id": "E-026",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 13",
+    "quote": "- **Calculate PAYE**: Calculate the income tax due for an employment and pay period. Owner: PAYE Operations.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-05"
+    ]
+  },
+  {
+    "id": "E-027",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 14",
+    "quote": "- **Allocate NI Number**: Allocate a National Insurance number to a person. Owner: NI Operations.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-06"
+    ]
+  },
+  {
+    "id": "E-028",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 15",
+    "quote": "- **Calculate NI Contributions**: Calculate Class 1 contributions from the earnings in each employer return. Owner: NI Operations.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-07"
+    ]
+  },
+  {
+    "id": "E-029",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 16",
+    "quote": "- **Maintain NI Record**: Keep each person's contribution record and qualifying years. Owner: NI Operations.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-08"
+    ]
+  },
+  {
+    "id": "E-030",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 17",
+    "quote": "- **Open Childcare Account**: Open an account for a parent to pay a childcare provider. Owner: Family Support.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-09"
+    ]
+  },
+  {
+    "id": "E-031",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 18",
+    "quote": "- **Check Childcare Eligibility**: Check a parent's eligibility, including income limits, every three months. Owner: Family Support.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-10"
+    ]
+  },
+  {
+    "id": "E-032",
+    "file": "docs/business-capability-map.md",
+    "locator": "line 19",
+    "quote": "- **Calculate Childcare Top-up**: Add the government top-up to each parent payment. Owner: Family Support.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CAP-11"
+    ]
+  },
+  {
+    "id": "E-033",
+    "file": "code-examples/childcare-portal.properties",
+    "locator": "line 4",
+    "quote": "income-verify-svc.api.base-url=https://income-verify.internal.example/api",
+    "provenance": "example-code",
+    "stale": false,
+    "supports": [
+      "SYS-07",
+      "FLW-07"
+    ]
+  },
+  {
+    "id": "E-034",
+    "file": "docs/taxcore-system-overview.md",
+    "locator": "line 19",
+    "quote": "- No module may change another module's tables without a Core Systems change request.",
+    "provenance": "document",
+    "stale": true,
+    "supports": [
+      "RUL-01"
+    ]
+  },
+  {
+    "id": "E-035",
+    "file": "docs/taxcore-system-overview.md",
+    "locator": "line 20",
+    "quote": "- Every release of TAXCORE requires a full regression test of all modules.",
+    "provenance": "document",
+    "stale": true,
+    "supports": [
+      "RUL-02"
+    ]
+  },
+  {
+    "id": "E-036",
+    "file": "docs/paye-operations-manual.md",
+    "locator": "line 12",
+    "quote": "- Every employment must be linked to exactly one employer and one person.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-03"
+    ]
+  },
+  {
+    "id": "E-037",
+    "file": "docs/paye-operations-manual.md",
+    "locator": "line 13",
+    "quote": "- A tax code must be issued before PAYE can be calculated for an employment.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-04"
+    ]
+  },
+  {
+    "id": "E-038",
+    "file": "docs/paye-operations-manual.md",
+    "locator": "line 14",
+    "quote": "- Employer returns received after the filing deadline are flagged for penalty review.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-05",
+      "CON-03"
+    ]
+  },
+  {
+    "id": "E-039",
+    "file": "docs/paye-operations-manual.md",
+    "locator": "line 18",
+    "quote": "Employment status values: Live, Ceased.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "TAX-01",
+      "CON-04"
+    ]
+  },
+  {
+    "id": "E-040",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 20",
+    "quote": "TC_EMPLOYMENT,STATUS,CHAR(3),N,,Employment status,LIV=Live|CEA=Ceased|SUS=Suspended",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "TAX-01",
+      "ATT-19"
+    ]
+  },
+  {
+    "id": "E-041",
+    "file": "docs/national-insurance-procedures.md",
+    "locator": "line 16",
+    "quote": "- A person must have exactly one National Insurance Number for life.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-06"
+    ]
+  },
+  {
+    "id": "E-042",
+    "file": "docs/national-insurance-procedures.md",
+    "locator": "line 17",
+    "quote": "- A tax year counts as a qualifying year when contributions reach the lower earnings limit.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-07"
+    ]
+  },
+  {
+    "id": "E-043",
+    "file": "docs/national-insurance-procedures.md",
+    "locator": "line 18",
+    "quote": "- Contributions must not be calculated for a person after their recorded date of death.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-08"
+    ]
+  },
+  {
+    "id": "E-044",
+    "file": "docs/national-insurance-procedures.md",
+    "locator": "line 22",
+    "quote": "NI category values: A, B, C, H, J, M, Z.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "TAX-02"
+    ]
+  },
+  {
+    "id": "E-045",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 33",
+    "quote": "TC_NI_CONTRIBUTION,NI_CATEGORY,CHAR(1),N,,NI category,A=A|B=B|C=C|H=H|J=J|M=M|Z=Z|V=V",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "TAX-02",
+      "ATT-32"
+    ]
+  },
+  {
+    "id": "E-046",
+    "file": "docs/childcare-scheme-guide.md",
+    "locator": "line 12",
+    "quote": "- A parent must reconfirm eligibility every three months.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-09"
+    ]
+  },
+  {
+    "id": "E-047",
+    "file": "docs/childcare-scheme-guide.md",
+    "locator": "line 13",
+    "quote": "- A parent whose expected income exceeds 100,000 is not eligible.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-10"
+    ]
+  },
+  {
+    "id": "E-048",
+    "file": "docs/childcare-scheme-guide.md",
+    "locator": "line 14",
+    "quote": "- The top-up must be paid within one working day of the parent payment.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-11"
+    ]
+  },
+  {
+    "id": "E-049",
+    "file": "docs/childcare-scheme-guide.md",
+    "locator": "line 15",
+    "quote": "- A childcare account must be closed when the account holder dies.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "RUL-12"
+    ]
+  },
+  {
+    "id": "E-050",
+    "file": "docs/childcare-scheme-guide.md",
+    "locator": "line 19",
+    "quote": "Childcare account status values: Open, Suspended, Closed.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "TAX-03"
+    ]
+  },
+  {
+    "id": "E-051",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 42",
+    "quote": "TC_CHILDCARE_ACCOUNT,STATUS,CHAR(3),N,,Childcare account status,OPN=Open|SUS=Suspended|CLO=Closed",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "TAX-03",
+      "ATT-41"
+    ]
+  },
+  {
+    "id": "E-052",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 5",
+    "quote": "- **Customer**: A person who has a tax, National Insurance or childcare relationship with the agency. Synonyms: Taxpayer, Citizen, Person.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-01"
+    ]
+  },
+  {
+    "id": "E-053",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 6",
+    "quote": "- **National Insurance Number**: The lifelong reference that identifies a person for National Insurance. Synonyms: NINO.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-02"
+    ]
+  },
+  {
+    "id": "E-054",
+    "file": "docs/taxcore-system-overview.md",
+    "locator": "line 14",
+    "quote": "The National Insurance Number is issued by TAXCORE when a person is first registered.",
+    "provenance": "document",
+    "stale": true,
+    "supports": [
+      "CON-02",
+      "IDN-08"
+    ]
+  },
+  {
+    "id": "E-055",
+    "file": "docs/national-insurance-procedures.md",
+    "locator": "line 12",
+    "quote": "The National Insurance Number is issued by NumberHub when a person reaches 16.",
+    "provenance": "document",
+    "stale": false,
+    "supports": [
+      "CON-02",
+      "IDN-08"
+    ]
+  },
+  {
+    "id": "E-056",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 7",
+    "quote": "- **Employer**: An organisation that pays employees and files PAYE returns.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-03"
+    ]
+  },
+  {
+    "id": "E-057",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 8",
+    "quote": "- **Employment**: A period during which a person is paid by an employer.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-04"
+    ]
+  },
+  {
+    "id": "E-058",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 9",
+    "quote": "- **Pay Period**: One period of pay, such as a week or month, reported in an employer return.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-05"
+    ]
+  },
+  {
+    "id": "E-059",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 10",
+    "quote": "- **Tax Code**: A code that tells the employer how much tax-free pay to allow for an employment.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-06"
+    ]
+  },
+  {
+    "id": "E-060",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 11",
+    "quote": "- **NI Contribution**: An amount of National Insurance due for a pay period.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-07"
+    ]
+  },
+  {
+    "id": "E-061",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 12",
+    "quote": "- **NI Record**: A person's yearly contribution history, including qualifying years.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-08"
+    ]
+  },
+  {
+    "id": "E-062",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 13",
+    "quote": "- **Childcare Account**: An account a parent uses to pay a registered childcare provider.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-09"
+    ]
+  },
+  {
+    "id": "E-063",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 14",
+    "quote": "- **Childcare Provider**: A registered nursery, childminder or club that is paid from a childcare account.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-10"
+    ]
+  },
+  {
+    "id": "E-064",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 15",
+    "quote": "- **Child**: A child named on a childcare account.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-11"
+    ]
+  },
+  {
+    "id": "E-065",
+    "file": "wiki/data-glossary.md",
+    "locator": "line 16",
+    "quote": "- **Top-up Payment**: The government contribution added to a parent's payment into a childcare account.",
+    "provenance": "wiki",
+    "stale": false,
+    "supports": [
+      "CON-12"
+    ]
+  },
+  {
+    "id": "E-066",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 2",
+    "quote": "TC_PERSON,PERSON_ID,INTEGER,N,PK,Person Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-01",
+      "ATT-01",
+      "IDN-01"
+    ]
+  },
+  {
+    "id": "E-067",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 46",
+    "quote": "TC_CHILD,PERSON_ID,INTEGER,Y,,Child's person id (if registered),",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "IDN-01",
+      "ATT-45",
+      "REL-12"
+    ]
+  },
+  {
+    "id": "E-068",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 3",
+    "quote": "TC_PERSON,NI_NUMBER,CHAR(9),Y,,National Insurance Number,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-02"
+    ]
+  },
+  {
+    "id": "E-069",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 4",
+    "quote": "TC_PERSON,FORENAME,VARCHAR(60),N,,Forename,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-03"
+    ]
+  },
+  {
+    "id": "E-070",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 5",
+    "quote": "TC_PERSON,SURNAME,VARCHAR(60),N,,Surname,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-04"
+    ]
+  },
+  {
+    "id": "E-071",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 6",
+    "quote": "TC_PERSON,DATE_OF_BIRTH,DATE,N,,Date of birth,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-05"
+    ]
+  },
+  {
+    "id": "E-072",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 7",
+    "quote": "TC_PERSON,DATE_OF_DEATH,DATE,Y,,Date of death,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-06"
+    ]
+  },
+  {
+    "id": "E-073",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 8",
+    "quote": "TC_PERSON,CORR_PREF,CHAR(3),N,,Correspondence preference,PST=Post|DIG=Digital",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-07",
+      "TAX-04"
+    ]
+  },
+  {
+    "id": "E-074",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 9",
+    "quote": "TC_ADDRESS,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-02",
+      "ATT-08",
+      "REL-01"
+    ]
+  },
+  {
+    "id": "E-075",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 10",
+    "quote": "TC_ADDRESS,ADDR_TYPE,CHAR(3),N,,Address type,RES=Residential|COR=Correspondence",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-09",
+      "TAX-05"
+    ]
+  },
+  {
+    "id": "E-076",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 11",
+    "quote": "TC_ADDRESS,LINE_1,VARCHAR(100),N,,Address line 1,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-10"
+    ]
+  },
+  {
+    "id": "E-077",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 12",
+    "quote": "TC_ADDRESS,POSTCODE,VARCHAR(10),N,,Postcode,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-11"
+    ]
+  },
+  {
+    "id": "E-078",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 13",
+    "quote": "TC_EMPLOYER,EMPLOYER_REF,VARCHAR(12),N,PK,Employer Reference,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-03",
+      "ATT-12",
+      "IDN-02"
+    ]
+  },
+  {
+    "id": "E-079",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 14",
+    "quote": "TC_EMPLOYER,EMPLOYER_NAME,VARCHAR(200),N,,Employer name,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-13"
+    ]
+  },
+  {
+    "id": "E-080",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 15",
+    "quote": "TC_EMPLOYMENT,EMPLOYMENT_ID,INTEGER,N,PK,Employment Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-04",
+      "ATT-14",
+      "IDN-03"
+    ]
+  },
+  {
+    "id": "E-081",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 16",
+    "quote": "TC_EMPLOYMENT,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-15",
+      "REL-02"
+    ]
+  },
+  {
+    "id": "E-082",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 17",
+    "quote": "TC_EMPLOYMENT,EMPLOYER_REF,VARCHAR(12),N,FK:TC_EMPLOYER.EMPLOYER_REF,Employer Reference,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-16",
+      "REL-03"
+    ]
+  },
+  {
+    "id": "E-083",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 18",
+    "quote": "TC_EMPLOYMENT,START_DATE,DATE,N,,Employment start,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-17"
+    ]
+  },
+  {
+    "id": "E-084",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 19",
+    "quote": "TC_EMPLOYMENT,END_DATE,DATE,Y,,Employment end,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-18"
+    ]
+  },
+  {
+    "id": "E-085",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 21",
+    "quote": "TC_TAX_CODE,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-05",
+      "ATT-20",
+      "REL-04"
+    ]
+  },
+  {
+    "id": "E-086",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 22",
+    "quote": "TC_TAX_CODE,TAX_CODE,VARCHAR(8),N,,Tax code,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-21"
+    ]
+  },
+  {
+    "id": "E-087",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 23",
+    "quote": "TC_TAX_CODE,EFFECTIVE_FROM,DATE,N,,Effective from,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-22"
+    ]
+  },
+  {
+    "id": "E-088",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 24",
+    "quote": "TC_PAY_PERIOD,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-06",
+      "ATT-23",
+      "REL-05"
+    ]
+  },
+  {
+    "id": "E-089",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 25",
+    "quote": "TC_PAY_PERIOD,TAX_YEAR,CHAR(7),N,,Tax year,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-24"
+    ]
+  },
+  {
+    "id": "E-090",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 26",
+    "quote": "TC_PAY_PERIOD,PERIOD_NO,SMALLINT,N,,Period number,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-25"
+    ]
+  },
+  {
+    "id": "E-091",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 27",
+    "quote": "TC_PAY_PERIOD,GROSS_PAY,\"DECIMAL(11,2)\",N,,Gross pay,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-26"
+    ]
+  },
+  {
+    "id": "E-092",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 28",
+    "quote": "TC_PAY_PERIOD,TAX_DEDUCTED,\"DECIMAL(11,2)\",N,,Tax deducted,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-27"
+    ]
+  },
+  {
+    "id": "E-093",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 29",
+    "quote": "TC_PAY_PERIOD,NI_CATEGORY,CHAR(1),N,,NI category letter,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-28"
+    ]
+  },
+  {
+    "id": "E-094",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 30",
+    "quote": "TC_NI_CONTRIBUTION,EMPLOYMENT_ID,INTEGER,N,FK:TC_EMPLOYMENT.EMPLOYMENT_ID,Employment Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-07",
+      "ATT-29",
+      "REL-06"
+    ]
+  },
+  {
+    "id": "E-095",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 31",
+    "quote": "TC_NI_CONTRIBUTION,TAX_YEAR,CHAR(7),N,,Tax year,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-30"
+    ]
+  },
+  {
+    "id": "E-096",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 32",
+    "quote": "TC_NI_CONTRIBUTION,PERIOD_NO,SMALLINT,N,,Period number,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-31"
+    ]
+  },
+  {
+    "id": "E-097",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 34",
+    "quote": "TC_NI_CONTRIBUTION,EMPLOYEE_NIC,\"DECIMAL(11,2)\",N,,Employee contribution,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-33"
+    ]
+  },
+  {
+    "id": "E-098",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 35",
+    "quote": "TC_NI_CONTRIBUTION,EMPLOYER_NIC,\"DECIMAL(11,2)\",N,,Employer contribution,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-34"
+    ]
+  },
+  {
+    "id": "E-099",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 36",
+    "quote": "TC_NI_RECORD,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-08",
+      "ATT-35",
+      "REL-07"
+    ]
+  },
+  {
+    "id": "E-100",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 37",
+    "quote": "TC_NI_RECORD,TAX_YEAR,CHAR(7),N,,Tax year,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-36"
+    ]
+  },
+  {
+    "id": "E-101",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 38",
+    "quote": "TC_NI_RECORD,QUALIFYING,CHAR(1),N,,Qualifying year,Y=Yes|N=No",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-37",
+      "TAX-06"
+    ]
+  },
+  {
+    "id": "E-102",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 39",
+    "quote": "TC_NI_RECORD,CLASS1_TOTAL,\"DECIMAL(11,2)\",N,,Class 1 total for year,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-38"
+    ]
+  },
+  {
+    "id": "E-103",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 40",
+    "quote": "TC_CHILDCARE_ACCOUNT,CC_ACCOUNT_ID,INTEGER,N,PK,Childcare Account Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-09",
+      "ATT-39",
+      "IDN-04"
+    ]
+  },
+  {
+    "id": "E-104",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 41",
+    "quote": "TC_CHILDCARE_ACCOUNT,PERSON_ID,INTEGER,N,FK:TC_PERSON.PERSON_ID,Person Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-40",
+      "REL-08"
+    ]
+  },
+  {
+    "id": "E-105",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 43",
+    "quote": "TC_CHILDCARE_ACCOUNT,OPENED_DATE,DATE,N,,Opened date,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-42"
+    ]
+  },
+  {
+    "id": "E-106",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 44",
+    "quote": "TC_CHILD,CHILD_ID,INTEGER,N,PK,Child Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-10",
+      "ATT-43",
+      "IDN-05"
+    ]
+  },
+  {
+    "id": "E-107",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 45",
+    "quote": "TC_CHILD,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-44",
+      "REL-09"
+    ]
+  },
+  {
+    "id": "E-108",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 47",
+    "quote": "TC_CHILD,FORENAME,VARCHAR(60),N,,Child forename,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-46"
+    ]
+  },
+  {
+    "id": "E-109",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 48",
+    "quote": "TC_CHILD,DATE_OF_BIRTH,DATE,N,,Child date of birth,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-47"
+    ]
+  },
+  {
+    "id": "E-110",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 49",
+    "quote": "TC_CHILDCARE_PAYMENT,PAYMENT_ID,INTEGER,N,PK,Payment Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-11",
+      "ATT-48",
+      "IDN-06"
+    ]
+  },
+  {
+    "id": "E-111",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 50",
+    "quote": "TC_CHILDCARE_PAYMENT,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-49",
+      "REL-10"
+    ]
+  },
+  {
+    "id": "E-112",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 51",
+    "quote": "TC_CHILDCARE_PAYMENT,PROVIDER_REF,VARCHAR(12),N,,Childcare provider reference,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-50"
+    ]
+  },
+  {
+    "id": "E-113",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 52",
+    "quote": "TC_CHILDCARE_PAYMENT,PARENT_AMOUNT,\"DECIMAL(9,2)\",N,,Parent payment,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-51"
+    ]
+  },
+  {
+    "id": "E-114",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 53",
+    "quote": "TC_CHILDCARE_PAYMENT,TOPUP_AMOUNT,\"DECIMAL(9,2)\",Y,,Government top-up,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-52"
+    ]
+  },
+  {
+    "id": "E-115",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 54",
+    "quote": "TC_CHILDCARE_PAYMENT,PAID_DATE,DATE,N,,Paid date,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-53"
+    ]
+  },
+  {
+    "id": "E-116",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 55",
+    "quote": "TC_ELIGIBILITY_CHECK,CHECK_ID,INTEGER,N,PK,Check Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ENT-12",
+      "ATT-54",
+      "IDN-07"
+    ]
+  },
+  {
+    "id": "E-117",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 56",
+    "quote": "TC_ELIGIBILITY_CHECK,CC_ACCOUNT_ID,INTEGER,N,FK:TC_CHILDCARE_ACCOUNT.CC_ACCOUNT_ID,Childcare Account Id,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-55",
+      "REL-11"
+    ]
+  },
+  {
+    "id": "E-118",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 57",
+    "quote": "TC_ELIGIBILITY_CHECK,CHECK_DATE,DATE,N,,Check date,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-56"
+    ]
+  },
+  {
+    "id": "E-119",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 58",
+    "quote": "TC_ELIGIBILITY_CHECK,EXPECTED_INCOME,\"DECIMAL(11,2)\",N,,Expected annual income,",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-57"
+    ]
+  },
+  {
+    "id": "E-120",
+    "file": "spreadsheets/taxcore-data-dictionary.csv",
+    "locator": "line 59",
+    "quote": "TC_ELIGIBILITY_CHECK,OUTCOME,CHAR(3),N,,Eligibility outcome,ELG=Eligible|NEL=Not eligible",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "ATT-58",
+      "TAX-07"
+    ]
+  },
+  {
+    "id": "E-121",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 2",
+    "quote": "J010,Register person,PRC_REGISTER_PERSON,Register Customer,,TC_PERSON;TC_ADDRESS,Customer Services,On demand",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-01"
+    ]
+  },
+  {
+    "id": "E-122",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 3",
+    "quote": "J020,Allocate NI number,PRC_ALLOCATE_NINO,Allocate NI Number,TC_PERSON,TC_PERSON,NI Operations,Daily",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-02"
+    ]
+  },
+  {
+    "id": "E-123",
+    "file": "code-examples/taxcore_procedures.sql",
+    "locator": "line 15",
+    "quote": "CREATE PROCEDURE PRC_ALLOCATE_NINO (IN p_person_id INTEGER)",
+    "provenance": "example-code",
+    "stale": true,
+    "supports": [
+      "CAL-02"
+    ]
+  },
+  {
+    "id": "E-124",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 4",
+    "quote": "J110,Load employer returns,PRC_LOAD_RETURNS,Process Employer Returns,TC_EMPLOYER,TC_EMPLOYMENT;TC_PAY_PERIOD,PAYE Operations,Daily",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-03"
+    ]
+  },
+  {
+    "id": "E-125",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 5",
+    "quote": "J120,Calculate PAYE,PRC_CALC_PAYE,Calculate PAYE,TC_PAY_PERIOD;TC_TAX_CODE,TC_PAY_PERIOD,PAYE Operations,Daily",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-04"
+    ]
+  },
+  {
+    "id": "E-126",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 6",
+    "quote": "J130,Issue tax codes,PRC_ISSUE_TAX_CODE,Issue Tax Code,TC_EMPLOYMENT,TC_TAX_CODE,PAYE Operations,Weekly",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-05"
+    ]
+  },
+  {
+    "id": "E-127",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 7",
+    "quote": "J210,Calculate NI contributions,PRC_CALC_NIC,Calculate NI Contributions,TC_PAY_PERIOD;TC_EMPLOYMENT;TC_PERSON,TC_NI_CONTRIBUTION,NI Operations,Daily",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-06"
+    ]
+  },
+  {
+    "id": "E-128",
+    "file": "code-examples/taxcore_procedures.sql",
+    "locator": "line 3",
+    "quote": "CREATE PROCEDURE PRC_CALC_NIC (IN p_tax_year CHAR(7))",
+    "provenance": "example-code",
+    "stale": true,
+    "supports": [
+      "CAL-06"
+    ]
+  },
+  {
+    "id": "E-129",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 8",
+    "quote": "J220,Update NI record,PRC_UPDATE_NI_RECORD,Maintain NI Record,TC_NI_CONTRIBUTION,TC_NI_RECORD,NI Operations,Year end",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-07"
+    ]
+  },
+  {
+    "id": "E-130",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 9",
+    "quote": "J300,Open childcare account,PRC_OPEN_CC_ACCOUNT,Open Childcare Account,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_CHILD,Family Support,On demand",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-08"
+    ]
+  },
+  {
+    "id": "E-131",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 10",
+    "quote": "J310,Check childcare eligibility,PRC_CHECK_ELIGIBILITY,Check Childcare Eligibility,TC_CHILDCARE_ACCOUNT;TC_EMPLOYMENT;TC_PAY_PERIOD,TC_ELIGIBILITY_CHECK,Family Support,Daily",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-09"
+    ]
+  },
+  {
+    "id": "E-132",
+    "file": "code-examples/taxcore_procedures.sql",
+    "locator": "line 21",
+    "quote": "CREATE PROCEDURE PRC_CHECK_ELIGIBILITY (IN p_account_id INTEGER)",
+    "provenance": "example-code",
+    "stale": true,
+    "supports": [
+      "CAL-09"
+    ]
+  },
+  {
+    "id": "E-133",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 11",
+    "quote": "J320,Calculate childcare top-up,PRC_CALC_TOPUP,Calculate Childcare Top-up,TC_CHILDCARE_PAYMENT,TC_CHILDCARE_PAYMENT,Family Support,Real time",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-10"
+    ]
+  },
+  {
+    "id": "E-134",
+    "file": "code-examples/taxcore_procedures.sql",
+    "locator": "line 33",
+    "quote": "CREATE PROCEDURE PRC_CALC_TOPUP (IN p_payment_id INTEGER)",
+    "provenance": "example-code",
+    "stale": true,
+    "supports": [
+      "CAL-10"
+    ]
+  },
+  {
+    "id": "E-135",
+    "file": "spreadsheets/taxcore-batch-jobs.csv",
+    "locator": "line 12",
+    "quote": "J330,Close accounts of deceased,PRC_CLOSE_DECEASED,Record Life Events,TC_PERSON,TC_CHILDCARE_ACCOUNT;TC_NI_RECORD,Customer Services,Daily",
+    "provenance": "spreadsheet",
+    "stale": false,
+    "supports": [
+      "CAL-11"
+    ]
+  },
+  {
+    "id": "E-136",
+    "file": "code-examples/taxcore_procedures.sql",
+    "locator": "line 39",
+    "quote": "CREATE PROCEDURE PRC_CLOSE_DECEASED ()",
+    "provenance": "example-code",
+    "stale": true,
+    "supports": [
+      "CAL-11"
+    ]
+  }
+]

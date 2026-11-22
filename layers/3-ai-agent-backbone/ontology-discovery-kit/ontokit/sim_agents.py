@@ -64,9 +64,11 @@ ROLE_PATTERNS = [
     (re.compile(r"raises (\w+?)s?\b"), lambda m: f"system of record (candidate): {m.group(1).capitalize()}"),
     (re.compile(r"maintains the ([\w ]+?)[.]"), lambda m: f"system of record (candidate): {m.group(1)}"),
     (re.compile(r"processes all ([\w ]+?)[.]"), lambda m: f"processing: {m.group(1)}"),
-    (re.compile(r"captures and fulfils ([\w ]+?)[.]"), lambda m: f"processing: {m.group(1)}"),
+    (re.compile(r"captures and fulfils ([\w -]+?)[.]"), lambda m: f"processing: {m.group(1)}"),
+    (re.compile(r"\ballocates ([\w ]+?)[.]"), lambda m: f"system of record (candidate): {m.group(1)}"),
     (re.compile(r"calculates ([\w ]+?)[.]"), lambda m: f"calculation: {m.group(1)}"),
 ]
+CAPABILITY = re.compile(r"^- \*\*(.+?)\*\*: (.+?) Owner: (.+?)\.$")
 MERMAID_NODE = re.compile(r'(\w+)\["([^"]+)"\]')
 MERMAID_EDGE = re.compile(r'^\s*(\w+)(?:\["[^"]*"\])?\s*-->\|([^|]+)\|\s*(\w+)')
 CONFIG_SYS = re.compile(r"^([a-z][\w-]*)\.(api|jdbc)\.")
@@ -107,6 +109,13 @@ def ea_agent(index: dict) -> list[dict]:
                     add_system(ch, rel, n, line, "definition", roles=["channel"])
             for m in REFERRED.finditer(line):
                 add_system(m.group(2), rel, n, line, "definition", roles=[m.group(1)])
+
+    # Capability map: one accountable owning team per capability
+    for rel, src in _files(index, doc_type=("capability-map",)):
+        for n, line in enumerate(src["lines"], 1):
+            if m := CAPABILITY.match(line):
+                props.append(_prop("capability", m.group(1), rel, n, line, "definition",
+                                   definition=m.group(2).strip(), owner_team=m.group(3).strip()))
 
     # Diagram: nodes and edges
     for rel, src in _files(index, provenance=("diagram",)):
@@ -175,6 +184,8 @@ def ba_agent(index: dict) -> list[dict]:
     props: list[dict] = []
     terms: list[str] = []
     for rel, src in _files(index, provenance=PROSE):
+        if src.get("doc_type") == "capability-map":
+            continue
         heading = ""
         for n, line in enumerate(src["lines"], 1):
             if h := re.match(r"^#+\s+(.+)", line):
@@ -223,6 +234,11 @@ JAVA_FIELD = re.compile(r"private ([\w<>]+) (\w+);\s*(?://\s*(.*))?")
 JAVA_ENUM = re.compile(r"enum (\w+) \{ ([^}]+) \}")
 
 
+def _prefix_stripper(src: dict):
+    pref = (src.get("table_prefix") or "").upper()
+    return lambda t: t[len(pref):] if pref and t.upper().startswith(pref) and len(t) > len(pref) else t
+
+
 def _entity_name(cls: str) -> str:
     return re.sub(r"(Record|Dto|DTO|Entity|Model)$", "", cls) or cls
 
@@ -236,9 +252,10 @@ def da_agent(index: dict) -> list[dict]:
     # Data dictionary
     for rel, src in _files(index, doc_type=("data-dictionary",)):
         system = src.get("system_hint")
+        strip = _prefix_stripper(src)
         seen_tables = set()
         for n, raw, row in _csv_rows(src):
-            ent, attr = pascal(row["table"]), camel(row["column"])
+            ent, attr = pascal(strip(row["table"])), camel(row["column"])
             if ent not in seen_tables:
                 seen_tables.add(ent)
                 props.append(_prop("entity", ent, rel, n, raw, "structure", system=system, physical=row["table"]))
@@ -251,7 +268,7 @@ def da_agent(index: dict) -> list[dict]:
                 id_attrs[norm(attr)] = (ent, idn)
                 props.append(_prop("identifier", idn, rel, n, raw, "structure", entity=ent, attribute=attr, key="primary"))
             if fk := re.match(r"FK:(\w+)\.(\w+)", row["key"] or ""):
-                tgt = pascal(fk.group(1))
+                tgt = pascal(strip(fk.group(1)))
                 props.append(_prop("relationship", f"{ent} → {tgt}", rel, n, raw, "structure",
                                    **{"from": ent, "to": tgt, "via": attr, "cardinality": "many-to-one"}))
             elif not row["key"]:
@@ -264,9 +281,10 @@ def da_agent(index: dict) -> list[dict]:
     # DDL
     for rel, src in _files(index, doc_type=("ddl",)):
         system, table, cols, pk = src.get("system_hint"), None, [], []
+        strip = _prefix_stripper(src)
         for n, line in enumerate(src["lines"], 1):
             if m := SQL_TABLE.search(line):
-                table, cols, pk = pascal(m.group(1)), [], []
+                table, cols, pk = pascal(strip(m.group(1))), [], []
                 props.append(_prop("entity", table, rel, n, line, "structure", system=system, physical=m.group(1)))
             elif table and (m := SQL_PK.match(line)):
                 pk = [camel(c.strip()) for c in m.group(1).split(",")]
@@ -283,7 +301,7 @@ def da_agent(index: dict) -> list[dict]:
                     id_attrs[norm(attr)] = (table, idn)
                     props.append(_prop("identifier", idn, rel, n, line, "structure", entity=table, attribute=attr, key="primary"))
                 if r := SQL_REF.search(rest):
-                    tgt = pascal(r.group(1))
+                    tgt = pascal(strip(r.group(1)))
                     props.append(_prop("relationship", f"{table} → {tgt}", rel, n, line, "structure",
                                        **{"from": table, "to": tgt, "via": attr, "cardinality": "many-to-one"}))
                 else:
@@ -360,6 +378,11 @@ def da_agent(index: dict) -> list[dict]:
 
 IFACE_ID = re.compile(r"\b([A-Z]{2,}(?:-[A-Z]{2,})*-\d{2})\b")
 EVENT_PROSE = re.compile(r"publishes an? ([A-Z]\w+) event")
+PROC_START = re.compile(r"CREATE PROCEDURE (\w+)", re.I)
+PROC_CAP = re.compile(r"--\s*Capability:\s*(.+)$")
+PROC_WRITE = re.compile(r"\b(?:INSERT INTO|UPDATE)\s+(\w+)", re.I)
+PROC_UPDATE_SET = re.compile(r"\bUPDATE\s+(\w+)\s+SET\s+(.+?)(?:\bWHERE\b|$)", re.I)
+PROC_READ = re.compile(r"\b(?:FROM|JOIN)\s+(\w+)", re.I)
 JAVA_RULE = re.compile(r'throw new \w+Exception\("(.+?)"\)')
 
 
@@ -382,6 +405,35 @@ def eng_agent(index: dict) -> list[dict]:
             if src["provenance"] == "diagram" and (m := MERMAID_EDGE.match(line)):
                 if re.fullmatch(r"[A-Z][a-z]+(?:[A-Z][a-z]+)+", m.group(2).strip()):
                     props.append(_prop("event", m.group(2).strip(), rel, n, line, "structure"))
+    # Batch-job catalogue: each job runs one calculation program
+    for rel, src in _files(index, doc_type=("job-catalogue",)):
+        split = lambda v: [x.strip().upper() for x in (v or "").split(";") if x.strip()]
+        for n, raw, row in _csv_rows(src):
+            props.append(_prop("calculation", row["program"], rel, n, raw, "structure", title=row["job_name"],
+                               program=row["program"], capability=row.get("capability", ""), reads=split(row.get("reads")),
+                               writes=split(row.get("writes")), owner_team=row.get("owner", ""),
+                               frequency=row.get("frequency", ""), job_id=row.get("job_id", "")))
+    # Stored procedures: which tables and columns each program really reads and writes
+    for rel, src in _files(index, doc_type=("procedures",)):
+        cur = None
+        for n, line in enumerate(src["lines"], 1):
+            if m := PROC_START.search(line):
+                cur = {"name": m.group(1), "n": n, "line": line, "reads": set(), "writes": set(), "cols": set(), "cap": ""}
+            elif cur is not None:
+                if m := PROC_CAP.search(line):
+                    cur["cap"] = m.group(1).strip()
+                for m in PROC_WRITE.finditer(line):
+                    cur["writes"].add(m.group(1).upper())
+                if m := PROC_UPDATE_SET.search(line):
+                    for col in re.findall(r"(\w+)\s*=", m.group(2)):
+                        cur["cols"].add(f"{m.group(1).upper()}.{col.upper()}")
+                for m in PROC_READ.finditer(line):
+                    cur["reads"].add(m.group(1).upper())
+                if line.strip().upper().startswith("END;"):
+                    props.append(_prop("calculation", cur["name"], rel, cur["n"], cur["line"], "structure", program=cur["name"],
+                                       capability=cur["cap"], reads=sorted(cur["reads"] - cur["writes"]),
+                                       writes=sorted(cur["writes"]), writes_columns=sorted(cur["cols"])))
+                    cur = None
     for rel, src in _files(index, doc_type=("code",), suffix=".java"):
         for n, line in enumerate(src["lines"], 1):
             if m := JAVA_ENUM.search(line):

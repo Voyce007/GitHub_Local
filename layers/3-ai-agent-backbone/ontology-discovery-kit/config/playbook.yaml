@@ -42,7 +42,7 @@ phases:
     discovery_mode: run
     loop1_criteria:
       - {id: P3.1, check: entities_have_attributes, text: Every candidate entity has at least one attribute}
-      - {id: P3.2, check: entities_traced_to_concepts, text: "Entities are traced to a concept, are link tables, or are flagged for review"}
+      - {id: P3.2, check: entities_traced_to_concepts, text: "Entities are traced to a concept or to the capability that creates them, are link tables, or are flagged for review"}
 
   - id: 4
     name: Logical data modelling

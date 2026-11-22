@@ -1,0 +1,26 @@
+# Fictional scenario. Northmere, its agency, systems, people and figures are invented.
+# Concepts such as PAYE, National Insurance and childcare top-ups are used generically.
+
+organisation:
+  name: Northmere Revenue Service
+  tagline: A fictional national revenue and family-support agency
+  people: 9,000
+  customers: 31 million
+
+challenge:
+  headline: One 1990s data store runs four unrelated parts of the business.
+  detail: >
+    TAXCORE holds customer records, PAYE, National Insurance and childcare in a single
+    database with shared tables, overnight batch jobs and stored-procedure calculations.
+    Every change needs a full-system regression test, a release takes nine months, and
+    no single director owns the data any one service depends on.
+  goal: >
+    Split TAXCORE into four business-owned ontologies (Customer, PAYE, National Insurance,
+    Childcare), each exposed through business services on an ontology-based data access
+    layer, so that each domain can change, be tested and be moved on its own.
+
+monolith: TAXCORE
+target: four domain ontologies with business services on the access layer
+
+# Concepts the phase-2 gate expects to find (overrides config/playbook.yaml key_concepts)
+key_concepts: [Customer, Employment, NI Contribution, Childcare Account]

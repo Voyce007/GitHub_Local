@@ -7,13 +7,17 @@ presented as as-is fact.
 """
 from __future__ import annotations
 
+import yaml
+
 from .common import LoopPaths, Trace, load_config, norm, read_json, write_json
 from .steward import IdAllocator, _key
 
 
 def apply_prior(paths: LoopPaths, trace: Trace) -> dict:
     model = read_json(paths.work / "model.json")
-    ref = load_config("reference_ontology.yaml")
+    # a scenario may bring its own reference prior next to its inputs/
+    override = paths.root / "reference_ontology.yaml"
+    ref = yaml.safe_load(override.read_text(encoding="utf-8")) if override.exists() else load_config("reference_ontology.yaml")
     els = model["elements"]
     ids = IdAllocator(state=model["id_state"])
 

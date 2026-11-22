@@ -1,0 +1,6 @@
+flowchart LR
+  CP["CitizenPortal (online account)"] -->|CUS-01| TC["TAXCORE (the Core)"]
+  EG["EmployerGateway (employer filing)"] -->|PAY-01 employer returns| TC
+  NH["NumberHub (NI allocation)"] -->|NIN-02| TC
+  CC["ChildcarePortal (parent account)"] -->|CC-01 parent payments| TC
+  TC -->|MI-01 nightly| RW["RevenueWarehouse (MI warehouse)"]

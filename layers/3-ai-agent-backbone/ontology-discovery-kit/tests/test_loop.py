@@ -129,6 +129,38 @@ class MeridaleScenarioTests(unittest.TestCase):
         gates = json.loads((self.tmp / "work/loop-02/gates.json").read_text())
         self.assertTrue(all(g["status"] == "provisional" for g in gates))
 
+class NorthmereDecompositionTests(unittest.TestCase):
+    """Monolith decomposition: TAXCORE split into Customer, PAYE, NI and Childcare domains."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        src = KIT / "scenarios" / "northmere"
+        shutil.copytree(src / "inputs", self.tmp / "inputs")
+        for f in ("target_domains.yaml", "reference_ontology.yaml", "scenario.yaml"):
+            shutil.copy(src / f, self.tmp / f)
+        self.root = str(self.tmp)
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp)
+
+    def test_decomposition(self):
+        self.assertEqual(main(["simulate", "--root", self.root, "--loop", "loop-01"]), 0)
+        dec = json.loads((self.tmp / "outputs/loop-01/decomposition/decomposition.json").read_text())
+        owner = {e: k for k, s in dec["summary"].items() for e in s["entities"]}
+        self.assertEqual(owner["Person"], "customer")
+        self.assertEqual(owner["PayPeriod"], "paye")
+        self.assertEqual(owner["NiRecord"], "ni")
+        self.assertEqual(owner["ChildcareAccount"], "childcare")
+        self.assertEqual([(s["column"], s["to"]) for s in dec["splits"]], [("NI_NUMBER", "ni")])
+        self.assertEqual({x["event"] for x in dec["cross_domain_writes"]}, {"PersonChanged"})
+        self.assertIn({"consumer": "childcare", "provider": "paye"}, [{k: d[k] for k in ("consumer", "provider")} for d in dec["dependencies"]])
+        self.assertEqual(dec["unassigned"], [])
+        for k in ("customer", "paye", "ni", "childcare"):
+            self.assertTrue((self.tmp / f"outputs/loop-01/decomposition/domains/{k}.yaml").exists())
+            self.assertTrue((self.tmp / f"outputs/loop-01/decomposition/services/{k}.openapi.yaml").exists())
+        gates = json.loads((self.tmp / "work/loop-01/gates.json").read_text())
+        self.assertTrue(all(g["status"] == "provisional" for g in gates))
+
 
 if __name__ == "__main__":
     unittest.main()

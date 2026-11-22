@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 
-from . import approvals, diff, gates, grading, ingest, prior, publish, sim_agents, steward, unknowns, validate
+from . import approvals, decompose, diff, gates, grading, ingest, prior, publish, sim_agents, steward, unknowns, validate
 from .common import KIT_ROOT, LoopPaths, Trace, read_json, write_json
 
 
@@ -69,6 +69,7 @@ def main(argv=None) -> int:
         steward.reconcile(paths, t, prev_elements)
         grading.grade(paths, t)
         prior.apply_prior(paths, t)
+        decompose.decompose(paths, t)
 
     if cmd in ("simulate", "run"):
         ingest.ingest(paths, t)
@@ -84,6 +85,7 @@ def main(argv=None) -> int:
             (paths.work / "changes.json").unlink(missing_ok=True)
         approvals.prepare(paths, t, simulate=(cmd == "simulate") or a.simulate_approvals, prev_paths=prev)
         publish.publish(paths, t)
+        decompose.publish_outputs(paths, t)
     elif cmd == "ingest":
         ingest.ingest(paths, t)
     elif cmd == "sim-agents":
@@ -105,6 +107,7 @@ def main(argv=None) -> int:
         approvals.prepare(paths, t, simulate=a.simulate_approvals, prev_paths=prev)
     elif cmd == "publish":
         publish.publish(paths, t)
+        decompose.publish_outputs(paths, t)
     _save(paths, t)
 
     if cmd in ("simulate", "run", "publish"):

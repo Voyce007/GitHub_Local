@@ -13,7 +13,7 @@ from .common import LoopPaths, Trace, load_config, read_json, write_json
 from .ingest import quote_found
 
 KINDS = {"concept", "rule", "taxonomy", "system", "flow", "domain", "entity", "attribute",
-         "relationship", "identifier", "interface", "event"}
+         "relationship", "identifier", "interface", "event", "capability", "calculation"}
 ORIGINS = {"inferred", "assumed", "confirmed"}
 
 
