@@ -23,14 +23,24 @@ table{border-collapse:collapse;width:100%;font-size:.86rem}th,td{text-align:left
 th{position:sticky;top:0;background:var(--sunk);font:600 .72rem ui-monospace,Menlo,monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 td:first-child{white-space:nowrap}td.ev{color:var(--muted);font-size:.8rem;max-width:340px}input.f{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--line);
 background:var(--surface);color:var(--ink);width:min(100%,320px)}
-nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.dtools{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.dtools button{font:500 .82rem system-ui,sans-serif;min-width:34px;padding:4px 10px;border-radius:7px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);cursor:pointer}.dtools button:hover{border-color:var(--accent)}
+.dtools .zl{font:600 .8rem ui-monospace,Menlo,monospace;color:var(--muted);min-width:4.5ch;text-align:right}
+.dtools .hint{margin-left:auto;font-size:.75rem;color:var(--muted)}
+.dview{overflow:scroll;height:min(70vh,620px);min-height:220px;resize:vertical;background:#fff;cursor:grab;padding:12px;
+scrollbar-width:auto;scrollbar-color:#9aa3b1 #eef0f4}.dview.drag{cursor:grabbing;user-select:none}
+.dview::-webkit-scrollbar{width:12px;height:12px}.dview::-webkit-scrollbar-thumb{background:#9aa3b1;border-radius:6px;border:2px solid #eef0f4}
+.dview::-webkit-scrollbar-track{background:#eef0f4}.dview svg{display:block;max-width:none!important}
+.diag:fullscreen{border-radius:0}.diag:fullscreen .dview{height:auto;flex:1;resize:none}
 pre.mermaid{margin:0}pre.raw{white-space:pre-wrap;font-size:.75rem;color:#333}.notes{background:var(--surface);border:1px solid var(--line);
 border-radius:10px;padding:14px 18px;max-height:700px;overflow:auto}.notes h1,.notes h2,.notes h3{margin:14px 0 6px}
 footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
 </style></head><body><div class=wrap><p class=eyebrow><a href="index.html">← All agents</a> · loop-01</p><h1>Data Architect</h1>
 <p class=lead><b>How is the data structured and identified?</b> Entities, attributes, keys and relationships, and where each monolith column ends up.</p><div class=bar><a class=pill href="da.xlsx">Excel workbook</a> <a class=pill href="da.docx">Word document</a> <a class=pill href="../diagrams/README.md">Diagram files</a></div><nav class=toc><a class=pill href="#s0">Entities (13)</a><a class=pill href="#s1">Attributes (58)</a><a class=pill href="#s2">Identifiers (8)</a><a class=pill href="#s3">Relationships (13)</a><a class=pill href="#s4">Source-to-target mapping (58)</a></nav>
 <section><h2>Diagrams</h2><p class=muted>Generated from the evidence; colours show grade.</p>
-<h3 class=muted>da-entity-relationship</h3><div class=diag><pre class="mermaid">erDiagram
+<h3 class=muted>da-entity-relationship</h3><div class=diag><div class=dtools hidden><button type=button data-z="-" title="Zoom out" aria-label="Zoom out">−</button><button type=button data-z="+" title="Zoom in" aria-label="Zoom in">+</button><button type=button data-z="fit" title="Fit the whole diagram in view">Fit</button><button type=button data-z="1" title="Actual size">100%</button><button type=button data-z="fs" title="Full screen">Full screen</button><span class=zl>100%</span><span class=hint>Drag to pan · Ctrl/⌘ + wheel to zoom · drag the corner to resize</span></div><div class=dview tabindex=0 aria-label="Diagram da-entity-relationship"><pre class="mermaid">erDiagram
   Person {
     integer personId PK &quot;grade C&quot;
     char niNumber &quot;grade C&quot;
@@ -125,7 +135,7 @@ footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
   ChildcarePayment }o--|| ChildcareAccount : &quot;ccAccountId (C)&quot;
   EligibilityCheck }o--|| ChildcareAccount : &quot;ccAccountId (C)&quot;
   Child }o--|| Person : &quot;personId (C)&quot;
-</pre></div>
+</pre></div></div>
 </section>
 <section id="s0"><h2>Entities <span class=muted>(13)</span></h2><p class=lead>Logical entities lifted from tables, dictionaries and code, with their owning domain where the monolith is being split.</p>
 <input class=f data-t="t0" placeholder="Filter 13 rows" aria-label="Filter Entities"><div class=tw><table id="t0"><thead><tr><th>ID</th><th>Entity</th><th>Physical table</th><th>System</th><th>Domain</th><th>Attributes</th><th>Grade</th><th>Ownership basis</th><th>Evidence</th></tr></thead><tbody><tr><td>ENT-01</td><td>Person</td><td>TC_PERSON</td><td>TAXCORE</td><td>Customer</td><td>7</td><td><span class="g g-C" title="Single source">C</span></td><td>changed by Customer, National Insurance; Customer creates it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 2)</td></tr><tr><td>ENT-02</td><td>Address</td><td>TC_ADDRESS</td><td>TAXCORE</td><td>Customer</td><td>4</td><td><span class="g g-C" title="Single source">C</span></td><td>only Customer capabilities change it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 9)</td></tr><tr><td>ENT-03</td><td>Employer</td><td>TC_EMPLOYER</td><td>TAXCORE</td><td>PAYE</td><td>2</td><td><span class="g g-C" title="Single source">C</span></td><td>no capability writes it; assigned by business vocabulary</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 13)</td></tr><tr><td>ENT-04</td><td>Employment</td><td>TC_EMPLOYMENT</td><td>TAXCORE</td><td>PAYE</td><td>6</td><td><span class="g g-C" title="Single source">C</span></td><td>only PAYE capabilities change it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 15)</td></tr><tr><td>ENT-05</td><td>TaxCode</td><td>TC_TAX_CODE</td><td>TAXCORE</td><td>PAYE</td><td>3</td><td><span class="g g-C" title="Single source">C</span></td><td>only PAYE capabilities change it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 21)</td></tr><tr><td>ENT-06</td><td>PayPeriod</td><td>TC_PAY_PERIOD</td><td>TAXCORE</td><td>PAYE</td><td>6</td><td><span class="g g-C" title="Single source">C</span></td><td>only PAYE capabilities change it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 24)</td></tr><tr><td>ENT-07</td><td>NiContribution</td><td>TC_NI_CONTRIBUTION</td><td>TAXCORE</td><td>National Insurance</td><td>6</td><td><span class="g g-C" title="Single source">C</span></td><td>only National Insurance capabilities change it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 30)</td></tr><tr><td>ENT-08</td><td>NiRecord</td><td>TC_NI_RECORD</td><td>TAXCORE</td><td>National Insurance</td><td>4</td><td><span class="g g-C" title="Single source">C</span></td><td>changed by National Insurance, Customer; National Insurance creates it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 36)</td></tr><tr><td>ENT-09</td><td>ChildcareAccount</td><td>TC_CHILDCARE_ACCOUNT</td><td>TAXCORE</td><td>Childcare</td><td>4</td><td><span class="g g-C" title="Single source">C</span></td><td>changed by Childcare, Customer; Childcare creates it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 40)</td></tr><tr><td>ENT-10</td><td>Child</td><td>TC_CHILD</td><td>TAXCORE</td><td>Childcare</td><td>5</td><td><span class="g g-C" title="Single source">C</span></td><td>only Childcare capabilities change it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 44)</td></tr><tr><td>ENT-11</td><td>ChildcarePayment</td><td>TC_CHILDCARE_PAYMENT</td><td>TAXCORE</td><td>Childcare</td><td>6</td><td><span class="g g-C" title="Single source">C</span></td><td>only Childcare capabilities change it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 49)</td></tr><tr><td>ENT-12</td><td>EligibilityCheck</td><td>TC_ELIGIBILITY_CHECK</td><td>TAXCORE</td><td>Childcare</td><td>5</td><td><span class="g g-C" title="Single source">C</span></td><td>only Childcare capabilities change it</td><td class="ev">spreadsheets/taxcore-data-dictionary.csv (line 55)</td></tr><tr><td>ENT-13</td><td>Party</td><td></td><td></td><td></td><td>0</td><td><span class="g g-D" title="Assumed, not yet evidenced">D</span></td><td></td><td class="ev"></td></tr></tbody></table></div>
@@ -145,6 +155,33 @@ footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
 document.querySelectorAll('input.f').forEach(inp=>inp.addEventListener('input',()=>{const q=inp.value.toLowerCase();
 document.querySelectorAll('#'+inp.dataset.t+' tbody tr').forEach(r=>r.hidden=q&&!r.textContent.toLowerCase().includes(q))}));
 </script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
-<script>if(window.mermaid){mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'default'})}
+<script>
+function zoomViewer(diag){
+  const view=diag.querySelector('.dview'), svg=view.querySelector('svg'), tools=diag.querySelector('.dtools'), lbl=tools.querySelector('.zl');
+  if(!svg) return;
+  const vb=svg.viewBox&&svg.viewBox.baseVal; const bb=svg.getBoundingClientRect();
+  const W=(vb&&vb.width)||bb.width, H=(vb&&vb.height)||bb.height; let z=1;
+  svg.removeAttribute('style'); tools.hidden=false;
+  const apply=(nz,cx,cy)=>{const old=z; z=Math.min(6,Math.max(0.1,nz));
+    const ax=(cx??view.clientWidth/2)+view.scrollLeft, ay=(cy??view.clientHeight/2)+view.scrollTop;
+    svg.setAttribute('width',W*z); svg.setAttribute('height',H*z); lbl.textContent=Math.round(z*100)+'%';
+    view.scrollLeft=ax*z/old-(cx??view.clientWidth/2); view.scrollTop=ay*z/old-(cy??view.clientHeight/2);};
+  const fit=()=>apply(Math.min((view.clientWidth-24)/W,(view.clientHeight-24)/H));
+  // open readable: fit the width, but never smaller than 75% or larger than 100%; then centre the view
+  apply(Math.min(1,Math.max(0.75,(view.clientWidth-24)/W)));
+  view.scrollLeft=(view.scrollWidth-view.clientWidth)/2; view.scrollTop=(view.scrollHeight-view.clientHeight)/2;
+  tools.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; const k=b.dataset.z;
+    if(k==='+') apply(z*1.25); else if(k==='-') apply(z/1.25); else if(k==='fit') fit(); else if(k==='1') apply(1);
+    else if(k==='fs'){ (document.fullscreenElement?document.exitFullscreen():diag.requestFullscreen()).catch(()=>{b.textContent='Full screen unavailable'}); }});
+  view.addEventListener('wheel',e=>{if(!(e.ctrlKey||e.metaKey)) return; e.preventDefault(); const r=view.getBoundingClientRect();
+    apply(z*(e.deltaY<0?1.15:1/1.15),e.clientX-r.left,e.clientY-r.top);},{passive:false});
+  view.addEventListener('keydown',e=>{if(e.key==='+'||e.key==='=') apply(z*1.25); else if(e.key==='-') apply(z/1.25); else if(e.key==='0') fit();});
+  let d=null; view.addEventListener('pointerdown',e=>{if(e.button!==0) return; d={x:e.clientX,y:e.clientY,l:view.scrollLeft,t:view.scrollTop}; view.classList.add('drag');});
+  window.addEventListener('pointermove',e=>{if(!d) return; view.scrollLeft=d.l-(e.clientX-d.x); view.scrollTop=d.t-(e.clientY-d.y);});
+  window.addEventListener('pointerup',()=>{d=null; view.classList.remove('drag');});
+  document.addEventListener('fullscreenchange',()=>{if(document.fullscreenElement===diag||!document.fullscreenElement) fit();});
+}
+if(window.mermaid){mermaid.initialize({startOnLoad:false,securityLevel:'loose',theme:'default'});
+  mermaid.run({querySelector:'pre.mermaid'}).then(()=>document.querySelectorAll('.diag').forEach(zoomViewer)).catch(e=>console.warn(e));}
 else{document.querySelectorAll('pre.mermaid').forEach(p=>{p.classList.remove('mermaid');p.classList.add('raw');
 p.insertAdjacentHTML('beforebegin','<p class=muted>Diagram source (connect to the internet to render it, or open the .mmd file in any Mermaid viewer):</p>')})}</script></body></html>

@@ -266,7 +266,17 @@ table{border-collapse:collapse;width:100%;font-size:.86rem}th,td{text-align:left
 th{position:sticky;top:0;background:var(--sunk);font:600 .72rem ui-monospace,Menlo,monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 td:first-child{white-space:nowrap}td.ev{color:var(--muted);font-size:.8rem;max-width:340px}input.f{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--line);
 background:var(--surface);color:var(--ink);width:min(100%,320px)}
-nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.dtools{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.dtools button{font:500 .82rem system-ui,sans-serif;min-width:34px;padding:4px 10px;border-radius:7px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);cursor:pointer}.dtools button:hover{border-color:var(--accent)}
+.dtools .zl{font:600 .8rem ui-monospace,Menlo,monospace;color:var(--muted);min-width:4.5ch;text-align:right}
+.dtools .hint{margin-left:auto;font-size:.75rem;color:var(--muted)}
+.dview{overflow:scroll;height:min(70vh,620px);min-height:220px;resize:vertical;background:#fff;cursor:grab;padding:12px;
+scrollbar-width:auto;scrollbar-color:#9aa3b1 #eef0f4}.dview.drag{cursor:grabbing;user-select:none}
+.dview::-webkit-scrollbar{width:12px;height:12px}.dview::-webkit-scrollbar-thumb{background:#9aa3b1;border-radius:6px;border:2px solid #eef0f4}
+.dview::-webkit-scrollbar-track{background:#eef0f4}.dview svg{display:block;max-width:none!important}
+.diag:fullscreen{border-radius:0}.diag:fullscreen .dview{height:auto;flex:1;resize:none}
 pre.mermaid{margin:0}pre.raw{white-space:pre-wrap;font-size:.75rem;color:#333}.notes{background:var(--surface);border:1px solid var(--line);
 border-radius:10px;padding:14px 18px;max-height:700px;overflow:auto}.notes h1,.notes h2,.notes h3{margin:14px 0 6px}
 footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
@@ -277,7 +287,34 @@ document.querySelectorAll('input.f').forEach(inp=>inp.addEventListener('input',(
 document.querySelectorAll('#'+inp.dataset.t+' tbody tr').forEach(r=>r.hidden=q&&!r.textContent.toLowerCase().includes(q))}));
 """
 MERMAID_JS = f"""<script src="{MERMAID_CDN}"></script>
-<script>if(window.mermaid){{mermaid.initialize({{startOnLoad:true,securityLevel:'loose',theme:'default'}})}}
+<script>
+function zoomViewer(diag){{
+  const view=diag.querySelector('.dview'), svg=view.querySelector('svg'), tools=diag.querySelector('.dtools'), lbl=tools.querySelector('.zl');
+  if(!svg) return;
+  const vb=svg.viewBox&&svg.viewBox.baseVal; const bb=svg.getBoundingClientRect();
+  const W=(vb&&vb.width)||bb.width, H=(vb&&vb.height)||bb.height; let z=1;
+  svg.removeAttribute('style'); tools.hidden=false;
+  const apply=(nz,cx,cy)=>{{const old=z; z=Math.min(6,Math.max(0.1,nz));
+    const ax=(cx??view.clientWidth/2)+view.scrollLeft, ay=(cy??view.clientHeight/2)+view.scrollTop;
+    svg.setAttribute('width',W*z); svg.setAttribute('height',H*z); lbl.textContent=Math.round(z*100)+'%';
+    view.scrollLeft=ax*z/old-(cx??view.clientWidth/2); view.scrollTop=ay*z/old-(cy??view.clientHeight/2);}};
+  const fit=()=>apply(Math.min((view.clientWidth-24)/W,(view.clientHeight-24)/H));
+  // open readable: fit the width, but never smaller than 75% or larger than 100%; then centre the view
+  apply(Math.min(1,Math.max(0.75,(view.clientWidth-24)/W)));
+  view.scrollLeft=(view.scrollWidth-view.clientWidth)/2; view.scrollTop=(view.scrollHeight-view.clientHeight)/2;
+  tools.addEventListener('click',e=>{{const b=e.target.closest('button'); if(!b) return; const k=b.dataset.z;
+    if(k==='+') apply(z*1.25); else if(k==='-') apply(z/1.25); else if(k==='fit') fit(); else if(k==='1') apply(1);
+    else if(k==='fs'){{ (document.fullscreenElement?document.exitFullscreen():diag.requestFullscreen()).catch(()=>{{b.textContent='Full screen unavailable'}}); }}}});
+  view.addEventListener('wheel',e=>{{if(!(e.ctrlKey||e.metaKey)) return; e.preventDefault(); const r=view.getBoundingClientRect();
+    apply(z*(e.deltaY<0?1.15:1/1.15),e.clientX-r.left,e.clientY-r.top);}},{{passive:false}});
+  view.addEventListener('keydown',e=>{{if(e.key==='+'||e.key==='=') apply(z*1.25); else if(e.key==='-') apply(z/1.25); else if(e.key==='0') fit();}});
+  let d=null; view.addEventListener('pointerdown',e=>{{if(e.button!==0) return; d={{x:e.clientX,y:e.clientY,l:view.scrollLeft,t:view.scrollTop}}; view.classList.add('drag');}});
+  window.addEventListener('pointermove',e=>{{if(!d) return; view.scrollLeft=d.l-(e.clientX-d.x); view.scrollTop=d.t-(e.clientY-d.y);}});
+  window.addEventListener('pointerup',()=>{{d=null; view.classList.remove('drag');}});
+  document.addEventListener('fullscreenchange',()=>{{if(document.fullscreenElement===diag||!document.fullscreenElement) fit();}});
+}}
+if(window.mermaid){{mermaid.initialize({{startOnLoad:false,securityLevel:'loose',theme:'default'}});
+  mermaid.run({{querySelector:'pre.mermaid'}}).then(()=>document.querySelectorAll('.diag').forEach(zoomViewer)).catch(e=>console.warn(e));}}
 else{{document.querySelectorAll('pre.mermaid').forEach(p=>{{p.classList.remove('mermaid');p.classList.add('raw');
 p.insertAdjacentHTML('beforebegin','<p class=muted>Diagram source (connect to the internet to render it, or open the .mmd file in any Mermaid viewer):</p>')}})}}</script>"""
 
@@ -358,7 +395,14 @@ def agent_html(paths, c, key, name, question, about, diags, secs, files) -> str:
     if shown:
         body.append("<section><h2>Diagrams</h2><p class=muted>Generated from the evidence; colours show grade.</p>")
         for d in shown:
-            body.append(f'<h3 class=muted>{_e(d)}</h3><div class=diag><pre class="mermaid">{_e(c["diagrams"][d])}</pre></div>')
+            body.append(f'<h3 class=muted>{_e(d)}</h3><div class=diag><div class=dtools hidden>'
+                        '<button type=button data-z="-" title="Zoom out" aria-label="Zoom out">−</button>'
+                        '<button type=button data-z="+" title="Zoom in" aria-label="Zoom in">+</button>'
+                        '<button type=button data-z="fit" title="Fit the whole diagram in view">Fit</button>'
+                        '<button type=button data-z="1" title="Actual size">100%</button>'
+                        '<button type=button data-z="fs" title="Full screen">Full screen</button><span class=zl>100%</span>'
+                        '<span class=hint>Drag to pan · Ctrl/⌘ + wheel to zoom · drag the corner to resize</span></div>'
+                        f'<div class=dview tabindex=0 aria-label="Diagram {_e(d)}"><pre class="mermaid">{_e(c["diagrams"][d])}</pre></div></div>')
         body.append("</section>")
     for i, s in enumerate(secs):
         tid = f"t{i}"

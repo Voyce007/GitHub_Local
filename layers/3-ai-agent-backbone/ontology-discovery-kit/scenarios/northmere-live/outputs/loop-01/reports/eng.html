@@ -23,14 +23,24 @@ table{border-collapse:collapse;width:100%;font-size:.86rem}th,td{text-align:left
 th{position:sticky;top:0;background:var(--sunk);font:600 .72rem ui-monospace,Menlo,monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 td:first-child{white-space:nowrap}td.ev{color:var(--muted);font-size:.8rem;max-width:340px}input.f{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--line);
 background:var(--surface);color:var(--ink);width:min(100%,320px)}
-nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.dtools{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 8px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.dtools button{font:500 .82rem system-ui,sans-serif;min-width:34px;padding:4px 10px;border-radius:7px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);cursor:pointer}.dtools button:hover{border-color:var(--accent)}
+.dtools .zl{font:600 .8rem ui-monospace,Menlo,monospace;color:var(--muted);min-width:4.5ch;text-align:right}
+.dtools .hint{margin-left:auto;font-size:.75rem;color:var(--muted)}
+.dview{overflow:scroll;height:min(70vh,620px);min-height:220px;resize:vertical;background:#fff;cursor:grab;padding:12px;
+scrollbar-width:auto;scrollbar-color:#9aa3b1 #eef0f4}.dview.drag{cursor:grabbing;user-select:none}
+.dview::-webkit-scrollbar{width:12px;height:12px}.dview::-webkit-scrollbar-thumb{background:#9aa3b1;border-radius:6px;border:2px solid #eef0f4}
+.dview::-webkit-scrollbar-track{background:#eef0f4}.dview svg{display:block;max-width:none!important}
+.diag:fullscreen{border-radius:0}.diag:fullscreen .dview{height:auto;flex:1;resize:none}
 pre.mermaid{margin:0}pre.raw{white-space:pre-wrap;font-size:.75rem;color:#333}.notes{background:var(--surface);border:1px solid var(--line);
 border-radius:10px;padding:14px 18px;max-height:700px;overflow:auto}.notes h1,.notes h2,.notes h3{margin:14px 0 6px}
 footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
 </style></head><body><div class=wrap><p class=eyebrow><a href="index.html">← All agents</a> · loop-01</p><h1>Engineer</h1>
 <p class=lead><b>How is data actually exchanged and calculated?</b> Batch jobs and stored procedures with the tables they read and change, interfaces, events and rules enforced in code.</p><div class=bar><a class=pill href="eng.xlsx">Excel workbook</a> <a class=pill href="eng.docx">Word document</a> <a class=pill href="../diagrams/README.md">Diagram files</a></div><nav class=toc><a class=pill href="#s0">Calculations (11)</a><a class=pill href="#s1">Interfaces (8)</a><a class=pill href="#s2">Events (1)</a><a class=pill href="#s3">Rules enforced in code (6)</a></nav>
 <section><h2>Diagrams</h2><p class=muted>Generated from the evidence; colours show grade.</p>
-<h3 class=muted>eng-calculation-flow</h3><div class=diag><pre class="mermaid">flowchart LR
+<h3 class=muted>eng-calculation-flow</h3><div class=diag><div class=dtools hidden><button type=button data-z="-" title="Zoom out" aria-label="Zoom out">−</button><button type=button data-z="+" title="Zoom in" aria-label="Zoom in">+</button><button type=button data-z="fit" title="Fit the whole diagram in view">Fit</button><button type=button data-z="1" title="Actual size">100%</button><button type=button data-z="fs" title="Full screen">Full screen</button><span class=zl>100%</span><span class=hint>Drag to pan · Ctrl/⌘ + wheel to zoom · drag the corner to resize</span></div><div class=dview tabindex=0 aria-label="Diagram eng-calculation-flow"><pre class="mermaid">flowchart LR
   subgraph cd_childcare[&quot;childcare calculations&quot;]
     CAL_08[[&quot;Open childcare account&lt;br/&gt;&lt;small&gt;PRC_OPEN_CC_ACCOUNT&lt;/small&gt;&quot;]]
     CAL_09[[&quot;Check childcare eligibility&lt;br/&gt;&lt;small&gt;PRC_CHECK_ELIGIBILITY&lt;/small&gt;&quot;]]
@@ -104,7 +114,7 @@ footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
   classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
   classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
   class CAL_01,CAL_02,CAL_03,CAL_04,CAL_05,CAL_06,CAL_07,CAL_08,CAL_09,CAL_10,CAL_11 gC
-</pre></div>
+</pre></div></div>
 </section>
 <section id="s0"><h2>Calculations <span class=muted>(11)</span></h2><p class=lead>Batch jobs and stored procedures, with the tables they read and change. Changes across domains are what the split must replace.</p>
 <input class=f data-t="t0" placeholder="Filter 11 rows" aria-label="Filter Calculations"><div class=tw><table id="t0"><thead><tr><th>ID</th><th>Program</th><th>Title</th><th>Capability</th><th>Team</th><th>Domain</th><th>Reads</th><th>Changes</th><th>Columns changed</th><th>Frequency</th><th>Grade</th><th>Evidence</th></tr></thead><tbody><tr><td>CAL-01</td><td>PRC_REGISTER_PERSON</td><td>Register person</td><td>Register Customer</td><td>Customer Services</td><td>Customer</td><td></td><td>TC_PERSON, TC_ADDRESS</td><td></td><td>On demand</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 2)</td></tr><tr><td>CAL-02</td><td>PRC_ALLOCATE_NINO</td><td>Allocate NI number</td><td>Allocate NI Number</td><td>NI Operations</td><td>National Insurance</td><td></td><td>TC_PERSON</td><td>TC_PERSON.NI_NUMBER</td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 3); code-examples/taxcore_procedures.sql (line 15) +1</td></tr><tr><td>CAL-03</td><td>PRC_LOAD_RETURNS</td><td>Load employer returns</td><td>Process Employer Returns</td><td>PAYE Operations</td><td>PAYE</td><td>TC_EMPLOYER</td><td>TC_EMPLOYMENT, TC_PAY_PERIOD</td><td></td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 4)</td></tr><tr><td>CAL-04</td><td>PRC_CALC_PAYE</td><td>Calculate PAYE</td><td>Calculate PAYE</td><td>PAYE Operations</td><td>PAYE</td><td>TC_TAX_CODE</td><td>TC_PAY_PERIOD</td><td></td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 5)</td></tr><tr><td>CAL-05</td><td>PRC_ISSUE_TAX_CODE</td><td>Issue tax codes</td><td>Issue Tax Code</td><td>PAYE Operations</td><td>PAYE</td><td>TC_EMPLOYMENT</td><td>TC_TAX_CODE</td><td></td><td>Weekly</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 6)</td></tr><tr><td>CAL-06</td><td>PRC_CALC_NIC</td><td>Calculate NI contributions</td><td>Calculate NI Contributions</td><td>NI Operations</td><td>National Insurance</td><td>TC_PAY_PERIOD, TC_EMPLOYMENT, TC_PERSON</td><td>TC_NI_CONTRIBUTION</td><td></td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 7); code-examples/taxcore_procedures.sql (line 3) +1</td></tr><tr><td>CAL-07</td><td>PRC_UPDATE_NI_RECORD</td><td>Update NI record</td><td>Maintain NI Record</td><td>NI Operations</td><td>National Insurance</td><td>TC_NI_CONTRIBUTION</td><td>TC_NI_RECORD</td><td></td><td>Year end</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 8)</td></tr><tr><td>CAL-08</td><td>PRC_OPEN_CC_ACCOUNT</td><td>Open childcare account</td><td>Open Childcare Account</td><td>Family Support</td><td>Childcare</td><td>TC_PERSON</td><td>TC_CHILDCARE_ACCOUNT, TC_CHILD</td><td></td><td>On demand</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 9)</td></tr><tr><td>CAL-09</td><td>PRC_CHECK_ELIGIBILITY</td><td>Check childcare eligibility</td><td>Check Childcare Eligibility</td><td>Family Support</td><td>Childcare</td><td>TC_CHILDCARE_ACCOUNT, TC_EMPLOYMENT, TC_PAY_PERIOD</td><td>TC_ELIGIBILITY_CHECK</td><td></td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 10); code-examples/taxcore_procedures.sql (line 21) +1</td></tr><tr><td>CAL-10</td><td>PRC_CALC_TOPUP</td><td>Calculate childcare top-up</td><td>Calculate Childcare Top-up</td><td>Family Support</td><td>Childcare</td><td></td><td>TC_CHILDCARE_PAYMENT</td><td>TC_CHILDCARE_PAYMENT.TOPUP_AMOUNT</td><td>Real time</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 11); code-examples/taxcore_procedures.sql (line 33) +1</td></tr><tr><td>CAL-11</td><td>PRC_CLOSE_DECEASED</td><td>Close accounts of deceased</td><td>Record Life Events</td><td>Customer Services</td><td>Customer</td><td>TC_PERSON</td><td>TC_CHILDCARE_ACCOUNT, TC_NI_RECORD</td><td>TC_CHILDCARE_ACCOUNT.STATUS</td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 12); code-examples/taxcore_procedures.sql (line 39) +1</td></tr></tbody></table></div>
@@ -121,6 +131,33 @@ footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
 document.querySelectorAll('input.f').forEach(inp=>inp.addEventListener('input',()=>{const q=inp.value.toLowerCase();
 document.querySelectorAll('#'+inp.dataset.t+' tbody tr').forEach(r=>r.hidden=q&&!r.textContent.toLowerCase().includes(q))}));
 </script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
-<script>if(window.mermaid){mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'default'})}
+<script>
+function zoomViewer(diag){
+  const view=diag.querySelector('.dview'), svg=view.querySelector('svg'), tools=diag.querySelector('.dtools'), lbl=tools.querySelector('.zl');
+  if(!svg) return;
+  const vb=svg.viewBox&&svg.viewBox.baseVal; const bb=svg.getBoundingClientRect();
+  const W=(vb&&vb.width)||bb.width, H=(vb&&vb.height)||bb.height; let z=1;
+  svg.removeAttribute('style'); tools.hidden=false;
+  const apply=(nz,cx,cy)=>{const old=z; z=Math.min(6,Math.max(0.1,nz));
+    const ax=(cx??view.clientWidth/2)+view.scrollLeft, ay=(cy??view.clientHeight/2)+view.scrollTop;
+    svg.setAttribute('width',W*z); svg.setAttribute('height',H*z); lbl.textContent=Math.round(z*100)+'%';
+    view.scrollLeft=ax*z/old-(cx??view.clientWidth/2); view.scrollTop=ay*z/old-(cy??view.clientHeight/2);};
+  const fit=()=>apply(Math.min((view.clientWidth-24)/W,(view.clientHeight-24)/H));
+  // open readable: fit the width, but never smaller than 75% or larger than 100%; then centre the view
+  apply(Math.min(1,Math.max(0.75,(view.clientWidth-24)/W)));
+  view.scrollLeft=(view.scrollWidth-view.clientWidth)/2; view.scrollTop=(view.scrollHeight-view.clientHeight)/2;
+  tools.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; const k=b.dataset.z;
+    if(k==='+') apply(z*1.25); else if(k==='-') apply(z/1.25); else if(k==='fit') fit(); else if(k==='1') apply(1);
+    else if(k==='fs'){ (document.fullscreenElement?document.exitFullscreen():diag.requestFullscreen()).catch(()=>{b.textContent='Full screen unavailable'}); }});
+  view.addEventListener('wheel',e=>{if(!(e.ctrlKey||e.metaKey)) return; e.preventDefault(); const r=view.getBoundingClientRect();
+    apply(z*(e.deltaY<0?1.15:1/1.15),e.clientX-r.left,e.clientY-r.top);},{passive:false});
+  view.addEventListener('keydown',e=>{if(e.key==='+'||e.key==='=') apply(z*1.25); else if(e.key==='-') apply(z/1.25); else if(e.key==='0') fit();});
+  let d=null; view.addEventListener('pointerdown',e=>{if(e.button!==0) return; d={x:e.clientX,y:e.clientY,l:view.scrollLeft,t:view.scrollTop}; view.classList.add('drag');});
+  window.addEventListener('pointermove',e=>{if(!d) return; view.scrollLeft=d.l-(e.clientX-d.x); view.scrollTop=d.t-(e.clientY-d.y);});
+  window.addEventListener('pointerup',()=>{d=null; view.classList.remove('drag');});
+  document.addEventListener('fullscreenchange',()=>{if(document.fullscreenElement===diag||!document.fullscreenElement) fit();});
+}
+if(window.mermaid){mermaid.initialize({startOnLoad:false,securityLevel:'loose',theme:'default'});
+  mermaid.run({querySelector:'pre.mermaid'}).then(()=>document.querySelectorAll('.diag').forEach(zoomViewer)).catch(e=>console.warn(e));}
 else{document.querySelectorAll('pre.mermaid').forEach(p=>{p.classList.remove('mermaid');p.classList.add('raw');
 p.insertAdjacentHTML('beforebegin','<p class=muted>Diagram source (connect to the internet to render it, or open the .mmd file in any Mermaid viewer):</p>')})}</script></body></html>
