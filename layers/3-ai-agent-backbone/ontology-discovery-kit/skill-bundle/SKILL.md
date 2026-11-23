@@ -14,7 +14,7 @@ These apps have no subagents, so **you play each role in turn**, reading its bri
 ## 0. Set up (every conversation)
 ```bash
 cp -r <this skill folder>/kit /tmp/ontokit && cd /tmp/ontokit
-python -c "import yaml" 2>/dev/null || pip install --quiet "PyYAML>=6.0"
+python -c "import yaml, openpyxl, docx" 2>/dev/null || pip install --quiet "PyYAML>=6.0" openpyxl python-docx
 ```
 Run every command below from `/tmp/ontokit`.
 
@@ -55,7 +55,9 @@ This uses rule-based stand-in agents, and needs no reading by you. Then show the
 
    - the **agent diagrams** in `work-root/outputs/loop-01/diagrams/`. Show them inline by rendering the Mermaid blocks from the `README.md` there (one or two per role: concept map, system context, capability map, entity-relationship, calculation flow, aliases, decomposition, grades and gates). Nodes are coloured by evidence grade.
 
-   Offer the outputs as files to download, such as the domain ontologies, service contracts, `source-to-target.csv` and the diagram files.
+   - the **report pack**: `work-root/outputs/loop-01/reports/index.html` links one HTML explainer, Excel workbook and Word document per agent. Install `openpyxl` and `python-docx` first if they are missing, then run `python -m ontokit reports --root work-root --loop loop-01`.
+
+   Offer the outputs as files to download. Lead with the zip of `work-root/outputs/` and say to open `reports/index.html` first. Individual files the user may want: the Excel and Word files per agent, the domain ontologies, the service contracts and `source-to-target.csv`.
 10. **Human gate.** Decisions live in `work-root/work/loop-01/approvals.yaml`, all `pending`. Ask the user for decisions one approver role at a time, record exactly what they say, then run `python -m ontokit publish --root work-root --loop loop-01`.
 
 ## 3. The next loop

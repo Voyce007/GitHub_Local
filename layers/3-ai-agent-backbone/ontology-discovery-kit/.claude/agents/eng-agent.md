@@ -31,6 +31,14 @@ The pipeline draws `eng-calculation-flow` in `<root>/outputs/<loop>/diagrams/` f
 - Give catalogue rows a `title`, which becomes the box label, with the program name underneath.
 - Arrows that cross a domain boundary are the evidence for the split. A missing read or write means a missing dependency.
 
+## Your report pack
+Your results are also published for people who will not read JSON, in `<root>/outputs/<loop>/reports/`:
+- `eng.html`: an explainer with your diagrams and searchable tables
+- `eng.xlsx`: one sheet per table, with grade and evidence citations on every row
+- `eng.docx`: the same content as a Word document.
+
+All of them are linked from `reports/index.html`. They are generated from the graded model, so their completeness depends on your findings, exactly as the diagrams do.
+
 ## Rules
 1. **Cite verbatim**, one proposal per source. Catalogue rows, diagram edges and prose mentions of the same interface are separate proposals.
 2. **Code enums are strong evidence of the values in use**, but they come from an example extract. Propose them as written. If documents list different values, don't pick a winner; the contradiction goes to the Business Domain Owner.

@@ -1,0 +1,76 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Enterprise Architect · loop-02</title><style>
+:root{--bg:#F5F6F8;--surface:#fff;--sunk:#EEF0F4;--ink:#18202A;--muted:#5A6372;--line:#D9DDE4;--accent:#3A4AA8;--accent-soft:#E6E9F7;
+--gA:#1D7A44;--gB:#2867A0;--gC:#9A6210;--gD:#6B7483;--gX:#B23824}
+@media (prefers-color-scheme:dark){:root{--bg:#10141A;--surface:#171C24;--sunk:#0D1116;--ink:#E5E8EE;--muted:#98A1AF;--line:#2A313C;
+--accent:#929FF2;--accent-soft:#222A4C;--gA:#52C283;--gB:#66A9E2;--gC:#E2A64B;--gD:#9AA3B1;--gX:#F27D64;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left)) 64px max(16px,env(safe-area-inset-right))}
+a{color:var(--accent)}h1,h2,h3{line-height:1.2;margin:0}h1{font-size:1.9rem}h2{font-size:1.3rem;margin-top:8px}
+.eyebrow{font:500 .72rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}.lead{color:var(--muted);max-width:75ch}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.pill{display:inline-flex;gap:6px;align-items:center;padding:4px 11px;border-radius:999px;
+border:1px solid var(--line);background:var(--surface);font-size:.85rem;text-decoration:none;color:var(--ink)}a.pill:hover{border-color:var(--accent)}
+.g{display:inline-block;min-width:1.8em;text-align:center;border-radius:5px;padding:0 5px;font:600 .8rem ui-monospace,Menlo,monospace;
+color:var(--gc);background:color-mix(in srgb,var(--gc) 15%,transparent);border:1px solid color-mix(in srgb,var(--gc) 40%,transparent)}
+.g-A{--gc:var(--gA)}.g-B{--gc:var(--gB)}.g-C{--gc:var(--gC)}.g-D{--gc:var(--gD)}.g-X{--gc:var(--gX)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:8px;align-content:start;min-width:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.stat{background:var(--surface);border:1px solid var(--line);
+border-radius:10px;padding:10px 14px}.stat b{display:block;font-size:1.5rem}
+.gbar{display:flex;height:16px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}.gbar i{display:block}
+section{display:grid;gap:10px;margin-top:26px}.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);max-height:640px}
+table{border-collapse:collapse;width:100%;font-size:.86rem}th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{position:sticky;top:0;background:var(--sunk);font:600 .72rem ui-monospace,Menlo,monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td:first-child{white-space:nowrap}td.ev{color:var(--muted);font-size:.8rem;max-width:340px}input.f{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);width:min(100%,320px)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+pre.mermaid{margin:0}pre.raw{white-space:pre-wrap;font-size:.75rem;color:#333}.notes{background:var(--surface);border:1px solid var(--line);
+border-radius:10px;padding:14px 18px;max-height:700px;overflow:auto}.notes h1,.notes h2,.notes h3{margin:14px 0 6px}
+footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
+</style></head><body><div class=wrap><p class=eyebrow><a href="index.html">← All agents</a> · loop-02</p><h1>Enterprise Architect</h1>
+<p class=lead><b>Which systems exist, and how do they connect?</b> Systems and their aliases and roles, the data flows between them, and the business capabilities with their accountable teams.</p><div class=bar><a class=pill href="ea.xlsx">Excel workbook</a> <a class=pill href="ea.docx">Word document</a> <a class=pill href="../diagrams/README.md">Diagram files</a></div><nav class=toc><a class=pill href="#s0">Systems (8)</a><a class=pill href="#s1">Data flows (10)</a><a class=pill href="#s2">Business capabilities (0)</a></nav>
+<section><h2>Diagrams</h2><p class=muted>Generated from the evidence; colours show grade.</p>
+<h3 class=muted>ea-system-context</h3><div class=diag><pre class="mermaid">flowchart LR
+  SYS_01[&quot;&lt;b&gt;CustHub&lt;/b&gt;&lt;br/&gt;system of record (candidate): Customer&lt;br/&gt;&lt;i&gt;aka Customer Hub, CRM, CH&lt;/i&gt;&quot;]
+  SYS_02[&quot;&lt;b&gt;LedgerOne&lt;/b&gt;&lt;br/&gt;system of record (candidate): Invoice&lt;br/&gt;&lt;i&gt;aka ERP, GL, LO&lt;/i&gt;&quot;]
+  SYS_03[&quot;&lt;b&gt;OrderFlow&lt;/b&gt;&lt;br/&gt;processing: customer orders&lt;br/&gt;&lt;i&gt;aka OMS, Order Management System, OF&lt;/i&gt;&quot;]
+  SYS_04[&quot;&lt;b&gt;Web Shop&lt;/b&gt;&lt;br/&gt;channel&lt;br/&gt;&lt;i&gt;aka WS&lt;/i&gt;&quot;]
+  SYS_05[&quot;&lt;b&gt;Partner Portal&lt;/b&gt;&lt;br/&gt;channel&lt;br/&gt;&lt;i&gt;aka PP&lt;/i&gt;&quot;]
+  SYS_06[&quot;&lt;b&gt;RiskReg&lt;/b&gt;&lt;br/&gt;system of record (candidate): Risk&lt;br/&gt;&lt;i&gt;aka GRC platform, RR&lt;/i&gt;&quot;]
+  SYS_08[&quot;&lt;b&gt;TaxEngine&lt;/b&gt;&lt;br/&gt;calculation: sales tax for every invoice line&lt;br/&gt;&lt;i&gt;aka tax-engine&lt;/i&gt;&quot;]
+  SYS_07[&quot;&lt;b&gt;DataMart&lt;/b&gt;&lt;br/&gt;reporting / analytics (candidate)&lt;br/&gt;&lt;i&gt;aka MI warehouse, DM&lt;/i&gt;&quot;]
+  SYS_04 --&gt;|&quot;ORD-01 order request&quot;| SYS_03
+  SYS_05 --&gt;|&quot;registration&quot;| SYS_01
+  SYS_01 --&gt;|&quot;CUST-FIN-01&quot;| SYS_02
+  SYS_03 --&gt;|&quot;OrderFulfilled&quot;| SYS_02
+  SYS_02 --&gt;|&quot;MI-01 nightly&quot;| SYS_07
+  SYS_01 --&gt;|&quot;MI-02 nightly&quot;| SYS_07
+  SYS_06 --&gt;|&quot;RISK-01 weekly&quot;| SYS_07
+  SYS_04 --&gt;|&quot;runtime dependency (config)&quot;| SYS_01
+  SYS_04 --&gt;|&quot;runtime dependency (config)&quot;| SYS_02
+  SYS_04 --&gt;|&quot;runtime dependency (config)&quot;| SYS_08
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class SYS_01 gA
+  class SYS_02,SYS_03,SYS_04,SYS_05,SYS_06,SYS_08,SYS_07 gB
+</pre></div>
+</section>
+<section id="s0"><h2>Systems <span class=muted>(8)</span></h2><p class=lead>Candidate systems, every name they go by, and their candidate role. A system with no role needs an owner to explain it.</p>
+<input class=f data-t="t0" placeholder="Filter 8 rows" aria-label="Filter Systems"><div class=tw><table id="t0"><thead><tr><th>ID</th><th>System</th><th>Also known as</th><th>Roles</th><th>Grade</th><th>Sources</th><th>Evidence</th></tr></thead><tbody><tr><td>SYS-01</td><td>CustHub</td><td>Customer Hub, CRM, CH</td><td>system of record (candidate): Customer, data-holding application (candidate)</td><td><span class="g g-A" title="Confirmed by a real system artefact">A</span></td><td>8</td><td class="ev">loop-01/docs/customer-onboarding-process.md (line 11); loop-01/diagrams/context-diagram.mmd (line 3) +7</td></tr><tr><td>SYS-02</td><td>LedgerOne</td><td>ERP, GL, LO</td><td>system of record (candidate): Invoice, system of record (candidate): general ledger, database: postgresql, data-holding application (candidate)</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>8</td><td class="ev">loop-01/docs/customer-onboarding-process.md (line 12); loop-01/docs/order-to-cash-overview.md (line 9) +8</td></tr><tr><td>SYS-03</td><td>OrderFlow</td><td>OMS, Order Management System, OF</td><td>processing: customer orders, data-holding application (candidate)</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>6</td><td class="ev">loop-01/docs/customer-onboarding-process.md (line 13); loop-01/docs/order-to-cash-overview.md (line 7) +5</td></tr><tr><td>SYS-04</td><td>Web Shop</td><td>WS</td><td>channel</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>4</td><td class="ev">loop-01/docs/customer-onboarding-process.md (line 17); loop-01/diagrams/context-diagram.mmd (line 2) +2</td></tr><tr><td>SYS-05</td><td>Partner Portal</td><td>PP</td><td>channel</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>2</td><td class="ev">loop-01/docs/customer-onboarding-process.md (line 17); loop-01/diagrams/context-diagram.mmd (line 3)</td></tr><tr><td>SYS-06</td><td>RiskReg</td><td>GRC platform, RR</td><td>system of record (candidate): Risk, data-holding application (candidate)</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>4</td><td class="ev">loop-01/docs/risk-management-policy.md (line 8); loop-01/diagrams/context-diagram.mmd (line 8) +2</td></tr><tr><td>SYS-08</td><td>TaxEngine</td><td>tax-engine</td><td>calculation: sales tax for every invoice line</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>2</td><td class="ev">answers/sme-answers-2026-12-10.md (line 19); loop-01/code-examples/application.properties (line 5)</td></tr><tr><td>SYS-07</td><td>DataMart</td><td>MI warehouse, DM</td><td>reporting / analytics (candidate)</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>3</td><td class="ev">loop-01/diagrams/context-diagram.mmd (line 6); loop-01/spreadsheets/interface-catalogue.csv (line 5) +3</td></tr></tbody></table></div>
+</section>
+<section id="s1"><h2>Data flows <span class=muted>(10)</span></h2><p class=lead>Data moving between systems, from catalogues, diagrams, prose and config.</p>
+<input class=f data-t="t1" placeholder="Filter 10 rows" aria-label="Filter Data flows"><div class=tw><table id="t1"><thead><tr><th>ID</th><th>From</th><th>To</th><th>Label</th><th>Grade</th><th>Evidence</th></tr></thead><tbody><tr><td>FLW-01</td><td>Web Shop</td><td>OrderFlow</td><td>ORD-01 order request</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">loop-01/diagrams/context-diagram.mmd (line 2); loop-01/spreadsheets/interface-catalogue.csv (line 3) +1</td></tr><tr><td>FLW-02</td><td>Partner Portal</td><td>CustHub</td><td>registration</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">loop-01/diagrams/context-diagram.mmd (line 3)</td></tr><tr><td>FLW-03</td><td>CustHub</td><td>LedgerOne</td><td>CUST-FIN-01</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">loop-01/diagrams/context-diagram.mmd (line 4); loop-01/spreadsheets/interface-catalogue.csv (line 2)</td></tr><tr><td>FLW-04</td><td>OrderFlow</td><td>LedgerOne</td><td>OrderFulfilled</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">loop-01/diagrams/context-diagram.mmd (line 5); loop-01/spreadsheets/interface-catalogue.csv (line 4)</td></tr><tr><td>FLW-05</td><td>LedgerOne</td><td>DataMart</td><td>MI-01 nightly</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">loop-01/diagrams/context-diagram.mmd (line 6); loop-01/spreadsheets/interface-catalogue.csv (line 5)</td></tr><tr><td>FLW-06</td><td>CustHub</td><td>DataMart</td><td>MI-02 nightly</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">loop-01/diagrams/context-diagram.mmd (line 7); loop-01/spreadsheets/interface-catalogue.csv (line 6)</td></tr><tr><td>FLW-07</td><td>RiskReg</td><td>DataMart</td><td>RISK-01 weekly</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">loop-01/diagrams/context-diagram.mmd (line 8); loop-01/spreadsheets/interface-catalogue.csv (line 7)</td></tr><tr><td>FLW-08</td><td>Web Shop</td><td>CustHub</td><td>runtime dependency (config)</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">loop-01/code-examples/application.properties (line 2)</td></tr><tr><td>FLW-09</td><td>Web Shop</td><td>LedgerOne</td><td>runtime dependency (config)</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">loop-01/code-examples/application.properties (line 4)</td></tr><tr><td>FLW-10</td><td>Web Shop</td><td>TaxEngine</td><td>runtime dependency (config)</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">loop-01/code-examples/application.properties (line 5)</td></tr></tbody></table></div>
+</section>
+<section id="s2"><h2>Business capabilities <span class=muted>(0)</span></h2><p class=lead>Capabilities and their one accountable team. In a decomposition, these decide domain ownership.</p>
+<p class=muted>None in this loop.</p>
+</section><footer>Generated by ontokit on 2026-11-23 from the graded model. Grades: A confirmed by a real system artefact · B two or more independent sources agree · C single source · D assumed, not yet evidenced · X sources contradict</footer></div><script>
+document.querySelectorAll('input.f').forEach(inp=>inp.addEventListener('input',()=>{const q=inp.value.toLowerCase();
+document.querySelectorAll('#'+inp.dataset.t+' tbody tr').forEach(r=>r.hidden=q&&!r.textContent.toLowerCase().includes(q))}));
+</script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>if(window.mermaid){mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'default'})}
+else{document.querySelectorAll('pre.mermaid').forEach(p=>{p.classList.remove('mermaid');p.classList.add('raw');
+p.insertAdjacentHTML('beforebegin','<p class=muted>Diagram source (connect to the internet to render it, or open the .mmd file in any Mermaid viewer):</p>')})}</script></body></html>

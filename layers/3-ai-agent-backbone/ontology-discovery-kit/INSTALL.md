@@ -9,7 +9,9 @@ There are two bundles. Pick the one that matches how you use Claude.
 
 Both use the same pipeline and the same checks. Every claim must quote its source, grades are computed, and only named people approve.
 
-**Requirements:** Python 3.10 or newer, and PyYAML (the installer adds it if missing). No hosted services and no API keys.
+**Requirements:** Python 3.10 or newer, PyYAML, and, for the Excel and Word report packs, openpyxl and python-docx. The installer adds any that are missing. No hosted services and no API keys.
+
+**After every run, open `outputs/<loop>/reports/index.html`.** It links every agent's HTML explainer, Excel workbook, Word document and diagrams, plus every other output.
 
 ---
 

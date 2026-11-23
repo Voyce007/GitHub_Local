@@ -42,6 +42,14 @@ The pipeline draws `steward-aliases` and `steward-decomposition` in `<root>/outp
 - In `steward-notes.md`, under "Diagram review", list anything a diagram shows that looks wrong or is missing: a link that should not exist, a flow with no interface, a domain dependency the calculation flow implies but the decomposition lacks.
 - Never edit diagrams by hand. They are regenerated from the model, so fix the cause instead.
 
+## Your report pack
+Your results are also published for people who will not read JSON, in `<root>/outputs/<loop>/reports/`:
+- `steward.html`: an explainer with your diagrams and searchable tables
+- `steward.xlsx`: one sheet per table, with grade and evidence citations on every row
+- `steward.docx`: the same content as a Word document.
+
+All of them are linked from `reports/index.html`. They are generated from the graded model, so their completeness depends on your findings, exactly as the diagrams do.
+
 ## Never
 - Edit `model.json`, `unknowns.json` or the approvals file.
 - Approve, reject or resolve anything.

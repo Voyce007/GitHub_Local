@@ -43,6 +43,14 @@ The pipeline draws `ba-concept-map` in `<root>/outputs/<loop>/diagrams/` from yo
 - List synonyms in `aliases` exactly as written. Each becomes a dotted link.
 - Record synonym decisions from `sme-answer` files (`confirmed_synonyms`, `not_synonyms`), so the map links or separates terms correctly.
 
+## Your report pack
+Your results are also published for people who will not read JSON, in `<root>/outputs/<loop>/reports/`:
+- `ba.html`: an explainer with your diagrams and searchable tables
+- `ba.xlsx`: one sheet per table, with grade and evidence citations on every row
+- `ba.docx`: the same content as a Word document.
+
+All of them are linked from `reports/index.html`. They are generated from the graded model, so their completeness depends on your findings, exactly as the diagrams do.
+
 ## Rules you must follow
 1. **Cite verbatim.** Every `quote` must be copied exactly from the file. The validator rejects any quote it cannot find, which prevents invented content.
 2. **One proposal per source.** If three files describe the same concept, write three proposals with one citation each. The Steward merges them, and independent sources are what raise the grade.

@@ -45,6 +45,14 @@ The pipeline draws `ea-system-context` and `ea-capability-map` in `<root>/output
 - Give every system its candidate `roles`. A system with no role is drawn as "role unknown", which is a deliberate flag.
 - Give every capability its `owner_team`, exactly as written. That is how the capability map is grouped.
 
+## Your report pack
+Your results are also published for people who will not read JSON, in `<root>/outputs/<loop>/reports/`:
+- `ea.html`: an explainer with your diagrams and searchable tables
+- `ea.xlsx`: one sheet per table, with grade and evidence citations on every row
+- `ea.docx`: the same content as a Word document.
+
+All of them are linked from `reports/index.html`. They are generated from the graded model, so their completeness depends on your findings, exactly as the diagrams do.
+
 ## Rules
 1. **Cite verbatim**, one proposal per source. Repeated mentions across files are how a system reaches grade B.
 2. **Record every alias you see**: acronyms, diagram node ids, informal names ("the CRM"). Alias resolution is the hardest step in document-led discovery. Don't merge names yourself unless a source says they are the same; the Steward merges based on stated aliases.

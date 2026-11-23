@@ -1,0 +1,126 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Engineer · loop-01</title><style>
+:root{--bg:#F5F6F8;--surface:#fff;--sunk:#EEF0F4;--ink:#18202A;--muted:#5A6372;--line:#D9DDE4;--accent:#3A4AA8;--accent-soft:#E6E9F7;
+--gA:#1D7A44;--gB:#2867A0;--gC:#9A6210;--gD:#6B7483;--gX:#B23824}
+@media (prefers-color-scheme:dark){:root{--bg:#10141A;--surface:#171C24;--sunk:#0D1116;--ink:#E5E8EE;--muted:#98A1AF;--line:#2A313C;
+--accent:#929FF2;--accent-soft:#222A4C;--gA:#52C283;--gB:#66A9E2;--gC:#E2A64B;--gD:#9AA3B1;--gX:#F27D64;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left)) 64px max(16px,env(safe-area-inset-right))}
+a{color:var(--accent)}h1,h2,h3{line-height:1.2;margin:0}h1{font-size:1.9rem}h2{font-size:1.3rem;margin-top:8px}
+.eyebrow{font:500 .72rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}.lead{color:var(--muted);max-width:75ch}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.pill{display:inline-flex;gap:6px;align-items:center;padding:4px 11px;border-radius:999px;
+border:1px solid var(--line);background:var(--surface);font-size:.85rem;text-decoration:none;color:var(--ink)}a.pill:hover{border-color:var(--accent)}
+.g{display:inline-block;min-width:1.8em;text-align:center;border-radius:5px;padding:0 5px;font:600 .8rem ui-monospace,Menlo,monospace;
+color:var(--gc);background:color-mix(in srgb,var(--gc) 15%,transparent);border:1px solid color-mix(in srgb,var(--gc) 40%,transparent)}
+.g-A{--gc:var(--gA)}.g-B{--gc:var(--gB)}.g-C{--gc:var(--gC)}.g-D{--gc:var(--gD)}.g-X{--gc:var(--gX)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:8px;align-content:start;min-width:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.stat{background:var(--surface);border:1px solid var(--line);
+border-radius:10px;padding:10px 14px}.stat b{display:block;font-size:1.5rem}
+.gbar{display:flex;height:16px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}.gbar i{display:block}
+section{display:grid;gap:10px;margin-top:26px}.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);max-height:640px}
+table{border-collapse:collapse;width:100%;font-size:.86rem}th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{position:sticky;top:0;background:var(--sunk);font:600 .72rem ui-monospace,Menlo,monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td:first-child{white-space:nowrap}td.ev{color:var(--muted);font-size:.8rem;max-width:340px}input.f{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);width:min(100%,320px)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+pre.mermaid{margin:0}pre.raw{white-space:pre-wrap;font-size:.75rem;color:#333}.notes{background:var(--surface);border:1px solid var(--line);
+border-radius:10px;padding:14px 18px;max-height:700px;overflow:auto}.notes h1,.notes h2,.notes h3{margin:14px 0 6px}
+footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
+</style></head><body><div class=wrap><p class=eyebrow><a href="index.html">← All agents</a> · loop-01</p><h1>Engineer</h1>
+<p class=lead><b>How is data actually exchanged and calculated?</b> Batch jobs and stored procedures with the tables they read and change, interfaces, events and rules enforced in code.</p><div class=bar><a class=pill href="eng.xlsx">Excel workbook</a> <a class=pill href="eng.docx">Word document</a> <a class=pill href="../diagrams/README.md">Diagram files</a></div><nav class=toc><a class=pill href="#s0">Calculations (11)</a><a class=pill href="#s1">Interfaces (8)</a><a class=pill href="#s2">Events (1)</a><a class=pill href="#s3">Rules enforced in code (6)</a></nav>
+<section><h2>Diagrams</h2><p class=muted>Generated from the evidence; colours show grade.</p>
+<h3 class=muted>eng-calculation-flow</h3><div class=diag><pre class="mermaid">flowchart LR
+  subgraph cd_childcare[&quot;childcare calculations&quot;]
+    CAL_08[[&quot;Open childcare account&lt;br/&gt;&lt;small&gt;PRC_OPEN_CC_ACCOUNT&lt;/small&gt;&quot;]]
+    CAL_09[[&quot;Check childcare eligibility&lt;br/&gt;&lt;small&gt;PRC_CHECK_ELIGIBILITY&lt;/small&gt;&quot;]]
+    CAL_10[[&quot;Calculate childcare top-up&lt;br/&gt;&lt;small&gt;PRC_CALC_TOPUP&lt;/small&gt;&quot;]]
+  end
+  subgraph cd_customer[&quot;customer calculations&quot;]
+    CAL_01[[&quot;Register person&lt;br/&gt;&lt;small&gt;PRC_REGISTER_PERSON&lt;/small&gt;&quot;]]
+    CAL_11[[&quot;Close accounts of deceased&lt;br/&gt;&lt;small&gt;PRC_CLOSE_DECEASED&lt;/small&gt;&quot;]]
+  end
+  subgraph cd_ni[&quot;ni calculations&quot;]
+    CAL_02[[&quot;Allocate NI number&lt;br/&gt;&lt;small&gt;PRC_ALLOCATE_NINO&lt;/small&gt;&quot;]]
+    CAL_06[[&quot;Calculate NI contributions&lt;br/&gt;&lt;small&gt;PRC_CALC_NIC&lt;/small&gt;&quot;]]
+    CAL_07[[&quot;Update NI record&lt;br/&gt;&lt;small&gt;PRC_UPDATE_NI_RECORD&lt;/small&gt;&quot;]]
+  end
+  subgraph cd_paye[&quot;paye calculations&quot;]
+    CAL_03[[&quot;Load employer returns&lt;br/&gt;&lt;small&gt;PRC_LOAD_RETURNS&lt;/small&gt;&quot;]]
+    CAL_04[[&quot;Calculate PAYE&lt;br/&gt;&lt;small&gt;PRC_CALC_PAYE&lt;/small&gt;&quot;]]
+    CAL_05[[&quot;Issue tax codes&lt;br/&gt;&lt;small&gt;PRC_ISSUE_TAX_CODE&lt;/small&gt;&quot;]]
+  end
+  CAL_01 ==&gt; tbl_TC_PERSON
+  CAL_01 ==&gt; tbl_TC_ADDRESS
+  CAL_02 ==&gt;|&quot;NI_NUMBER&quot;| tbl_TC_PERSON
+  CAL_03 ==&gt; tbl_TC_EMPLOYMENT
+  CAL_03 ==&gt; tbl_TC_PAY_PERIOD
+  tbl_TC_EMPLOYER -.-&gt; CAL_03
+  CAL_04 ==&gt; tbl_TC_PAY_PERIOD
+  tbl_TC_TAX_CODE -.-&gt; CAL_04
+  CAL_05 ==&gt; tbl_TC_TAX_CODE
+  tbl_TC_EMPLOYMENT -.-&gt; CAL_05
+  CAL_06 ==&gt; tbl_TC_NI_CONTRIBUTION
+  tbl_TC_PAY_PERIOD -.-&gt; CAL_06
+  tbl_TC_EMPLOYMENT -.-&gt; CAL_06
+  tbl_TC_PERSON -.-&gt; CAL_06
+  CAL_07 ==&gt; tbl_TC_NI_RECORD
+  tbl_TC_NI_CONTRIBUTION -.-&gt; CAL_07
+  CAL_08 ==&gt; tbl_TC_CHILDCARE_ACCOUNT
+  CAL_08 ==&gt; tbl_TC_CHILD
+  tbl_TC_PERSON -.-&gt; CAL_08
+  CAL_09 ==&gt; tbl_TC_ELIGIBILITY_CHECK
+  tbl_TC_CHILDCARE_ACCOUNT -.-&gt; CAL_09
+  tbl_TC_EMPLOYMENT -.-&gt; CAL_09
+  tbl_TC_PAY_PERIOD -.-&gt; CAL_09
+  CAL_10 ==&gt;|&quot;TOPUP_AMOUNT&quot;| tbl_TC_CHILDCARE_PAYMENT
+  CAL_11 ==&gt;|&quot;STATUS&quot;| tbl_TC_CHILDCARE_ACCOUNT
+  CAL_11 ==&gt; tbl_TC_NI_RECORD
+  tbl_TC_PERSON -.-&gt; CAL_11
+  subgraph td_childcare[&quot;childcare data&quot;]
+    tbl_TC_CHILD[(&quot;TC_CHILD&quot;)]
+    tbl_TC_CHILDCARE_ACCOUNT[(&quot;TC_CHILDCARE_ACCOUNT&quot;)]
+    tbl_TC_CHILDCARE_PAYMENT[(&quot;TC_CHILDCARE_PAYMENT&quot;)]
+    tbl_TC_ELIGIBILITY_CHECK[(&quot;TC_ELIGIBILITY_CHECK&quot;)]
+  end
+  subgraph td_customer[&quot;customer data&quot;]
+    tbl_TC_ADDRESS[(&quot;TC_ADDRESS&quot;)]
+    tbl_TC_PERSON[(&quot;TC_PERSON&quot;)]
+  end
+  subgraph td_ni[&quot;ni data&quot;]
+    tbl_TC_NI_CONTRIBUTION[(&quot;TC_NI_CONTRIBUTION&quot;)]
+    tbl_TC_NI_RECORD[(&quot;TC_NI_RECORD&quot;)]
+  end
+  subgraph td_paye[&quot;paye data&quot;]
+    tbl_TC_EMPLOYER[(&quot;TC_EMPLOYER&quot;)]
+    tbl_TC_EMPLOYMENT[(&quot;TC_EMPLOYMENT&quot;)]
+    tbl_TC_PAY_PERIOD[(&quot;TC_PAY_PERIOD&quot;)]
+    tbl_TC_TAX_CODE[(&quot;TC_TAX_CODE&quot;)]
+  end
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class CAL_01,CAL_02,CAL_03,CAL_04,CAL_05,CAL_06,CAL_07,CAL_08,CAL_09,CAL_10,CAL_11 gC
+</pre></div>
+</section>
+<section id="s0"><h2>Calculations <span class=muted>(11)</span></h2><p class=lead>Batch jobs and stored procedures, with the tables they read and change. Changes across domains are what the split must replace.</p>
+<input class=f data-t="t0" placeholder="Filter 11 rows" aria-label="Filter Calculations"><div class=tw><table id="t0"><thead><tr><th>ID</th><th>Program</th><th>Title</th><th>Capability</th><th>Team</th><th>Domain</th><th>Reads</th><th>Changes</th><th>Columns changed</th><th>Frequency</th><th>Grade</th><th>Evidence</th></tr></thead><tbody><tr><td>CAL-01</td><td>PRC_REGISTER_PERSON</td><td>Register person</td><td>Register Customer</td><td>Customer Services</td><td>Customer</td><td></td><td>TC_PERSON, TC_ADDRESS</td><td></td><td>On demand</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 2)</td></tr><tr><td>CAL-02</td><td>PRC_ALLOCATE_NINO</td><td>Allocate NI number</td><td>Allocate NI Number</td><td>NI Operations</td><td>National Insurance</td><td></td><td>TC_PERSON</td><td>TC_PERSON.NI_NUMBER</td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 3); code-examples/taxcore_procedures.sql (line 15) +1</td></tr><tr><td>CAL-03</td><td>PRC_LOAD_RETURNS</td><td>Load employer returns</td><td>Process Employer Returns</td><td>PAYE Operations</td><td>PAYE</td><td>TC_EMPLOYER</td><td>TC_EMPLOYMENT, TC_PAY_PERIOD</td><td></td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 4)</td></tr><tr><td>CAL-04</td><td>PRC_CALC_PAYE</td><td>Calculate PAYE</td><td>Calculate PAYE</td><td>PAYE Operations</td><td>PAYE</td><td>TC_TAX_CODE</td><td>TC_PAY_PERIOD</td><td></td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 5)</td></tr><tr><td>CAL-05</td><td>PRC_ISSUE_TAX_CODE</td><td>Issue tax codes</td><td>Issue Tax Code</td><td>PAYE Operations</td><td>PAYE</td><td>TC_EMPLOYMENT</td><td>TC_TAX_CODE</td><td></td><td>Weekly</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 6)</td></tr><tr><td>CAL-06</td><td>PRC_CALC_NIC</td><td>Calculate NI contributions</td><td>Calculate NI Contributions</td><td>NI Operations</td><td>National Insurance</td><td>TC_PAY_PERIOD, TC_EMPLOYMENT, TC_PERSON</td><td>TC_NI_CONTRIBUTION</td><td></td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 7); code-examples/taxcore_procedures.sql (line 3) +1</td></tr><tr><td>CAL-07</td><td>PRC_UPDATE_NI_RECORD</td><td>Update NI record</td><td>Maintain NI Record</td><td>NI Operations</td><td>National Insurance</td><td>TC_NI_CONTRIBUTION</td><td>TC_NI_RECORD</td><td></td><td>Year end</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 8)</td></tr><tr><td>CAL-08</td><td>PRC_OPEN_CC_ACCOUNT</td><td>Open childcare account</td><td>Open Childcare Account</td><td>Family Support</td><td>Childcare</td><td>TC_PERSON</td><td>TC_CHILDCARE_ACCOUNT, TC_CHILD</td><td></td><td>On demand</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 9)</td></tr><tr><td>CAL-09</td><td>PRC_CHECK_ELIGIBILITY</td><td>Check childcare eligibility</td><td>Check Childcare Eligibility</td><td>Family Support</td><td>Childcare</td><td>TC_CHILDCARE_ACCOUNT, TC_EMPLOYMENT, TC_PAY_PERIOD</td><td>TC_ELIGIBILITY_CHECK</td><td></td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 10); code-examples/taxcore_procedures.sql (line 21) +1</td></tr><tr><td>CAL-10</td><td>PRC_CALC_TOPUP</td><td>Calculate childcare top-up</td><td>Calculate Childcare Top-up</td><td>Family Support</td><td>Childcare</td><td></td><td>TC_CHILDCARE_PAYMENT</td><td>TC_CHILDCARE_PAYMENT.TOPUP_AMOUNT</td><td>Real time</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 11); code-examples/taxcore_procedures.sql (line 33) +1</td></tr><tr><td>CAL-11</td><td>PRC_CLOSE_DECEASED</td><td>Close accounts of deceased</td><td>Record Life Events</td><td>Customer Services</td><td>Customer</td><td>TC_PERSON</td><td>TC_CHILDCARE_ACCOUNT, TC_NI_RECORD</td><td>TC_CHILDCARE_ACCOUNT.STATUS</td><td>Daily</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/taxcore-batch-jobs.csv (line 12); code-examples/taxcore_procedures.sql (line 39) +1</td></tr></tbody></table></div>
+</section>
+<section id="s1"><h2>Interfaces <span class=muted>(8)</span></h2><p class=lead>APIs, messages, files and events in and out of the systems.</p>
+<input class=f data-t="t1" placeholder="Filter 8 rows" aria-label="Filter Interfaces"><div class=tw><table id="t1"><thead><tr><th>ID</th><th>Interface</th><th>Source</th><th>Target</th><th>Mechanism</th><th>Frequency</th><th>Payload</th><th>Grade</th><th>Evidence</th></tr></thead><tbody><tr><td>INT-01</td><td>CUS-01</td><td>CitizenPortal</td><td>TAXCORE</td><td>REST API</td><td>Real time</td><td>Customer details; addresses</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">spreadsheets/interface-catalogue.csv (line 2); diagrams/current-state.mmd (line 2)</td></tr><tr><td>INT-02</td><td>PAY-01</td><td>EmployerGateway</td><td>TAXCORE</td><td>File (XML)</td><td>Daily</td><td>Employer return</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">spreadsheets/interface-catalogue.csv (line 3); diagrams/current-state.mmd (line 3) +1</td></tr><tr><td>INT-03</td><td>NIN-02</td><td>NumberHub</td><td>TAXCORE</td><td>MQ message</td><td>Real time</td><td>National Insurance Number</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">spreadsheets/interface-catalogue.csv (line 4); diagrams/current-state.mmd (line 4)</td></tr><tr><td>INT-04</td><td>CC-01</td><td>ChildcarePortal</td><td>TAXCORE</td><td>REST API</td><td>Real time</td><td>Parent payment</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">spreadsheets/interface-catalogue.csv (line 5); diagrams/current-state.mmd (line 5)</td></tr><tr><td>INT-05</td><td>MI-01</td><td>TAXCORE</td><td>RevenueWarehouse</td><td>File (CSV)</td><td>Daily 02:00</td><td>All modules</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">spreadsheets/interface-catalogue.csv (line 6); diagrams/current-state.mmd (line 6) +1</td></tr><tr><td>INT-06</td><td>ChildcarePortal-TAXCORE-JDBC</td><td>ChildcarePortal</td><td>TAXCORE</td><td>JDBC (DB2)</td><td></td><td></td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">code-examples/childcare-portal.properties (line 2)</td></tr><tr><td>INT-07</td><td>ChildcarePortal-NumberHub-API</td><td>ChildcarePortal</td><td>NumberHub</td><td>HTTPS API</td><td></td><td></td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">code-examples/childcare-portal.properties (line 3)</td></tr><tr><td>INT-08</td><td>ChildcarePortal-IncomeVerify-API</td><td>ChildcarePortal</td><td>income-verify-svc</td><td>HTTPS API</td><td></td><td></td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">code-examples/childcare-portal.properties (line 4)</td></tr></tbody></table></div>
+</section>
+<section id="s2"><h2>Events <span class=muted>(1)</span></h2><p class=lead>Business events published today.</p>
+<input class=f data-t="t2" placeholder="Filter 1 rows" aria-label="Filter Events"><div class=tw><table id="t2"><thead><tr><th>ID</th><th>Event</th><th>Producer</th><th>Consumer</th><th>Grade</th><th>Evidence</th></tr></thead><tbody><tr><td>EVT-01</td><td>NationalInsuranceNumberAllocated</td><td>NumberHub</td><td>TAXCORE</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">spreadsheets/interface-catalogue.csv (line 4)</td></tr></tbody></table></div>
+</section>
+<section id="s3"><h2>Rules enforced in code <span class=muted>(6)</span></h2><p class=lead>Validation found in code, as plain sentences.</p>
+<input class=f data-t="t3" placeholder="Filter 6 rows" aria-label="Filter Rules enforced in code"><div class=tw><table id="t3"><thead><tr><th>ID</th><th>Rule</th><th>Grade</th><th>Evidence</th></tr></thead><tbody><tr><td>RUL-13</td><td>Quarterly eligibility reconfirmation</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">docs/childcare-scheme-guide.md (line 12); code-examples/childcare-portal.properties (line 5)</td></tr><tr><td>RUL-14</td><td>Childcare income limit</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/childcare-scheme-guide.md (line 13); code-examples/taxcore_procedures.sql (line 26)</td></tr><tr><td>RUL-23</td><td>NI contributions excluded for deceased persons</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">code-examples/taxcore_procedures.sql (line 12)</td></tr><tr><td>RUL-24</td><td>Childcare top-up rate</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">code-examples/taxcore_procedures.sql (line 36)</td></tr><tr><td>RUL-25</td><td>Close childcare accounts of deceased</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">code-examples/taxcore_procedures.sql (line 43)</td></tr><tr><td>RUL-26</td><td>NI contribution thresholds and rates</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">code-examples/taxcore_procedures.sql (line 8)</td></tr></tbody></table></div>
+</section><footer>Generated by ontokit on 2026-11-23 from the graded model. Grades: A confirmed by a real system artefact · B two or more independent sources agree · C single source · D assumed, not yet evidenced · X sources contradict</footer></div><script>
+document.querySelectorAll('input.f').forEach(inp=>inp.addEventListener('input',()=>{const q=inp.value.toLowerCase();
+document.querySelectorAll('#'+inp.dataset.t+' tbody tr').forEach(r=>r.hidden=q&&!r.textContent.toLowerCase().includes(q))}));
+</script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>if(window.mermaid){mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'default'})}
+else{document.querySelectorAll('pre.mermaid').forEach(p=>{p.classList.remove('mermaid');p.classList.add('raw');
+p.insertAdjacentHTML('beforebegin','<p class=muted>Diagram source (connect to the internet to render it, or open the .mmd file in any Mermaid viewer):</p>')})}</script></body></html>

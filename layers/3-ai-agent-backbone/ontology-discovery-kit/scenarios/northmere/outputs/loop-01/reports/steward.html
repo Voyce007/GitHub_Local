@@ -1,0 +1,135 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Ontology Steward · loop-01</title><style>
+:root{--bg:#F5F6F8;--surface:#fff;--sunk:#EEF0F4;--ink:#18202A;--muted:#5A6372;--line:#D9DDE4;--accent:#3A4AA8;--accent-soft:#E6E9F7;
+--gA:#1D7A44;--gB:#2867A0;--gC:#9A6210;--gD:#6B7483;--gX:#B23824}
+@media (prefers-color-scheme:dark){:root{--bg:#10141A;--surface:#171C24;--sunk:#0D1116;--ink:#E5E8EE;--muted:#98A1AF;--line:#2A313C;
+--accent:#929FF2;--accent-soft:#222A4C;--gA:#52C283;--gB:#66A9E2;--gC:#E2A64B;--gD:#9AA3B1;--gX:#F27D64;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left)) 64px max(16px,env(safe-area-inset-right))}
+a{color:var(--accent)}h1,h2,h3{line-height:1.2;margin:0}h1{font-size:1.9rem}h2{font-size:1.3rem;margin-top:8px}
+.eyebrow{font:500 .72rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}.lead{color:var(--muted);max-width:75ch}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.pill{display:inline-flex;gap:6px;align-items:center;padding:4px 11px;border-radius:999px;
+border:1px solid var(--line);background:var(--surface);font-size:.85rem;text-decoration:none;color:var(--ink)}a.pill:hover{border-color:var(--accent)}
+.g{display:inline-block;min-width:1.8em;text-align:center;border-radius:5px;padding:0 5px;font:600 .8rem ui-monospace,Menlo,monospace;
+color:var(--gc);background:color-mix(in srgb,var(--gc) 15%,transparent);border:1px solid color-mix(in srgb,var(--gc) 40%,transparent)}
+.g-A{--gc:var(--gA)}.g-B{--gc:var(--gB)}.g-C{--gc:var(--gC)}.g-D{--gc:var(--gD)}.g-X{--gc:var(--gX)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:8px;align-content:start;min-width:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.stat{background:var(--surface);border:1px solid var(--line);
+border-radius:10px;padding:10px 14px}.stat b{display:block;font-size:1.5rem}
+.gbar{display:flex;height:16px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}.gbar i{display:block}
+section{display:grid;gap:10px;margin-top:26px}.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);max-height:640px}
+table{border-collapse:collapse;width:100%;font-size:.86rem}th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{position:sticky;top:0;background:var(--sunk);font:600 .72rem ui-monospace,Menlo,monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td:first-child{white-space:nowrap}td.ev{color:var(--muted);font-size:.8rem;max-width:340px}input.f{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);width:min(100%,320px)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+pre.mermaid{margin:0}pre.raw{white-space:pre-wrap;font-size:.75rem;color:#333}.notes{background:var(--surface);border:1px solid var(--line);
+border-radius:10px;padding:14px 18px;max-height:700px;overflow:auto}.notes h1,.notes h2,.notes h3{margin:14px 0 6px}
+footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
+</style></head><body><div class=wrap><p class=eyebrow><a href="index.html">← All agents</a> · loop-01</p><h1>Ontology Steward</h1>
+<p class=lead><b>Is the model coherent, and what must people decide?</b> Open questions with owners, contradictions, review flags, the proposed decomposition and what changed since the last loop.</p><div class=bar><a class=pill href="steward.xlsx">Excel workbook</a> <a class=pill href="steward.docx">Word document</a> <a class=pill href="../diagrams/README.md">Diagram files</a></div><nav class=toc><a class=pill href="#s0">Open questions (12)</a><a class=pill href="#s1">Contradictions (3)</a><a class=pill href="#s2">Resolved contradictions (0)</a><a class=pill href="#s3">Review flags (6)</a><a class=pill href="#s4">Domain ownership (12)</a><a class=pill href="#s5">Business services (16)</a><a class=pill href="#s6">Moves and events (3)</a></nav>
+<section><h2>Diagrams</h2><p class=muted>Generated from the evidence; colours show grade.</p>
+<h3 class=muted>steward-aliases</h3><div class=diag><pre class="mermaid">flowchart LR
+  SYS_01([&quot;&lt;b&gt;TAXCORE&lt;/b&gt;&quot;])
+  SYS_01_a0[&quot;Core&quot;] -- same system --&gt; SYS_01
+  SYS_01_a1[&quot;TC&quot;] -- same system --&gt; SYS_01
+  SYS_02([&quot;&lt;b&gt;CitizenPortal&lt;/b&gt;&quot;])
+  SYS_02_a0[&quot;online account&quot;] -- same system --&gt; SYS_02
+  SYS_02_a1[&quot;CP&quot;] -- same system --&gt; SYS_02
+  SYS_03([&quot;&lt;b&gt;RevenueWarehouse&lt;/b&gt;&quot;])
+  SYS_03_a0[&quot;MI warehouse&quot;] -- same system --&gt; SYS_03
+  SYS_03_a1[&quot;RW&quot;] -- same system --&gt; SYS_03
+  SYS_04([&quot;&lt;b&gt;EmployerGateway&lt;/b&gt;&quot;])
+  SYS_04_a0[&quot;employer filing&quot;] -- same system --&gt; SYS_04
+  SYS_04_a1[&quot;EG&quot;] -- same system --&gt; SYS_04
+  SYS_05([&quot;&lt;b&gt;NumberHub&lt;/b&gt;&quot;])
+  SYS_05_a0[&quot;NI allocation&quot;] -- same system --&gt; SYS_05
+  SYS_05_a1[&quot;NH&quot;] -- same system --&gt; SYS_05
+  SYS_06([&quot;&lt;b&gt;ChildcarePortal&lt;/b&gt;&quot;])
+  SYS_06_a0[&quot;parent account&quot;] -- same system --&gt; SYS_06
+  SYS_06_a1[&quot;CC&quot;] -- same system --&gt; SYS_06
+  SYS_07([&quot;&lt;b&gt;income-verify-svc&lt;/b&gt;&quot;])
+  q_SYS_07{&quot;What is it? Who owns it?&quot;} -.- SYS_07
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class SYS_01,SYS_02,SYS_03,SYS_04,SYS_05,SYS_06 gB
+  class SYS_07 gC
+</pre></div>
+<h3 class=muted>steward-decomposition</h3><div class=diag><pre class="mermaid">flowchart LR
+  subgraph customer[&quot;Customer&lt;br/&gt;&lt;small&gt;Director of Customer Services&lt;/small&gt;&quot;]
+    direction TB
+    customer_data[(&quot;Address, Person&quot;)]
+    customer_s0[&quot;Register Customer&quot;]
+    customer_s1[&quot;Record Life Events&quot;]
+    customer_s2([&quot;Get Person&quot;])
+    customer_s3[[&quot;LifeEventRecorded&quot;]]
+  end
+  subgraph paye[&quot;PAYE&lt;br/&gt;&lt;small&gt;Director of Employer Taxes&lt;/small&gt;&quot;]
+    direction TB
+    paye_data[(&quot;Employer, Employment, Pay Period, Tax Code&quot;)]
+    paye_s0[&quot;Process Employer Returns&quot;]
+    paye_s1[&quot;Issue Tax Code&quot;]
+    paye_s2[&quot;Calculate PAYE&quot;]
+    paye_s3([&quot;Get Employment&quot;])
+    paye_s4([&quot;Get Pay Period&quot;])
+  end
+  subgraph ni[&quot;National Insurance&lt;br/&gt;&lt;small&gt;Director of National Insurance&lt;/small&gt;&quot;]
+    direction TB
+    ni_data[(&quot;Ni Contribution, Ni Record&quot;)]
+    ni_s0[&quot;Allocate NI Number&quot;]
+    ni_s1[&quot;Calculate NI Contributions&quot;]
+    ni_s2[&quot;Maintain NI Record&quot;]
+    ni_s3([&quot;Get National Insurance Number&quot;])
+  end
+  subgraph childcare[&quot;Childcare&lt;br/&gt;&lt;small&gt;Director of Family Support&lt;/small&gt;&quot;]
+    direction TB
+    childcare_data[(&quot;Child, Childcare Account, Childcare Payment, Eligibility Check&quot;)]
+    childcare_s0[&quot;Open Childcare Account&quot;]
+    childcare_s1[&quot;Check Childcare Eligibility&quot;]
+    childcare_s2[&quot;Calculate Childcare Top-up&quot;]
+  end
+  childcare -- uses --&gt; customer_s2
+  ni -- uses --&gt; customer_s2
+  paye -- uses --&gt; customer_s2
+  ni -. reacts to .-&gt; customer_s3
+  childcare -. reacts to .-&gt; customer_s3
+  childcare -- uses --&gt; paye_s3
+  ni -- uses --&gt; paye_s3
+  childcare -- uses --&gt; paye_s4
+  ni -- uses --&gt; paye_s4
+  customer -- uses --&gt; ni_s3
+  customer_data -. &quot;NI_NUMBER moves&quot; .-&gt; ni
+</pre></div>
+</section>
+<section id="s0"><h2>Open questions <span class=muted>(12)</span></h2><p class=lead>Precise questions and evidence requests, each sent to the person who can answer it. Answering these is what moves the next loop forward.</p>
+<input class=f data-t="t0" placeholder="Filter 12 rows" aria-label="Filter Open questions"><div class=tw><table id="t0"><thead><tr><th>ID</th><th>Priority</th><th>Type</th><th>Question</th><th>Why</th><th>Owner</th><th>Affects</th></tr></thead><tbody><tr><td>U-01</td><td>high</td><td>sme question</td><td>Agree the event that replaces a cross-domain write: LifeEventRecorded?</td><td>Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes LifeEventRecorded; Childcare, National Insurance react with their own services.</td><td>Domain owners with the Enterprise Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-02</td><td>high</td><td>sme question</td><td>Is &#x27;Person&#x27; a synonym of Customer, or a different concept (a role) that shares the name?</td><td>Glossary lists &#x27;Person&#x27; as a synonym of Customer, but TAXCORE has an entity &#x27;Person&#x27; with its own structure.</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-03</td><td>high</td><td>sme question</td><td>Should this data move domains? NI_NUMBER in TC_PERSON is created by Allocate NI Number (National Insurance), but the table belongs to Customer.</td><td>Splitting it lets each domain change on its own; the old owner keeps only a reference.</td><td>Domain owners with the Enterprise Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-04</td><td>high</td><td>evidence request</td><td>Request a schema export and a masked data sample from TAXCORE.</td><td>Would let 77 entity/attribute/identifier elements move to grade A.</td><td>Engineering Lead (with the system owner)</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-05</td><td>high</td><td>sme question</td><td>Sources disagree on the issued by of identifier &#x27;National Insurance Number&#x27;. Which is correct today?</td><td>TAXCORE ← docs/taxcore-system-overview.md (stale, 10.2 yrs) | NumberHub ← docs/national-insurance-procedures.md</td><td>Data Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-06</td><td>high</td><td>sme question</td><td>Sources disagree on the values of taxonomy &#x27;EmploymentStatus&#x27;. Which is correct today?</td><td>LIVE, CEASED ← docs/paye-operations-manual.md | LIVE, CEASED, SUSPENDED ← spreadsheets/taxcore-data-dictionary.csv</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-07</td><td>high</td><td>sme question</td><td>Sources disagree on the values of taxonomy &#x27;NiCategory&#x27;. Which is correct today?</td><td>A, B, C, H, J, M, Z ← docs/national-insurance-procedures.md | A, B, C, H, J, M, Z, V ← spreadsheets/taxcore-data-dictionary.csv</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-08</td><td>medium</td><td>sme question</td><td>What is &#x27;income-verify-svc&#x27;, who owns it, and does it master any data?</td><td>&#x27;income-verify-svc&#x27; appears in 1 source(s) but nothing says what it does.</td><td>Enterprise Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-09</td><td>medium</td><td>sme question</td><td>Where is &#x27;Childcare Provider&#x27; held, and which system is the source of truth?</td><td>No entity found for &#x27;Childcare Provider&#x27;. Possible home: ChildcarePortal.</td><td>Data Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-10</td><td>medium</td><td>sme question</td><td>Where is &#x27;Top-up Payment&#x27; held, and which system is the source of truth?</td><td>No entity found for &#x27;Top-up Payment&#x27;.</td><td>Data Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-11</td><td>low</td><td>sme question</td><td>The reference model expects &#x27;Childcare Payment is paid to Childcare Provider&#x27;. Is this relationship real here, and which system records it?</td><td>Added at grade D from the playbook&#x27;s reference ontology; no evidence yet.</td><td>Domain Owner and Data Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr><tr><td>U-12</td><td>low</td><td>sme question</td><td>The reference model expects &#x27;Party&#x27;. Does the organisation have it, and where is it recorded?</td><td>Added at grade D from the playbook&#x27;s reference ontology; no evidence yet.</td><td>Domain Owner and Data Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e936cb840&gt;</td></tr></tbody></table></div>
+</section>
+<section id="s1"><h2>Contradictions <span class=muted>(3)</span></h2><p class=lead>Where sources disagree. Kept, not resolved: the named owner decides.</p>
+<input class=f data-t="t1" placeholder="Filter 3 rows" aria-label="Filter Contradictions"><div class=tw><table id="t1"><thead><tr><th>ID</th><th>Element</th><th>Property</th><th>Versions and sources</th></tr></thead><tbody><tr><td>TAX-01</td><td>taxonomy EmploymentStatus</td><td>values</td><td>LIVE, CEASED ← docs/paye-operations-manual.md | LIVE, CEASED, SUSPENDED ← spreadsheets/taxcore-data-dictionary.csv</td></tr><tr><td>TAX-02</td><td>taxonomy NiCategory</td><td>values</td><td>A, B, C, H, J, M, Z ← docs/national-insurance-procedures.md | A, B, C, H, J, M, Z, V ← spreadsheets/taxcore-data-dictionary.csv</td></tr><tr><td>IDN-08</td><td>identifier National Insurance Number</td><td>issued by</td><td>TAXCORE ← docs/taxcore-system-overview.md | NumberHub ← docs/national-insurance-procedures.md</td></tr></tbody></table></div>
+</section>
+<section id="s2"><h2>Resolved contradictions <span class=muted>(0)</span></h2><p class=lead>Settled by an owner&#x27;s answer or a real system artefact; the losing versions are kept for audit.</p>
+<p class=muted>None in this loop.</p>
+</section>
+<section id="s3"><h2>Review flags <span class=muted>(6)</span></h2><p class=lead>Possible synonyms, homonyms, undefined terms and other things to review.</p>
+<input class=f data-t="t3" placeholder="Filter 6 rows" aria-label="Filter Review flags"><div class=tw><table id="t3"><thead><tr><th>Type</th><th>Detail</th><th>Affects</th></tr></thead><tbody><tr><td>homonym risk</td><td>Glossary lists &#x27;Person&#x27; as a synonym of Customer, but TAXCORE has an entity &#x27;Person&#x27; with its own structure.</td><td>CON-01, ENT-01</td></tr><tr><td>unrealised concept</td><td>No entity found for &#x27;Childcare Provider&#x27;. Possible home: ChildcarePortal.</td><td>CON-10</td></tr><tr><td>unrealised concept</td><td>No entity found for &#x27;Top-up Payment&#x27;.</td><td>CON-12</td></tr><tr><td>system without role</td><td>&#x27;income-verify-svc&#x27; appears in 1 source(s) but nothing says what it does.</td><td>SYS-07</td></tr><tr><td>column split</td><td>NI_NUMBER in TC_PERSON is created by Allocate NI Number (National Insurance), but the table belongs to Customer.</td><td>ENT-01, ATT-02</td></tr><tr><td>cross domain write</td><td>Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes LifeEventRecorded; Childcare, National Insurance react with their own services.</td><td>CAL-11, ENT-08, ENT-09</td></tr></tbody></table></div>
+</section>
+<section id="s4"><h2>Domain ownership <span class=muted>(12)</span></h2><p class=lead>Which domain owns each monolith table, and why.</p>
+<input class=f data-t="t4" placeholder="Filter 12 rows" aria-label="Filter Domain ownership"><div class=tw><table id="t4"><thead><tr><th>Entity</th><th>Table</th><th>Domain</th><th>Basis</th><th>Grade</th></tr></thead><tbody><tr><td>Person</td><td>TC_PERSON</td><td>Customer</td><td>changed by Customer, National Insurance; Customer creates it</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>Address</td><td>TC_ADDRESS</td><td>Customer</td><td>only Customer capabilities change it</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>Employer</td><td>TC_EMPLOYER</td><td>PAYE</td><td>no capability writes it; assigned by business vocabulary</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>Employment</td><td>TC_EMPLOYMENT</td><td>PAYE</td><td>only PAYE capabilities change it</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>TaxCode</td><td>TC_TAX_CODE</td><td>PAYE</td><td>only PAYE capabilities change it</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>PayPeriod</td><td>TC_PAY_PERIOD</td><td>PAYE</td><td>only PAYE capabilities change it</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>NiContribution</td><td>TC_NI_CONTRIBUTION</td><td>National Insurance</td><td>only National Insurance capabilities change it</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>NiRecord</td><td>TC_NI_RECORD</td><td>National Insurance</td><td>changed by National Insurance, Customer; National Insurance creates it</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>ChildcareAccount</td><td>TC_CHILDCARE_ACCOUNT</td><td>Childcare</td><td>changed by Childcare, Customer; Childcare creates it</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>Child</td><td>TC_CHILD</td><td>Childcare</td><td>only Childcare capabilities change it</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>ChildcarePayment</td><td>TC_CHILDCARE_PAYMENT</td><td>Childcare</td><td>only Childcare capabilities change it</td><td><span class="g g-C" title="Single source">C</span></td></tr><tr><td>EligibilityCheck</td><td>TC_ELIGIBILITY_CHECK</td><td>Childcare</td><td>only Childcare capabilities change it</td><td><span class="g g-C" title="Single source">C</span></td></tr></tbody></table></div>
+</section>
+<section id="s5"><h2>Business services <span class=muted>(16)</span></h2><p class=lead>The access layer: commands change data, queries let other domains read it, events let them react.</p>
+<input class=f data-t="t5" placeholder="Filter 16 rows" aria-label="Filter Business services"><div class=tw><table id="t5"><thead><tr><th>Domain</th><th>Service</th><th>Type</th><th>Used by</th><th>Replaces / implements</th></tr></thead><tbody><tr><td>Customer</td><td>Register Customer</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_REGISTER_PERSON</td></tr><tr><td>Customer</td><td>Record Life Events</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_CLOSE_DECEASED</td></tr><tr><td>Customer</td><td>Get Person</td><td>query</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td></td></tr><tr><td>Customer</td><td>LifeEventRecorded</td><td>event</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_CLOSE_DECEASED writing NiRecord, PRC_CLOSE_DECEASED writing ChildcareAccount</td></tr><tr><td>PAYE</td><td>Process Employer Returns</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_LOAD_RETURNS</td></tr><tr><td>PAYE</td><td>Issue Tax Code</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_ISSUE_TAX_CODE</td></tr><tr><td>PAYE</td><td>Calculate PAYE</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_CALC_PAYE</td></tr><tr><td>PAYE</td><td>Get Employment</td><td>query</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td></td></tr><tr><td>PAYE</td><td>Get Pay Period</td><td>query</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td></td></tr><tr><td>National Insurance</td><td>Allocate NI Number</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_ALLOCATE_NINO</td></tr><tr><td>National Insurance</td><td>Calculate NI Contributions</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_CALC_NIC</td></tr><tr><td>National Insurance</td><td>Maintain NI Record</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_UPDATE_NI_RECORD</td></tr><tr><td>National Insurance</td><td>Get National Insurance Number</td><td>query</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td></td></tr><tr><td>Childcare</td><td>Open Childcare Account</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_OPEN_CC_ACCOUNT</td></tr><tr><td>Childcare</td><td>Check Childcare Eligibility</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_CHECK_ELIGIBILITY</td></tr><tr><td>Childcare</td><td>Calculate Childcare Top-up</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f4e9355e260&gt;</td><td>PRC_CALC_TOPUP</td></tr></tbody></table></div>
+</section>
+<section id="s6"><h2>Moves and events <span class=muted>(3)</span></h2><p class=lead>Columns that move domain, and direct cross-domain writes that become events.</p>
+<input class=f data-t="t6" placeholder="Filter 3 rows" aria-label="Filter Moves and events"><div class=tw><table id="t6"><thead><tr><th>Kind</th><th>What</th><th>From</th><th>To</th><th>Why</th></tr></thead><tbody><tr><td>column moves</td><td>Person.NI_NUMBER</td><td>Customer</td><td>National Insurance</td><td>created by Allocate NI Number</td></tr><tr><td>write becomes event</td><td>LifeEventRecorded</td><td>Customer</td><td>National Insurance</td><td>PRC_CLOSE_DECEASED changes NiRecord</td></tr><tr><td>write becomes event</td><td>LifeEventRecorded</td><td>Customer</td><td>Childcare</td><td>PRC_CLOSE_DECEASED changes ChildcareAccount</td></tr></tbody></table></div>
+</section><footer>Generated by ontokit on 2026-11-23 from the graded model. Grades: A confirmed by a real system artefact · B two or more independent sources agree · C single source · D assumed, not yet evidenced · X sources contradict</footer></div><script>
+document.querySelectorAll('input.f').forEach(inp=>inp.addEventListener('input',()=>{const q=inp.value.toLowerCase();
+document.querySelectorAll('#'+inp.dataset.t+' tbody tr').forEach(r=>r.hidden=q&&!r.textContent.toLowerCase().includes(q))}));
+</script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>if(window.mermaid){mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'default'})}
+else{document.querySelectorAll('pre.mermaid').forEach(p=>{p.classList.remove('mermaid');p.classList.add('raw');
+p.insertAdjacentHTML('beforebegin','<p class=muted>Diagram source (connect to the internet to render it, or open the .mmd file in any Mermaid viewer):</p>')})}</script></body></html>

@@ -30,6 +30,14 @@ The pipeline draws `conformance-grades` and `conformance-gates` in `<root>/outpu
 - Use these two diagrams at the top of `conformance-briefing.md` to summarise the state of the loop for approvers.
 - If a diagram contradicts `gates.json` or the grades in `model.json`, report it. They should always match.
 
+## Your report pack
+Your results are also published for people who will not read JSON, in `<root>/outputs/<loop>/reports/`:
+- `conformance.html`: an explainer with your diagrams and searchable tables
+- `conformance.xlsx`: one sheet per table, with grade and evidence citations on every row
+- `conformance.docx`: the same content as a Word document.
+
+All of them are linked from `reports/index.html`. They are generated from the graded model, so their completeness depends on your findings, exactly as the diagrams do.
+
 ## Never
 Change grades, gate results, approvals or elements. If you think a rule in
 `config/` is wrong, say so in the briefing as a recommendation.

@@ -1,4 +1,6 @@
 PyYAML>=6.0
+openpyxl>=3.1        # Excel report packs
+python-docx>=1.1     # Word report packs
 # Optional, for live runs over larger code/SQL extracts and for validating outputs:
 # sqlglot>=25
 # linkml>=1.8

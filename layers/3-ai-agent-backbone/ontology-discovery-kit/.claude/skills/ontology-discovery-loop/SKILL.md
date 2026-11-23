@@ -82,7 +82,9 @@ Run `python -m ontokit publish --root <root> --loop <loop>`. It also draws **dia
 | Ontology Steward | `steward-aliases`, `steward-decomposition` (when decomposing) |
 | Conformance | `conformance-grades`, `conformance-gates` |
 
-Nodes are coloured by evidence grade. To regenerate the diagrams alone, run `python -m ontokit diagrams --root <root> --loop <loop>`. Show the user the diagrams `README.md` along with the summary. In a Claude app that can publish pages, embed the Mermaid blocks in an artifact. With a decomposition, it also writes `<root>/outputs/<loop>/decomposition/`:
+Nodes are coloured by evidence grade. To regenerate the diagrams alone, run `python -m ontokit diagrams --root <root> --loop <loop>`. It also writes a **report pack for every agent** in `<root>/outputs/<loop>/reports/`: an HTML explainer, an Excel workbook and a Word document each, behind one index page, **`reports/index.html`**, which links every agent's results, the diagrams and every other output. `<root>/outputs/index.html` links all loops. To regenerate the packs alone, run `python -m ontokit reports --root <root> --loop <loop>`. Excel and Word need `openpyxl` and `python-docx`.
+
+**Start the user at `reports/index.html`.** Show the diagrams `README.md` along with the summary. In a Claude app that can publish pages, embed the Mermaid blocks in an artifact. With a decomposition, it also writes `<root>/outputs/<loop>/decomposition/`:
 - one LinkML ontology per domain
 - one OpenAPI service contract per domain
 - `source-to-target.csv`

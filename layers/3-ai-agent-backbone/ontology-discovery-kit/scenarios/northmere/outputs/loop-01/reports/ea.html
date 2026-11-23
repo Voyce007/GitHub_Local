@@ -1,0 +1,104 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Enterprise Architect · loop-01</title><style>
+:root{--bg:#F5F6F8;--surface:#fff;--sunk:#EEF0F4;--ink:#18202A;--muted:#5A6372;--line:#D9DDE4;--accent:#3A4AA8;--accent-soft:#E6E9F7;
+--gA:#1D7A44;--gB:#2867A0;--gC:#9A6210;--gD:#6B7483;--gX:#B23824}
+@media (prefers-color-scheme:dark){:root{--bg:#10141A;--surface:#171C24;--sunk:#0D1116;--ink:#E5E8EE;--muted:#98A1AF;--line:#2A313C;
+--accent:#929FF2;--accent-soft:#222A4C;--gA:#52C283;--gB:#66A9E2;--gC:#E2A64B;--gD:#9AA3B1;--gX:#F27D64;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left)) 64px max(16px,env(safe-area-inset-right))}
+a{color:var(--accent)}h1,h2,h3{line-height:1.2;margin:0}h1{font-size:1.9rem}h2{font-size:1.3rem;margin-top:8px}
+.eyebrow{font:500 .72rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}.lead{color:var(--muted);max-width:75ch}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.pill{display:inline-flex;gap:6px;align-items:center;padding:4px 11px;border-radius:999px;
+border:1px solid var(--line);background:var(--surface);font-size:.85rem;text-decoration:none;color:var(--ink)}a.pill:hover{border-color:var(--accent)}
+.g{display:inline-block;min-width:1.8em;text-align:center;border-radius:5px;padding:0 5px;font:600 .8rem ui-monospace,Menlo,monospace;
+color:var(--gc);background:color-mix(in srgb,var(--gc) 15%,transparent);border:1px solid color-mix(in srgb,var(--gc) 40%,transparent)}
+.g-A{--gc:var(--gA)}.g-B{--gc:var(--gB)}.g-C{--gc:var(--gC)}.g-D{--gc:var(--gD)}.g-X{--gc:var(--gX)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:8px;align-content:start;min-width:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.stat{background:var(--surface);border:1px solid var(--line);
+border-radius:10px;padding:10px 14px}.stat b{display:block;font-size:1.5rem}
+.gbar{display:flex;height:16px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}.gbar i{display:block}
+section{display:grid;gap:10px;margin-top:26px}.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);max-height:640px}
+table{border-collapse:collapse;width:100%;font-size:.86rem}th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{position:sticky;top:0;background:var(--sunk);font:600 .72rem ui-monospace,Menlo,monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td:first-child{white-space:nowrap}td.ev{color:var(--muted);font-size:.8rem;max-width:340px}input.f{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);width:min(100%,320px)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+pre.mermaid{margin:0}pre.raw{white-space:pre-wrap;font-size:.75rem;color:#333}.notes{background:var(--surface);border:1px solid var(--line);
+border-radius:10px;padding:14px 18px;max-height:700px;overflow:auto}.notes h1,.notes h2,.notes h3{margin:14px 0 6px}
+footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
+</style></head><body><div class=wrap><p class=eyebrow><a href="index.html">← All agents</a> · loop-01</p><h1>Enterprise Architect</h1>
+<p class=lead><b>Which systems exist, and how do they connect?</b> Systems and their aliases and roles, the data flows between them, and the business capabilities with their accountable teams.</p><div class=bar><a class=pill href="ea.xlsx">Excel workbook</a> <a class=pill href="ea.docx">Word document</a> <a class=pill href="../diagrams/README.md">Diagram files</a></div><nav class=toc><a class=pill href="#s0">Systems (7)</a><a class=pill href="#s1">Data flows (7)</a><a class=pill href="#s2">Business capabilities (11)</a></nav>
+<section><h2>Diagrams</h2><p class=muted>Generated from the evidence; colours show grade.</p>
+<h3 class=muted>ea-system-context</h3><div class=diag><pre class="mermaid">flowchart LR
+  SYS_01[&quot;&lt;b&gt;TAXCORE&lt;/b&gt;&lt;br/&gt;system of record (candidate): Customer&lt;br/&gt;&lt;i&gt;aka Core, TC&lt;/i&gt;&quot;]
+  SYS_02[&quot;&lt;b&gt;CitizenPortal&lt;/b&gt;&lt;br/&gt;processing: customer self-service requests&lt;br/&gt;&lt;i&gt;aka online account, CP&lt;/i&gt;&quot;]
+  SYS_03[&quot;&lt;b&gt;RevenueWarehouse&lt;/b&gt;&lt;br/&gt;reporting / analytics (candidate)&lt;br/&gt;&lt;i&gt;aka MI warehouse, RW&lt;/i&gt;&quot;]
+  SYS_04[&quot;&lt;b&gt;EmployerGateway&lt;/b&gt;&lt;br/&gt;processing: employer returns for every pay period&lt;br/&gt;&lt;i&gt;aka employer filing, EG&lt;/i&gt;&quot;]
+  SYS_05[&quot;&lt;b&gt;NumberHub&lt;/b&gt;&lt;br/&gt;system of record (candidate): National Insurance numbers&lt;br/&gt;&lt;i&gt;aka NI allocation, NH&lt;/i&gt;&quot;]
+  SYS_06[&quot;&lt;b&gt;ChildcarePortal&lt;/b&gt;&lt;br/&gt;processing: parent payments to childcare providers&lt;br/&gt;&lt;i&gt;aka parent account, CC&lt;/i&gt;&quot;]
+  SYS_07[&quot;&lt;b&gt;income-verify-svc&lt;/b&gt;&lt;br/&gt;role unknown&quot;]
+  SYS_02 --&gt;|&quot;CUS-01&quot;| SYS_01
+  SYS_04 --&gt;|&quot;PAY-01 employer returns&quot;| SYS_01
+  SYS_05 --&gt;|&quot;NIN-02&quot;| SYS_01
+  SYS_06 --&gt;|&quot;CC-01 parent payments&quot;| SYS_01
+  SYS_01 --&gt;|&quot;MI-01 nightly&quot;| SYS_03
+  SYS_06 --&gt;|&quot;runtime dependency (config)&quot;| SYS_05
+  SYS_06 --&gt;|&quot;runtime dependency (config)&quot;| SYS_07
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class SYS_01,SYS_02,SYS_03,SYS_04,SYS_05,SYS_06 gB
+  class SYS_07 gC
+</pre></div>
+<h3 class=muted>ea-capability-map</h3><div class=diag><pre class="mermaid">flowchart TB
+  subgraph team_0[&quot;Customer Services&quot;]
+    direction TB
+    CAP_01[&quot;Register Customer&quot;]
+    CAP_02[&quot;Record Life Events&quot;]
+  end
+  subgraph team_1[&quot;Family Support&quot;]
+    direction TB
+    CAP_09[&quot;Open Childcare Account&quot;]
+    CAP_10[&quot;Check Childcare Eligibility&quot;]
+    CAP_11[&quot;Calculate Childcare Top-up&quot;]
+  end
+  subgraph team_2[&quot;NI Operations&quot;]
+    direction TB
+    CAP_06[&quot;Allocate NI Number&quot;]
+    CAP_07[&quot;Calculate NI Contributions&quot;]
+    CAP_08[&quot;Maintain NI Record&quot;]
+  end
+  subgraph team_3[&quot;PAYE Operations&quot;]
+    direction TB
+    CAP_03[&quot;Process Employer Returns&quot;]
+    CAP_04[&quot;Issue Tax Code&quot;]
+    CAP_05[&quot;Calculate PAYE&quot;]
+  end
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class CAP_01,CAP_02,CAP_03,CAP_04,CAP_05,CAP_06,CAP_07,CAP_08,CAP_09,CAP_10,CAP_11 gC
+</pre></div>
+</section>
+<section id="s0"><h2>Systems <span class=muted>(7)</span></h2><p class=lead>Candidate systems, every name they go by, and their candidate role. A system with no role needs an owner to explain it.</p>
+<input class=f data-t="t0" placeholder="Filter 7 rows" aria-label="Filter Systems"><div class=tw><table id="t0"><thead><tr><th>ID</th><th>System</th><th>Also known as</th><th>Roles</th><th>Grade</th><th>Sources</th><th>Evidence</th></tr></thead><tbody><tr><td>SYS-01</td><td>TAXCORE</td><td>Core, TC</td><td>system of record (candidate): Customer, database: db2, data-holding application (candidate)</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>7</td><td class="ev">docs/taxcore-system-overview.md (line 7); diagrams/current-state.mmd (line 2) +10</td></tr><tr><td>SYS-02</td><td>CitizenPortal</td><td>online account, CP</td><td>processing: customer self-service requests</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>3</td><td class="ev">docs/taxcore-system-overview.md (line 9); diagrams/current-state.mmd (line 2) +1</td></tr><tr><td>SYS-03</td><td>RevenueWarehouse</td><td>MI warehouse, RW</td><td>reporting / analytics (candidate)</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>3</td><td class="ev">docs/taxcore-system-overview.md (line 10); diagrams/current-state.mmd (line 6) +1</td></tr><tr><td>SYS-04</td><td>EmployerGateway</td><td>employer filing, EG</td><td>processing: employer returns for every pay period</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>3</td><td class="ev">docs/paye-operations-manual.md (line 7); diagrams/current-state.mmd (line 3) +1</td></tr><tr><td>SYS-05</td><td>NumberHub</td><td>NI allocation, NH</td><td>system of record (candidate): National Insurance numbers</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>4</td><td class="ev">docs/national-insurance-procedures.md (line 7); diagrams/current-state.mmd (line 4) +2</td></tr><tr><td>SYS-06</td><td>ChildcarePortal</td><td>parent account, CC</td><td>processing: parent payments to childcare providers</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td>3</td><td class="ev">docs/childcare-scheme-guide.md (line 7); diagrams/current-state.mmd (line 5) +1</td></tr><tr><td>SYS-07</td><td>income-verify-svc</td><td></td><td>(role unknown)</td><td><span class="g g-C" title="Single source">C</span></td><td>1</td><td class="ev">code-examples/childcare-portal.properties (line 4)</td></tr></tbody></table></div>
+</section>
+<section id="s1"><h2>Data flows <span class=muted>(7)</span></h2><p class=lead>Data moving between systems, from catalogues, diagrams, prose and config.</p>
+<input class=f data-t="t1" placeholder="Filter 7 rows" aria-label="Filter Data flows"><div class=tw><table id="t1"><thead><tr><th>ID</th><th>From</th><th>To</th><th>Label</th><th>Grade</th><th>Evidence</th></tr></thead><tbody><tr><td>FLW-01</td><td>CitizenPortal</td><td>TAXCORE</td><td>CUS-01</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">diagrams/current-state.mmd (line 2); spreadsheets/interface-catalogue.csv (line 2)</td></tr><tr><td>FLW-02</td><td>EmployerGateway</td><td>TAXCORE</td><td>PAY-01 employer returns</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">diagrams/current-state.mmd (line 3); spreadsheets/interface-catalogue.csv (line 3)</td></tr><tr><td>FLW-03</td><td>NumberHub</td><td>TAXCORE</td><td>NIN-02</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">diagrams/current-state.mmd (line 4); spreadsheets/interface-catalogue.csv (line 4)</td></tr><tr><td>FLW-04</td><td>ChildcarePortal</td><td>TAXCORE</td><td>CC-01 parent payments</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">diagrams/current-state.mmd (line 5); spreadsheets/interface-catalogue.csv (line 5) +1</td></tr><tr><td>FLW-05</td><td>TAXCORE</td><td>RevenueWarehouse</td><td>MI-01 nightly</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td><td class="ev">diagrams/current-state.mmd (line 6); spreadsheets/interface-catalogue.csv (line 6)</td></tr><tr><td>FLW-06</td><td>ChildcarePortal</td><td>NumberHub</td><td>runtime dependency (config)</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">code-examples/childcare-portal.properties (line 3)</td></tr><tr><td>FLW-07</td><td>ChildcarePortal</td><td>income-verify-svc</td><td>runtime dependency (config)</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">code-examples/childcare-portal.properties (line 4)</td></tr></tbody></table></div>
+</section>
+<section id="s2"><h2>Business capabilities <span class=muted>(11)</span></h2><p class=lead>Capabilities and their one accountable team. In a decomposition, these decide domain ownership.</p>
+<input class=f data-t="t2" placeholder="Filter 11 rows" aria-label="Filter Business capabilities"><div class=tw><table id="t2"><thead><tr><th>ID</th><th>Capability</th><th>Accountable team</th><th>Domain</th><th>Description</th><th>Grade</th><th>Evidence</th></tr></thead><tbody><tr><td>CAP-01</td><td>Register Customer</td><td>Customer Services</td><td>Customer</td><td>Create and maintain a customer&#x27;s identity, addresses and contact preferences.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 9)</td></tr><tr><td>CAP-02</td><td>Record Life Events</td><td>Customer Services</td><td>Customer</td><td>Record births, deaths and changes of circumstance for a person.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 10)</td></tr><tr><td>CAP-03</td><td>Process Employer Returns</td><td>PAYE Operations</td><td>PAYE</td><td>Receive each employer&#x27;s pay and deductions return for every pay period.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 11)</td></tr><tr><td>CAP-04</td><td>Issue Tax Code</td><td>PAYE Operations</td><td>PAYE</td><td>Decide and issue a tax code for each employment.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 12)</td></tr><tr><td>CAP-05</td><td>Calculate PAYE</td><td>PAYE Operations</td><td>PAYE</td><td>Calculate the income tax due for an employment and pay period.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 13)</td></tr><tr><td>CAP-06</td><td>Allocate NI Number</td><td>NI Operations</td><td>National Insurance</td><td>Allocate a National Insurance number to a person.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 14)</td></tr><tr><td>CAP-07</td><td>Calculate NI Contributions</td><td>NI Operations</td><td>National Insurance</td><td>Calculate Class 1 contributions from the earnings in each employer return.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 15)</td></tr><tr><td>CAP-08</td><td>Maintain NI Record</td><td>NI Operations</td><td>National Insurance</td><td>Keep each person&#x27;s contribution record and qualifying years.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 16)</td></tr><tr><td>CAP-09</td><td>Open Childcare Account</td><td>Family Support</td><td>Childcare</td><td>Open an account for a parent to pay a childcare provider.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 17)</td></tr><tr><td>CAP-10</td><td>Check Childcare Eligibility</td><td>Family Support</td><td>Childcare</td><td>Check a parent&#x27;s eligibility, including income limits, every three months.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 18)</td></tr><tr><td>CAP-11</td><td>Calculate Childcare Top-up</td><td>Family Support</td><td>Childcare</td><td>Add the government top-up to each parent payment.</td><td><span class="g g-C" title="Single source">C</span></td><td class="ev">docs/business-capability-map.md (line 19)</td></tr></tbody></table></div>
+</section><footer>Generated by ontokit on 2026-11-23 from the graded model. Grades: A confirmed by a real system artefact · B two or more independent sources agree · C single source · D assumed, not yet evidenced · X sources contradict</footer></div><script>
+document.querySelectorAll('input.f').forEach(inp=>inp.addEventListener('input',()=>{const q=inp.value.toLowerCase();
+document.querySelectorAll('#'+inp.dataset.t+' tbody tr').forEach(r=>r.hidden=q&&!r.textContent.toLowerCase().includes(q))}));
+</script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>if(window.mermaid){mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'default'})}
+else{document.querySelectorAll('pre.mermaid').forEach(p=>{p.classList.remove('mermaid');p.classList.add('raw');
+p.insertAdjacentHTML('beforebegin','<p class=muted>Diagram source (connect to the internet to render it, or open the .mmd file in any Mermaid viewer):</p>')})}</script></body></html>

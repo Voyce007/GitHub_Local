@@ -1,0 +1,435 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>Ontology Steward · loop-01</title><style>
+:root{--bg:#F5F6F8;--surface:#fff;--sunk:#EEF0F4;--ink:#18202A;--muted:#5A6372;--line:#D9DDE4;--accent:#3A4AA8;--accent-soft:#E6E9F7;
+--gA:#1D7A44;--gB:#2867A0;--gC:#9A6210;--gD:#6B7483;--gX:#B23824}
+@media (prefers-color-scheme:dark){:root{--bg:#10141A;--surface:#171C24;--sunk:#0D1116;--ink:#E5E8EE;--muted:#98A1AF;--line:#2A313C;
+--accent:#929FF2;--accent-soft:#222A4C;--gA:#52C283;--gB:#66A9E2;--gC:#E2A64B;--gD:#9AA3B1;--gX:#F27D64;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left)) 64px max(16px,env(safe-area-inset-right))}
+a{color:var(--accent)}h1,h2,h3{line-height:1.2;margin:0}h1{font-size:1.9rem}h2{font-size:1.3rem;margin-top:8px}
+.eyebrow{font:500 .72rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}.lead{color:var(--muted);max-width:75ch}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.pill{display:inline-flex;gap:6px;align-items:center;padding:4px 11px;border-radius:999px;
+border:1px solid var(--line);background:var(--surface);font-size:.85rem;text-decoration:none;color:var(--ink)}a.pill:hover{border-color:var(--accent)}
+.g{display:inline-block;min-width:1.8em;text-align:center;border-radius:5px;padding:0 5px;font:600 .8rem ui-monospace,Menlo,monospace;
+color:var(--gc);background:color-mix(in srgb,var(--gc) 15%,transparent);border:1px solid color-mix(in srgb,var(--gc) 40%,transparent)}
+.g-A{--gc:var(--gA)}.g-B{--gc:var(--gB)}.g-C{--gc:var(--gC)}.g-D{--gc:var(--gD)}.g-X{--gc:var(--gX)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:8px;align-content:start;min-width:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr));gap:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.stat{background:var(--surface);border:1px solid var(--line);
+border-radius:10px;padding:10px 14px}.stat b{display:block;font-size:1.5rem}
+.gbar{display:flex;height:16px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}.gbar i{display:block}
+section{display:grid;gap:10px;margin-top:26px}.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);max-height:640px}
+table{border-collapse:collapse;width:100%;font-size:.86rem}th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{position:sticky;top:0;background:var(--sunk);font:600 .72rem ui-monospace,Menlo,monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td:first-child{white-space:nowrap}td.ev{color:var(--muted);font-size:.8rem;max-width:340px}input.f{font:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--line);
+background:var(--surface);color:var(--ink);width:min(100%,320px)}
+nav.toc{display:flex;flex-wrap:wrap;gap:6px}.diag{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+pre.mermaid{margin:0}pre.raw{white-space:pre-wrap;font-size:.75rem;color:#333}.notes{background:var(--surface);border:1px solid var(--line);
+border-radius:10px;padding:14px 18px;max-height:700px;overflow:auto}.notes h1,.notes h2,.notes h3{margin:14px 0 6px}
+footer{margin-top:40px;font-size:.8rem;color:var(--muted)}
+</style></head><body><div class=wrap><p class=eyebrow><a href="index.html">← All agents</a> · loop-01</p><h1>Ontology Steward</h1>
+<p class=lead><b>Is the model coherent, and what must people decide?</b> Open questions with owners, contradictions, review flags, the proposed decomposition and what changed since the last loop.</p><div class=bar><a class=pill href="steward.xlsx">Excel workbook</a> <a class=pill href="steward.docx">Word document</a> <a class=pill href="../diagrams/README.md">Diagram files</a></div><nav class=toc><a class=pill href="#s0">Open questions (19)</a><a class=pill href="#s1">Contradictions (3)</a><a class=pill href="#s2">Resolved contradictions (0)</a><a class=pill href="#s3">Review flags (7)</a><a class=pill href="#s4">Domain ownership (12)</a><a class=pill href="#s5">Business services (16)</a><a class=pill href="#s6">Moves and events (3)</a></nav>
+<section><h2>Diagrams</h2><p class=muted>Generated from the evidence; colours show grade.</p>
+<h3 class=muted>steward-aliases</h3><div class=diag><pre class="mermaid">flowchart LR
+  SYS_01([&quot;&lt;b&gt;TAXCORE&lt;/b&gt;&quot;])
+  SYS_01_a0[&quot;the Core&quot;] -- same system --&gt; SYS_01
+  SYS_01_a1[&quot;TC&quot;] -- same system --&gt; SYS_01
+  SYS_01_a2[&quot;TC_&quot;] -- same system --&gt; SYS_01
+  SYS_01_a3[&quot;TAXCORE (the Core)&quot;] -- same system --&gt; SYS_01
+  SYS_01_a4[&quot;taxcore-db&quot;] -- same system --&gt; SYS_01
+  SYS_02([&quot;&lt;b&gt;CitizenPortal&lt;/b&gt;&quot;])
+  SYS_02_a0[&quot;the online account&quot;] -- same system --&gt; SYS_02
+  SYS_02_a1[&quot;online account&quot;] -- same system --&gt; SYS_02
+  SYS_02_a2[&quot;CP&quot;] -- same system --&gt; SYS_02
+  SYS_02_a3[&quot;CitizenPortal (online account)&quot;] -- same system --&gt; SYS_02
+  SYS_03([&quot;&lt;b&gt;RevenueWarehouse&lt;/b&gt;&quot;])
+  SYS_03_a0[&quot;the MI warehouse&quot;] -- same system --&gt; SYS_03
+  SYS_03_a1[&quot;MI warehouse&quot;] -- same system --&gt; SYS_03
+  SYS_03_a2[&quot;RW&quot;] -- same system --&gt; SYS_03
+  SYS_03_a3[&quot;RevenueWarehouse (MI warehouse)&quot;] -- same system --&gt; SYS_03
+  SYS_04([&quot;&lt;b&gt;EmployerGateway&lt;/b&gt;&quot;])
+  SYS_04_a0[&quot;employer filing&quot;] -- same system --&gt; SYS_04
+  SYS_04_a1[&quot;EG&quot;] -- same system --&gt; SYS_04
+  SYS_04_a2[&quot;EmployerGateway (employer filing)&quot;] -- same system --&gt; SYS_04
+  SYS_05([&quot;&lt;b&gt;NumberHub&lt;/b&gt;&quot;])
+  SYS_05_a0[&quot;NI allocation&quot;] -- same system --&gt; SYS_05
+  SYS_05_a1[&quot;NH&quot;] -- same system --&gt; SYS_05
+  SYS_05_a2[&quot;NumberHub (NI allocation)&quot;] -- same system --&gt; SYS_05
+  SYS_05_a3[&quot;numberhub&quot;] -- same system --&gt; SYS_05
+  SYS_06([&quot;&lt;b&gt;ChildcarePortal&lt;/b&gt;&quot;])
+  SYS_06_a0[&quot;the parent account&quot;] -- same system --&gt; SYS_06
+  SYS_06_a1[&quot;parent account&quot;] -- same system --&gt; SYS_06
+  SYS_06_a2[&quot;CC&quot;] -- same system --&gt; SYS_06
+  SYS_06_a3[&quot;ChildcarePortal (parent account)&quot;] -- same system --&gt; SYS_06
+  SYS_07([&quot;&lt;b&gt;income-verify-svc&lt;/b&gt;&quot;])
+  SYS_07_a0[&quot;income-verify&quot;] -- same system --&gt; SYS_07
+  q_SYS_07{&quot;What is it? Who owns it?&quot;} -.- SYS_07
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class SYS_01,SYS_02,SYS_03,SYS_04,SYS_05,SYS_06 gB
+  class SYS_07 gC
+</pre></div>
+<h3 class=muted>steward-decomposition</h3><div class=diag><pre class="mermaid">flowchart LR
+  subgraph customer[&quot;Customer&lt;br/&gt;&lt;small&gt;Director of Customer Services&lt;/small&gt;&quot;]
+    direction TB
+    customer_data[(&quot;Address, Person&quot;)]
+    customer_s0[&quot;Register Customer&quot;]
+    customer_s1[&quot;Record Life Events&quot;]
+    customer_s2([&quot;Get Person&quot;])
+    customer_s3[[&quot;LifeEventRecorded&quot;]]
+  end
+  subgraph paye[&quot;PAYE&lt;br/&gt;&lt;small&gt;Director of Employer Taxes&lt;/small&gt;&quot;]
+    direction TB
+    paye_data[(&quot;Employer, Employment, Pay Period, Tax Code&quot;)]
+    paye_s0[&quot;Process Employer Returns&quot;]
+    paye_s1[&quot;Issue Tax Code&quot;]
+    paye_s2[&quot;Calculate PAYE&quot;]
+    paye_s3([&quot;Get Employment&quot;])
+    paye_s4([&quot;Get Pay Period&quot;])
+  end
+  subgraph ni[&quot;National Insurance&lt;br/&gt;&lt;small&gt;Director of National Insurance&lt;/small&gt;&quot;]
+    direction TB
+    ni_data[(&quot;Ni Contribution, Ni Record&quot;)]
+    ni_s0[&quot;Allocate NI Number&quot;]
+    ni_s1[&quot;Calculate NI Contributions&quot;]
+    ni_s2[&quot;Maintain NI Record&quot;]
+    ni_s3([&quot;Get National Insurance Number&quot;])
+  end
+  subgraph childcare[&quot;Childcare&lt;br/&gt;&lt;small&gt;Director of Family Support&lt;/small&gt;&quot;]
+    direction TB
+    childcare_data[(&quot;Child, Childcare Account, Childcare Payment, Eligibility Check&quot;)]
+    childcare_s0[&quot;Open Childcare Account&quot;]
+    childcare_s1[&quot;Check Childcare Eligibility&quot;]
+    childcare_s2[&quot;Calculate Childcare Top-up&quot;]
+  end
+  childcare -- uses --&gt; customer_s2
+  ni -- uses --&gt; customer_s2
+  paye -- uses --&gt; customer_s2
+  ni -. reacts to .-&gt; customer_s3
+  childcare -. reacts to .-&gt; customer_s3
+  childcare -- uses --&gt; paye_s3
+  ni -- uses --&gt; paye_s3
+  childcare -- uses --&gt; paye_s4
+  ni -- uses --&gt; paye_s4
+  customer -- uses --&gt; ni_s3
+  customer_data -. &quot;NI_NUMBER moves&quot; .-&gt; ni
+</pre></div>
+</section>
+<section id="s0"><h2>Open questions <span class=muted>(19)</span></h2><p class=lead>Precise questions and evidence requests, each sent to the person who can answer it. Answering these is what moves the next loop forward.</p>
+<input class=f data-t="t0" placeholder="Filter 19 rows" aria-label="Filter Open questions"><div class=tw><table id="t0"><thead><tr><th>ID</th><th>Priority</th><th>Type</th><th>Question</th><th>Why</th><th>Owner</th><th>Affects</th></tr></thead><tbody><tr><td>U-01</td><td>high</td><td>sme question</td><td>Agree the event that replaces a cross-domain write: LifeEventRecorded?</td><td>Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes LifeEventRecorded; Childcare, National Insurance react with their own services.</td><td>Domain owners with the Enterprise Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-02</td><td>high</td><td>sme question</td><td>Is &#x27;Person&#x27; a synonym of Customer, or a different concept (a role) that shares the name?</td><td>Glossary lists &#x27;Person&#x27; as a synonym of Customer, but TAXCORE has an entity &#x27;Person&#x27; with its own structure.</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-03</td><td>high</td><td>sme question</td><td>Should this data move domains? NI_NUMBER in TC_PERSON is created by Allocate NI Number (National Insurance), but the table belongs to Customer.</td><td>Splitting it lets each domain change on its own; the old owner keeps only a reference.</td><td>Domain owners with the Enterprise Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-04</td><td>high</td><td>evidence request</td><td>Request a schema export and a masked data sample from TAXCORE.</td><td>Would let 78 entity/attribute/identifier elements move to grade A.</td><td>Engineering Lead (with the system owner)</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-05</td><td>high</td><td>sme question</td><td>Sources disagree on the issued by of identifier &#x27;National Insurance Number&#x27;. Which is correct today?</td><td>TAXCORE ← code-examples/taxcore_procedures.sql (stale, 6.4 yrs); docs/taxcore-system-overview.md (stale, 10.2 yrs) | NumberHub ← spreadsheets/interface-catalogue.csv; docs/national-insurance-procedures.md</td><td>Data Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-06</td><td>high</td><td>sme question</td><td>Sources disagree on the values of taxonomy &#x27;EmploymentStatus&#x27;. Which is correct today?</td><td>LIVE, CEASED ← docs/paye-operations-manual.md | LIVE, CEASED, SUSPENDED ← spreadsheets/taxcore-data-dictionary.csv</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-07</td><td>high</td><td>sme question</td><td>Sources disagree on the values of taxonomy &#x27;NiCategory&#x27;. Which is correct today?</td><td>A, B, C, H, J, M, Z ← docs/national-insurance-procedures.md | A, B, C, H, J, M, Z, V ← spreadsheets/taxcore-data-dictionary.csv</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-08</td><td>medium</td><td>sme question</td><td>What does &#x27;Class 1 Contribution&#x27; mean? It is used but never defined.</td><td>Used in 1 source(s) without a definition.</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-09</td><td>medium</td><td>sme question</td><td>What does &#x27;Eligibility Check&#x27; mean? It is used but never defined.</td><td>Used in 1 source(s) without a definition.</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-10</td><td>medium</td><td>sme question</td><td>What does &#x27;Employer Return&#x27; mean? It is used but never defined.</td><td>Used in 3 source(s) without a definition.</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-11</td><td>medium</td><td>sme question</td><td>What does &#x27;Expected Income&#x27; mean? It is used but never defined.</td><td>Used in 1 source(s) without a definition.</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-12</td><td>medium</td><td>sme question</td><td>What does &#x27;Lower Earnings Limit&#x27; mean? It is used but never defined.</td><td>Used in 1 source(s) without a definition.</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-13</td><td>medium</td><td>sme question</td><td>What does &#x27;Parent Payment&#x27; mean? It is used but never defined.</td><td>Used in 2 source(s) without a definition.</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-14</td><td>medium</td><td>sme question</td><td>What does &#x27;Parent&#x27; mean? It is used but never defined.</td><td>Used in 1 source(s) without a definition.</td><td>Business Domain Owner</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-15</td><td>medium</td><td>sme question</td><td>What is &#x27;income-verify-svc&#x27;, who owns it, and does it master any data?</td><td>&#x27;income-verify-svc&#x27; appears in 1 source(s) but nothing says what it does.</td><td>Enterprise Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-16</td><td>medium</td><td>sme question</td><td>Where is &#x27;Childcare Provider&#x27; held, and which system is the source of truth?</td><td>No entity found for &#x27;Childcare Provider&#x27;. Possible home: ChildcarePortal.</td><td>Data Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-17</td><td>medium</td><td>sme question</td><td>Where is &#x27;Qualifying Year&#x27; held, and which system is the source of truth?</td><td>No entity found for &#x27;Qualifying Year&#x27;.</td><td>Data Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-18</td><td>medium</td><td>sme question</td><td>Where is &#x27;Top-up Payment&#x27; held, and which system is the source of truth?</td><td>No entity found for &#x27;Top-up Payment&#x27;.</td><td>Data Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr><tr><td>U-19</td><td>low</td><td>sme question</td><td>The reference model expects &#x27;Party&#x27;. Does the organisation have it, and where is it recorded?</td><td>Added at grade D from the playbook&#x27;s reference ontology; no evidence yet.</td><td>Domain Owner and Data Architecture Authority</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b46e3140&gt;</td></tr></tbody></table></div>
+</section>
+<section id="s1"><h2>Contradictions <span class=muted>(3)</span></h2><p class=lead>Where sources disagree. Kept, not resolved: the named owner decides.</p>
+<input class=f data-t="t1" placeholder="Filter 3 rows" aria-label="Filter Contradictions"><div class=tw><table id="t1"><thead><tr><th>ID</th><th>Element</th><th>Property</th><th>Versions and sources</th></tr></thead><tbody><tr><td>TAX-01</td><td>taxonomy EmploymentStatus</td><td>values</td><td>LIVE, CEASED ← docs/paye-operations-manual.md | LIVE, CEASED, SUSPENDED ← spreadsheets/taxcore-data-dictionary.csv</td></tr><tr><td>TAX-02</td><td>taxonomy NiCategory</td><td>values</td><td>A, B, C, H, J, M, Z ← docs/national-insurance-procedures.md | A, B, C, H, J, M, Z, V ← spreadsheets/taxcore-data-dictionary.csv</td></tr><tr><td>IDN-02</td><td>identifier National Insurance Number</td><td>issued by</td><td>TAXCORE ← code-examples/taxcore_procedures.sql, docs/taxcore-system-overview.md | NumberHub ← spreadsheets/interface-catalogue.csv, docs/national-insurance-procedures.md</td></tr></tbody></table></div>
+</section>
+<section id="s2"><h2>Resolved contradictions <span class=muted>(0)</span></h2><p class=lead>Settled by an owner&#x27;s answer or a real system artefact; the losing versions are kept for audit.</p>
+<p class=muted>None in this loop.</p>
+</section>
+<section id="s3"><h2>Review flags <span class=muted>(7)</span></h2><p class=lead>Possible synonyms, homonyms, undefined terms and other things to review.</p>
+<input class=f data-t="t3" placeholder="Filter 7 rows" aria-label="Filter Review flags"><div class=tw><table id="t3"><thead><tr><th>Type</th><th>Detail</th><th>Affects</th></tr></thead><tbody><tr><td>homonym risk</td><td>Glossary lists &#x27;Person&#x27; as a synonym of Customer, but TAXCORE has an entity &#x27;Person&#x27; with its own structure.</td><td>CON-01, ENT-01</td></tr><tr><td>unrealised concept</td><td>No entity found for &#x27;Childcare Provider&#x27;. Possible home: ChildcarePortal.</td><td>CON-10</td></tr><tr><td>unrealised concept</td><td>No entity found for &#x27;Top-up Payment&#x27;.</td><td>CON-12</td></tr><tr><td>unrealised concept</td><td>No entity found for &#x27;Qualifying Year&#x27;.</td><td>CON-14</td></tr><tr><td>system without role</td><td>&#x27;income-verify-svc&#x27; appears in 1 source(s) but nothing says what it does.</td><td>SYS-07</td></tr><tr><td>column split</td><td>NI_NUMBER in TC_PERSON is created by Allocate NI Number (National Insurance), but the table belongs to Customer.</td><td>ENT-01, ATT-02</td></tr><tr><td>cross domain write</td><td>Record Life Events (Customer) changes NiRecord (National Insurance), ChildcareAccount (Childcare) directly. Recommendation: Customer publishes LifeEventRecorded; Childcare, National Insurance react with their own services.</td><td>CAL-11, ENT-08, ENT-09</td></tr></tbody></table></div>
+</section>
+<section id="s4"><h2>Domain ownership <span class=muted>(12)</span></h2><p class=lead>Which domain owns each monolith table, and why.</p>
+<input class=f data-t="t4" placeholder="Filter 12 rows" aria-label="Filter Domain ownership"><div class=tw><table id="t4"><thead><tr><th>Entity</th><th>Table</th><th>Domain</th><th>Basis</th><th>Grade</th></tr></thead><tbody><tr><td>Person</td><td>TC_PERSON</td><td>Customer</td><td>changed by Customer, National Insurance; Customer creates it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>Address</td><td>TC_ADDRESS</td><td>Customer</td><td>only Customer capabilities change it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>Employer</td><td>TC_EMPLOYER</td><td>PAYE</td><td>no capability writes it; assigned by business vocabulary</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>Employment</td><td>TC_EMPLOYMENT</td><td>PAYE</td><td>only PAYE capabilities change it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>TaxCode</td><td>TC_TAX_CODE</td><td>PAYE</td><td>only PAYE capabilities change it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>PayPeriod</td><td>TC_PAY_PERIOD</td><td>PAYE</td><td>only PAYE capabilities change it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>NiContribution</td><td>TC_NI_CONTRIBUTION</td><td>National Insurance</td><td>only National Insurance capabilities change it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>NiRecord</td><td>TC_NI_RECORD</td><td>National Insurance</td><td>changed by National Insurance, Customer; National Insurance creates it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>ChildcareAccount</td><td>TC_CHILDCARE_ACCOUNT</td><td>Childcare</td><td>changed by Childcare, Customer; Childcare creates it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>Child</td><td>TC_CHILD</td><td>Childcare</td><td>only Childcare capabilities change it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>ChildcarePayment</td><td>TC_CHILDCARE_PAYMENT</td><td>Childcare</td><td>only Childcare capabilities change it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr><tr><td>EligibilityCheck</td><td>TC_ELIGIBILITY_CHECK</td><td>Childcare</td><td>only Childcare capabilities change it</td><td><span class="g g-B" title="Two or more independent sources agree">B</span></td></tr></tbody></table></div>
+</section>
+<section id="s5"><h2>Business services <span class=muted>(16)</span></h2><p class=lead>The access layer: commands change data, queries let other domains read it, events let them react.</p>
+<input class=f data-t="t5" placeholder="Filter 16 rows" aria-label="Filter Business services"><div class=tw><table id="t5"><thead><tr><th>Domain</th><th>Service</th><th>Type</th><th>Used by</th><th>Replaces / implements</th></tr></thead><tbody><tr><td>Customer</td><td>Register Customer</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_REGISTER_PERSON</td></tr><tr><td>Customer</td><td>Record Life Events</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_CLOSE_DECEASED</td></tr><tr><td>Customer</td><td>Get Person</td><td>query</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td></td></tr><tr><td>Customer</td><td>LifeEventRecorded</td><td>event</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_CLOSE_DECEASED writing NiRecord, PRC_CLOSE_DECEASED writing ChildcareAccount</td></tr><tr><td>PAYE</td><td>Process Employer Returns</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_LOAD_RETURNS</td></tr><tr><td>PAYE</td><td>Issue Tax Code</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_ISSUE_TAX_CODE</td></tr><tr><td>PAYE</td><td>Calculate PAYE</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_CALC_PAYE</td></tr><tr><td>PAYE</td><td>Get Employment</td><td>query</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td></td></tr><tr><td>PAYE</td><td>Get Pay Period</td><td>query</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td></td></tr><tr><td>National Insurance</td><td>Allocate NI Number</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_ALLOCATE_NINO</td></tr><tr><td>National Insurance</td><td>Calculate NI Contributions</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_CALC_NIC</td></tr><tr><td>National Insurance</td><td>Maintain NI Record</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_UPDATE_NI_RECORD</td></tr><tr><td>National Insurance</td><td>Get National Insurance Number</td><td>query</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td></td></tr><tr><td>Childcare</td><td>Open Childcare Account</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_OPEN_CC_ACCOUNT</td></tr><tr><td>Childcare</td><td>Check Childcare Eligibility</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_CHECK_ELIGIBILITY</td></tr><tr><td>Childcare</td><td>Calculate Childcare Top-up</td><td>command</td><td>&lt;generator object sections.&lt;locals&gt;.&lt;genexpr&gt; at 0x7f94b459bac0&gt;</td><td>PRC_CALC_TOPUP</td></tr></tbody></table></div>
+</section>
+<section id="s6"><h2>Moves and events <span class=muted>(3)</span></h2><p class=lead>Columns that move domain, and direct cross-domain writes that become events.</p>
+<input class=f data-t="t6" placeholder="Filter 3 rows" aria-label="Filter Moves and events"><div class=tw><table id="t6"><thead><tr><th>Kind</th><th>What</th><th>From</th><th>To</th><th>Why</th></tr></thead><tbody><tr><td>column moves</td><td>Person.NI_NUMBER</td><td>Customer</td><td>National Insurance</td><td>created by Allocate NI Number</td></tr><tr><td>write becomes event</td><td>LifeEventRecorded</td><td>Customer</td><td>National Insurance</td><td>PRC_CLOSE_DECEASED changes NiRecord</td></tr><tr><td>write becomes event</td><td>LifeEventRecorded</td><td>Customer</td><td>Childcare</td><td>PRC_CLOSE_DECEASED changes ChildcareAccount</td></tr></tbody></table></div>
+</section>
+<section><h2>Steward review notes</h2><div class=notes><h2>Steward notes — northmere-live, loop-01</h2>
+<p>Ontology Steward review of <code>work/loop-01/model.json</code> (199 elements, 7 flags), <code>unknowns.json</code> (U-01..U-19), <code>target_domains.yaml</code> and <code>outputs/loop-01/agent-notes.md</code>. All file references are relative to <code>inputs/loop-01/</code>. These are recommendations for the human gate; nothing here approves, rejects, resolves or reassigns anything.</p>
+<p>---</p>
+<h3>Merge review</h3>
+<h4>System alias merges (<code>system_lookup</code>)</h4>
+<div class="tw"><table><thead><tr><th>System</th><th>Merged names</th><th>Supporting source</th><th>Assessment</th></tr></thead><tbody><tr><td>SYS-01 TAXCORE</td><td>the Core, TC, TAXCORE (the Core)</td><td>docs/taxcore-system-overview.md line 7 (&quot;also called &#x27;the Core&#x27; or &#x27;TC&#x27;&quot;); diagrams/current-state.mmd line 2</td><td>Sound.</td></tr><tr><td>SYS-01 TAXCORE</td><td><code>taxcore-db</code></td><td>code-examples/childcare-portal.properties line 2 (<code>jdbc:db2://taxcore-db.internal.example:50000/TAXCORE</code>)</td><td><b>Inferred, not stated.</b> Supported by the hostname and the database name TAXCORE in the JDBC path, and DB2 matches overview line 7. Probably right; confirm with the Engineering Lead.</td></tr><tr><td>SYS-01 TAXCORE</td><td><code>TC_</code></td><td>manifest <code>table_prefix</code></td><td>Not a system name, it is a table prefix. Harmless for lookup but should not appear as an alias in published outputs.</td></tr><tr><td>SYS-02 CitizenPortal</td><td>online account, CP</td><td>overview line 9; diagram line 2</td><td>Sound.</td></tr><tr><td>SYS-03 RevenueWarehouse</td><td>MI warehouse, RW</td><td>overview line 10; diagram line 6</td><td>Sound.</td></tr><tr><td>SYS-04 EmployerGateway</td><td>employer filing, EG</td><td>docs/paye-operations-manual.md line 7; diagram line 3</td><td>Sound.</td></tr><tr><td>SYS-05 NumberHub</td><td>NI allocation, NH, <code>numberhub</code></td><td>docs/national-insurance-procedures.md line 7; diagram line 4; properties line 3 (hostname)</td><td>Sound, with one <b>homonym risk</b>: &quot;NI allocation&quot; is NumberHub&#x27;s nickname, but the same sentence refers to &quot;the TAXCORE allocation module&quot; it replaced, and the capability CAP-06 is &quot;Allocate NI Number&quot;. Any future source saying &quot;NI allocation&quot; in a pre-2022 context may mean the TAXCORE module, not NumberHub. Recommend the merge stands, but that pre-2022 uses of &quot;NI allocation&quot; are not auto-attributed to SYS-05.</td></tr><tr><td>SYS-06 ChildcarePortal</td><td>parent account, CC</td><td>childcare-scheme-guide.md line 7; diagram line 5</td><td>Sound. &quot;CC&quot; also prefixes interface CC-01 and the column CC_ACCOUNT_ID; the alias lookup should only ever match it as a system node, not as a substring.</td></tr><tr><td>SYS-07 income-verify-svc</td><td>income-verify</td><td>properties line 4 (hostname)</td><td>Sound but weak: one config line only.</td></tr></tbody></table></div>
+<p>No merge looks wrong. The two hostname-based merges (<code>taxcore-db</code>, <code>income-verify</code>) are inferences and should be marked as such.</p>
+<h4>Near-duplicates the deterministic merge missed (candidates, not merges)</h4>
+<li><b>TAX-07 <code>QualifyingYear</code> and TAX-08 <code>NI Qualifying Year Flag</code></b> are the same code list on the same</li>
+<p>column, <code>TC_NI_RECORD.QUALIFYING</code> (taxcore-data-dictionary.csv line 38), proposed once by DA and once by Engineering under different names. Codes are identical (Y=Yes, N=No). Candidate merge. DA also notes it may be a boolean rather than a taxonomy at all.</p>
+<li><b>Rule clusters that state one rule several times</b> (sources differ, rule is the same):</li>
+<li>*No NI contributions after death*: RUL-11 (national-insurance-procedures.md line 18), RUL-18 and RUL-23</li>
+<p>(both taxcore_procedures.sql line 12 — the same line produced two rules, one from BA and one from Engineering). They are also assigned to <b>different domains</b> (RUL-11 and RUL-18 to Customer, RUL-23 to National Insurance). The rule governs a National Insurance calculation; Customer is a vocabulary artefact of the word &quot;death&quot;.</p>
+<li>*Close the childcare account when the holder dies*: RUL-16 (childcare-scheme-guide.md line 15),</li>
+<p>RUL-17 (taxcore-batch-jobs.csv line 12), RUL-21 and RUL-25 (both taxcore_procedures.sql lines 42-43). Four elements; three have no domain, RUL-25 is Childcare.</p>
+<li>*Income limit 100,000*: RUL-14 (guide line 13 + sql line 26) and RUL-19 (sql line 26).</li>
+<li>*Top-up is 25%*: RUL-20 and RUL-24 (both sql line 36).</li>
+<li>*Three-monthly reconfirmation*: RUL-04 (business-capability-map.md line 18), RUL-13 (guide line 12 +</li>
+<p>properties line 5) and RUL-22 (properties line 5). Recommend the gate treats each cluster as one rule with several pieces of evidence (the documented statement plus its implementation), so that grades reflect corroboration rather than being split.</p>
+<li><b>RUL-01 and RUL-08 are a contradiction, not two rules.</b> RUL-01 &quot;issued at first registration&quot;</li>
+<p>(overview line 14, 2016) and RUL-08 &quot;issued at age 16&quot; (NI procedures line 12, 2023) describe the same rule with different timing and issuer. Only IDN-02 carries a conflict; the rules carry none. Recommend they are linked to U-05.</p>
+<li><b>Concepts that are realised but were flagged as unrealised</b>:</li>
+<li>CON-14 *Qualifying Year* is realised by ATT-37 <code>NiRecord.qualifyingYear</code> (dictionary line 38) as a</li>
+<p>per-tax-year flag on NiRecord, not as an entity. U-17 can be reframed (see below).</p>
+<li>CON-12 *Top-up Payment* is realised by ATT-52 <code>ChildcarePayment.topUpAmount</code> (dictionary line 53,</li>
+<p>&quot;Government top-up&quot;), a column on the payment row rather than an entity. U-18 can be reframed.</p>
+<li>CON-20 *Parent Payment* matches ATT-51 <code>ChildcarePayment.parentAmount</code> (dictionary line 52, &quot;Parent</li>
+<p>payment&quot;) and the CC-01 payload. ENT-11 ChildcarePayment probably realises both Parent Payment and Top-up Payment.</p>
+<li><b>Roles that may be one role</b>: CON-18 *Parent* (guide lines 7-8, 12-13) and &quot;account holder&quot; (guide</li>
+<p>line 15); REL-08 ChildcareAccount → Person is annotated by DA as the account holder. Candidate synonym; SME question (added under U-14).</p>
+<li><b>Person / Customer / Party</b>: CON-01 Customer (aliases Taxpayer, Citizen, Person), ENT-01 Person and</li>
+<p>ENT-13 Party (grade D, reference ontology) overlap. TC_CHILD.PERSON_ID (line 46, &quot;if registered&quot;) shows a TAXCORE Person can be a child who is not necessarily a customer. U-02 and U-19 should be asked together.</p>
+<li><b>Interfaces</b>: INT-06 ChildcarePortal-TAXCORE-JDBC and INT-04 CC-01 both connect ChildcarePortal to</li>
+<p>TAXCORE. They are *not* duplicates (REST vs direct DB2), but should be reviewed together: the JDBC link may be how CC-01 is actually implemented, or a second, undocumented path.</p>
+<h4>Domain-assignment anomalies found while reviewing merges</h4>
+<li><b>TAX-02 NiCategory is assigned to PAYE</b> (domain_basis &quot;used by PayPeriod.niCategory&quot;), although</li>
+<p>target_domains.yaml lists &quot;ni category&quot; as a National Insurance keyword and the code list is documented in national-insurance-procedures.md line 22. The column also appears on TC_NI_CONTRIBUTION (line 33). Recommend: National Insurance owns the code list; PAYE carries the value as received in the employer return (TC_PAY_PERIOD.NI_CATEGORY, line 29). For the Director of National Insurance and Director of Employer Taxes to confirm.</p>
+<li><b>CON-01 Customer has no domain</b> (null), while ENT-01 Person is Customer. Probably a gap in vocabulary</li>
+<p>scoring rather than a real question.</p>
+<li>CON-15 Lower Earnings Limit, CON-17 Expected Income, CON-18 Parent, CON-20 Parent Payment, RUL-02, RUL-03,</li>
+<p>RUL-16, RUL-17, RUL-21 have no domain. RUL-02 and RUL-03 are IT-governance rules (overview lines 19-20) and arguably belong outside the business ontology; RUL-02 is however directly relevant to the decomposition (see below).</p>
+<p>---</p>
+<h3>Contradictions</h3>
+<h4>C-1. Issuer and timing of the National Insurance Number (IDN-02, RUL-01 vs RUL-08; U-05)</h4>
+<li>*TAXCORE, at first registration*: docs/taxcore-system-overview.md line 14 (architecture overview,</li>
+<p>2016-09-12, stale) and code-examples/taxcore_procedures.sql line 18 (<code>NEXT VALUE FOR SEQ_NINO</code>, example code, 2020-07-01, stale).</p>
+<li>*NumberHub, at age 16*: docs/national-insurance-procedures.md lines 7 and 12 (process doc, 2023-10-16) and</li>
+<p>spreadsheets/interface-catalogue.csv line 4 (NIN-02 NumberHub → TAXCORE, 2024-03-11).</p>
+<li>Most likely explanation: both TAXCORE sources pre-date the 2022 NumberHub carve-out (NI procedures line 7).</li>
+<p><b>But</b> the 2024 batch-job catalogue (taxcore-batch-jobs.csv line 3) still schedules J020 <code>PRC_ALLOCATE_NINO</code> *Daily*, writing TC_PERSON. Either J020 now only stores the number received over NIN-02, or it is a leftover that still generates numbers from SEQ_NINO. The second case would create two issuers and threaten RUL-09 (one number for life). The nullable NI_NUMBER (dictionary line 3) is consistent with &quot;age 16&quot;.</p>
+<li>Recommendation: treat NumberHub as the current issuer pending confirmation; open a separate question on</li>
+<p>J020 (U-20 below).</p>
+<li><b>Decider</b>: Data Architecture Authority, with the Director of National Insurance (NI Operations owns both</li>
+<p>NIN-02 and J020).</p>
+<h4>C-2. EmploymentStatus values (TAX-01; U-06)</h4>
+<li>*Live, Ceased*: docs/paye-operations-manual.md line 18 (process doc, 2023-04-03).</li>
+<li>*Live, Ceased, Suspended*: spreadsheets/taxcore-data-dictionary.csv line 20 (data dictionary, 2022-02-14).</li>
+<li>Both current. Most likely: SUS exists in the database but is not an operational status that staff set</li>
+<p>(legacy, or set only by a batch process), or the manual simplified the list. A data profile would settle it.</p>
+<li><b>Decider</b>: Director of Employer Taxes (PAYE Operations), with a row count of <code>STATUS=&#x27;SUS&#x27;</code> from the</li>
+<p>Engineering Lead.</p>
+<h4>C-3. NiCategory values (TAX-02; U-07)</h4>
+<li>*A, B, C, H, J, M, Z*: docs/national-insurance-procedures.md line 22 (process doc, 2023-10-16).</li>
+<li>*... plus V*: spreadsheets/taxcore-data-dictionary.csv line 33 (data dictionary, 2022-02-14).</li>
+<li>The dictionary is the older source, so V may have been withdrawn before the 2023 procedures, or the</li>
+<p>procedures list only categories staff assign. Note TC_PAY_PERIOD.NI_CATEGORY (line 29) has no code list, so the PAYE side may accept values the NI side does not.</p>
+<li><b>Decider</b>: Director of National Insurance (NI Operations); evidence: distinct values of NI_CATEGORY in</li>
+<p>both tables.</p>
+<h4>C-4. What PRC_CLOSE_DECEASED writes (CAL-11) — not currently recorded as a conflict</h4>
+<li>*Writes TC_CHILDCARE_ACCOUNT and TC_NI_RECORD*: taxcore-batch-jobs.csv line 12 (job catalogue, 2024-08-01).</li>
+<li>*Writes TC_CHILDCARE_ACCOUNT.STATUS only*: taxcore_procedures.sql lines 39-43 (example code, 2020-07-01,</li>
+<p>stale, &quot;simplified&quot;).</p>
+<li>Most likely: the procedure was extended after 2020, or the extract omitted the NI statement, or the</li>
+<p>catalogue entry is wrong. This matters because the NiRecord half of the proposed PersonChanged event (U-01) rests entirely on the catalogue line, with no column-level evidence (<code>columns: []</code>).</p>
+<li><b>Decider</b>: Engineering Lead with Core Systems Operations, from current production source.</li>
+<h4>C-5. How expected income is derived (RUL-12, RUL-14/19, CAL-09, SYS-07) — not recorded as a conflict</h4>
+<li>*From PAYE employment records*: childcare-scheme-guide.md line 8 (2024), implemented as</li>
+<p><code>SUM(GROSS_PAY) * 4</code> over TC_PAY_PERIOD (taxcore_procedures.sql lines 25-29, 2020, stale).</p>
+<li>*Possibly from income-verify-svc*: childcare-portal.properties line 4 (2025) — purpose not stated.</li>
+<li>Most likely: income verification moved, or is moving, out of TAXCORE into income-verify-svc after 2020;</li>
+<p>or income-verify-svc does something else entirely. Possible contradiction only.</p>
+<li><b>Decider</b>: Director of Family Support, with the Enterprise Architecture Authority for SYS-07.</li>
+<h4>C-6. Interface mechanism between ChildcarePortal and TAXCORE (INT-04 vs INT-06)</h4>
+<li>*REST API*: interface-catalogue.csv line 5 (CC-01, 2024) and diagram line 5 (2025).</li>
+<li>*Direct DB2 JDBC*: childcare-portal.properties line 2 (2025).</li>
+<li>Most likely: both exist — the REST interface for parent payments, plus an undocumented shared-database</li>
+<p>dependency. The catalogue and diagram do not show it.</p>
+<li><b>Decider</b>: Enterprise Architecture Authority with the ChildcarePortal team.</li>
+<p>Not contradictions (recorded so nobody re-raises them): PAY-01 &quot;Daily&quot; (catalogue) vs &quot;overnight&quot; (PAYE manual line 8); J310 running Daily vs the three-monthly reconfirmation (a daily job may process the accounts that are due — confirm under U-24); J320 &quot;Real time&quot; vs &quot;within one working day&quot; (guide line 14).</p>
+<p>---</p>
+<h3>Revised unknowns</h3>
+<p>Existing U-ids kept; new candidates numbered U-20 onward as *proposed* additions (the Steward does not add them to unknowns.json).</p>
+<div class="tw"><table><thead><tr><th>ID</th><th>Revised question (answerable in one reply)</th><th>Ask</th></tr></thead><tbody><tr><td>U-01</td><td>When a death is recorded, which domains must react, and how? Specifically: (a) should Family Support close the childcare account itself on a &quot;death recorded&quot; notification from Customer; (b) does anything in the NI record change on death (the 2024 job catalogue says J330 writes TC_NI_RECORD, the 2020 code does not)? Would &quot;DeathRecorded&quot; (or a typed &quot;LifeEventRecorded&quot;) be the right business event rather than a generic &quot;PersonChanged&quot;?</td><td>Directors of Customer Services, Family Support and National Insurance, with EA Authority</td></tr><tr><td>U-02</td><td>Is every row in TC_PERSON a Customer, or does TC_PERSON also hold people who are not customers (e.g. a registered child, TC_CHILD.PERSON_ID, dictionary line 46)? If the latter, is &quot;Person&quot; the party and &quot;Customer&quot; a role? Answer together with U-19 (Party).</td><td>Director of Customer Services, Data Architecture Authority</td></tr><tr><td>U-03</td><td>Today, does TAXCORE create NI_NUMBER or only store the number NumberHub sends over NIN-02? If it only stores it, is the proposed move of NI_NUMBER to National Insurance really &quot;TAXCORE keeps a reference; NumberHub remains master&quot;?</td><td>Director of National Insurance, EA Authority</td></tr><tr><td>U-04</td><td>(Evidence) Provide a DB2 schema export of TAXCORE (all TC_ tables, keys, FKs, sequences incl. SEQ_NINO) and a masked sample with distinct-value counts for EMPLOYMENT.STATUS, NI_CATEGORY (both tables), CHILDCARE_ACCOUNT.STATUS, ELIGIBILITY_CHECK.OUTCOME.</td><td>Engineering Lead</td></tr><tr><td>U-05</td><td>Who issues the NI number today and at what point (first registration or age 16)? Is anything other than NumberHub still able to issue one?</td><td>Director of National Insurance, Data Architecture Authority</td></tr><tr><td>U-06</td><td>Is &quot;Suspended&quot; (SUS) a current employment status? If yes, who sets it and what does it mean; if no, are there rows still holding it?</td><td>Director of Employer Taxes</td></tr><tr><td>U-07</td><td>Is NI category V current? If withdrawn, when, and do rows still carry it? Should TC_PAY_PERIOD.NI_CATEGORY use the same list?</td><td>Director of National Insurance</td></tr><tr><td>U-08</td><td>Define a Class 1 contribution, and list any other contribution classes TAXCORE holds (only Class 1 appears: NI procedures line 8, TC_NI_RECORD.CLASS1_TOTAL).</td><td>NI Operations</td></tr><tr><td>U-09</td><td>What is an eligibility check — one per account per reconfirmation, or one per run of J310? What triggers one?</td><td>Family Support</td></tr><tr><td>U-10</td><td>Define an employer return: is it one file per employer per pay period (PAYE manual line 7, capability map line 11), and what is the &quot;filing deadline&quot; used for penalty review (RUL-07)?</td><td>PAYE Operations</td></tr><tr><td>U-11</td><td>Define expected income: over what period, gross or net, from which records? Is <code>SUM(GROSS_PAY) * 4</code> over all pay periods (sql line 25, no date filter) the intended rule?</td><td>Family Support (with U-23)</td></tr><tr><td>U-12</td><td>What is the lower earnings limit, where is its value held per tax year, and which procedure applies it to set TC_NI_RECORD.QUALIFYING?</td><td>NI Operations</td></tr><tr><td>U-13</td><td>Is a parent payment exactly one TC_CHILDCARE_PAYMENT row (PARENT_AMOUNT) received over CC-01?</td><td>Family Support</td></tr><tr><td>U-14</td><td>Is a &quot;parent&quot; the same as the &quot;account holder&quot; (guide line 15) — i.e. the Person on TC_CHILDCARE_ACCOUNT.PERSON_ID? Can an account have more than one parent?</td><td>Family Support</td></tr><tr><td>U-15</td><td>What does income-verify-svc do, who owns it, what does ChildcarePortal send it and receive, and does it replace or supplement PRC_CHECK_ELIGIBILITY&#x27;s income calculation?</td><td>EA Authority, ChildcarePortal team</td></tr><tr><td>U-16</td><td>Where are childcare providers registered (PROVIDER_REF has no table in TAXCORE, dictionary line 51), and which system issues the provider reference?</td><td>Data Architecture Authority, Family Support</td></tr><tr><td>U-17</td><td>*Reframed*: Qualifying year is held as the Y/N flag TC_NI_RECORD.QUALIFYING per person and tax year. Confirm that is the system of record and whether it should be modelled as an attribute (boolean) rather than an entity or a taxonomy (also resolves TAX-07/TAX-08).</td><td>Data Architecture Authority</td></tr><tr><td>U-18</td><td>*Reframed*: Top-up payment appears to be TC_CHILDCARE_PAYMENT.TOPUP_AMOUNT on the parent&#x27;s payment row, not a separate record. Confirm, and say where the top-up is actually paid out from (TAXCORE or ChildcarePortal).</td><td>Family Support</td></tr><tr><td>U-19</td><td>Does the organisation have a Party concept above Person and Employer? Ask with U-02.</td><td>Director of Customer Services, Data Architecture Authority</td></tr><tr><td><b>U-20</b> (new)</td><td>Is batch job J020 PRC_ALLOCATE_NINO (catalogue line 3, Daily, 2024) still running after the 2022 NumberHub carve-out? If so, what does it do now — generate from SEQ_NINO, or store the NIN-02 number? Is SEQ_NINO still in use?</td><td>Core Systems Operations, NI Operations</td></tr><tr><td><b>U-21</b> (new)</td><td>Which TC_ tables does ChildcarePortal read or write over its direct JDBC connection (properties line 2), bypassing CC-01?</td><td>ChildcarePortal team, Engineering Lead</td></tr><tr><td><b>U-22</b> (new)</td><td>What does ChildcarePortal call NumberHub for (properties line 3) — NI number lookup for parents, identity check, other?</td><td>ChildcarePortal team, NI Operations</td></tr><tr><td><b>U-23</b> (new)</td><td>PRC_CHECK_ELIGIBILITY multiplies the sum of *all* pay periods, across all employments and tax years, by 4 (sql lines 25-30). Is this the production logic? It does not annualise any specific period.</td><td>Family Support, Engineering Lead</td></tr><tr><td><b>U-24</b> (new)</td><td>J310 runs Daily but reconfirmation is every three months: does J310 check only accounts that are due, or every account every day?</td><td>Family Support</td></tr><tr><td><b>U-25</b> (new)</td><td>PRC_CALC_NIC excludes every pay period of a person with a date of death (<code>DATE_OF_DEATH IS NULL</code>, sql line 12), including periods before death, whereas the rule says &quot;after their recorded date of death&quot; (NI procedures line 18). It also has no floor at zero for pay below the thresholds (1048 / 758) and applies the same rates regardless of NI category. Is the production procedure different?</td><td>NI Operations, Engineering Lead</td></tr><tr><td><b>U-26</b> (new)</td><td>Which capability writes TC_PERSON.DATE_OF_DEATH? No job in the catalogue does (J010 writes TC_PERSON on registration; J330 only reads it). Is it CUS-01 from CitizenPortal, or a manual process?</td><td>Customer Services</td></tr><tr><td><b>U-27</b> (new)</td><td>No job writes TC_EMPLOYER (J110 only reads it). Which process creates and maintains employers — EmployerGateway?</td><td>PAYE Operations</td></tr><tr><td><b>U-28</b> (new)</td><td>MI-01 extracts &quot;All modules&quot; nightly to RevenueWarehouse (catalogue line 6). After decomposition, who provides the extract for each domain, and is Reporting/MI (DOM-05) an in-scope domain?</td><td>Data team, EA Authority</td></tr><tr><td><b>U-29</b> (new)</td><td>Does RUL-02 (no module may change another module&#x27;s tables without a Core Systems change request, overview line 19) still apply, and was J330&#x27;s write into childcare and NI tables approved under it?</td><td>Core Systems, EA Authority</td></tr></tbody></table></div>
+<p>---</p>
+<h3>Evidence requests (ordered by how many elements they would confirm)</h3>
+<li><b>TAXCORE schema export + masked data profile (U-04)</b> — confirms ~78 entity/attribute/identifier</li>
+<p>elements (ENT-01..12, ATT-01..58, IDN-01..09, REL-01..15) and resolves C-2, C-3 and the TAX-07/08 duplicate.</p>
+<li><b>Current production source of all eleven batch programs</b> (J010-J330; only five are in the 2020 extract)</li>
+<p>— confirms CAL-01..11, the rule clusters above (≈20 rules), the read sets used by the decomposition dependencies, and resolves C-4, U-20, U-23, U-25, U-26, U-27.</p>
+<li><b>ChildcarePortal integration description</b> (what goes over JDBC, NumberHub and income-verify-svc calls)</li>
+<p>— confirms INT-04, INT-06..08, FLW-04, FLW-06, FLW-07, SYS-07 and resolves C-5, C-6, U-15, U-21, U-22.</p>
+<li><b>NumberHub interface spec for NIN-02</b> — confirms INT-03, FLW-03, EVT-01, IDN-02 and the NI_NUMBER split.</li>
+<li><b>MI-01 extract specification</b> — confirms INT-05, FLW-05, DOM-05 and exposes RevenueWarehouse&#x27;s</li>
+<p>table-level dependencies (U-28).</p>
+<li><b>NI reference values (lower earnings limit, thresholds, rates per tax year)</b> — confirms CON-15, RUL-10,</li>
+<p>RUL-26.</p>
+<p>---</p>
+<h3>Decomposition review</h3>
+<h4>Ownership — is it supported by write evidence?</h4>
+<div class="tw"><table><thead><tr><th>Entity</th><th>Proposed owner</th><th>Basis</th><th>Assessment</th></tr></thead><tbody><tr><td>ENT-01 Person, ENT-02 Address</td><td>Customer</td><td>J010 writes both (batch line 2)</td><td>Supported. CUS-01 (CitizenPortal → TAXCORE, &quot;Customer details; addresses&quot;) also writes customer data and is owned by Customer Services — corroborates.</td></tr><tr><td>ENT-03 Employer</td><td>PAYE</td><td>&quot;no capability writes it; assigned by business vocabulary&quot;</td><td><b>Vocabulary only.</b> No writer in evidence (U-27). Probably PAYE, but the owner should confirm before it is graded.</td></tr><tr><td>ENT-04 Employment, ENT-06 PayPeriod</td><td>PAYE</td><td>J110 writes both; J120 writes PayPeriod</td><td>Supported.</td></tr><tr><td>ENT-05 TaxCode</td><td>PAYE</td><td>J130</td><td>Supported.</td></tr><tr><td>ENT-07 NiContribution</td><td>NI</td><td>J210, PRC_CALC_NIC INSERT</td><td>Supported.</td></tr><tr><td>ENT-08 NiRecord</td><td>NI</td><td>J220</td><td>Supported (J330&#x27;s write is the cross-domain one).</td></tr><tr><td>ENT-09 ChildcareAccount, ENT-10 Child</td><td>Childcare</td><td>J300</td><td>Supported.</td></tr><tr><td>ENT-11 ChildcarePayment</td><td>Childcare</td><td>J320 updates TOPUP_AMOUNT</td><td>Owner is right, but the evidence is partial: J320 only *updates* the top-up; the row (PARENT_AMOUNT, PROVIDER_REF, PAID_DATE) is created by the CC-01 inflow and possibly by the JDBC link (U-21). Both are Family Support systems, so ownership holds.</td></tr><tr><td>ENT-12 EligibilityCheck</td><td>Childcare</td><td>J310</td><td>Supported.</td></tr></tbody></table></div>
+<p>Capability-to-domain mapping uses the capability map&#x27;s owner teams (business-capability-map.md lines 9-19) and the catalogue&#x27;s owner column, which agree in every row. Good.</p>
+<h4>The NI Number split (ATT-02 NI_NUMBER from Person to National Insurance; U-03)</h4>
+<li>The *direction* is supported: the number belongs to the NI capability &quot;Allocate NI Number&quot; (capability</li>
+<p>map line 14, owner NI Operations), and since 2022 it is created <b>outside TAXCORE by NumberHub</b> (NI procedures line 7; NIN-02 owned by NI Operations).</p>
+<li>The *evidence chosen* is weak. The split rests on J020/PRC_ALLOCATE_NINO writing TC_PERSON.NI_NUMBER, i.e.</li>
+<p>on a 2020 code extract (stale) and a 2024 catalogue line that may describe a zombie job (U-20). The current creator is NumberHub; TAXCORE&#x27;s column is at most a received copy.</p>
+<li>The decomposition does not mention NumberHub at all. Its &quot;Get National Insurance Number&quot; query (NI</li>
+<p>domain, consumer Customer) is effectively NumberHub&#x27;s service, and EVT-01 NationalInsuranceNumberAllocated (NIN-02, MQ, real time) already exists as the event Customer would react to.</p>
+<li>Recommendation: keep the split as proposed, but restate it as &quot;National Insurance (NumberHub) masters the</li>
+<p>number; Customer holds a reference updated from NationalInsuranceNumberAllocated&quot;, and do not approve it until U-20 says whether J020 still generates numbers. If J020 still allocates from SEQ_NINO, that is a live double-issuer risk to RUL-09 and should be raised to the Director of National Insurance before any migration work.</p>
+<h4>The PersonChanged event (CAL-11 / J330; U-01)</h4>
+<li>The cross-domain write is real for ChildcareAccount: J330 sets TC_CHILDCARE_ACCOUNT.STATUS = &#x27;CLO&#x27;</li>
+<p>(sql line 42), corroborated by the guide&#x27;s rule (line 15) — but that rule is <b>Family Support&#x27;s</b> rule.</p>
+<li>For NiRecord the write rests only on the catalogue (batch line 12) with no column and contradicts the 2020</li>
+<p>code (C-4). Do not design the NI reaction until C-4 is resolved.</p>
+<li>&quot;Record Life Events&quot; in the service catalogue has <code>changes: []</code> — the Customer command changes nothing in</li>
+<p>Customer&#x27;s own data. J330 reads TC_PERSON and writes only other domains&#x27; tables. This suggests J330 is not Customer&#x27;s &quot;record a death&quot; capability at all; it is a downstream reaction job, scheduled by Customer Services, that polls daily. The capability that actually records the death (writes DATE_OF_DEATH) is not in evidence (U-26).</p>
+<li><b>&quot;PersonChanged&quot; is not a good business event.</b> It is CRUD-shaped and would fire on every address or</li>
+<p>correspondence-preference change, forcing Childcare and NI to filter. The evidence supports a specific business fact: a death was recorded (NI procedures line 18, guide line 15, capability map line 10). Recommend the owners consider <b>DeathRecorded</b> (or LifeEventRecorded with a type, given the capability also covers births and changes of circumstance), published by Customer when DATE_OF_DEATH is written. Childcare closes the account itself (RUL-16) and NI stops calculating (RUL-11) on that event.</p>
+<li>NI&#x27;s other death dependency, PRC_CALC_NIC reading TC_PERSON.DATE_OF_DEATH (sql lines 11-12), is captured</li>
+<p>as the ni → customer read; it could be served by the same event instead of a per-run query.</p>
+<h4>Missing or under-captured dependencies</h4>
+<li><b>ChildcarePortal → TAXCORE DB2 over JDBC (INT-06)</b> — an undocumented shared-database consumer with</li>
+<p>unknown tables. This is the highest decomposition risk: splitting TAXCORE tables could break it silently. Not in unknowns.json (U-21 proposed). Not in <code>dependencies</code>.</p>
+<li><b>Childcare → National Insurance via NumberHub (FLW-06/INT-07)</b> — ChildcarePortal calls NumberHub</li>
+<p>directly. Not in <code>dependencies</code> (U-22).</p>
+<li><b>Childcare → income-verify-svc (FLW-07/INT-08)</b> — possibly a second source of expected income</li>
+<p>alongside the childcare → PAYE read through PRC_CHECK_ELIGIBILITY (C-5).</p>
+<li><b>Reporting/MI → all domains (MI-01)</b> — RevenueWarehouse takes &quot;All modules&quot; nightly (catalogue line 6).</li>
+<p>DOM-05 exists in the model but not in target_domains.yaml, so this consumer of every domain&#x27;s tables is absent from the decomposition (U-28).</p>
+<li><b>PAYE → Customer (and NI) in Process Employer Returns</b> — J110 creates TC_EMPLOYMENT rows with a</li>
+<p>PERSON_ID (dictionary line 16) and RUL-05 requires each employment to link to one person, but the catalogue lists only TC_EMPLOYER as read. The person-matching read is not captured; ask with the program source (evidence request 2).</p>
+<li><b>Maintain NI Record → PAYE Employment</b> — J220 reads only TC_NI_CONTRIBUTION (keyed on EMPLOYMENT_ID,</li>
+<p>line 30) but writes TC_NI_RECORD keyed on PERSON_ID (line 36); it must resolve employment → person somewhere, and it needs the lower earnings limit (CON-15) from an unrecorded source.</p>
+<li><b>NI category</b> — PayPeriod.NI_CATEGORY (PAYE, line 29) feeds NiContribution.NI_CATEGORY (line 33) via</li>
+<p>PRC_CALC_NIC. The PAYE → NI read is captured, but the code-list ownership is mis-assigned (TAX-02, above).</p>
+<h4>Other observations from agent-notes.md that are not yet owner questions</h4>
+<li>J020 still scheduled after NumberHub replaced it (Engineering, DA notes) → U-20.</li>
+<li>ChildcarePortal JDBC and NumberHub calls, both missing from the interface catalogue and diagram (EA notes) → U-21, U-22.</li>
+<li><code>SUM(GROSS_PAY) * 4</code> &quot;looks questionable&quot; (Engineering note on RUL-14) → U-23.</li>
+<li>PRC_CALC_NIC has no floor at zero and hard-coded rates (Engineering note on RUL-26) → U-25.</li>
+<li>J330 may affect NI records with no stated effect (BA note on RUL-17) → C-4 / U-01.</li>
+<li>Address has no declared primary key (DA note on ENT-02) → covered by U-04.</li>
+<li>Child.personId and ChildcarePayment.providerReference have no FK (DA notes) → U-02, U-16.</li>
+<p>---</p>
+<h3>Suggested SME sessions</h3>
+<li><b>National Insurance (Director of National Insurance, NI Operations, Core Systems Operations)</b> — U-03,</li>
+<p>U-05, U-07, U-08, U-12, U-20, U-25, NiRecord part of U-01, C-4. Highest value: settles the NI Number split and the double-issuer risk.</p>
+<li><b>Childcare (Director of Family Support, ChildcarePortal team)</b> — U-09, U-11, U-13, U-14, U-15, U-16,</li>
+<p>U-18, U-21, U-22, U-23, U-24, childcare part of U-01. Settles the undocumented ChildcarePortal dependencies.</p>
+<li><b>Customer and life events (Director of Customer Services, Data Architecture Authority)</b> — U-01 (event</li>
+<p>design, with Family Support and NI attending the last 20 minutes), U-02, U-19, U-26, U-29.</p>
+<li><b>PAYE (Director of Employer Taxes, PAYE Operations)</b> — U-06, U-10, U-27, the TAX-02 code-list ownership</li>
+<p>question, and the person-matching read in J110.</p>
+<li><b>Architecture and data (EA Authority, Data Architecture Authority, Engineering Lead, Data team)</b> — U-04</li>
+<p>and evidence requests 1-5, U-17, U-28, TAX-07/08 duplicate, rule-cluster consolidation, hostname-based alias merges.</p></div></section>
+<section><h2>Observations from the specialist agents</h2><div class=notes><h2>Agent notes — loop-01</h2>
+<p>Observations the agents recorded alongside their findings. Reviewers should read these: they often hold the most useful judgment, such as undocumented dependencies or doubts about a source.</p>
+<h3>Enterprise Architect agent (23)</h3>
+<li><b>system TAXCORE</b>: Source is a 2016 document (stale); it predates the 2022 NumberHub carve-out.</li>
+<li><b>system TAXCORE</b>: Conflicts with docs/national-insurance-procedures.md lines 7 and 13 (NumberHub issues NINO; replaced TAXCORE allocation module in 2022). This 2016 source is stale; likely superseded. Question for EA Authority.</li>
+<li><b>system TAXCORE</b>: States TAXCORE once had an NI allocation module, replaced by NumberHub in 2022.</li>
+<li><b>system TAXCORE</b>: Data dictionary attributed to TAXCORE by manifest system_hint (table_prefix TC_). Tables cover person, address, employer, employment, tax code, pay period, NI contribution/record, childcare account/child/payment/eligibility.</li>
+<li><b>system TAXCORE</b>: Batch job catalogue attributed to TAXCORE by manifest system_hint.</li>
+<li><b>system TAXCORE</b>: Interface catalogue uses &#x27;TC&#x27; as target here and &#x27;TAXCORE&#x27; elsewhere; TC is a stated alias in the overview.</li>
+<li><b>system TAXCORE</b>: Diagram node id TC.</li>
+<li><b>system TAXCORE</b>: ChildcarePortal connects directly to the TAXCORE DB2 database over JDBC (shared-database dependency).</li>
+<li><b>system CitizenPortal</b>: Diagram node id CP.</li>
+<li><b>system RevenueWarehouse</b>: Diagram node id RW.</li>
+<li><b>system EmployerGateway</b>: Diagram node id EG.</li>
+<li><b>system NumberHub</b>: Same line says it replaced the TAXCORE allocation module in 2022.</li>
+<li><b>system NumberHub</b>: Diagram node id NH.</li>
+<li><b>system NumberHub</b>: ChildcarePortal backend calls a NumberHub API; this dependency is not in the interface catalogue or diagram.</li>
+<li><b>system ChildcarePortal</b>: Diagram node id CC (not to be confused with interface id CC-01).</li>
+<li><b>system income-verify-svc</b>: Unknown system: appears only in ChildcarePortal config. Not in the interface catalogue or the current-state diagram; no stated purpose. Name suggests income verification, possibly related to childcare eligibility (expected income) - question for SMEs.</li>
+<li><b>flow MI-01 Nightly extract</b>: Source text does not name the sender explicitly; inferred TAXCORE from the document subject. Matches interface MI-01.</li>
+<li><b>flow PAY-01 Employer returns</b>: Previous line names EmployerGateway as capturing the returns. Catalogue says Daily; manual says overnight.</li>
+<li><b>flow ChildcarePortal -&gt; TAXCORE database (JDBC)</b>: Runtime dependency from config; data direction not stated. Not in interface catalogue (which lists CC-01 as REST API). Possible undocumented shared-database integration.</li>
+<li><b>flow ChildcarePortal -&gt; NumberHub API</b>: Runtime dependency from config; data direction and payload not stated; undocumented in interface catalogue and diagram.</li>
+<li><b>flow ChildcarePortal -&gt; income-verify-svc API</b>: Runtime dependency from config; purpose not stated; undocumented elsewhere.</li>
+<li><b>domain Childcare</b>: income-verify-svc placement is speculative (only seen in ChildcarePortal config).</li>
+<li><b>capability Calculate NI Contributions</b>: SQL comment does not state an owner; owner_team copied exactly from the capability map / batch job catalogue for the same capability name.</li>
+<h3>Business Analyst agent (43)</h3>
+<li><b>concept Customer</b>: Glossary lists Person as a synonym of Customer; TAXCORE keys every record on an internal Person Id (DA identifier) and other sources use &#x27;person&#x27; for non-customers (e.g. a registered child). Whether Person is truly a synonym is an SME question.</li>
+<li><b>concept National Insurance Number</b>: Also an identifier (DA scope); issuer is contested between TAXCORE (2016 overview) and NumberHub (2023 NI procedures).</li>
+<li><b>concept Employer</b>: Employer Reference appears as the TC_EMPLOYER key in the data dictionary (DA identifier).</li>
+<li><b>concept NI Contribution</b>: Data dictionary splits it into employee and employer contribution amounts (DA attributes).</li>
+<li><b>concept Customer</b>: Mentions &#x27;the customer record&#x27; held in TAXCORE; no definition. Source is stale (2016).</li>
+<li><b>concept National Insurance Number</b>: Stale (2016) source; pre-dates the 2022 NumberHub carve-out.</li>
+<li><b>rule National Insurance Number issued at first registration</b>: CONTRADICTS national-insurance-procedures.md line 12 (issued by NumberHub when a person reaches 16). This source is stale (2016) and pre-dates the 2022 NumberHub carve-out; the newer operational source is preferred but both are proposed as written. Issuer is also a DA identifier concern.</li>
+<li><b>rule Cross-module table change control</b>: IT governance rule rather than a business-domain rule; stale (2016) source.</li>
+<li><b>rule Full regression test per release</b>: IT delivery rule rather than a business-domain rule; stale (2016) source.</li>
+<li><b>concept Employer Return</b>: Capability text describes &#x27;each employer&#x27;s pay and deductions return for every pay period&#x27;; not a glossary definition. No source defines Employer Return formally - gap for SME.</li>
+<li><b>rule Quarterly childcare eligibility check</b>: Derived from a capability description (capability itself belongs to EA). Corroborates childcare-scheme-guide.md line 12.</li>
+<li><b>concept Employer Return</b>: Employer returns are captured per pay period by EmployerGateway (system, EA scope); no definition given.</li>
+<li><b>rule Employment links to one employer and one person</b>: Also implies DA relationships Employment-Employer and Employment-Person.</li>
+<li><b>rule Late employer returns flagged for penalty review</b>: &#x27;Filing deadline&#x27; and &#x27;penalty review&#x27; are not defined anywhere in this batch - gap for SME.</li>
+<li><b>taxonomy EmploymentStatus</b>: CONTRADICTS taxcore-data-dictionary.csv line 20, which also lists Suspended. Proposed as written.</li>
+<li><b>concept National Insurance Number</b>: States issuer (NumberHub) and timing (age 16); no definition.</li>
+<li><b>rule National Insurance Number issued at age 16</b>: CONTRADICTS taxcore-system-overview.md line 14 (issued by TAXCORE at first registration). This source is newer (2023) and operational, so preferred, but the contradiction is left for SME resolution.</li>
+<li><b>rule Qualifying year threshold</b>: The lower earnings limit value is not given in this batch.</li>
+<li><b>concept Qualifying Year</b>: Defined only through the rule sentence. Data dictionary holds a Y/N qualifying flag per tax year on TC_NI_RECORD (DA attribute).</li>
+<li><b>concept Lower Earnings Limit</b>: Used but not defined; no value given. Gap for SME.</li>
+<li><b>concept Class 1 Contribution</b>: Calculated from the earnings in each employer return; no definition of Class 1 or of other classes.</li>
+<li><b>taxonomy NiCategory</b>: CONTRADICTS taxcore-data-dictionary.csv line 33, which also lists V. Proposed as written.</li>
+<li><b>rule Childcare eligibility based on expected income</b>: How expected income is derived is not stated here; taxcore_procedures.sql line 25 derives it as SUM(GROSS_PAY) * 4 (calculation, Engineering scope). A separate income-verify-svc appears in the ChildcarePortal config.</li>
+<li><b>concept Expected Income</b>: Used but not defined (period, gross/net). Data dictionary calls it &#x27;Expected annual income&#x27;.</li>
+<li><b>concept Parent</b>: Not defined in the glossary. childcare-scheme-guide.md line 15 uses &#x27;account holder&#x27;; whether Parent and Account Holder are the same role is an SME question.</li>
+<li><b>rule Quarterly eligibility reconfirmation</b>: Batch catalogue runs the eligibility check job daily (J310); frequency of the job vs. the reconfirmation period may differ - not a contradiction as written.</li>
+<li><b>rule Top-up paid within one working day</b>: Batch catalogue shows the top-up calculation (J320) running in real time.</li>
+<li><b>taxonomy CorrespondencePreference</b>: Codes PST/DIG on TC_PERSON.CORR_PREF.</li>
+<li><b>taxonomy AddressType</b>: Codes RES/COR on TC_ADDRESS.ADDR_TYPE.</li>
+<li><b>taxonomy EmploymentStatus</b>: Codes LIV/CEA/SUS. CONTRADICTS paye-operations-manual.md line 18 (Live, Ceased only). Proposed as written.</li>
+<li><b>taxonomy NiCategory</b>: CONTRADICTS national-insurance-procedures.md line 22, which omits V. Proposed as written.</li>
+<li><b>taxonomy ChildcareAccountStatus</b>: Codes OPN/SUS/CLO.</li>
+<li><b>taxonomy EligibilityOutcome</b>: Codes ELG/NEL on TC_ELIGIBILITY_CHECK.OUTCOME.</li>
+<li><b>concept Eligibility Check</b>: Only a table/column name (TC_ELIGIBILITY_CHECK.CHECK_ID); no definition. Entity itself is DA scope.</li>
+<li><b>rule Close accounts of deceased persons</b>: Job J330 writes TC_CHILDCARE_ACCOUNT and TC_NI_RECORD, so it may affect NI records as well as childcare accounts - the effect on NI records is not stated anywhere. Owned by Customer Services.</li>
+<li><b>concept Employer Return</b>: Payload of interface PAY-01 (interface is DA/Engineering scope).</li>
+<li><b>concept Parent Payment</b>: Payload of interface CC-01. Not defined in the glossary; Top-up Payment definition refers to &#x27;a parent&#x27;s payment into a childcare account&#x27;.</li>
+<li><b>concept Parent Payment</b>: Edge label on CC-01 from ChildcarePortal to TAXCORE.</li>
+<li><b>rule No contributions after death (code)</b>: Implemented in PRC_CALC_NIC. Corroborates national-insurance-procedures.md line 18. Stale example code (2020).</li>
+<li><b>rule Childcare income limit (code)</b>: PRC_CHECK_ELIGIBILITY. Expected income is derived as SUM(GROSS_PAY) * 4 (calculation, Engineering scope). Stale example code (2020).</li>
+<li><b>rule Top-up is 25% of parent payment</b>: PRC_CALC_TOPUP; the calculation itself is Engineering scope. No document states the 25% rate. Stale example code (2020).</li>
+<li><b>rule Close childcare account on death (code)</b>: PRC_CLOSE_DECEASED sets STATUS = &#x27;CLO&#x27; (line 42). Corroborates childcare-scheme-guide.md line 15.</li>
+<li><b>rule Quarterly eligibility reconfirmation (config)</b>: Feature flag corroborates childcare-scheme-guide.md line 12. The config also references an income-verify-svc (system, EA scope) not shown in the context diagram or interface catalogue.</li>
+<h3>Data Architect agent (22)</h3>
+<li><b>identifier National Insurance Number</b>: Nullable in TC_PERSON (CHAR(9), Y), so a person can exist before a number is allocated. No issuer stated in this source.</li>
+<li><b>entity Address</b>: No primary key is declared for this table in the data dictionary; the natural key is unconfirmed.</li>
+<li><b>taxonomy EmploymentStatus</b>: Dictionary lists SUS=Suspended; the PAYE Operations Manual lists only Live and Ceased.</li>
+<li><b>attribute PayPeriod.niCategory</b>: No code list on this column; assumed to share the NiCategory code list from TC_NI_CONTRIBUTION.NI_CATEGORY.</li>
+<li><b>taxonomy NiCategory</b>: Dictionary includes V; the National Insurance Procedures list only A, B, C, H, J, M, Z.</li>
+<li><b>taxonomy QualifyingYear</b>: Yes/No flag; may be better modelled as a boolean.</li>
+<li><b>attribute Child.personId</b>: Nullable reference to TC_PERSON with no foreign key declared.</li>
+<li><b>attribute ChildcarePayment.childcareProviderReference</b>: References a childcare provider; no provider table exists in this dictionary and no foreign key is declared.</li>
+<li><b>identifier Childcare Provider Reference</b>: Identifies a childcare provider held outside TAXCORE (no provider table in the dictionary). Issuer unknown.</li>
+<li><b>entity NiContribution</b>: Example code (2020, simplified); corroborates the table, not its full structure.</li>
+<li><b>identifier National Insurance Number</b>: 2020 example code generates the number inside TAXCORE from sequence SEQ_NINO. Pre-dates the 2022 NumberHub carve-out described in the National Insurance Procedures; may be obsolete.</li>
+<li><b>taxonomy EligibilityOutcome</b>: Code uses NEL/ELG; labels taken from the data dictionary code list.</li>
+<li><b>entity Person</b>: Table named in the batch-job catalogue reads/writes; the manifest gives no table_prefix for this file, TC_ stripped for consistency with the data dictionary.</li>
+<li><b>identifier National Insurance Number</b>: Job J020 (PRC_ALLOCATE_NINO, daily) still writes TC_PERSON in a 2024 catalogue, after the 2022 NumberHub carve-out. Unclear whether TAXCORE still generates the number or only stores the number received from NumberHub (NIN-02). No issuer asserted here.</li>
+<li><b>identifier National Insurance Number</b>: Interface NIN-02 &#x27;NI number allocated&#x27; sends the National Insurance Number from NumberHub to TAXCORE in real time.</li>
+<li><b>identifier National Insurance Number</b>: Source is stale (2016) and pre-dates the 2022 NumberHub carve-out. Contradicts docs/national-insurance-procedures.md (issued by NumberHub, at age 16 rather than first registration).</li>
+<li><b>identifier Person Id</b>: &#x27;Internal&#x27; Person Id; issued_by TAXCORE inferred from &#x27;internal&#x27;. Source is stale (2016).</li>
+<li><b>identifier National Insurance Number</b>: Contradicts docs/taxcore-system-overview.md (issued by TAXCORE at first registration). This source is newer (2023) and states NumberHub replaced the TAXCORE allocation module in 2022.</li>
+<li><b>taxonomy NiCategory</b>: Data dictionary code list for TC_NI_CONTRIBUTION.NI_CATEGORY also includes V.</li>
+<li><b>taxonomy EmploymentStatus</b>: Data dictionary code list for TC_EMPLOYMENT.STATUS also includes SUS=Suspended.</li>
+<li><b>relationship ChildcareAccount → Person</b>: The Person referenced by the account is the account holder (parent).</li>
+<li><b>relationship PayPeriod → Employment</b>: Glossary says a pay period is reported in an employer return; the dictionary links it to an employment.</li>
+<h3>Engineering agent (27)</h3>
+<li><b>calculation PRC_REGISTER_PERSON</b>: From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue.</li>
+<li><b>calculation PRC_ALLOCATE_NINO</b>: From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue. TC_PERSON listed as both read and written; counted as written only. Still scheduled Daily in TAXCORE although the NI procedures say NumberHub replaced the TAXCORE allocation module in 2022.</li>
+<li><b>calculation PRC_CALC_PAYE</b>: From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue. TC_PAY_PERIOD listed as both read and written; counted as written only.</li>
+<li><b>calculation PRC_CALC_TOPUP</b>: From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue. TC_CHILDCARE_PAYMENT listed as both read and written; counted as written only.</li>
+<li><b>calculation PRC_CLOSE_DECEASED</b>: From the batch-job catalogue (TAXCORE). Column-level writes not stated in the catalogue. Catalogue says it writes TC_NI_RECORD too; the 2020 procedure extract only updates TC_CHILDCARE_ACCOUNT. Contradiction for review.</li>
+<li><b>calculation PRC_CALC_NIC</b>: Stored procedure from the 2020 example extract (simplified, stale). INSERT INTO TC_NI_CONTRIBUTION from TC_PAY_PERIOD joined to TC_EMPLOYMENT and TC_PERSON, excluding persons with DATE_OF_DEATH set. Hard-coded thresholds 1048/758 and rates 0.08/0.138.</li>
+<li><b>calculation PRC_ALLOCATE_NINO</b>: Stored procedure from the 2020 example extract (simplified, stale). UPDATE TC_PERSON SET NI_NUMBER from sequence SEQ_NINO. Writes an NI-domain column in the person table. Extract dates from 2020, before the 2022 NumberHub carve-out.</li>
+<li><b>calculation PRC_CHECK_ELIGIBILITY</b>: Stored procedure from the 2020 example extract (simplified, stale). INSERT INTO TC_ELIGIBILITY_CHECK; expected income = SUM(GROSS_PAY) * 4, outcome NEL when &gt; 100000 else ELG. Childcare domain reads PAYE tables directly.</li>
+<li><b>calculation PRC_CALC_TOPUP</b>: Stored procedure from the 2020 example extract (simplified, stale). UPDATE TC_CHILDCARE_PAYMENT SET TOPUP_AMOUNT = PARENT_AMOUNT * 0.25 (table both read and written; counted as written).</li>
+<li><b>calculation PRC_CLOSE_DECEASED</b>: Stored procedure from the 2020 example extract (simplified, stale). UPDATE TC_CHILDCARE_ACCOUNT SET STATUS = &#x27;CLO&#x27; for persons with DATE_OF_DEATH set. Does not touch TC_NI_RECORD, unlike the batch-job catalogue entry.</li>
+<li><b>interface CUS-01</b>: Catalogue row. Target &#x27;TC&#x27; is an alias of TAXCORE.</li>
+<li><b>interface PAY-01</b>: Catalogue row.</li>
+<li><b>interface CUS-01</b>: Edge in current-state context diagram (transcribed from a slide).</li>
+<li><b>interface MI-01</b>: Prose mention matching catalogue MI-01 (stale 2016 doc); ID not stated in the text.</li>
+<li><b>interface PAY-01</b>: Prose mention matching catalogue PAY-01; ID not stated in the text.</li>
+<li><b>interface ChildcarePortal-TAXCORE-JDBC</b>: Not in the interface catalogue. ChildcarePortal backend connects directly to the TAXCORE DB2 database (port 50000), bypassing CC-01.</li>
+<li><b>interface ChildcarePortal-NumberHub-API</b>: Not in the interface catalogue or diagram.</li>
+<li><b>interface ChildcarePortal-IncomeVerify-API</b>: Not in the interface catalogue or diagram; income-verify-svc appears in no other source. Childcare guide says expected income comes from PAYE employment records, and PRC_CHECK_ELIGIBILITY reads TC_PAY_PERIOD; possible contradiction.</li>
+<li><b>event NationalInsuranceNumberAllocated</b>: Catalogue interface &#x27;NI number allocated&#x27; is an MQ message, real time.</li>
+<li><b>taxonomy Correspondence Preference Code</b>: Code list from the TAXCORE data dictionary.</li>
+<li><b>taxonomy Employment Status Code</b>: Code list includes SUS=Suspended; PAYE Operations Manual lists only Live, Ceased. Contradiction for Business Domain Owner.</li>
+<li><b>taxonomy NI Category Code</b>: Code list includes V; NI procedures list A, B, C, H, J, M, Z only. Contradiction for Business Domain Owner.</li>
+<li><b>taxonomy Eligibility Outcome Code</b>: Codes NEL/ELG used as literals in PRC_CHECK_ELIGIBILITY; labels from the data dictionary.</li>
+<li><b>rule NI contributions excluded for deceased persons</b>: Matches the NI procedures rule on date of death.</li>
+<li><b>rule Childcare income limit</b>: Sum of all pay periods x 4 as annual income looks questionable; flag for review.</li>
+<li><b>rule NI contribution thresholds and rates</b>: No floor at zero in the extract; hard-coded values in a simplified 2020 extract.</li>
+<li><b>rule Quarterly eligibility reconfirmation</b>: Feature flag; matches the guide&#x27;s three-monthly reconfirmation rule.</li></div></section><footer>Generated by ontokit on 2026-11-23 from the graded model. Grades: A confirmed by a real system artefact · B two or more independent sources agree · C single source · D assumed, not yet evidenced · X sources contradict</footer></div><script>
+document.querySelectorAll('input.f').forEach(inp=>inp.addEventListener('input',()=>{const q=inp.value.toLowerCase();
+document.querySelectorAll('#'+inp.dataset.t+' tbody tr').forEach(r=>r.hidden=q&&!r.textContent.toLowerCase().includes(q))}));
+</script><script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>if(window.mermaid){mermaid.initialize({startOnLoad:true,securityLevel:'loose',theme:'default'})}
+else{document.querySelectorAll('pre.mermaid').forEach(p=>{p.classList.remove('mermaid');p.classList.add('raw');
+p.insertAdjacentHTML('beforebegin','<p class=muted>Diagram source (connect to the internet to render it, or open the .mmd file in any Mermaid viewer):</p>')})}</script></body></html>

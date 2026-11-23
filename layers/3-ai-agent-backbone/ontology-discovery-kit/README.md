@@ -97,6 +97,7 @@ There are three loops:
 | `evidence-register.json` | Every cited line, and what it supports |
 | `elements.json` | Every element, with its evidence |
 | `trace.json` | The run's event log |
+| `reports/index.html` | **Start here.** One page linking every agent's report pack: an HTML explainer, Excel workbook and Word document, plus diagrams and all other outputs |
 | `diagrams/` | One or more Mermaid diagrams per agent, coloured by evidence grade, plus a `README.md` that embeds them |
 
 ## Requirements and licence notes

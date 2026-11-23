@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 
-from . import approvals, decompose, diagrams, diff, gates, grading, ingest, prior, publish, sim_agents, steward, unknowns, validate
+from . import approvals, decompose, diagrams, diff, gates, reports, grading, ingest, prior, publish, sim_agents, steward, unknowns, validate
 from .common import KIT_ROOT, LoopPaths, Trace, read_json, write_json
 
 
@@ -37,7 +37,7 @@ def _save(paths: LoopPaths, t: Trace) -> None:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="ontokit", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("command", choices=["simulate", "run", "ingest", "sim-agents", "validate", "reconcile",
-                                        "unknowns", "gate", "diff", "approve", "publish", "diagrams"])
+                                        "unknowns", "gate", "diff", "approve", "publish", "diagrams", "reports"])
     ap.add_argument("--loop", default="loop-01")
     ap.add_argument("--root", default=str(KIT_ROOT / "discovery"), help="discovery folder (inputs/, work/, outputs/)")
     ap.add_argument("--simulate-approvals", action="store_true", help="approve: fill decisions with the simulator")
@@ -87,6 +87,7 @@ def main(argv=None) -> int:
         publish.publish(paths, t)
         decompose.publish_outputs(paths, t)
         diagrams.publish(paths, t)
+        reports.publish(paths, t)
     elif cmd == "ingest":
         ingest.ingest(paths, t)
     elif cmd == "sim-agents":
@@ -106,12 +107,16 @@ def main(argv=None) -> int:
         diff.diff(paths, prev, t)
     elif cmd == "diagrams":
         diagrams.publish(paths, t)
+    elif cmd == "reports":
+        diagrams.publish(paths, t)
+        reports.publish(paths, t)
     elif cmd == "approve":
         approvals.prepare(paths, t, simulate=a.simulate_approvals, prev_paths=prev)
     elif cmd == "publish":
         publish.publish(paths, t)
         decompose.publish_outputs(paths, t)
         diagrams.publish(paths, t)
+        reports.publish(paths, t)
     _save(paths, t)
 
     if cmd in ("simulate", "run", "publish"):

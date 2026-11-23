@@ -35,6 +35,14 @@ The pipeline draws `da-entity-relationship` in `<root>/outputs/<loop>/diagrams/`
 - Give every attribute its `data_type`, and propose primary keys as `identifier`s with `entity` and `attribute`, so they show as PK.
 - Use the same entity names in relationships as in your `entity` proposals. A relationship to an unknown entity is not drawn.
 
+## Your report pack
+Your results are also published for people who will not read JSON, in `<root>/outputs/<loop>/reports/`:
+- `da.html`: an explainer with your diagrams and searchable tables
+- `da.xlsx`: one sheet per table, with grade and evidence citations on every row
+- `da.docx`: the same content as a Word document.
+
+All of them are linked from `reports/index.html`. They are generated from the graded model, so their completeness depends on your findings, exactly as the diagrams do.
+
 ## Rules
 1. **Cite verbatim**: the CSV row, the DDL line or the code line. One proposal per source.
 2. **Use consistent names**, so the same thing from different sources merges: `customer_no`, `CUSTOMER_NO` and `customerNumber` are all `customerNumber`.

@@ -165,6 +165,16 @@ class NorthmereDecompositionTests(unittest.TestCase):
                      "eng-calculation-flow", "steward-aliases", "steward-decomposition", "conformance-grades", "conformance-gates"):
             self.assertTrue((diag / f"{name}.mmd").exists(), name)
         self.assertIn("erDiagram", (diag / "da-entity-relationship.mmd").read_text())
+        rep = self.tmp / "outputs/loop-01/reports"
+        self.assertTrue((rep / "index.html").exists())
+        self.assertTrue((self.tmp / "outputs/index.html").exists())
+        for k in ("ba", "ea", "da", "eng", "steward", "conformance"):
+            self.assertTrue((rep / f"{k}.html").exists(), k)
+            try:
+                import docx, openpyxl  # noqa: F401
+                self.assertTrue((rep / f"{k}.xlsx").exists() and (rep / f"{k}.docx").exists(), k)
+            except ImportError:
+                pass
 
 
 if __name__ == "__main__":

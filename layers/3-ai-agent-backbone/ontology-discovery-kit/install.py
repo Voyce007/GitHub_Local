@@ -41,6 +41,15 @@ def check_python() -> None:
     except ImportError:
         say("PyYAML is missing; installing it")
         subprocess.check_call([sys.executable, "-m", "pip", "install", "--quiet", "PyYAML>=6.0"])
+    try:
+        import docx  # noqa: F401
+        import openpyxl  # noqa: F401
+    except ImportError:
+        say("installing openpyxl and python-docx for the Excel and Word report packs")
+        r = subprocess.run([sys.executable, "-m", "pip", "install", "--quiet", "openpyxl>=3.1", "python-docx>=1.1"],
+                           capture_output=True, text=True)
+        if r.returncode:
+            say("could not install them; reports will be HTML only until you run: pip install openpyxl python-docx")
 
 
 def make_importable(no_pip: bool) -> None:
