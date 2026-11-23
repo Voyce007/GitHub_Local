@@ -1547,7 +1547,7 @@
     "stage": "K. Publish",
     "actor": "Publisher",
     "action": "deliverables written",
-    "detail": "38 files in outputs/loop-01/",
+    "detail": "58 files in outputs/loop-01/",
     "data": {
       "grades": {
         "A": 0,
@@ -1570,7 +1570,7 @@
     "stage": "L. Diagrams",
     "actor": "Publisher",
     "action": "diagrams written",
-    "detail": "9 diagrams: ba-concept-map, ea-system-context, ea-capability-map, da-entity-relationship, eng-calculation-flow, steward-aliases, steward-decomposition, conformance-grades, conformance-gates",
+    "detail": "10 diagrams: ba-concept-map, ea-system-context, ea-capability-map, da-entity-relationship, eng-calculation-flow, steward-aliases, steward-decomposition, conformance-grades, conformance-gates, aggregate-architecture",
     "data": {
       "diagrams": [
         "ba-concept-map",
@@ -1581,39 +1581,13 @@
         "steward-aliases",
         "steward-decomposition",
         "conformance-grades",
-        "conformance-gates"
+        "conformance-gates",
+        "aggregate-architecture"
       ]
     }
   },
   {
     "seq": 135,
-    "stage": "M. Reports",
-    "actor": "Publisher",
-    "action": "report packs written",
-    "detail": "6 agents × HTML, Excel, Word; index at reports/index.html"
-  },
-  {
-    "seq": 136,
-    "stage": "L. Diagrams",
-    "actor": "Publisher",
-    "action": "diagrams written",
-    "detail": "9 diagrams: ba-concept-map, ea-system-context, ea-capability-map, da-entity-relationship, eng-calculation-flow, steward-aliases, steward-decomposition, conformance-grades, conformance-gates",
-    "data": {
-      "diagrams": [
-        "ba-concept-map",
-        "ea-system-context",
-        "ea-capability-map",
-        "da-entity-relationship",
-        "eng-calculation-flow",
-        "steward-aliases",
-        "steward-decomposition",
-        "conformance-grades",
-        "conformance-gates"
-      ]
-    }
-  },
-  {
-    "seq": 137,
     "stage": "M. Reports",
     "actor": "Publisher",
     "action": "report packs written",

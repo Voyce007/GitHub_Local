@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ontokit"
-version = "0.5.1"
+version = "0.6.0"
 description = "Evidence-graded ontology discovery and monolith decomposition pipeline for the Enterprise Ontology Playbook agents"
 requires-python = ">=3.10"
 dependencies = ["PyYAML>=6.0"]

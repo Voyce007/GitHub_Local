@@ -1607,5 +1607,29 @@
     "actor": "Publisher",
     "action": "report packs written",
     "detail": "6 agents × HTML, Excel, Word; index at reports/index.html"
+  },
+  {
+    "seq": 149,
+    "stage": "L. Diagrams",
+    "actor": "Publisher",
+    "action": "diagrams written",
+    "detail": "6 diagrams: ba-concept-map, ea-system-context, da-entity-relationship, steward-aliases, conformance-grades, conformance-gates",
+    "data": {
+      "diagrams": [
+        "ba-concept-map",
+        "ea-system-context",
+        "da-entity-relationship",
+        "steward-aliases",
+        "conformance-grades",
+        "conformance-gates"
+      ]
+    }
+  },
+  {
+    "seq": 150,
+    "stage": "M. Reports",
+    "actor": "Publisher",
+    "action": "report packs written",
+    "detail": "6 agents × HTML, Excel, Word; index at reports/index.html"
   }
 ]

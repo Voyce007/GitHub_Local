@@ -2,6 +2,151 @@
 
 Generated from the graded model by `ontokit`, one set per agent. Node colours show evidence grade: A confirmed · B corroborated · C single source (dashed) · D assumed · X contradicted.
 
+## All agents · Architecture: domains, business services, data, calculations, technical services
+
+One diagram for the whole target: each domain's technical services (API operations and events), the business services they expose, the calculations that implement them today, and the data they change (thick arrows) or read (dotted). Data owned by another domain is dashed. Open reports/architecture.html to drill into one domain or service.
+
+```mermaid
+flowchart LR
+  subgraph D_customer["Customer · Director of Customer Services"]
+    direction LR
+    A_customer_0>"POST /register-customer"]
+    S_customer_0["<b>Register Customer</b>"]
+    A_customer_1>"POST /record-life-events"]
+    S_customer_1["<b>Record Life Events</b>"]
+    A_customer_2>"GET /person/{id}"]
+    S_customer_2(["<b>Get Person</b>"])
+    A_customer_3>"PUBLISH LifeEventRecorded"]
+    S_customer_3[["<b>LifeEventRecorded</b>"]]
+    C_PRC_REGISTER_PERSON{{"Register person<br/><small>PRC_REGISTER_PERSON · TAXCORE</small>"}}
+    C_PRC_CLOSE_DECEASED{{"Close accounts of deceased<br/><small>PRC_CLOSE_DECEASED · TAXCORE</small>"}}
+    E_Person[("Person<br/><small>TC_PERSON</small>")]
+    E_Address[("Address<br/><small>TC_ADDRESS</small>")]
+  end
+  subgraph D_paye["PAYE · Director of Employer Taxes"]
+    direction LR
+    A_paye_0>"POST /process-employer-returns"]
+    S_paye_0["<b>Process Employer Returns</b>"]
+    A_paye_1>"POST /issue-tax-code"]
+    S_paye_1["<b>Issue Tax Code</b>"]
+    A_paye_2>"POST /calculate-paye"]
+    S_paye_2["<b>Calculate PAYE</b>"]
+    A_paye_3>"GET /employment/{id}"]
+    S_paye_3(["<b>Get Employment</b>"])
+    A_paye_4>"GET /pay-period/{id}"]
+    S_paye_4(["<b>Get Pay Period</b>"])
+    C_PRC_LOAD_RETURNS{{"Load employer returns<br/><small>PRC_LOAD_RETURNS · TAXCORE</small>"}}
+    C_PRC_ISSUE_TAX_CODE{{"Issue tax codes<br/><small>PRC_ISSUE_TAX_CODE · TAXCORE</small>"}}
+    C_PRC_CALC_PAYE{{"Calculate PAYE<br/><small>PRC_CALC_PAYE · TAXCORE</small>"}}
+    E_Employer[("Employer<br/><small>TC_EMPLOYER</small>")]
+    E_Employment[("Employment<br/><small>TC_EMPLOYMENT</small>")]
+    E_TaxCode[("Tax Code<br/><small>TC_TAX_CODE</small>")]
+    E_PayPeriod[("Pay Period<br/><small>TC_PAY_PERIOD</small>")]
+  end
+  subgraph D_ni["National Insurance · Director of National Insurance"]
+    direction LR
+    A_ni_0>"POST /allocate-ni-number"]
+    S_ni_0["<b>Allocate NI Number</b>"]
+    A_ni_1>"POST /calculate-ni-contributions"]
+    S_ni_1["<b>Calculate NI Contributions</b>"]
+    A_ni_2>"POST /maintain-ni-record"]
+    S_ni_2["<b>Maintain NI Record</b>"]
+    A_ni_3>"GET /national-insurance-number/{id}"]
+    S_ni_3(["<b>Get National Insurance Number</b>"])
+    C_PRC_ALLOCATE_NINO{{"Allocate NI number<br/><small>PRC_ALLOCATE_NINO · TAXCORE</small>"}}
+    C_PRC_CALC_NIC{{"Calculate NI contributions<br/><small>PRC_CALC_NIC · TAXCORE</small>"}}
+    C_PRC_UPDATE_NI_RECORD{{"Update NI record<br/><small>PRC_UPDATE_NI_RECORD · TAXCORE</small>"}}
+    E_NiContribution[("Ni Contribution<br/><small>TC_NI_CONTRIBUTION</small>")]
+    E_NiRecord[("Ni Record<br/><small>TC_NI_RECORD</small>")]
+  end
+  subgraph D_childcare["Childcare · Director of Family Support"]
+    direction LR
+    A_childcare_0>"POST /open-childcare-account"]
+    S_childcare_0["<b>Open Childcare Account</b>"]
+    A_childcare_1>"POST /check-childcare-eligibility"]
+    S_childcare_1["<b>Check Childcare Eligibility</b>"]
+    A_childcare_2>"POST /calculate-childcare-top-up"]
+    S_childcare_2["<b>Calculate Childcare Top-up</b>"]
+    C_PRC_OPEN_CC_ACCOUNT{{"Open childcare account<br/><small>PRC_OPEN_CC_ACCOUNT · TAXCORE</small>"}}
+    C_PRC_CHECK_ELIGIBILITY{{"Check childcare eligibility<br/><small>PRC_CHECK_ELIGIBILITY · TAXCORE</small>"}}
+    C_PRC_CALC_TOPUP{{"Calculate childcare top-up<br/><small>PRC_CALC_TOPUP · TAXCORE</small>"}}
+    E_ChildcareAccount[("Childcare Account<br/><small>TC_CHILDCARE_ACCOUNT</small>")]
+    E_Child[("Child<br/><small>TC_CHILD</small>")]
+    E_ChildcarePayment[("Childcare Payment<br/><small>TC_CHILDCARE_PAYMENT</small>")]
+    E_EligibilityCheck[("Eligibility Check<br/><small>TC_ELIGIBILITY_CHECK</small>")]
+  end
+  A_customer_0 --- S_customer_0
+  S_customer_0 -. today .-> C_PRC_REGISTER_PERSON
+  A_customer_1 --- S_customer_1
+  S_customer_1 -. today .-> C_PRC_CLOSE_DECEASED
+  A_customer_2 --- S_customer_2
+  S_customer_2 -. today .-> C_PRC_REGISTER_PERSON
+  A_customer_3 --- S_customer_3
+  S_customer_3 -. today .-> C_PRC_CLOSE_DECEASED
+  S_customer_3 -. "triggers change in" .-> E_NiRecord
+  S_customer_3 -. "triggers change in" .-> E_ChildcareAccount
+  A_paye_0 --- S_paye_0
+  S_paye_0 -. today .-> C_PRC_LOAD_RETURNS
+  A_paye_1 --- S_paye_1
+  S_paye_1 -. today .-> C_PRC_ISSUE_TAX_CODE
+  A_paye_2 --- S_paye_2
+  S_paye_2 -. today .-> C_PRC_CALC_PAYE
+  A_paye_3 --- S_paye_3
+  S_paye_3 -. today .-> C_PRC_LOAD_RETURNS
+  A_paye_4 --- S_paye_4
+  S_paye_4 -. today .-> C_PRC_LOAD_RETURNS
+  S_paye_4 -. today .-> C_PRC_CALC_PAYE
+  A_ni_0 --- S_ni_0
+  S_ni_0 -. today .-> C_PRC_ALLOCATE_NINO
+  A_ni_1 --- S_ni_1
+  S_ni_1 -. today .-> C_PRC_CALC_NIC
+  A_ni_2 --- S_ni_2
+  S_ni_2 -. today .-> C_PRC_UPDATE_NI_RECORD
+  A_ni_3 --- S_ni_3
+  S_ni_3 -. today .-> C_PRC_ALLOCATE_NINO
+  A_childcare_0 --- S_childcare_0
+  S_childcare_0 -. today .-> C_PRC_OPEN_CC_ACCOUNT
+  A_childcare_1 --- S_childcare_1
+  S_childcare_1 -. today .-> C_PRC_CHECK_ELIGIBILITY
+  A_childcare_2 --- S_childcare_2
+  S_childcare_2 -. today .-> C_PRC_CALC_TOPUP
+  C_PRC_REGISTER_PERSON ==> E_Person
+  C_PRC_REGISTER_PERSON ==> E_Address
+  C_PRC_CLOSE_DECEASED ==>|"STATUS"| E_ChildcareAccount
+  C_PRC_CLOSE_DECEASED ==> E_NiRecord
+  E_Person -.-> C_PRC_CLOSE_DECEASED
+  C_PRC_LOAD_RETURNS ==> E_Employment
+  C_PRC_LOAD_RETURNS ==> E_PayPeriod
+  E_Employer -.-> C_PRC_LOAD_RETURNS
+  C_PRC_ISSUE_TAX_CODE ==> E_TaxCode
+  E_Employment -.-> C_PRC_ISSUE_TAX_CODE
+  C_PRC_CALC_PAYE ==> E_PayPeriod
+  E_TaxCode -.-> C_PRC_CALC_PAYE
+  C_PRC_ALLOCATE_NINO ==>|"NI_NUMBER"| E_Person
+  C_PRC_CALC_NIC ==> E_NiContribution
+  E_PayPeriod -.-> C_PRC_CALC_NIC
+  E_Employment -.-> C_PRC_CALC_NIC
+  E_Person -.-> C_PRC_CALC_NIC
+  C_PRC_UPDATE_NI_RECORD ==> E_NiRecord
+  E_NiContribution -.-> C_PRC_UPDATE_NI_RECORD
+  C_PRC_OPEN_CC_ACCOUNT ==> E_ChildcareAccount
+  C_PRC_OPEN_CC_ACCOUNT ==> E_Child
+  E_Person -.-> C_PRC_OPEN_CC_ACCOUNT
+  C_PRC_CHECK_ELIGIBILITY ==> E_EligibilityCheck
+  E_ChildcareAccount -.-> C_PRC_CHECK_ELIGIBILITY
+  E_Employment -.-> C_PRC_CHECK_ELIGIBILITY
+  E_PayPeriod -.-> C_PRC_CHECK_ELIGIBILITY
+  C_PRC_CALC_TOPUP ==>|"TOPUP_AMOUNT"| E_ChildcarePayment
+  classDef ext fill:#ffffff,stroke:#8a93a3,stroke-dasharray:5 4,color:#5a6372
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class E_Address,E_Child,E_ChildcareAccount,E_ChildcarePayment,E_EligibilityCheck,E_Employer,E_Employment,E_NiContribution,E_NiRecord,E_PayPeriod,E_Person,E_TaxCode,S_childcare_0,S_childcare_1,S_childcare_2,S_customer_0,S_customer_1,S_ni_0,S_ni_1,S_ni_2,S_paye_0,S_paye_1,S_paye_2 gB
+  class C_PRC_ALLOCATE_NINO,C_PRC_CALC_NIC,C_PRC_CALC_PAYE,C_PRC_CALC_TOPUP,C_PRC_CHECK_ELIGIBILITY,C_PRC_CLOSE_DECEASED,C_PRC_ISSUE_TAX_CODE,C_PRC_LOAD_RETURNS,C_PRC_OPEN_CC_ACCOUNT,C_PRC_REGISTER_PERSON,C_PRC_UPDATE_NI_RECORD gC
+```
+
 ## Business Analyst · Concept map
 
 Business terms by domain. Rounded boxes are concepts; dotted links are synonyms; arrows point to the entity that holds each concept. "(undefined)" marks a term used without a definition.

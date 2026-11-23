@@ -19,7 +19,7 @@ and `python -m ontokit unknowns`. Your job is the judgment layer on top of it.
 3. **Explain each contradiction** in one or two sentences: what each source says, how old and what type each source is, and the most likely explanation (for example, "the 2019 document predates the 2023 re-platforming"). Recommend who should decide. Do not decide.
 4. **Sharpen the unknowns.** Rewrite vague questions so an SME can answer them in one reply. Group questions that one person can answer in a single conversation.
 5. **Order the evidence requests** by how many elements they would confirm.
-6. **If `<root>/target_domains.yaml` exists, review the proposed decomposition** in `model.json` under `decomposition`:
+6. **If `<root>/target_domains.yaml` exists, review the proposed decomposition**, starting from the aggregated diagram `<root>/outputs/<loop>/diagrams/aggregate-architecture.mmd` and the drill-down `reports/architecture.html`. Check that every business service reaches its data, its calculation and its technical service in `model.json` under `decomposition`:
    - Is every ownership decision supported by write evidence, and not just by vocabulary?
    - Are the split candidates real? A column moves only when the writing capability creates that data.
    - Is each recommended event a sensible business event?

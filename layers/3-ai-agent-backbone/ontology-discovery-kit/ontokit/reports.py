@@ -568,6 +568,12 @@ def publish(paths: LoopPaths, trace: Trace) -> Path:
                 [("Diagram files", "../diagrams/README.md")] * bool([d for d in diags if d in c["diagrams"]])
         (out / f"{key}.html").write_text(agent_html(paths, c, key, name, question, about, diags, secs, files), encoding="utf-8")
         made.append((key, name, question, about, diags, secs, x, w))
+    from . import architecture
+    arch = architecture.build(c["model"], c["sources"])
+    if arch:
+        (out / "architecture.html").write_text(architecture.page(paths, arch, _page, _e), encoding="utf-8")
+    elif (out / "architecture.html").exists():
+        (out / "architecture.html").unlink()
     (out / "index.html").write_text(_index(paths, c, made, office), encoding="utf-8")
     _root_index(paths)
     trace.emit("M. Reports", "Publisher", "report packs written",
@@ -617,6 +623,7 @@ document, plus diagrams and every other output. Agents recommend; named people a
 <div class=stat><b>{len((c['dec'] or {}).get('domains', [])) or '—'}</b><span class=muted>target domains</span></div></div>
 {_gbar(g, total)}<p class=muted style="margin:0">{' · '.join(f'<span class="g g-{k}">{k}</span> {g.get(k, 0)} {GRADE_TEXT[k].lower()}' for k in 'ABCDX')}</p>
 <div class=bar>{gates}</div></section>
+{_arch_card(paths)}
 <section><h2>Agent reports</h2>{'' if office else '<p class=muted>Excel and Word files were not produced because openpyxl and python-docx are not installed. Run <code>pip install openpyxl python-docx</code>, then <code>python -m ontokit reports --root ... --loop ...</code>.</p>'}
 <div class=cards>{''.join(cards)}</div></section>
 <section><h2>Highest-priority questions</h2><div class=tw><table><thead><tr><th>ID</th><th>Question</th><th>Owner</th></tr></thead><tbody>
@@ -624,6 +631,16 @@ document, plus diagrams and every other output. Agents recommend; named people a
 </tbody></table></div><p class=muted>All questions: <a href="steward.html#s0">Ontology Steward report</a>.</p></section>
 <section><h2>All other outputs</h2><div class=bar>{''.join(f'<a class=pill href="{_e(f)}">{_e(l)}</a>' for l, f in others)}</div></section>"""
     return _page(f"Discovery results · {paths.loop}", body)
+
+
+def _arch_card(paths) -> str:
+    if not (paths.outputs / "reports" / "architecture.html").exists():
+        return ""
+    return ('<section><div class=card style="border:2px solid var(--accent)"><span class=eyebrow>All agents combined</span>'
+            '<h2><a href="architecture.html">Architecture drill-down</a></h2><p class=muted style="margin:0">One diagram of every domain and business '
+            'service, drilling down to the data, calculations and technical services underneath. Choose a domain, then a service.</p>'
+            '<div class=bar><a class=pill href="architecture.html"><b>Open drill-down</b></a>'
+            '<a class=pill href="../diagrams/aggregate-architecture.mmd">aggregate-architecture.mmd</a></div></div></section>')
 
 
 def _root_index(paths) -> None:

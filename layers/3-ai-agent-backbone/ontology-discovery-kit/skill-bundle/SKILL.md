@@ -55,6 +55,7 @@ This uses rule-based stand-in agents, and needs no reading by you. Then show the
 
    - the **agent diagrams** in `work-root/outputs/loop-01/diagrams/`. Show them inline by rendering the Mermaid blocks from the `README.md` there (one or two per role: concept map, system context, capability map, entity-relationship, calculation flow, aliases, decomposition, grades and gates). Nodes are coloured by evidence grade.
 
+   - with a decomposition, the **architecture drill-down** `work-root/outputs/loop-01/reports/architecture.html`, and the aggregated diagram `diagrams/aggregate-architecture.mmd`. It covers domains, then business services, then data, calculations and technical services. Render the Mermaid inline.
    - the **report pack**: `work-root/outputs/loop-01/reports/index.html` links one HTML explainer, Excel workbook and Word document per agent. Install `openpyxl` and `python-docx` first if they are missing, then run `python -m ontokit reports --root work-root --loop loop-01`.
 
    Offer the outputs as files to download. Lead with the zip of `work-root/outputs/` and say to open `reports/index.html` first. Individual files the user may want: the Excel and Word files per agent, the domain ontologies, the service contracts and `source-to-target.csv`.

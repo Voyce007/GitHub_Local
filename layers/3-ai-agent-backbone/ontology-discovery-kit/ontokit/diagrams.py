@@ -260,6 +260,10 @@ def conformance(model, gates) -> str:
 
 
 SECTIONS = [
+    ("aggregate-architecture", "All agents · Architecture: domains, business services, data, calculations, technical services",
+     "One diagram for the whole target: each domain's technical services (API operations and events), the business services they expose, "
+     "the calculations that implement them today, and the data they change (thick arrows) or read (dotted). Data owned by another domain is dashed. "
+     "Open reports/architecture.html to drill into one domain or service."),
     ("ba-concept-map", "Business Analyst · Concept map",
      "Business terms by domain. Rounded boxes are concepts; dotted links are synonyms; arrows point to the entity that holds each concept. "
      "\"(undefined)\" marks a term used without a definition."),
@@ -302,6 +306,11 @@ def build(paths: LoopPaths, trace: Trace) -> dict:
         "conformance-grades": pie,
         "conformance-gates": gate_flow if gates else "",
     }
+    from . import architecture
+    sources = read_json(paths.work / "sources.json")["sources"] if (paths.work / "sources.json").exists() else {}
+    arch = architecture.build(model, sources)
+    if arch:
+        out["aggregate-architecture"] = arch["diagram"]
     return {k: v for k, v in out.items() if v}
 
 
