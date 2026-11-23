@@ -25,6 +25,7 @@ python -m ontokit simulate --root scenarios/northmere --loop loop-01
 This uses rule-based stand-in agents, and needs no reading by you. Then show these files:
 - `scenarios/northmere/outputs/loop-01/summary.md`
 - `scenarios/northmere/outputs/loop-01/decomposition/decomposition-report.md`
+- the agent diagrams in `scenarios/northmere/outputs/loop-01/diagrams/README.md`. Render the Mermaid blocks inline.
 
 `scenarios/meridale` (customer exposure, loops 1 and 2) is a second sample.
 
@@ -52,7 +53,9 @@ This uses rule-based stand-in agents, and needs no reading by you. Then show the
    - with a decomposition, `decomposition/decomposition-report.md`
    - the steward's key findings.
 
-   Offer the outputs as files to download, such as the domain ontologies, service contracts and `source-to-target.csv`.
+   - the **agent diagrams** in `work-root/outputs/loop-01/diagrams/`. Show them inline by rendering the Mermaid blocks from the `README.md` there (one or two per role: concept map, system context, capability map, entity-relationship, calculation flow, aliases, decomposition, grades and gates). Nodes are coloured by evidence grade.
+
+   Offer the outputs as files to download, such as the domain ontologies, service contracts, `source-to-target.csv` and the diagram files.
 10. **Human gate.** Decisions live in `work-root/work/loop-01/approvals.yaml`, all `pending`. Ask the user for decisions one approver role at a time, record exactly what they say, then run `python -m ontokit publish --root work-root --loop loop-01`.
 
 ## 3. The next loop

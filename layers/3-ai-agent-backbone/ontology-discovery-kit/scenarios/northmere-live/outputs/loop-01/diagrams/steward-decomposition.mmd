@@ -1,0 +1,44 @@
+flowchart LR
+  subgraph customer["Customer<br/><small>Director of Customer Services</small>"]
+    direction TB
+    customer_data[("Address, Person")]
+    customer_s0["Register Customer"]
+    customer_s1["Record Life Events"]
+    customer_s2(["Get Person"])
+    customer_s3[["LifeEventRecorded"]]
+  end
+  subgraph paye["PAYE<br/><small>Director of Employer Taxes</small>"]
+    direction TB
+    paye_data[("Employer, Employment, Pay Period, Tax Code")]
+    paye_s0["Process Employer Returns"]
+    paye_s1["Issue Tax Code"]
+    paye_s2["Calculate PAYE"]
+    paye_s3(["Get Employment"])
+    paye_s4(["Get Pay Period"])
+  end
+  subgraph ni["National Insurance<br/><small>Director of National Insurance</small>"]
+    direction TB
+    ni_data[("Ni Contribution, Ni Record")]
+    ni_s0["Allocate NI Number"]
+    ni_s1["Calculate NI Contributions"]
+    ni_s2["Maintain NI Record"]
+    ni_s3(["Get National Insurance Number"])
+  end
+  subgraph childcare["Childcare<br/><small>Director of Family Support</small>"]
+    direction TB
+    childcare_data[("Child, Childcare Account, Childcare Payment, Eligibility Check")]
+    childcare_s0["Open Childcare Account"]
+    childcare_s1["Check Childcare Eligibility"]
+    childcare_s2["Calculate Childcare Top-up"]
+  end
+  childcare -- uses --> customer_s2
+  ni -- uses --> customer_s2
+  paye -- uses --> customer_s2
+  ni -. reacts to .-> customer_s3
+  childcare -. reacts to .-> customer_s3
+  childcare -- uses --> paye_s3
+  ni -- uses --> paye_s3
+  childcare -- uses --> paye_s4
+  ni -- uses --> paye_s4
+  customer -- uses --> ni_s3
+  customer_data -. "NI_NUMBER moves" .-> ni

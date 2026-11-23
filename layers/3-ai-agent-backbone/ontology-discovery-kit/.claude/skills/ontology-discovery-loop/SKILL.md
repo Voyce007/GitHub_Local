@@ -71,7 +71,18 @@ Launch `ontology-steward` and `conformance-agent` in one message. They write:
 - **Never fill in decisions the user did not give.** If they want to skip, leave items `pending`.
 
 ## 7. Publish
-Run `python -m ontokit publish --root <root> --loop <loop>`. With a decomposition, it also writes `<root>/outputs/<loop>/decomposition/`:
+Run `python -m ontokit publish --root <root> --loop <loop>`. It also draws **diagrams for each agent** in `<root>/outputs/<loop>/diagrams/`, as Mermaid files plus a `README.md` that embeds them all:
+
+| Agent | Diagrams |
+|---|---|
+| Business Analyst | `ba-concept-map` |
+| Enterprise Architect | `ea-system-context`, `ea-capability-map` |
+| Data Architect | `da-entity-relationship` |
+| Engineer | `eng-calculation-flow` |
+| Ontology Steward | `steward-aliases`, `steward-decomposition` (when decomposing) |
+| Conformance | `conformance-grades`, `conformance-gates` |
+
+Nodes are coloured by evidence grade. To regenerate the diagrams alone, run `python -m ontokit diagrams --root <root> --loop <loop>`. Show the user the diagrams `README.md` along with the summary. In a Claude app that can publish pages, embed the Mermaid blocks in an artifact. With a decomposition, it also writes `<root>/outputs/<loop>/decomposition/`:
 - one LinkML ontology per domain
 - one OpenAPI service contract per domain
 - `source-to-target.csv`

@@ -1,0 +1,85 @@
+erDiagram
+  Customer {
+    char customerNumber PK "grade A"
+    char customerType "grade A"
+    varchar fullName "grade A"
+    date dateOfBirth "grade A"
+    varchar emailAddress "grade A"
+    char creditStatus "grade A"
+    timestamp createdTimestamp "grade A"
+    timestamp updatedTimestamp "grade A"
+  }
+  CustomerAddress {
+    char customerNumber "grade A"
+    char addressType "grade A"
+    varchar line1 "grade A"
+    varchar postcode "grade A"
+    varchar line2 "grade A"
+    char countryCode "grade A"
+  }
+  Risk {
+    varchar riskId PK "grade C"
+    varchar title "grade C"
+    char rating "grade C"
+    varchar costCentreCode "grade C"
+    char legalEntityCode "grade C"
+    date reviewDate "grade C"
+  }
+  Control {
+    varchar controlId PK "grade C"
+    varchar riskId "grade C"
+    char controlType "grade C"
+    date lastTested "grade C"
+  }
+  LegalEntity {
+    char legalEntityCode PK "grade C"
+    varchar registeredName "grade C"
+    char countryCode "grade C"
+    char functionalCurrency "grade C"
+  }
+  CostCentre {
+    varchar costCentreCode PK "grade C"
+    varchar name "grade C"
+    char legalEntityCode "grade C"
+  }
+  Account {
+    varchar accountCode PK "grade C"
+    varchar accountName "grade C"
+    varchar accountType "grade C"
+  }
+  Invoice {
+    varchar invoiceNumber PK "grade C"
+    char customerNumber "grade C"
+    char legalEntityCode "grade C"
+    date invoiceDate "grade C"
+    numeric totalAmount "grade C"
+    char currency "grade C"
+  }
+  CustomerEntity {
+    char customerNumber "grade C"
+    char legalEntityCode "grade C"
+  }
+  Address {
+  }
+  OrderRequest {
+    string orderId PK "grade C"
+    string customerNumber "grade C"
+    string currency "grade C"
+    bigdecimal totalAmount "grade C"
+    orderstatus status "grade C"
+  }
+  OrderLine {
+  }
+  CustomerAddress }o--|| Customer : "customerNumber (A)"
+  Control }o--|| Risk : "riskId (C)"
+  CostCentre }o--|| LegalEntity : "legalEntityCode (C)"
+  Invoice }o--|| LegalEntity : "legalEntityCode (C)"
+  CustomerEntity }o--|| LegalEntity : "legalEntityCode (C)"
+  Customer ||--o{ Address : "addresses (C)"
+  OrderRequest ||--o{ OrderLine : "lines (C)"
+  Risk }o--|| CostCentre : "costCentreCode (C)"
+  Risk }o--|| LegalEntity : "legalEntityCode (C)"
+  Invoice }o--|| Customer : "customerNumber (C)"
+  CustomerEntity }o--|| Customer : "customerNumber (C)"
+  OrderRequest }o--|| Customer : "customerNumber (C)"
+  Customer }o--o{ LegalEntity : "CustomerEntity (C)"

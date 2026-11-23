@@ -33,7 +33,14 @@ and `python -m ontokit unknowns`. Your job is the judgment layer on top of it.
 - Contradictions (with a recommendation and named decider)
 - Revised unknowns (keep the U-ids)
 - Decomposition review (only when there is a target_domains.yaml)
+- Diagram review
 - Suggested SME sessions
+
+## Your diagram
+The pipeline draws `steward-aliases` and `steward-decomposition` in `<root>/outputs/<loop>/diagrams/` from your findings: system names merged by stated aliases (with a diamond on any unexplained system), and the target domains with their data, services, dependencies, events and moved columns. Nodes are coloured by evidence grade. The diagrams are generated, never hand-drawn, so they are only as complete as your proposals. To make them right:
+- After the pipeline runs, open `<root>/outputs/<loop>/diagrams/README.md` and review every agent's diagram.
+- In `steward-notes.md`, under "Diagram review", list anything a diagram shows that looks wrong or is missing: a link that should not exist, a flow with no interface, a domain dependency the calculation flow implies but the decomposition lacks.
+- Never edit diagrams by hand. They are regenerated from the model, so fix the cause instead.
 
 ## Never
 - Edit `model.json`, `unknowns.json` or the approvals file.

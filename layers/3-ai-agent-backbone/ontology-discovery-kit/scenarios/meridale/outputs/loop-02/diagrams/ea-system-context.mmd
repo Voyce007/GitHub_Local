@@ -1,0 +1,26 @@
+flowchart LR
+  SYS_01["<b>TradeDesk</b><br/>system of record (candidate): Customer<br/><i>aka Industrial CRM, TD</i>"]
+  SYS_02["<b>ServiceLink</b><br/>system of record (candidate): Client<br/><i>aka contracts system, SL</i>"]
+  SYS_03["<b>ShopFront</b><br/>processing: online orders for Meridale Direct<br/><i>aka web store, online order platform, SF</i>"]
+  SYS_04["<b>FinCore</b><br/>system of record (candidate): Invoice<br/><i>aka ERP, GL, FC</i>"]
+  SYS_05["<b>Sales Desk</b><br/>channel"]
+  SYS_06["<b>RiskVault</b><br/>system of record (candidate): Risk<br/><i>aka GRC platform, RV</i>"]
+  SYS_08["<b>CreditScore</b><br/>calculation: an external credit score for every new customer<br/><i>aka credit-score-svc</i>"]
+  SYS_07["<b>InsightHub</b><br/>reporting / analytics (candidate)<br/><i>aka MI warehouse, IH</i>"]
+  SYS_03 -->|"ORD-FIN-02 web orders"| SYS_04
+  SYS_01 -->|"CUST-FIN-01"| SYS_04
+  SYS_02 -->|"CLI-FIN-03 daily file"| SYS_04
+  SYS_04 -->|"MI-01 nightly"| SYS_07
+  SYS_01 -->|"MI-02 nightly"| SYS_07
+  SYS_06 -->|"RISK-01 weekly"| SYS_07
+  SYS_03 -->|"runtime dependency (config)"| SYS_01
+  SYS_03 -->|"runtime dependency (config)"| SYS_08
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class SYS_01 gA
+  class SYS_02,SYS_03,SYS_04,SYS_06,SYS_08,SYS_07 gB
+  class SYS_05 gC

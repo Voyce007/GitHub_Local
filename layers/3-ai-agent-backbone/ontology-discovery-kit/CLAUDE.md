@@ -26,6 +26,9 @@ Every `ontokit` command takes `--root`. The default root is `discovery/`. The fo
 
 A root with a `target_domains.yaml` also gets the decomposition stage, which splits a monolith into business-owned domains with a business-service catalogue.
 
+## Diagrams
+Every publish also writes `<root>/outputs/<loop>/diagrams/`: one or more Mermaid diagrams per agent (concept map, system context, capability map, entity-relationship, calculation flow, aliases, decomposition, grades and gates). They are generated from the graded model, never hand-drawn.
+
 ## Start here
 - To run a loop, follow `.claude/skills/ontology-discovery-loop/SKILL.md`.
 - For a demo with no LLM, run `python -m ontokit simulate --loop loop-01`, then `--loop loop-02`.

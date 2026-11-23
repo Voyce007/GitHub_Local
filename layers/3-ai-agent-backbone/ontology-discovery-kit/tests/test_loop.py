@@ -160,6 +160,11 @@ class NorthmereDecompositionTests(unittest.TestCase):
             self.assertTrue((self.tmp / f"outputs/loop-01/decomposition/services/{k}.openapi.yaml").exists())
         gates = json.loads((self.tmp / "work/loop-01/gates.json").read_text())
         self.assertTrue(all(g["status"] == "provisional" for g in gates))
+        diag = self.tmp / "outputs/loop-01/diagrams"
+        for name in ("ba-concept-map", "ea-system-context", "ea-capability-map", "da-entity-relationship",
+                     "eng-calculation-flow", "steward-aliases", "steward-decomposition", "conformance-grades", "conformance-gates"):
+            self.assertTrue((diag / f"{name}.mmd").exists(), name)
+        self.assertIn("erDiagram", (diag / "da-entity-relationship.mmd").read_text())
 
 
 if __name__ == "__main__":

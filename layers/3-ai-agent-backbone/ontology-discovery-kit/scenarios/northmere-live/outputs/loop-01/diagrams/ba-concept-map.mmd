@@ -1,0 +1,49 @@
+flowchart LR
+    CON_01(["Customer"])
+    CON_15(["Lower Earnings Limit (undefined)"])
+    CON_17(["Expected Income (undefined)"])
+    CON_18(["Parent (undefined)"])
+    CON_20(["Parent Payment (undefined)"])
+  subgraph dom_childcare["childcare"]
+    CON_09(["Childcare Account"])
+    CON_10(["Childcare Provider"])
+    CON_11(["Child"])
+    CON_12(["Top-up Payment"])
+    CON_19(["Eligibility Check (undefined)"])
+  end
+  subgraph dom_ni["ni"]
+    CON_02(["National Insurance Number"])
+    CON_07(["NI Contribution"])
+    CON_08(["NI Record"])
+    CON_14(["Qualifying Year"])
+    CON_16(["Class 1 Contribution (undefined)"])
+  end
+  subgraph dom_paye["paye"]
+    CON_03(["Employer"])
+    CON_04(["Employment"])
+    CON_05(["Pay Period"])
+    CON_06(["Tax Code"])
+    CON_13(["Employer Return (undefined)"])
+  end
+  syn_CON_01_Taxpayer["Taxpayer"] -. synonym .- CON_01
+  syn_CON_01_Citizen["Citizen"] -. synonym .- CON_01
+  syn_CON_01_Person["Person"] -. synonym .- CON_01
+  syn_CON_02_NINO["NINO"] -. synonym .- CON_02
+  CON_03 --> ENT_03[("Employer")]
+  CON_04 --> ENT_04[("Employment")]
+  CON_05 --> ENT_06[("Pay Period")]
+  CON_06 --> ENT_05[("Tax Code")]
+  CON_07 --> ENT_07[("Ni Contribution")]
+  CON_08 --> ENT_08[("Ni Record")]
+  CON_09 --> ENT_09[("Childcare Account")]
+  CON_11 --> ENT_10[("Child")]
+  CON_19 --> ENT_12[("Eligibility Check")]
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class ENT_03,ENT_04,ENT_06,ENT_05,ENT_07,ENT_08,ENT_09,ENT_10,ENT_12 gB
+  class CON_01,CON_09,CON_10,CON_11,CON_12,CON_02,CON_07,CON_08,CON_14,CON_03,CON_04,CON_05,CON_06 gC
+  class CON_15,CON_17,CON_18,CON_20,CON_19,CON_16,CON_13 gD

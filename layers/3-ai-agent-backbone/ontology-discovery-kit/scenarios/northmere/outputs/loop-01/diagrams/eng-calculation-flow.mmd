@@ -1,0 +1,74 @@
+flowchart LR
+  subgraph cd_childcare["childcare calculations"]
+    CAL_08[["Open childcare account<br/><small>PRC_OPEN_CC_ACCOUNT</small>"]]
+    CAL_09[["Check childcare eligibility<br/><small>PRC_CHECK_ELIGIBILITY</small>"]]
+    CAL_10[["Calculate childcare top-up<br/><small>PRC_CALC_TOPUP</small>"]]
+  end
+  subgraph cd_customer["customer calculations"]
+    CAL_01[["Register person<br/><small>PRC_REGISTER_PERSON</small>"]]
+    CAL_11[["Close accounts of deceased<br/><small>PRC_CLOSE_DECEASED</small>"]]
+  end
+  subgraph cd_ni["ni calculations"]
+    CAL_02[["Allocate NI number<br/><small>PRC_ALLOCATE_NINO</small>"]]
+    CAL_06[["Calculate NI contributions<br/><small>PRC_CALC_NIC</small>"]]
+    CAL_07[["Update NI record<br/><small>PRC_UPDATE_NI_RECORD</small>"]]
+  end
+  subgraph cd_paye["paye calculations"]
+    CAL_03[["Load employer returns<br/><small>PRC_LOAD_RETURNS</small>"]]
+    CAL_04[["Calculate PAYE<br/><small>PRC_CALC_PAYE</small>"]]
+    CAL_05[["Issue tax codes<br/><small>PRC_ISSUE_TAX_CODE</small>"]]
+  end
+  CAL_01 ==> tbl_TC_PERSON
+  CAL_01 ==> tbl_TC_ADDRESS
+  CAL_02 ==>|"NI_NUMBER"| tbl_TC_PERSON
+  CAL_03 ==> tbl_TC_EMPLOYMENT
+  CAL_03 ==> tbl_TC_PAY_PERIOD
+  tbl_TC_EMPLOYER -.-> CAL_03
+  CAL_04 ==> tbl_TC_PAY_PERIOD
+  tbl_TC_TAX_CODE -.-> CAL_04
+  CAL_05 ==> tbl_TC_TAX_CODE
+  tbl_TC_EMPLOYMENT -.-> CAL_05
+  CAL_06 ==> tbl_TC_NI_CONTRIBUTION
+  tbl_TC_PAY_PERIOD -.-> CAL_06
+  tbl_TC_EMPLOYMENT -.-> CAL_06
+  tbl_TC_PERSON -.-> CAL_06
+  CAL_07 ==> tbl_TC_NI_RECORD
+  tbl_TC_NI_CONTRIBUTION -.-> CAL_07
+  CAL_08 ==> tbl_TC_CHILDCARE_ACCOUNT
+  CAL_08 ==> tbl_TC_CHILD
+  tbl_TC_PERSON -.-> CAL_08
+  CAL_09 ==> tbl_TC_ELIGIBILITY_CHECK
+  tbl_TC_CHILDCARE_ACCOUNT -.-> CAL_09
+  tbl_TC_EMPLOYMENT -.-> CAL_09
+  tbl_TC_PAY_PERIOD -.-> CAL_09
+  CAL_10 ==>|"TOPUP_AMOUNT"| tbl_TC_CHILDCARE_PAYMENT
+  CAL_11 ==>|"STATUS"| tbl_TC_CHILDCARE_ACCOUNT
+  CAL_11 ==> tbl_TC_NI_RECORD
+  tbl_TC_PERSON -.-> CAL_11
+  subgraph td_childcare["childcare data"]
+    tbl_TC_CHILD[("TC_CHILD")]
+    tbl_TC_CHILDCARE_ACCOUNT[("TC_CHILDCARE_ACCOUNT")]
+    tbl_TC_CHILDCARE_PAYMENT[("TC_CHILDCARE_PAYMENT")]
+    tbl_TC_ELIGIBILITY_CHECK[("TC_ELIGIBILITY_CHECK")]
+  end
+  subgraph td_customer["customer data"]
+    tbl_TC_ADDRESS[("TC_ADDRESS")]
+    tbl_TC_PERSON[("TC_PERSON")]
+  end
+  subgraph td_ni["ni data"]
+    tbl_TC_NI_CONTRIBUTION[("TC_NI_CONTRIBUTION")]
+    tbl_TC_NI_RECORD[("TC_NI_RECORD")]
+  end
+  subgraph td_paye["paye data"]
+    tbl_TC_EMPLOYER[("TC_EMPLOYER")]
+    tbl_TC_EMPLOYMENT[("TC_EMPLOYMENT")]
+    tbl_TC_PAY_PERIOD[("TC_PAY_PERIOD")]
+    tbl_TC_TAX_CODE[("TC_TAX_CODE")]
+  end
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class CAL_01,CAL_02,CAL_03,CAL_04,CAL_05,CAL_06,CAL_07,CAL_08,CAL_09,CAL_10,CAL_11 gC

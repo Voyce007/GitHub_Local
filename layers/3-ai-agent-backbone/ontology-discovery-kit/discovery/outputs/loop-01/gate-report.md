@@ -32,7 +32,7 @@ Discovery mode: run · 73 of 82 in-scope elements below grade B
 | Criterion | Result | Failing | Covered by unknowns |
 |---|---|---|---|
 | P3.1 Every candidate entity has at least one attribute | provisional | ENT-10, ENT-12 | ENT-10, ENT-12 |
-| P3.2 Entities are traced to a concept, are link tables, or are flagged for review | provisional | ENT-02, ENT-07, ENT-10, ENT-11, ENT-12 | ENT-02, ENT-07, ENT-10, ENT-11, ENT-12 |
+| P3.2 Entities are traced to a concept or to the capability that creates them, are link tables, or are flagged for review | provisional | ENT-02, ENT-07, ENT-10, ENT-11, ENT-12 | ENT-02, ENT-07, ENT-10, ENT-11, ENT-12 |
 
 ## Human gate
 

@@ -25,6 +25,11 @@ audit them and brief the humans who make the gate decisions.
 ## Write
 `<root>/work/<loop>/conformance-briefing.md`
 
+## Your diagram
+The pipeline draws `conformance-grades` and `conformance-gates` in `<root>/outputs/<loop>/diagrams/` from your findings: the grade distribution and each phase gate's result, with how much in-scope evidence is still below grade B. Nodes are coloured by evidence grade. The diagrams are generated, never hand-drawn, so they are only as complete as your proposals. To make them right:
+- Use these two diagrams at the top of `conformance-briefing.md` to summarise the state of the loop for approvers.
+- If a diagram contradicts `gates.json` or the grades in `model.json`, report it. They should always match.
+
 ## Never
 Change grades, gate results, approvals or elements. If you think a rule in
 `config/` is wrong, say so in the briefing as a recommendation.

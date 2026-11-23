@@ -39,6 +39,12 @@ Write `<root>/work/<loop>/proposals/ea.json` (schema: `schemas/proposal.schema.j
  "origin": "inferred"}
 ```
 
+## Your diagram
+The pipeline draws `ea-system-context` and `ea-capability-map` in `<root>/outputs/<loop>/diagrams/` from your findings: each system with its role and aliases plus the data flows between them, and the capabilities grouped by accountable team. Nodes are coloured by evidence grade. The diagrams are generated, never hand-drawn, so they are only as complete as your proposals. To make them right:
+- Give every `flow` a `source` and `target` written as system names or aliases, and a `label` (the interface id where there is one). Flows without both ends are not drawn.
+- Give every system its candidate `roles`. A system with no role is drawn as "role unknown", which is a deliberate flag.
+- Give every capability its `owner_team`, exactly as written. That is how the capability map is grouped.
+
 ## Rules
 1. **Cite verbatim**, one proposal per source. Repeated mentions across files are how a system reaches grade B.
 2. **Record every alias you see**: acronyms, diagram node ids, informal names ("the CRM"). Alias resolution is the hardest step in document-led discovery. Don't merge names yourself unless a source says they are the same; the Steward merges based on stated aliases.

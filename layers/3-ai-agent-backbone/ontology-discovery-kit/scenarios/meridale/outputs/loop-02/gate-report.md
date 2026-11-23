@@ -22,7 +22,7 @@ Discovery mode: run · 26 of 33 in-scope elements below grade B
 | P2.1 Every concept has a definition | pass | — | — |
 | P2.2 A synonym register exists | pass | — | — |
 | P2.3 Every contradiction has an open unknown | pass | — | — |
-| P2.4 Key concepts present: Customer, Product, Order | pass | — | — |
+| P2.4 Key concepts present (listed in <root>/scenario.yaml) | pass | — | — |
 
 ## Phase 3: Entity and relationship modelling — **PROVISIONAL**
 
@@ -32,7 +32,7 @@ Discovery mode: run · 84 of 103 in-scope elements below grade B
 | Criterion | Result | Failing | Covered by unknowns |
 |---|---|---|---|
 | P3.1 Every candidate entity has at least one attribute | provisional | ENT-12, ENT-14 | ENT-12, ENT-14 |
-| P3.2 Entities are traced to a concept, are link tables, or are flagged for review | provisional | ENT-02, ENT-12, ENT-14 | ENT-02, ENT-12, ENT-14 |
+| P3.2 Entities are traced to a concept or to the capability that creates them, are link tables, or are flagged for review | provisional | ENT-02, ENT-12, ENT-14 | ENT-02, ENT-12, ENT-14 |
 
 ## Human gate
 

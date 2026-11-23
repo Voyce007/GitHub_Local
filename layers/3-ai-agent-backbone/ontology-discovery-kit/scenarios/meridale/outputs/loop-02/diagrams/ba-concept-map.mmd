@@ -1,0 +1,37 @@
+flowchart LR
+    CON_01(["Customer"])
+    CON_02(["Party"])
+    CON_03(["Customer Number"])
+    CON_04(["Product"])
+    CON_05(["Order"])
+    CON_06(["Service Contract"])
+    CON_07(["Invoice"])
+    CON_08(["Credit Limit"])
+    CON_09(["Exposure"])
+    CON_10(["Legal Entity"])
+    CON_11(["Cost Centre"])
+    CON_12(["Risk"])
+    CON_13(["Control"])
+  syn_CON_01_Client["Client"] -. synonym .- CON_01
+  syn_CON_01_Debtor["Debtor"] -. synonym .- CON_01
+  CON_01 --> ENT_01[("Customer")]
+  CON_01 -- same concept --> ENT_03[("Client")]
+  syn_CON_03_Customer_ID["Customer ID"] -. synonym .- CON_03
+  syn_CON_03_Debtor_Number["Debtor Number"] -. synonym .- CON_03
+  syn_CON_05_OrderRequest["OrderRequest"] -. synonym .- CON_05
+  CON_05 -- same concept --> ENT_13[("Order Request")]
+  CON_06 --> ENT_04[("Service Contract")]
+  CON_07 --> ENT_10[("Invoice")]
+  CON_10 --> ENT_07[("Legal Entity")]
+  CON_11 --> ENT_08[("Cost Centre")]
+  CON_12 --> ENT_05[("Risk")]
+  CON_13 --> ENT_06[("Control")]
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class ENT_01 gA
+  class CON_01,CON_05 gB
+  class CON_02,CON_03,CON_04,CON_06,CON_07,CON_08,CON_09,CON_10,CON_11,CON_12,CON_13,ENT_03,ENT_13,ENT_04,ENT_10,ENT_07,ENT_08,ENT_05,ENT_06 gC

@@ -37,6 +37,12 @@ Write `<root>/work/<loop>/proposals/ba.json` that matches `schemas/proposal.sche
 ]}
 ```
 
+## Your diagram
+The pipeline draws `ba-concept-map` in `<root>/outputs/<loop>/diagrams/` from your findings: every business term grouped by domain, with its synonyms as dotted links and an arrow to the entity that holds it. Nodes are coloured by evidence grade. The diagrams are generated, never hand-drawn, so they are only as complete as your proposals. To make them right:
+- Give every concept a `definition` where a source has one. Undefined terms are marked "(undefined)".
+- List synonyms in `aliases` exactly as written. Each becomes a dotted link.
+- Record synonym decisions from `sme-answer` files (`confirmed_synonyms`, `not_synonyms`), so the map links or separates terms correctly.
+
 ## Rules you must follow
 1. **Cite verbatim.** Every `quote` must be copied exactly from the file. The validator rejects any quote it cannot find, which prevents invented content.
 2. **One proposal per source.** If three files describe the same concept, write three proposals with one citation each. The Steward merges them, and independent sources are what raise the grade.

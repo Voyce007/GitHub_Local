@@ -1398,7 +1398,7 @@
     "properties": {
       "realised_by": "ENT-01",
       "reference_match": "Customer",
-      "domain": "Party"
+      "reference_domain": "Party"
     },
     "evidence": [
       {
@@ -1437,7 +1437,7 @@
     "definition": "A person or organisation the group has a relationship with.",
     "properties": {
       "reference_match": "Party",
-      "domain": "Party"
+      "reference_domain": "Party"
     },
     "evidence": [
       {
@@ -1508,7 +1508,7 @@
     "definition": "Something the group offers for sale, whether goods or services.",
     "properties": {
       "reference_match": "Product",
-      "domain": "Product"
+      "reference_domain": "Product"
     },
     "evidence": [
       {
@@ -1540,7 +1540,7 @@
     "definition": "A customer's request to buy one or more products.",
     "properties": {
       "reference_match": "Order",
-      "domain": "Commercial"
+      "reference_domain": "Commercial"
     },
     "evidence": [
       {
@@ -1580,7 +1580,7 @@
     "properties": {
       "realised_by": "ENT-08",
       "reference_match": "Invoice",
-      "domain": "Commercial"
+      "reference_domain": "Commercial"
     },
     "evidence": [
       {
@@ -1611,7 +1611,7 @@
     "properties": {
       "realised_by": "ENT-05",
       "reference_match": "Legal Entity",
-      "domain": "Finance"
+      "reference_domain": "Finance"
     },
     "evidence": [
       {
@@ -1642,7 +1642,7 @@
     "properties": {
       "realised_by": "ENT-06",
       "reference_match": "Cost Centre",
-      "domain": "Finance"
+      "reference_domain": "Finance"
     },
     "evidence": [
       {
@@ -1673,7 +1673,7 @@
     "properties": {
       "realised_by": "ENT-03",
       "reference_match": "Risk",
-      "domain": "Risk"
+      "reference_domain": "Risk"
     },
     "evidence": [
       {
@@ -1711,7 +1711,7 @@
     "properties": {
       "realised_by": "ENT-04",
       "reference_match": "Control",
-      "domain": "Risk"
+      "reference_domain": "Risk"
     },
     "evidence": [
       {
@@ -5011,7 +5011,7 @@
     "definition": "",
     "resolutions": [],
     "properties": {
-      "domain": "Party",
+      "reference_domain": "Party",
       "reference": true
     },
     "evidence": [],
@@ -5035,7 +5035,7 @@
     "definition": "",
     "resolutions": [],
     "properties": {
-      "domain": "Party",
+      "reference_domain": "Party",
       "reference": true
     },
     "evidence": [],
@@ -5059,7 +5059,7 @@
     "definition": "",
     "resolutions": [],
     "properties": {
-      "domain": "Channel",
+      "reference_domain": "Channel",
       "reference": true
     },
     "evidence": [],

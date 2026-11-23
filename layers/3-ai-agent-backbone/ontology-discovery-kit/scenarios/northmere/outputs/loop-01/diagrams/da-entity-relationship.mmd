@@ -1,0 +1,95 @@
+erDiagram
+  Person {
+    integer personId PK "grade C"
+    char niNumber "grade C"
+    varchar forename "grade C"
+    varchar surname "grade C"
+    date dateOfBirth "grade C"
+    date dateOfDeath "grade C"
+    char corrPref "grade C"
+  }
+  Address {
+    integer personId "grade C"
+    char addressType "grade C"
+    varchar line1 "grade C"
+    varchar postcode "grade C"
+  }
+  Employer {
+    varchar employerRef PK "grade C"
+    varchar employerName "grade C"
+  }
+  Employment {
+    integer employmentId PK "grade C"
+    integer personId "grade C"
+    varchar employerRef "grade C"
+    date startDate "grade C"
+    date endDate "grade C"
+    char status "grade C"
+  }
+  TaxCode {
+    integer employmentId "grade C"
+    varchar taxCode "grade C"
+    date effectiveFrom "grade C"
+  }
+  PayPeriod {
+    integer employmentId "grade C"
+    char taxYear "grade C"
+    smallint periodNumber "grade C"
+    decimal grossPay "grade C"
+    decimal taxDeducted "grade C"
+    char niCategory "grade C"
+  }
+  NiContribution {
+    integer employmentId "grade C"
+    char taxYear "grade C"
+    smallint periodNumber "grade C"
+    char niCategory "grade C"
+    decimal employeeNic "grade C"
+    decimal employerNic "grade C"
+  }
+  NiRecord {
+    integer personId "grade C"
+    char taxYear "grade C"
+    char qualifying "grade C"
+    decimal class1Total "grade C"
+  }
+  ChildcareAccount {
+    integer ccAccountId PK "grade C"
+    integer personId "grade C"
+    char status "grade C"
+    date openedDate "grade C"
+  }
+  Child {
+    integer childId PK "grade C"
+    integer ccAccountId "grade C"
+    integer personId "grade C"
+    varchar forename "grade C"
+    date dateOfBirth "grade C"
+  }
+  ChildcarePayment {
+    integer paymentId PK "grade C"
+    integer ccAccountId "grade C"
+    varchar providerRef "grade C"
+    decimal parentAmount "grade C"
+    decimal topupAmount "grade C"
+    date paidDate "grade C"
+  }
+  EligibilityCheck {
+    integer checkId PK "grade C"
+    integer ccAccountId "grade C"
+    date checkDate "grade C"
+    decimal expectedIncome "grade C"
+    char outcome "grade C"
+  }
+  Address }o--|| Person : "personId (C)"
+  Employment }o--|| Person : "personId (C)"
+  Employment }o--|| Employer : "employerRef (C)"
+  TaxCode }o--|| Employment : "employmentId (C)"
+  PayPeriod }o--|| Employment : "employmentId (C)"
+  NiContribution }o--|| Employment : "employmentId (C)"
+  NiRecord }o--|| Person : "personId (C)"
+  ChildcareAccount }o--|| Person : "personId (C)"
+  Child }o--|| ChildcareAccount : "ccAccountId (C)"
+  ChildcarePayment }o--|| ChildcareAccount : "ccAccountId (C)"
+  EligibilityCheck }o--|| ChildcareAccount : "ccAccountId (C)"
+  Child }o--|| Person : "personId (C)"

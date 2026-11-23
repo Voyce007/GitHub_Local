@@ -1549,7 +1549,7 @@
     "stage": "K. Publish",
     "actor": "Publisher",
     "action": "deliverables written",
-    "detail": "17 files in outputs/loop-02/",
+    "detail": "18 files in outputs/loop-02/",
     "data": {
       "grades": {
         "A": 19,
@@ -1558,6 +1558,40 @@
         "D": 5,
         "X": 0
       }
+    }
+  },
+  {
+    "seq": 145,
+    "stage": "L. Diagrams",
+    "actor": "Publisher",
+    "action": "diagrams written",
+    "detail": "6 diagrams: ba-concept-map, ea-system-context, da-entity-relationship, steward-aliases, conformance-grades, conformance-gates",
+    "data": {
+      "diagrams": [
+        "ba-concept-map",
+        "ea-system-context",
+        "da-entity-relationship",
+        "steward-aliases",
+        "conformance-grades",
+        "conformance-gates"
+      ]
+    }
+  },
+  {
+    "seq": 146,
+    "stage": "L. Diagrams",
+    "actor": "Publisher",
+    "action": "diagrams written",
+    "detail": "6 diagrams: ba-concept-map, ea-system-context, da-entity-relationship, steward-aliases, conformance-grades, conformance-gates",
+    "data": {
+      "diagrams": [
+        "ba-concept-map",
+        "ea-system-context",
+        "da-entity-relationship",
+        "steward-aliases",
+        "conformance-grades",
+        "conformance-gates"
+      ]
     }
   }
 ]

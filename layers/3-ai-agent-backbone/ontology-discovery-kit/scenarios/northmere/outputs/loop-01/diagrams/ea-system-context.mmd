@@ -1,0 +1,23 @@
+flowchart LR
+  SYS_01["<b>TAXCORE</b><br/>system of record (candidate): Customer<br/><i>aka Core, TC</i>"]
+  SYS_02["<b>CitizenPortal</b><br/>processing: customer self-service requests<br/><i>aka online account, CP</i>"]
+  SYS_03["<b>RevenueWarehouse</b><br/>reporting / analytics (candidate)<br/><i>aka MI warehouse, RW</i>"]
+  SYS_04["<b>EmployerGateway</b><br/>processing: employer returns for every pay period<br/><i>aka employer filing, EG</i>"]
+  SYS_05["<b>NumberHub</b><br/>system of record (candidate): National Insurance numbers<br/><i>aka NI allocation, NH</i>"]
+  SYS_06["<b>ChildcarePortal</b><br/>processing: parent payments to childcare providers<br/><i>aka parent account, CC</i>"]
+  SYS_07["<b>income-verify-svc</b><br/>role unknown"]
+  SYS_02 -->|"CUS-01"| SYS_01
+  SYS_04 -->|"PAY-01 employer returns"| SYS_01
+  SYS_05 -->|"NIN-02"| SYS_01
+  SYS_06 -->|"CC-01 parent payments"| SYS_01
+  SYS_01 -->|"MI-01 nightly"| SYS_03
+  SYS_06 -->|"runtime dependency (config)"| SYS_05
+  SYS_06 -->|"runtime dependency (config)"| SYS_07
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class SYS_01,SYS_02,SYS_03,SYS_04,SYS_05,SYS_06 gB
+  class SYS_07 gC

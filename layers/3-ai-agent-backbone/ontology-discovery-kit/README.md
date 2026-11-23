@@ -97,6 +97,7 @@ There are three loops:
 | `evidence-register.json` | Every cited line, and what it supports |
 | `elements.json` | Every element, with its evidence |
 | `trace.json` | The run's event log |
+| `diagrams/` | One or more Mermaid diagrams per agent, coloured by evidence grade, plus a `README.md` that embeds them |
 
 ## Requirements and licence notes
 - Python 3.10+ and PyYAML, both open source.

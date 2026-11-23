@@ -1,0 +1,32 @@
+flowchart LR
+  SYS_01(["<b>TradeDesk</b>"])
+  SYS_01_a0["Industrial CRM"] -- same system --> SYS_01
+  SYS_01_a1["TD"] -- same system --> SYS_01
+  SYS_02(["<b>ServiceLink</b>"])
+  SYS_02_a0["contracts system"] -- same system --> SYS_02
+  SYS_02_a1["SL"] -- same system --> SYS_02
+  SYS_03(["<b>ShopFront</b>"])
+  SYS_03_a0["web store"] -- same system --> SYS_03
+  SYS_03_a1["online order platform"] -- same system --> SYS_03
+  SYS_03_a2["SF"] -- same system --> SYS_03
+  SYS_04(["<b>FinCore</b>"])
+  SYS_04_a0["ERP"] -- same system --> SYS_04
+  SYS_04_a1["GL"] -- same system --> SYS_04
+  SYS_04_a2["FC"] -- same system --> SYS_04
+  SYS_05(["<b>Sales Desk</b>"])
+  SYS_06(["<b>RiskVault</b>"])
+  SYS_06_a0["GRC platform"] -- same system --> SYS_06
+  SYS_06_a1["RV"] -- same system --> SYS_06
+  SYS_07(["<b>InsightHub</b>"])
+  SYS_07_a0["MI warehouse"] -- same system --> SYS_07
+  SYS_07_a1["IH"] -- same system --> SYS_07
+  SYS_08(["<b>credit-score-svc</b>"])
+  q_SYS_08{"What is it? Who owns it?"} -.- SYS_08
+
+  classDef gA fill:#1d7a4426,stroke:#1d7a44,stroke-width:2px
+  classDef gB fill:#2867a026,stroke:#2867a0,stroke-width:2px
+  classDef gC fill:#9a621026,stroke:#9a6210,stroke-width:1.5px,stroke-dasharray:4 3
+  classDef gD fill:#6b748326,stroke:#6b7483,stroke-dasharray:2 3
+  classDef gX fill:#b2382426,stroke:#b23824,stroke-width:2.5px
+  class SYS_01,SYS_02,SYS_03,SYS_04,SYS_06,SYS_07 gB
+  class SYS_05,SYS_08 gC
